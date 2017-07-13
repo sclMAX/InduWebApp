@@ -1,17 +1,14 @@
 import {Observable} from 'rxjs/Observable';
 import {User} from './../../models/user.class';
 import {Injectable} from '@angular/core';
-import {
-  AngularFireDatabase,
-  FirebaseObjectObservable
-} from "angularfire2/database";
+import {AngularFireDatabase} from "angularfire2/database";
 import {AngularFireAuth} from 'angularfire2/auth';
 
 export let currentSucursal: string = '';
+export let sucBasePath: string = '';
 
 @Injectable()
 export class SucursalProvider {
-  private Sucursales: FirebaseObjectObservable<any>;
   constructor(private db: AngularFireDatabase, private auth: AngularFireAuth) {}
 
   getSucursal(): Observable<string> {
@@ -20,8 +17,11 @@ export class SucursalProvider {
                               this.db.object(`/Usuarios/${user.uid}`)
                                   .subscribe(sucursales => {
                                     currentSucursal = sucursales.Sucursal || '';
+                                    if(currentSucursal){
+                                      sucBasePath = `/Sucursales/${currentSucursal}` ;
+                                    }
                                     obs.next(currentSucursal);
-                                  });
+                                  }, error => { obs.error(error); });
                             } else {
                               obs.error('Not Loged!');
                             }

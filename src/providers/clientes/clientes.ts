@@ -1,3 +1,4 @@
+import {currentSucursal, sucBasePath} from './../sucursal/sucursal';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Cliente} from './../../models/cliente.class';
 import {Injectable} from '@angular/core';
@@ -9,9 +10,12 @@ import {
 @Injectable()
 export class ClientesProvider {
   Clientes: FirebaseListObservable<Cliente[]>;
-  private dbBasePath:string ;
+  private dbPath: string;
   constructor(private db: AngularFireDatabase, private auth: AngularFireAuth) {
-    this.dbBasePath = this.auth.auth.currentUser.uid
-    this.Clientes = this.db.list(this.dbBasePath);
+    if (sucBasePath) {
+      this.dbPath = `${sucBasePath}/Clientes`;
+      console.log('Clientes Path:', this.dbPath);
+      this.Clientes = this.db.list(this.dbPath);
+    }
   }
 }

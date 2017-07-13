@@ -1,0 +1,24 @@
+path / {
+    read(){auth != null && /*auth.token.email_verified == true &&*/ auth.token.email.matches(/.*@indumatics.com.ar$/)}
+    write(){auth != null && /*auth.token.email_verified == true &&*/ auth.token.email.matches(/.*@indumatics.com.ar$/)}
+}
+
+
+
+path Sucursales/{id}  {
+  read() { true }
+  update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
+}
+
+type Cliente {
+ idCliente: ClienteID,
+ Nombre: StringNotNull
+}
+
+type ClienteID extends Number{
+    validate(){this > 0}
+}
+
+type StringNotNull extends String{
+    validate(){this.length > 0}
+}

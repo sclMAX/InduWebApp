@@ -1,3 +1,26 @@
 page-login {
-
+    .card{
+        max-width: 400px;
+        margin:auto;
+        margin-top: 50px;
+        border-radius: 8px;
+    }
+    .scroll-content{
+        background-color: color($colors,loginContent);
+        opacity: 0.8;
+        overflow-y: hidden;
+    }
+    .footer{
+        background-color: color($colors,toolBarLogin); 
+        opacity: 0.8;
+    }
+    .toolbar{
+        background-color: color($colors,toolBarLogin); 
+        opacity: 0.8;
+    }
+    .card-header{
+        background-color: color($colors,toolBarLogin); 
+        color: wheat;
+        opacity: 0.9;
+    }
 }

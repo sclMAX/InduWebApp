@@ -1,4 +1,5 @@
 export class Cliente {
+  idCliente:number;
   Nombre: string = '';
   Direccion: Direccion;
   Telefonos: Telefono[] = [];

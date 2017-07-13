@@ -1,0 +1,21 @@
+{
+  "rules": {
+    ".read": "auth != null && auth.token.email.matches(/.*@indumatics.com.ar$/)",
+    ".write": "auth != null && auth.token.email.matches(/.*@indumatics.com.ar$/)",
+    "Clientes": {
+      "$id": {
+        ".validate": "newData.hasChildren(['idCliente', 'Nombre'])",
+        "idCliente": {
+          ".validate": "newData.isNumber() && newData.val() > 0"
+        },
+        "Nombre": {
+          ".validate": "newData.isString() && newData.val().length > 0"
+        },
+        "$other": {
+          ".validate": "false"
+        },
+        ".read": "true"
+      }
+    }
+  }
+}
