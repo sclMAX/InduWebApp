@@ -26,8 +26,16 @@
     <ion-item *ngFor="let cliente of clientes ">
       Id: {{cliente.idCliente}} - Nombre: {{cliente.Nombre}}
     </ion-item>
-  <br>
+    <br>
   </ion-list>
+  <ion-item>
+    <ion-label fixed>Nombre</ion-label>
+    <ion-input type="text" [(ngModel)]="nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <button ion-button (click)="goAdd()">add</button>
+  </ion-item>
+
 </ion-content>
 <ion-footer text-center color="toolBarFooter">
   <small>&copy; Copyright 2017 by MAX </small>

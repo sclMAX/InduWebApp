@@ -1,20 +1,22 @@
+import {Component} from '@angular/core';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {LoadingController, NavController, ToastController} from 'ionic-angular';
+
 import {Cliente} from './../../models/cliente.class';
 import {ClientesProvider} from './../../providers/clientes/clientes';
-import {LoginPage} from './../login/login';
 import {currentSucursal} from './../../providers/sucursal/sucursal';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {Component} from '@angular/core';
-import {NavController, LoadingController, ToastController} from 'ionic-angular';
+import {LoginPage} from './../login/login';
 
 @Component({selector: 'page-home', templateUrl: 'home.html'})
 
 export class HomePage {
   title: string;
+  nombre: string;
   clientes: Cliente[];
-  constructor(public navCtrl: NavController, private auth: AngularFireAuth,
-              private clientesP: ClientesProvider,
-              private loadCtrl: LoadingController,
-              private toastCtrl: ToastController) {}
+  constructor(
+      public navCtrl: NavController, private auth: AngularFireAuth,
+      private clientesP: ClientesProvider, private loadCtrl: LoadingController,
+      private toastCtrl: ToastController) {}
 
   logOut() {
     this.auth.auth.signOut();
@@ -31,12 +33,32 @@ export class HomePage {
           },
           error => {
             load.dismiss();
-            let toast = this.toastCtrl.create({duration:1000,message:`Error: ${error}`});
+            let toast = this.toastCtrl.create(
+                {duration: 1000, message: `Error: ${error}`});
             toast.present();
 
           },
-          () => { load.dismiss(); });
+          () => {
+            load.dismiss();
+          });
     });
   }
-  ionViewDidEnter() { this.title = currentSucursal; }
+
+  goAdd() {
+    if (this.nombre) {
+      let c = new Cliente();
+      c.Nombre = this.nombre;
+      this.clientesP.add(c).subscribe(
+          val => {
+            console.log('OK Result:', val);
+          },
+          error => {
+            console.log('ERROR Result:', error);
+          });
+    }
+  }
+
+  ionViewDidEnter() {
+    this.title = currentSucursal;
+  }
 }
