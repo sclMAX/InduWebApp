@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Cliente} from './../../models/cliente.class';
 import {sucBasePath} from './../sucursal/sucursal';
@@ -20,15 +20,18 @@ export class ClientesProvider {
     return new Observable(obs => {
       this.Clientes.subscribe(clientes => {
         let c: Cliente = clientes.find(val => {
-          return (val.Nombre.trim().toLowerCase() === cliente.Nombre.trim().toLowerCase());
+          return (
+              val.Nombre.trim().toLowerCase() ===
+              cliente.Nombre.trim().toLowerCase());
         });
         if (c) {
           obs.next(`Encontrado: ${c.Nombre
                    } - No se puede Guardar: ${cliente.Nombre}`);
+          obs.complete();
         } else {
           obs.error(`No encontrado: ${cliente.Nombre} - OK Para guardar`);
+          obs.complete();
         }
-        obs.complete();
       });
     });
   }
