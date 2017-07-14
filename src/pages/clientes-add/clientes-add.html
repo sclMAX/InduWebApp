@@ -1,0 +1,27 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar">
+    <ion-title>Nuevo Cliente: [{{newCliente.idCliente | number:'3.0-0'}}]</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <form>
+    <ion-item>
+      <label>Razon Social</label>
+      <ion-input></ion-input>
+    </ion-item>
+  </form>
+</ion-content>
+<ion-footer no-border color="toolBar">
+  <ion-toolbar color="subToolBar">
+    <ion-buttons end>
+      <button ion-button icon-left (click)="onCancelar()">
+        <ion-icon name="icon-ind_user-remove"></ion-icon>
+        Cancelar
+      </button>
+      <button ion-button icon-left (click)="onAceptar()">
+        <ion-icon name="icon-ind_user-add"></ion-icon>
+        Guardar
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

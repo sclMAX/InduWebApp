@@ -1,3 +1,5 @@
+import {ClientesAddPage} from './../pages/clientes-add/clientes-add';
+import {ClientesPage} from './../pages/clientes/clientes';
 import {LoginPage} from './../pages/login/login';
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
@@ -25,7 +27,7 @@ export const environment = {
 };
 
 @NgModule({
-  declarations: [MyApp, HomePage, LoginPage],
+  declarations: [MyApp, HomePage, LoginPage, ClientesPage, ClientesAddPage],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -34,7 +36,7 @@ export const environment = {
     AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage, LoginPage],
+  entryComponents: [MyApp, HomePage, LoginPage, ClientesPage, ClientesAddPage],
   providers: [
     StatusBar,
     SplashScreen,

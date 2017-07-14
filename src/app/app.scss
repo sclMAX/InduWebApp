@@ -15,3 +15,7 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 @import "../theme/icons";
+.app-root{
+    background-color: color($colors,scroll-content);
+    opacity: 0.9;
+}

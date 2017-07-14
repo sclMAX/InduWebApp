@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar color="toolBar">
+    <ion-buttons start left>
+      <ion-title start left>INDUMATICS - Clientes</ion-title>
+      <button ion-button icon-left (click)="goClienteAdd()">
+        <ion-icon name="icon-ind_user-add" ></ion-icon>
+        Nuevo
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="icon-ind_logout"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-searchbar (ionInput)="onFindClientes($event)" [showCancelButton]="true" (ionCancel)="onFindCancel($event)" placeholder="Buscar cliente..."></ion-searchbar>
+  <ion-list color = "scroll-content">
+    <ion-item *ngFor="let cliente of filterClientes" color="scroll-content">
+      {{cliente | json}} - id: {{cliente?.idCliente}} - Nombre: {{cliente?.Nombre}}
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer text-center color="footer" no-border>
+  <small>&copy; Copyright 2017 by MAX </small>
+</ion-footer>

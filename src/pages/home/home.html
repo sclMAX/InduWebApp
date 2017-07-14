@@ -1,14 +1,22 @@
-<ion-header>
-  <ion-toolbar color="dark">
-
+<ion-header no-border>
+  <ion-navbar color="toolBar">
     <ion-buttons start left>
       <ion-title start left>INDUMATICS - Suc: {{title}}</ion-title>
-      <button ion-button icon-only (click)="pruebaCliente()">
+      <button ion-button icon-left (click)="goClientes()" >
         <ion-icon name="icon-ind_users-list"></ion-icon>
         Clientes
       </button>
-      <button ion-button icon-only>
+      <button ion-button icon-left>
+        <ion-icon name="cube"></ion-icon>
+        Productos
+      </button>
+      <button ion-button icon-left>
         <ion-icon name="icon-ind_camion"></ion-icon>
+        Repartos
+      </button>
+      <button ion-button icon-left>
+        <ion-icon name="logo-usd"></ion-icon>
+        Fondos
       </button>
     </ion-buttons>
 
@@ -17,26 +25,11 @@
         <ion-icon name="icon-ind_logout"></ion-icon>
       </button>
     </ion-buttons>
-  </ion-toolbar>
+  </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  {{clientes|json}}
-  <ion-list>
-    <ion-item *ngFor="let cliente of clientes ">
-      Id: {{cliente.idCliente}} - Nombre: {{cliente.Nombre}}
-    </ion-item>
-    <br>
-  </ion-list>
-  <ion-item>
-    <ion-label fixed>Nombre</ion-label>
-    <ion-input type="text" [(ngModel)]="nombre"></ion-input>
-  </ion-item>
-  <ion-item>
-    <button ion-button (click)="goAdd()">add</button>
-  </ion-item>
-
+<ion-content padding color="scroll-content">
 </ion-content>
-<ion-footer text-center color="toolBarFooter">
+<ion-footer text-center color="footer" no-border>
   <small>&copy; Copyright 2017 by MAX </small>
 </ion-footer>
