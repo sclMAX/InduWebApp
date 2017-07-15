@@ -1,45 +1,39 @@
-import {User} from './../../models/user.class';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {Component} from '@angular/core';
-import {
-  NavController,
-  NavParams,
-  ToastController,
-  LoadingController
-} from 'ionic-angular';
+import {AngularFireAuth} from 'angularfire2/auth';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+
+import {UsuarioProvider} from '../../providers/usuario/usuario';
+import {HomePage} from '../home/home';
+
+import {UserLogin} from './../../models/user.class';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  user: User = new User();
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private auth: AngularFireAuth, private toastCtrl: ToastController,
-              private loadCtrl: LoadingController) {}
+  user: UserLogin = new UserLogin();
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private auth: AngularFireAuth, private toastCtrl: ToastController,
+      private loadCtrl: LoadingController, private usuarioP: UsuarioProvider) {}
 
   login() {
     let load = this.loadCtrl.create({
       content: 'Conectacndo con el Servidor...',
     });
     load.present().then(() => {
-      this.auth.auth.signInWithEmailAndPassword(this.user.email,
-                                                this.user.password)
-          .then(() => { load.dismiss(); })
-          .catch(error => {
+      this.usuarioP.login(this.user).subscribe(
+          (usuario) => {
             load.dismiss();
-            let toast = this.toastCtrl.create({
-              message: `E-Mail y/o Password incorrectos... (${error.message})`,
-              showCloseButton: true,
-              position: 'middle'
-            });
-            toast.onDidDismiss(() => {
-              this.user.password = '';
-              this.user.email = '';
-            });
+            this.navCtrl.setRoot(HomePage);
+          },
+          (error) => {
+            load.dismiss();
+            let toast = this.toastCtrl.create(
+                {position: 'middle', showCloseButton: true, message: error});
             toast.present();
           });
-
     });
   }
 }

@@ -1,14 +1,51 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-title>Nuevo Cliente: [{{newCliente.idCliente | number:'3.0-0'}}]</ion-title>
+    <ion-title>Nuevo Cliente: [{{newCliente.id | number:'3.0-0'}}]</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <form>
-    <ion-item>
-      <label>Razon Social</label>
-      <ion-input></ion-input>
+  <form #addForm="ngForm">
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
     </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item color="scroll-content">
+      <ion-label floating>Razon Social</ion-label>
+      <ion-input type="text" [(ngModel)] = "newCliente.Nombre" name="Nombre" required></ion-input>
+    </ion-item>
+    
   </form>
 </ion-content>
 <ion-footer no-border color="toolBar">
@@ -18,7 +55,7 @@
         <ion-icon name="icon-ind_user-remove"></ion-icon>
         Cancelar
       </button>
-      <button ion-button icon-left (click)="onAceptar()">
+      <button ion-button icon-left (click)="onAceptar()" [disabled]="!addForm.valid">
         <ion-icon name="icon-ind_user-add"></ion-icon>
         Guardar
       </button>

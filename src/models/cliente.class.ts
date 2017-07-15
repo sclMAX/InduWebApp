@@ -1,18 +1,18 @@
 export class Cliente {
-  idCliente:number;
+  id:number;
   Nombre: string = '';
-  Direccion: Direccion;
+  Direccion: Direccion = new Direccion();
   Telefonos: Telefono[] = [];
   Email: string = '';
   Comentarios: string = '';
 }
 
-export interface Telefono {
+export class Telefono {
   Numero: number;
   Contacto: string;
 }
 
-export interface Direccion {
+export class Direccion {
   Calle: string;
   Localidad: string;
   Provincia: string;
