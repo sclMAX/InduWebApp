@@ -1,0 +1,104 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar">
+    <ion-title>{{title}}: [{{newCliente.id | number:'3.0-0'}}]</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <form #addForm="ngForm" novalidate>
+    <ion-list no-border>
+      <ion-item-divider color="toolBar" (click)="isShowEmpresa = !isShowEmpresa">
+        <ion-icon *ngIf="!chkEmpresaForm()" name="alert" color="danger"></ion-icon>
+        EMPRESA
+        <ion-icon item-end name="{{(isShowEmpresa)?'arrow-up':'arrow-down'}}"></ion-icon>
+      </ion-item-divider>
+      <ion-item-group color="scroll-content" *ngIf="isShowEmpresa">
+        <ion-item color="scroll-content">
+          <ion-label floating>Razon Social</ion-label>
+          <ion-input type="text" [(ngModel)]="newCliente.Nombre" name="Nombre" required></ion-input>
+        </ion-item>
+        <ion-item color="scroll-content">
+          <ion-label floating>Email</ion-label>
+          <ion-input type="email" [(ngModel)]="newCliente.Email" name="Email" required></ion-input>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-divider color="toolBar" (click)="isShowDireccion = !isShowDireccion">
+        <ion-icon *ngIf="!chkDireccionForm()" name="alert" color="danger"></ion-icon>
+        DIRECCION
+        <ion-icon item-end name="{{(isShowDireccion)?'arrow-up':'arrow-down'}}"></ion-icon>
+      </ion-item-divider>
+      <ion-item-group *ngIf="isShowDireccion" color="scroll-content">
+        <ion-item color="scroll-content">
+          <ion-label floating>Calle</ion-label>
+          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Calle" name="Calle" required></ion-input>
+        </ion-item>
+        <ion-item color="scroll-content">
+          <ion-label floating>Loacalidad</ion-label>
+          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Localidad" name="Localidad" required></ion-input>
+        </ion-item>
+        <ion-item color="scroll-content">
+          <ion-label floating>Provincia</ion-label>
+          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Provincia" name="Provincia" required></ion-input>
+        </ion-item>
+        <ion-item color="scroll-content">
+          <ion-label floating>Pais</ion-label>
+          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Pais" name="Pais" required></ion-input>
+        </ion-item>
+      </ion-item-group>
+      <ion-item-divider color="toolBar" (click)="isShowTelefonos = !isShowTelefonos">
+        <ion-icon *ngIf="!chkDireccionForm()" name="alert" color="danger"></ion-icon>
+        TELEFONOS
+        <ion-icon item-end name="{{(isShowTelefonos)?'arrow-up':'arrow-down'}}"></ion-icon>
+      </ion-item-divider>
+      <ion-item-group *ngIf="isShowTelefonos">
+        <ion-item-group *ngFor="let telefono of newCliente.Telefonos; let i = index">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-item color="scroll-content">
+                  <ion-label floating>Contacto</ion-label>
+                  <ion-input type="text" [(ngModel)]="newCliente.Telefonos[i].Contacto" name="Contacto{{i}} " required></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item color="scroll-content">
+                  <ion-label floating>Numero</ion-label>
+                  <ion-input type="tel" [(ngModel)]="newCliente.Telefonos[i].Numero" name="Numero{{i}}" required></ion-input>
+                  <button ion-fab mini icon-only color="danger"><ion-icon name="remove"></ion-icon></button>
+                </ion-item>
+              </ion-col>
+              <ion-col col-auto *ngIf="i > 0">
+                <button ion-fab mini color="danger"  (click)="removeTelefono(i)"><ion-icon name="remove"></ion-icon></button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item-group>
+        <button ion-fab mini color="secondary" (click)="addTelefono()"><ion-icon name="add" ></ion-icon></button>
+      </ion-item-group>
+      <ion-item-divider color="toolBar" (click)="isShowComentarios = !isShowComentarios">
+        COMENTARIOS
+        <ion-icon item-end name="{{(isShowComentarios)?'arrow-up':'arrow-down'}}"></ion-icon>
+      </ion-item-divider>
+      <ion-item-group *ngIf="isShowComentarios">
+        <ion-item color="scroll-content">
+          <ion-label floating>Comentarios</ion-label>
+          <ion-textarea [(ngModel)]="newCliente.Comentarios" name="Comentarios"></ion-textarea>
+        </ion-item>        
+      </ion-item-group>
+    </ion-list>
+    <br>
+  </form>
+</ion-content>
+<ion-footer no-border color="toolBar">
+  <ion-toolbar color="subToolBar">
+    <ion-buttons end>
+      <button ion-button icon-left (click)="onCancelar()">
+        <ion-icon name="icon-ind_user-remove"></ion-icon>
+        Cancelar
+      </button>
+      <button ion-button icon-left (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
+        <ion-icon name="icon-ind_user-add"></ion-icon>
+        Guardar
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

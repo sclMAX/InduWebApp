@@ -3,16 +3,17 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
 import {Cliente} from '../../models/cliente.class';
-import {COMUN_CONTADORES, COMUN_CONTADORES_CLIENTES} from '../../models/db-base-paths';
+import {
+  COMUN_CONTADORES,
+  COMUN_CONTADORES_CLIENTES
+} from '../../models/db-base-paths';
 import {CLIENTES_ROOT} from '../sucursal/sucursal';
 
 @Injectable()
 export class ClientesProvider {
   constructor(private db: AngularFireDatabase) {}
 
-  public getAll(): Observable<Cliente[]> {
-    return this.db.list(CLIENTES_ROOT);
-  }
+  public getAll(): Observable<Cliente[]> { return this.db.list(CLIENTES_ROOT); }
 
   public getOne(id: number): Observable<Cliente> {
     return this.db.object(`${CLIENTES_ROOT}${id}`);
@@ -74,6 +75,34 @@ export class ClientesProvider {
     });
   }
 
+  public update(cliente: Cliente): Observable<string> {
+    return new Observable((obs) => {
+      this.isUnique(cliente).subscribe(
+          (isUniqueOk) => {
+            if (isUniqueOk) {
+              this.db.database.ref(`${CLIENTES_ROOT}${cliente.id}/`)
+                  .set(cliente)
+                  .then((updateOk) => {
+                    obs.next(`Cambios guardados correctamente!`);
+                    obs.complete();
+                  })
+                  .catch((updateError) => {
+                    obs.error(
+                        'Error insesperado... No se pudo guradar, revise su conexion!');
+                    obs.complete();
+                  });
+            } else {
+              obs.error(`Ya existe un Cliente ${cliente.Nombre}!`);
+              obs.complete();
+            }
+          },
+          (isUniqueError) => {
+            obs.error(`Error de Conexion... No se pudo guardar!`);
+            obs.complete();
+          });
+    });
+  }
+
   public remove(cliente: Cliente): Observable<string> {
     return new Observable((obs) => {
       this.db.database.ref(`${CLIENTES_ROOT}${cliente.id}`)
@@ -92,13 +121,14 @@ export class ClientesProvider {
 
   public getCurrentId(): Observable<number> {
     return new Observable((obs) => {
-      this.db.object(`${COMUN_CONTADORES}`).subscribe((cont) => {
-        if (cont.Clientes >= 0) {
-          obs.next(cont.Clientes);
-        } else {
-          obs.error('Contador Clientes no Encontrado!');
-        }
-      });
+      this.db.object(`${COMUN_CONTADORES}`)
+          .subscribe((cont) => {
+            if (cont.Clientes >= 0) {
+              obs.next(cont.Clientes);
+            } else {
+              obs.error('Contador Clientes no Encontrado!');
+            }
+          });
     });
   }
 
@@ -127,9 +157,9 @@ export class ClientesProvider {
       this.getAll().subscribe(
           (clientes) => {
             let c = clientes.find(item => {
-              return (
-                  item.Nombre.trim().toLocaleLowerCase() ===
-                  cliente.Nombre.trim().toLocaleLowerCase());
+              return ((item.Nombre.trim().toLocaleLowerCase() ===
+                       cliente.Nombre.trim().toLocaleLowerCase()) &&
+                      (item.id != cliente.id));
             });
             if (c && c.id >= 0) {
               obs.next(false);

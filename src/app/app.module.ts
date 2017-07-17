@@ -1,5 +1,8 @@
-import {ClientesAddPage} from './../pages/clientes-add/clientes-add';
-import {ClientesPage} from './../pages/clientes/clientes';
+import {DocumentosAddPage} from './../pages/clientes/documentos-add/documentos-add';
+import {ClientesAddPage} from './../pages/clientes/clientes-add/clientes-add';
+import {
+  ClientesHomePage
+} from './../pages/clientes/clientes-home/clientes-home';
 import {LoginPage} from './../pages/login/login';
 import {BrowserModule} from '@angular/platform-browser';
 import {ErrorHandler, NgModule} from '@angular/core';
@@ -14,7 +17,7 @@ import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {ClientesProvider} from '../providers/clientes/clientes';
 import {SucursalProvider} from '../providers/sucursal/sucursal';
-import { UsuarioProvider } from '../providers/usuario/usuario';
+import {UsuarioProvider} from '../providers/usuario/usuario';
 export const environment = {
   production: false,
   firebase: {
@@ -28,7 +31,14 @@ export const environment = {
 };
 
 @NgModule({
-  declarations: [MyApp, HomePage, LoginPage, ClientesPage, ClientesAddPage],
+  declarations: [
+    MyApp,
+    HomePage,
+    LoginPage,
+    ClientesHomePage,
+    ClientesAddPage,
+    DocumentosAddPage
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -37,7 +47,14 @@ export const environment = {
     AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, HomePage, LoginPage, ClientesPage, ClientesAddPage],
+  entryComponents: [
+    MyApp,
+    HomePage,
+    LoginPage,
+    ClientesHomePage,
+    ClientesAddPage,
+    DocumentosAddPage
+  ],
   providers: [
     StatusBar,
     SplashScreen,

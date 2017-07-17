@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {SUCURSAL} from './../../providers/sucursal/sucursal';
 import {UsuarioProvider} from './../../providers/usuario/usuario';
-import {ClientesPage} from './../clientes/clientes';
+import {ClientesHomePage} from './../clientes/clientes-home/clientes-home';
 import {LoginPage} from './../login/login';
 
 @Component({selector: 'page-home', templateUrl: 'home.html'})
@@ -20,7 +20,7 @@ export class HomePage {
   }
 
   goClientes() {
-    this.navCtrl.push(ClientesPage);
+    this.navCtrl.push(ClientesHomePage);
   }
 
   // ionViewDidEnter() { this.title = currentSucursal; }

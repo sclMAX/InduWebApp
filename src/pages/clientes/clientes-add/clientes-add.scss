@@ -12,4 +12,8 @@ page-clientes-add {
         background-color: color($colors,footer); 
         opacity: $opacidad;
     }
+
+    .listAdd.ion-item{
+        background-color: color($colors,scroll-content);
+    }
 }

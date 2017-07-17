@@ -8,8 +8,8 @@ export class Cliente {
   }
 
 export class Telefono {
-  Numero: number;
-  Contacto: string;
+  Numero: string;
+  Contacto: string ;
   }
 
 export class Direccion {
