@@ -1,0 +1,82 @@
+{
+  "V1": {
+    "Comun": {
+      "Contadores": {
+        "Clientes": 4
+      }
+    },
+    "Sucursales": {
+      "Corrientes": {
+        "Clientes": [
+          null,
+          {
+            "Comentarios": "",
+            "Email": "",
+            "Nombre": "cualquiera",
+            "id": 1
+          },
+          {
+            "Comentarios": "",
+            "Email": "",
+            "Nombre": "Alumax",
+            "id": 2
+          },
+          {
+            "Comentarios": "",
+            "Email": "",
+            "Nombre": "Maxito",
+            "id": 3
+          },
+          {
+            "Comentarios": "",
+            "Email": "",
+            "Nombre": "MAX",
+            "id": 4
+          }
+        ]
+      }
+    },
+    "Productos": {
+      "Colores": {
+        "BlancoBrillante": {
+          "Descripcion": "Pintado Blanco Brillante",
+          "Incremento": 0.04,
+          "Nombre": "Blanco Brillante"
+        },
+        "Natural": {
+          "Descripcion": "Perfil Natural",
+          "Incremento": 0.0,
+          "Nombre": "Natural"
+        }
+      },
+      "Lineas": {
+        "6000": {
+          "Descripcion": "Tipo Modena",
+          "Nombre": "Linea 6000",
+          "idLinea": "6000"
+        },
+        "3000A": {
+          "Descripcion": "Tipo A30 New",
+          "Nombre": "Linea 3000A",
+          "idLinea": "3000A"
+        },
+        "Tradicional": {
+          "Descripcion": "Tipo Herrero",
+          "Nombre": "Linea Tradicional",
+          "idLinea": "Tradicional"
+        }
+      },
+      "Perfiles": {
+        "901": {
+          "idPerfil": "901"
+        }
+      }
+    },
+    "Usuarios": {
+      "b6H6A6PNuuXm4NLgrpsE6MxzYLs1": {
+        "Sucursal": "Corrientes",
+        "id": "b6H6A6PNuuXm4NLgrpsE6MxzYLs1"
+      }
+    }
+  }
+}

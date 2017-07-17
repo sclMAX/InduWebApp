@@ -1,41 +1,39 @@
-import {DBVERSION} from './../../models/dbGlobalVars';
-import {Observable} from 'rxjs/Observable';
-import {User} from './../../models/user.class';
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from "angularfire2/database";
-import {AngularFireAuth} from 'angularfire2/auth';
+import {Observable} from 'rxjs/Observable';
+import {ROOT} from '../../models/db-base-paths';
+import {UsuarioProvider} from '../usuario/usuario';
 
-export let currentSucursal: string = '';
-export let sucBasePath: string = '';
+export let SUCURSAL: string = '';
+export let SUCURSAL_ROOT: string = '';
+export let CLIENTES_ROOT: string = '';
 
 @Injectable()
 export class SucursalProvider {
-  constructor(private db: AngularFireDatabase, private auth: AngularFireAuth) {}
+  constructor(private usuarioP: UsuarioProvider) {}
 
-  getSucursal(): Observable<string> {
-    return new Observable(
-        obs => {this.auth.authState.subscribe(user => {
-          if (user) {
-            this.db.object(`${DBVERSION}/Usuarios/${user.uid}`)
-                .subscribe(sucursales => {
-                  currentSucursal = sucursales.Sucursal || '';
-                  if (currentSucursal) {
-                    sucBasePath = `${DBVERSION}/Sucursales/${currentSucursal}`;
-                    obs.next(currentSucursal);
-                    obs.complete();
-                  }else{
-                    obs.error('No tienes asignada ninguna Sucursal!');
-                    obs.complete();
-                  }
-                  
-                }, error => { obs.error(error); });
-          } else {
-            obs.error('');
-          }
-        },error=>{
-          obs.error('Sin Conexion!');
-        })});
+  public setSucursal(): Observable<string> {
+    return new Observable((obs) => {
+      this.usuarioP.getCurrentUser().subscribe(
+          (usuario) => {
+            this.setPaths(usuario.Sucursal);
+            obs.next(SUCURSAL);
+            obs.complete();
+          },
+          (error) => {
+            obs.error();
+            obs.complete();
+          });
+
+    });
   }
 
-  login(usuario: User) {}
+  /*
+  * Seteo de Rutas base para toda la App
+  * Agregar nodos hijos de la sucursal
+  */
+  private setPaths(sucursal: string) {
+    SUCURSAL = sucursal;
+    SUCURSAL_ROOT = `${ROOT}Sucursales/${SUCURSAL}/`;
+    CLIENTES_ROOT = `${SUCURSAL_ROOT}Clientes/`;
+  }
 }

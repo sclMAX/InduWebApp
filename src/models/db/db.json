@@ -1,14 +1,24 @@
 {
     "V1": {
-        "Comun":{
-            "Contadores":{
-                "Clientes":0
+        "Comun": {
+            "Contadores": {
+                "Clientes": 0
             }
         },
         "Sucursales": {
             "Corrientes": {
                 "Contadores": {
                     "Documentos": 0
+                }
+            },
+            "Clientes": {
+                "1": {
+                    "Direccion": {
+                        "Calle": "string",
+                        "Localidad": "string",
+                        "Provincia": "string",
+                        "Pais": "string"
+                    }
                 }
             }
         },

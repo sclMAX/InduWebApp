@@ -1,11 +1,7 @@
-import {COMUN_CONTADORES} from './../../models/dbGlobalVars';
-import {Cliente} from './../../models/cliente.class';
 import {Component} from '@angular/core';
-import {ViewController} from 'ionic-angular';
-import {
-  AngularFireDatabase,
-  FirebaseObjectObservable
-} from "angularfire2/database";
+import {LoadingController, ToastController, ViewController} from 'ionic-angular';
+import {ClientesProvider} from '../../providers/clientes/clientes';
+import {Cliente} from './../../models/cliente.class';
 
 @Component({
   selector: 'page-clientes-add',
@@ -13,26 +9,49 @@ import {
 })
 export class ClientesAddPage {
   newCliente: Cliente;
-  currentId: FirebaseObjectObservable<any>;
-  constructor(public viewCtrl: ViewController,
-              private db: AngularFireDatabase) {
+  constructor(
+      public viewCtrl: ViewController, private toastCtrl: ToastController,
+      private loadCtrl: LoadingController,
+      private clientesP: ClientesProvider) {
     this.newCliente = new Cliente();
-    this.currentId = this.db.object(`${COMUN_CONTADORES}`);
     this.getCurrentId();
   }
 
   private async getCurrentId() {
-    this.currentId.subscribe(id => {
-      console.log('ID:', id.Clientes);
-      if (id.Clientes >=0) {
-        this.newCliente.idCliente = id.Clientes + 1;
-      }
+    this.clientesP.getCurrentId().subscribe(
+        (id) => {
+          this.newCliente.id = (id >= 0) ? id + 1 : 0;
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  onAceptar() {
+    let load = this.loadCtrl.create({content: 'Guardando...'});
+    let toast = this.toastCtrl.create({position: 'middle'});
+    load.present().then(() => {
+      this.clientesP.add(this.newCliente)
+          .subscribe(
+              (val) => {
+                load.dismiss();
+                this.viewCtrl.dismiss();
+                toast.setMessage(val);
+                toast.setDuration(1000);
+                toast.present();
+              },
+              (error) => {
+                load.dismiss();
+                toast.setMessage(error);
+                toast.setShowCloseButton(true);
+                toast.present();
+              });
     });
   }
 
-  onAceptar() { this.viewCtrl.dismiss(); }
+  onCancelar() {
+    this.viewCtrl.dismiss();
+  }
 
-  onCancelar() { this.viewCtrl.dismiss(); }
-
-  ionViewDidLoad() { console.log('ionViewDidLoad ClientesAddPage'); }
+  ionViewDidLoad() {}
 }

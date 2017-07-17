@@ -1,0 +1,26 @@
+// Coloque su configuración en este archivo para sobrescribir la configuración predeterminada y de usuario.
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "node_modules":true,
+        "resources":true,
+        "typings":true,
+        "www":true,
+        ".vscode":true,
+        ".editorconfig":true,
+        "**/.git*":true,
+        "5.0.0":true,
+        "config.xml":true,
+        "ionic.config.json":true,
+        "package.json":true,
+        "README.md":true,
+        "tsconfig.json":true,
+        "tslint.json":true,
+        "**/service-worker.js":true,
+        "**/manifest.json":true
+    }
+}

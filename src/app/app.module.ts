@@ -14,6 +14,7 @@ import {MyApp} from './app.component';
 import {HomePage} from '../pages/home/home';
 import {ClientesProvider} from '../providers/clientes/clientes';
 import {SucursalProvider} from '../providers/sucursal/sucursal';
+import { UsuarioProvider } from '../providers/usuario/usuario';
 export const environment = {
   production: false,
   firebase: {
@@ -42,7 +43,8 @@ export const environment = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ClientesProvider,
-    SucursalProvider
+    SucursalProvider,
+    UsuarioProvider
   ]
 })
 export class AppModule {

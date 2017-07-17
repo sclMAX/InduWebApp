@@ -1,26 +1,28 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-buttons start left>
-      <ion-title start left>INDUMATICS - Suc: {{title}}</ion-title>
-      <button ion-button icon-left (click)="goClientes()" >
+    <ion-title start left>Suc: {{title}}</ion-title>
+    <ion-buttons start rigth>
+      
+      <button ion-button icon-only icon-left (click)="goClientes()">
         <ion-icon name="icon-ind_users-list"></ion-icon>
-        Clientes
+        <!-- Clientes -->
       </button>
-      <button ion-button icon-left>
+      <button ion-button icon-only icon-left>
         <ion-icon name="cube"></ion-icon>
-        Productos
+       <!--  Productos -->
       </button>
-      <button ion-button icon-left>
+      <button ion-button icon-only icon-left>
         <ion-icon name="icon-ind_camion"></ion-icon>
-        Repartos
+        <!-- Repartos -->
       </button>
-      <button ion-button icon-left>
+      <button ion-button  icon-only icon-left>
         <ion-icon name="logo-usd"></ion-icon>
-        Fondos
+        <!-- Fondos -->
       </button>
-    </ion-buttons>
-
-    <ion-buttons end>
+      <a ion-button  icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank"> 
+        <ion-icon name="mail"></ion-icon>
+      </a>
+      <div ion-button icon-only style="width: 30px;pointer-events: none;"></div>
       <button ion-button icon-only (click)="logOut()">
         <ion-icon name="icon-ind_logout"></ion-icon>
       </button>
