@@ -1,10 +1,7 @@
 import {Component} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
-
 import {UsuarioProvider} from '../../providers/usuario/usuario';
 import {HomePage} from '../home/home';
-
 import {UserLogin} from './../../models/user.class';
 
 @Component({
@@ -15,8 +12,8 @@ export class LoginPage {
   user: UserLogin = new UserLogin();
   constructor(
       public navCtrl: NavController, public navParams: NavParams,
-      private auth: AngularFireAuth, private toastCtrl: ToastController,
-      private loadCtrl: LoadingController, private usuarioP: UsuarioProvider) {}
+      private toastCtrl: ToastController, private loadCtrl: LoadingController,
+      private usuarioP: UsuarioProvider) {}
 
   login() {
     let load = this.loadCtrl.create({

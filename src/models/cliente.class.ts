@@ -1,16 +1,16 @@
 export class Cliente {
-  id:number;
+  id: number;
   Nombre: string = '';
   Direccion: Direccion = new Direccion();
-  Telefonos: Telefono[] = [];
+  Telefonos: Telefono[] = [new Telefono()];
   Email: string = '';
   Comentarios: string = '';
-}
+  }
 
 export class Telefono {
   Numero: number;
   Contacto: string;
-}
+  }
 
 export class Direccion {
   Calle: string;

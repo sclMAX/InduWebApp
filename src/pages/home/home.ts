@@ -1,10 +1,7 @@
 import {Component} from '@angular/core';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {LoadingController, NavController, ToastController} from 'ionic-angular';
-
-import {Cliente} from './../../models/cliente.class';
-import {ClientesProvider} from './../../providers/clientes/clientes';
+import {NavController} from 'ionic-angular';
 import {SUCURSAL} from './../../providers/sucursal/sucursal';
+import {UsuarioProvider} from './../../providers/usuario/usuario';
 import {ClientesPage} from './../clientes/clientes';
 import {LoginPage} from './../login/login';
 
@@ -12,16 +9,14 @@ import {LoginPage} from './../login/login';
 
 export class HomePage {
   title: string = SUCURSAL;
-  clientes: Cliente[];
 
   constructor(
-      public navCtrl: NavController, private auth: AngularFireAuth,
-      private clientesP: ClientesProvider, private loadCtrl: LoadingController,
-      private toastCtrl: ToastController) {}
+      public navCtrl: NavController, private usuarioP: UsuarioProvider) {}
 
   logOut() {
-    this.auth.auth.signOut();
-    this.navCtrl.setRoot(LoginPage);
+    this.usuarioP.logOut().then(() => {
+      this.navCtrl.setRoot(LoginPage);
+    });
   }
 
   goClientes() {

@@ -6,8 +6,6 @@ import {Cliente} from '../../models/cliente.class';
 import {COMUN_CONTADORES, COMUN_CONTADORES_CLIENTES} from '../../models/db-base-paths';
 import {CLIENTES_ROOT} from '../sucursal/sucursal';
 
-import {environment} from './../../app/app.module';
-
 @Injectable()
 export class ClientesProvider {
   constructor(private db: AngularFireDatabase) {}
