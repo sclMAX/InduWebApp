@@ -18,6 +18,7 @@ import {HomePage} from '../pages/home/home';
 import {ClientesProvider} from '../providers/clientes/clientes';
 import {SucursalProvider} from '../providers/sucursal/sucursal';
 import {UsuarioProvider} from '../providers/usuario/usuario';
+import { ClienteActionToolBarComponent } from '../components/cliente-action-tool-bar/cliente-action-tool-bar';
 export const environment = {
   production: false,
   firebase: {
@@ -37,7 +38,8 @@ export const environment = {
     LoginPage,
     ClientesHomePage,
     ClientesAddPage,
-    DocumentosAddPage
+    DocumentosAddPage,
+    ClienteActionToolBarComponent
   ],
   imports: [
     BrowserModule,
