@@ -2,7 +2,7 @@
   <ion-navbar color="toolBar">
     <ion-title>Clientes</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only icon-left (click)="goClienteAdd(null)"><ion-icon name="icon-ind_user-add" ></ion-icon></button>
+      <button ion-button icon-only icon-left (click)="goClienteAdd()"><ion-icon name="icon-ind_user-add" ></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -22,33 +22,7 @@
     </ion-row>
   </ion-grid>
   <ion-list color="scroll-content" no-lines>
-    <ion-item *ngFor="let cliente of filterClientes; let p=even" color="{{(p)?'listPar':'listImpar'}}">
-      <h2 item-start>{{cliente?.id | number:'3.0-0'}} </h2>
-      <div>
-        <h2 item-start>{{cliente?.Nombre}} <span *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos[0].Numero != null))"> - Tel: {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</span></h2>
-        <h3>{{cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Direccion?.Provincia}}</h3>
-      </div>
-      <div item-end>
-        <ion-navbar color="{{(p)?'listPar':'listImpar'}}">
-          <ion-buttons end>
-            <button ion-button icon-only (click)="newDocumento(cliente)"><ion-icon name="icon-ind_new-document" ></ion-icon></button>
-            <div ion-button icon-only style="width: 10px;pointer-events: none;"></div>
-            <button ion-button icon-only *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos.length > 1))" (click)="showTelefonos(cliente)"><ion-icon name="call" ></ion-icon></button>
-            <a *ngIf="cliente.Email" ion-button icon-only href="http://www.indumatics.com.ar/webmail/src/compose.php?mailbox=INBOX&startMessage=1&send_to={{cliente?.Email}}"
-              target="_blank">
-              <ion-icon name="at"></ion-icon>
-            </a>
-            <div ion-button icon-only style="width: 10px;pointer-events: none;"></div>
-            <button ion-button icon-only (click)="goClienteAdd(cliente)"><ion-icon name="icon-ind_user" ></ion-icon></button>
-            <button ion-button icon-only (click)="goClienteAdd(cliente)"><ion-icon name="icon-ind_user-check" ></ion-icon></button>
-            <!--  <div ion-button icon-only style="width: 10px;pointer-events: none;"></div> -->
-            <button *ngIf="!cliente.Documentos" ion-button icon-only (click)="removeCliente(cliente)"><ion-icon name="icon-ind_user-remove" ></ion-icon></button>
-          </ion-buttons>
-        </ion-navbar>
-      </div>
-    </ion-item>
+    <cliente-list-item-content *ngFor="let cliente of filterClientes; let p=even" [cliente]="cliente" [showActions]="true" color="{{(p)?'listPar':'listImpar'}}"></cliente-list-item-content>
   </ion-list>
 </ion-content>
-<ion-footer text-center color="footer" no-border>
-  <small>&copy; Copyright 2017 by MAX </small>
-</ion-footer>
+<footer-comun></footer-comun>

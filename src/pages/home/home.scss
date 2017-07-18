@@ -1,17 +1,12 @@
-
 page-home {
     .toolbar{
         background-color: color($colors,toolBar); 
         opacity: $opacidad;
     }   
-    .scroll-content{
+     .scroll-content{
         background-color: color($colors,scroll-content);
         opacity: $opacidad;
-        overflow-y:hidden;   
-    }   
-    .footer{
-        background-color: color($colors,footer); 
-        opacity: $opacidad;
-    }
+        overflow-y:auto;   
+    } 
 }
 

@@ -6,7 +6,7 @@ import {
   NavParams
 } from 'ionic-angular';
 import {ClientesProvider} from '../../../providers/clientes/clientes';
-import {Cliente, Telefono} from './../../../models/cliente.class';
+import {Cliente, Telefono} from './../../../models/clientes.clases';
 
 @Component({
   selector: 'page-clientes-add',
@@ -44,7 +44,7 @@ export class ClientesAddPage {
     }, (error) => { console.log(error); });
   }
 
-  onAceptar() {
+  public onAceptar() {
     if (JSON.stringify(this.oldCliente) != JSON.stringify(this.newCliente)) {
       let load = this.loadCtrl.create({content: 'Guardando...'});
       let toast = this.toastCtrl.create({position: 'middle'});
@@ -84,18 +84,14 @@ export class ClientesAddPage {
                   });
         }
       });
-    }else{
+    } else {
       this.viewCtrl.dismiss();
     }
   }
 
-  onCancelar() {
-    console.log('NEW:', this.newCliente);
-    console.log('OLD:', this.oldCliente);
+  public onCancelar() {
     if (this.isEdit) {
       this.newCliente = this.oldCliente;
-
-      console.log('NEW:', this.newCliente);
     }
     this.viewCtrl.dismiss();
   }
@@ -126,8 +122,5 @@ export class ClientesAddPage {
 
   public addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }
 
-  public removeTelefono(i) {
-    console.log('remove:', i);
-    this.newCliente.Telefonos.splice(i, 1);
-  }
+  public removeTelefono(i) { this.newCliente.Telefonos.splice(i, 1); }
 }

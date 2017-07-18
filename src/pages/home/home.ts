@@ -1,3 +1,6 @@
+import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
+import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
+import {ProductosHomePage} from './../productos/productos-home/productos-home';
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {SUCURSAL} from './../../providers/sucursal/sucursal';
@@ -10,18 +13,20 @@ import {LoginPage} from './../login/login';
 export class HomePage {
   title: string = SUCURSAL;
 
-  constructor(
-      public navCtrl: NavController, private usuarioP: UsuarioProvider) {}
+  constructor(public navCtrl: NavController,
+              private usuarioP: UsuarioProvider) {}
 
-  logOut() {
-    this.usuarioP.logOut().then(() => {
-      this.navCtrl.setRoot(LoginPage);
-    });
+  public logOut() {
+    this.usuarioP.logOut().then(() => { this.navCtrl.setRoot(LoginPage); });
   }
 
-  goClientes() {
-    this.navCtrl.push(ClientesHomePage);
-  }
+  public goClientes() { this.navCtrl.push(ClientesHomePage); }
+
+  public goProductos() { this.navCtrl.push(ProductosHomePage); }
+
+  public goRespartos() { this.navCtrl.push(RepartosHomePage); }
+
+  public goFondos() { this.navCtrl.push(FondosHomePage); }
 
   // ionViewDidEnter() { this.title = currentSucursal; }
 }

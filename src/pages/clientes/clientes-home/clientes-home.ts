@@ -1,6 +1,6 @@
-import { DocumentosAddPage } from './../documentos-add/documentos-add';
+import {DocumentosAddPage} from './../documentos-add/documentos-add';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {Cliente} from './../../../models/cliente.class';
+import {Cliente} from './../../../models/clientes.clases';
 import {Component} from '@angular/core';
 import {
   AlertController,
@@ -25,63 +25,15 @@ export class ClientesHomePage {
               private loadCtrl: LoadingController,
               private modalCtrl: ModalController,
               private alerCtrl: AlertController,
-              private toastCtrl: ToastController) {}
+              private toastCtrl: ToastController){
 
+  };
 
-  public goClienteAdd(cliente: Cliente) {
-    let clienteAddModal = this.modalCtrl.create(
-        ClientesAddPage, {Cliente: cliente}, {enableBackdropDismiss: false});
+  public goClienteAdd() {
+    let clienteAddModal = this.modalCtrl.create(ClientesAddPage, {},
+                                                {enableBackdropDismiss: false});
     clienteAddModal.present();
-  }
-
-  public newDocumento(cliente:Cliente){
-    this.navCtrl.push(DocumentosAddPage, {Cliente:cliente});
-  }
-
-  public showTelefonos(cliente: Cliente) {
-    let alert = this.alerCtrl.create({title: 'TELEFONOS', buttons: ['OK']});
-    let msg: string = '';
-    cliente.Telefonos.forEach(
-        (tel) => { msg += `<h5>${tel.Contacto}: ${tel.Numero}</h5>`; });
-    alert.setMessage(msg);
-    alert.present();
-  }
-
-  public removeCliente(cliente: Cliente) {
-    let alert = this.alerCtrl.create({
-      title: 'Eliminar?',
-      subTitle:
-          `Esta seguro que quiere ELIMINAR definitivamete el cliente: ${cliente
-              .Nombre}?`,
-      buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
-          text: 'Aceptar',
-          role: 'ok',
-          handler: () => {
-            let load = this.loadCtrl.create({content: 'Eliminando Cliente...'});
-            load.present().then(() => {
-              let toast = this.toastCtrl.create({position: 'middle'});
-              this.clientesP.remove(cliente).subscribe(
-                  (ok) => {
-                    load.dismiss();
-                    toast.setMessage(ok);
-                    toast.setDuration(1000);
-                    toast.present();
-                  },
-                  (error) => {
-                    load.dismiss();
-                    toast.setMessage(error);
-                    toast.setShowCloseButton(true);
-                    toast.present();
-                  });
-            });
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
+  };
 
   public onFindClientes(ev) {
     this.onFindCancel(this);
@@ -100,7 +52,7 @@ export class ClientesHomePage {
         });
       }
     }
-  }
+  };
 
   public onFindClientesTelefono(ev) {
     this.onFindCancel(this);
@@ -115,11 +67,11 @@ export class ClientesHomePage {
         });
       }
     }
-  }
+  };
 
-  public onFindCancel(ev) { this.filterClientes = this.clientes; }
+  public onFindCancel(ev) { this.filterClientes = this.clientes; };
 
-  ionViewDidLoad() { this.getClientes(); }
+  ionViewDidLoad() { this.getClientes(); };
 
   private getClientes() {
     let load =
@@ -136,5 +88,5 @@ export class ClientesHomePage {
             load.dismiss();
           });
     });
-  }
+  };
 }

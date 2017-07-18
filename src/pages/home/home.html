@@ -2,20 +2,21 @@
   <ion-navbar color="toolBar">
     <ion-title start left>Suc: {{title}}</ion-title>
     <ion-buttons start rigth>
-      
+
       <button ion-button icon-only icon-left (click)="goClientes()">
         <ion-icon name="icon-ind_users-list"></ion-icon>
       </button>
-      <button ion-button icon-only icon-left>
+      <button ion-button icon-only icon-left (click)="goProductos()">
         <ion-icon name="cube"></ion-icon>
       </button>
-      <button ion-button icon-only icon-left>
+      <button ion-button icon-only icon-left (click)="goRespartos()">
         <ion-icon name="icon-ind_camion"></ion-icon>
       </button>
-      <button ion-button  icon-only icon-left>
+      <button ion-button icon-only icon-left (click)="goFondos()">
         <ion-icon name="logo-usd"></ion-icon>
       </button>
-      <a ion-button  icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank"> 
+      <div ion-button icon-only style="width: 20px;pointer-events: none;"></div>
+      <a ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank">
         <ion-icon name="mail"></ion-icon>
       </a>
       <div ion-button icon-only style="width: 30px;pointer-events: none;"></div>
@@ -27,7 +28,6 @@
 </ion-header>
 
 <ion-content padding color="scroll-content">
+
 </ion-content>
-<ion-footer text-center color="footer" no-border>
-  <small>&copy; Copyright 2017 by MAX </small>
-</ion-footer>
+<footer-comun></footer-comun>

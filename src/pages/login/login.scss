@@ -12,10 +12,6 @@ page-login {
     .scroll-content.login{
         overflow-y: hidden;
     }
-    .footer{
-        background-color: color($colors,footer); 
-        opacity: $opacidad;
-    }
     .card{
         max-width: 400px;
         margin: auto;

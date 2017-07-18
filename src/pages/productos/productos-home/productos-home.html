@@ -1,0 +1,10 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar">
+    <ion-title>Productos <span *ngIf="perfiles && perfiles.length > 0"> ({{perfiles.length | number:'3.0-0'}})</span></ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <perfiles-search-bar (onFilter)="onFilter($event)"></perfiles-search-bar>
+  <perfiles-list [perfiles]="perfiles" color="listImpar" colorPar="listPar"></perfiles-list>
+</ion-content>
+<footer-comun></footer-comun>

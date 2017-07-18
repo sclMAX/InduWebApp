@@ -1,4 +1,13 @@
-import {DocumentosAddPage} from './../pages/clientes/documentos-add/documentos-add';
+import {FondosHomePage} from './../pages/fondos/fondos-home/fondos-home';
+import {
+  RepartosHomePage
+} from './../pages/repartos/repartos-home/repartos-home';
+import {
+  ProductosHomePage
+} from './../pages/productos/productos-home/productos-home';
+import {
+  DocumentosAddPage
+} from './../pages/clientes/documentos-add/documentos-add';
 import {ClientesAddPage} from './../pages/clientes/clientes-add/clientes-add';
 import {
   ClientesHomePage
@@ -18,7 +27,20 @@ import {HomePage} from '../pages/home/home';
 import {ClientesProvider} from '../providers/clientes/clientes';
 import {SucursalProvider} from '../providers/sucursal/sucursal';
 import {UsuarioProvider} from '../providers/usuario/usuario';
-import { ClienteActionToolBarComponent } from '../components/cliente-action-tool-bar/cliente-action-tool-bar';
+import {
+  ClienteActionToolBarComponent
+} from '../components/cliente-action-tool-bar/cliente-action-tool-bar';
+import {
+  ClienteListItemContentComponent
+} from '../components/cliente-list-item-content/cliente-list-item-content';
+import {ProductosProvider} from '../providers/productos/productos';
+import {FooterComunComponent} from '../components/footer-comun/footer-comun';
+import {
+  PerfilesSearchBarComponent
+} from '../components/perfiles-search-bar/perfiles-search-bar';
+import {PerfilesListComponent} from '../components/perfiles-list/perfiles-list';
+import {HttpModule} from '@angular/http';
+
 export const environment = {
   production: false,
   firebase: {
@@ -39,14 +61,22 @@ export const environment = {
     ClientesHomePage,
     ClientesAddPage,
     DocumentosAddPage,
-    ClienteActionToolBarComponent
+    ClienteActionToolBarComponent,
+    ClienteListItemContentComponent,
+    ProductosHomePage,
+    RepartosHomePage,
+    FondosHomePage,
+    FooterComunComponent,
+    PerfilesSearchBarComponent,
+    PerfilesListComponent,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,7 +85,10 @@ export const environment = {
     LoginPage,
     ClientesHomePage,
     ClientesAddPage,
-    DocumentosAddPage
+    DocumentosAddPage,
+    ProductosHomePage,
+    RepartosHomePage,
+    FondosHomePage
   ],
   providers: [
     StatusBar,
@@ -63,7 +96,8 @@ export const environment = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ClientesProvider,
     SucursalProvider,
-    UsuarioProvider
+    UsuarioProvider,
+    ProductosProvider
   ]
 })
 export class AppModule {

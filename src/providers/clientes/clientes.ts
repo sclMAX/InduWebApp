@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
-import {Cliente} from '../../models/cliente.class';
+import {Cliente} from '../../models/clientes.clases';
 import {
   COMUN_CONTADORES,
   COMUN_CONTADORES_CLIENTES
