@@ -1,6 +1,6 @@
 <div>
-  <ion-list [color]="color">
-    <ion-item *ngFor="let perfil of perfiles; let p = even" [color]="(p)?colorPar:color" no-lines>
+  <ion-list [color]="color" *ngIf="showImg">
+    <ion-item *ngFor="let perfil of perfiles; let p = even" [color]="(p && colorPar)?colorPar:color" no-lines>
       <ion-thumbnail item-start>
         <img ion-fab src="../../assets/perfiles/80x80/{{perfil.id}}.png" style="background-color:azure;border-radius: 10px;">
       </ion-thumbnail>
@@ -10,7 +10,19 @@
         || 0}}u</p>
 
       <button item-end ion-button clear icon-only> <ion-icon name="home"></ion-icon>   </button>
-
+    </ion-item>
+  </ion-list>
+  <ion-list [color]="color" *ngIf="!showImg" >
+    <ion-item *ngFor="let perfil of perfiles; let p = even" [color]="(p && colorPar)?colorPar:color" no-lines >
+      <div item-start text-center>
+        <h1>{{perfil?.Codigo}}</h1>
+        <small style="color:black;" item-start>Linea {{perfil?.Linea?.Nombre}}</small>
+      </div>
+      <div>
+        <h2>{{perfil?.Descripcion}}</h2>
+        <p>Largo: {{perfil.Largo || 0}}mm Peso x Metro: {{perfil.PesoMetro || 0.00 |number:'1.3-3'}}kg Barras x Paquete: {{perfil.BarrasPaquete
+          || 0}}u</p>
+      </div>
     </ion-item>
   </ion-list>
 </div>

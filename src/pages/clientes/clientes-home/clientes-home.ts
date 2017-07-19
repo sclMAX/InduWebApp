@@ -1,16 +1,10 @@
-import {DocumentosAddPage} from './../documentos-add/documentos-add';
-import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {Cliente} from './../../../models/clientes.clases';
 import {Component} from '@angular/core';
-import {
-  AlertController,
-  LoadingController,
-  ModalController,
-  NavController,
-  NavParams,
-  ToastController
-} from 'ionic-angular';
+import {AlertController, LoadingController, ModalController, NavController, NavParams, ToastController} from 'ionic-angular';
+
+import {Cliente} from './../../../models/clientes.clases';
+import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {ClientesAddPage} from './../clientes-add/clientes-add';
+import {DocumentosAddPage} from './../documentos-add/documentos-add';
 
 @Component({
   selector: 'page-clientes',
@@ -19,19 +13,19 @@ import {ClientesAddPage} from './../clientes-add/clientes-add';
 export class ClientesHomePage {
   clientes: Cliente[];
   filterClientes: Cliente[];
+  showComandos: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private clientesP: ClientesProvider,
-              private loadCtrl: LoadingController,
-              private modalCtrl: ModalController,
-              private alerCtrl: AlertController,
-              private toastCtrl: ToastController){
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private clientesP: ClientesProvider, private loadCtrl: LoadingController,
+      private modalCtrl: ModalController, private alerCtrl: AlertController,
+      private toastCtrl: ToastController){
 
   };
 
   public goClienteAdd() {
-    let clienteAddModal = this.modalCtrl.create(ClientesAddPage, {},
-                                                {enableBackdropDismiss: false});
+    let clienteAddModal = this.modalCtrl.create(
+        ClientesAddPage, {}, {enableBackdropDismiss: false});
     clienteAddModal.present();
   };
 
@@ -43,12 +37,11 @@ export class ClientesHomePage {
         val = val.toLowerCase();
         this.filterClientes = this.clientes.filter((cliente) => {
           return (cliente.id.toString().toLowerCase().indexOf(val) > -1) ||
-                 (cliente.Nombre.toLowerCase().indexOf(val) > -1) ||
-                 (cliente.Email.toLowerCase().indexOf(val) > -1) ||
-                 ((cliente.Direccion != null) &&
-                  ((cliente.Direccion.Calle.toLowerCase().indexOf(val) > -1) ||
-                   (cliente.Direccion.Localidad.toLowerCase().indexOf(val) >
-                    -1)));
+              (cliente.Nombre.toLowerCase().indexOf(val) > -1) ||
+              (cliente.Email.toLowerCase().indexOf(val) > -1) ||
+              ((cliente.Direccion != null) &&
+               ((cliente.Direccion.Calle.toLowerCase().indexOf(val) > -1) ||
+                (cliente.Direccion.Localidad.toLowerCase().indexOf(val) > -1)));
         });
       }
     }
@@ -69,9 +62,13 @@ export class ClientesHomePage {
     }
   };
 
-  public onFindCancel(ev) { this.filterClientes = this.clientes; };
+  public onFindCancel(ev) {
+    this.filterClientes = this.clientes;
+  };
 
-  ionViewDidLoad() { this.getClientes(); };
+  ionViewDidLoad() {
+    this.getClientes();
+  };
 
   private getClientes() {
     let load =

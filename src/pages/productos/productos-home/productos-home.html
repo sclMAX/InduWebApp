@@ -3,8 +3,15 @@
     <ion-title>Productos <span *ngIf="perfiles && perfiles.length > 0"> ({{perfiles.length | number:'3.0-0'}})</span></ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
-  <perfiles-search-bar (onFilter)="onFilter($event)"></perfiles-search-bar>
-  <perfiles-list [perfiles]="perfiles" color="listImpar" colorPar="listPar"></perfiles-list>
+<ion-content padding #sc>
+  <ion-item color="toolBar" no-lines>
+    <perfiles-search-bar (onFilter)="onFilter($event)"></perfiles-search-bar>
+    <button ion-fab mini item-end color="dark" (click)="showImagenes = !showImagenes"><ion-icon *ngIf="!showImagenes" name="images"></ion-icon> <ion-icon *ngIf="showImagenes" name="list"></ion-icon></button>
+  </ion-item>
+  <perfiles-list [perfiles]="perfiles" color="listImpar" colorPar="listPar" [showImg]="showImagenes"></perfiles-list>
+  <ion-fab bottom right *ngIf="perfiles && perfiles.length > 8">
+    <button ion-fab color="dark"  (click)="sc.scrollToTop()"><ion-icon name="arrow-up"></ion-icon>
+   </button>
+  </ion-fab>
 </ion-content>
 <footer-comun></footer-comun>

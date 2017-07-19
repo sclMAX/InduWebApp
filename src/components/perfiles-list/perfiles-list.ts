@@ -6,5 +6,6 @@ export class PerfilesListComponent {
   @Input('perfiles') perfiles: Perfil[];
   @Input('color') color: string;
   @Input('colorPar') colorPar: string;
+  @Input('showImg') showImg: boolean = true;
   constructor() {}
 }
