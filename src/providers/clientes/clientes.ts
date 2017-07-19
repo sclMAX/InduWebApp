@@ -7,16 +7,16 @@ import {
   COMUN_CONTADORES,
   COMUN_CONTADORES_CLIENTES
 } from '../../models/db-base-paths';
-import {CLIENTES_ROOT} from '../sucursal/sucursal';
+import {SUC_CLIENTES_ROOT} from '../sucursal/sucursal';
 
 @Injectable()
 export class ClientesProvider {
   constructor(private db: AngularFireDatabase) {}
 
-  public getAll(): Observable<Cliente[]> { return this.db.list(CLIENTES_ROOT); }
+  public getAll(): Observable<Cliente[]> { return this.db.list(SUC_CLIENTES_ROOT); }
 
   public getOne(id: number): Observable<Cliente> {
-    return this.db.object(`${CLIENTES_ROOT}${id}`);
+    return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);
   }
 
   public add(newCliente: Cliente): Observable<string> {
@@ -25,7 +25,7 @@ export class ClientesProvider {
           .subscribe(
               (isUniqueOk) => {
                 if (isUniqueOk) {
-                  this.db.database.ref(`${CLIENTES_ROOT}${newCliente.id}`)
+                  this.db.database.ref(`${SUC_CLIENTES_ROOT}${newCliente.id}`)
                       .set(newCliente)
                       .then((okAdd) => {
                         this.setCurrentId(newCliente.id)
@@ -80,7 +80,7 @@ export class ClientesProvider {
       this.isUnique(cliente).subscribe(
           (isUniqueOk) => {
             if (isUniqueOk) {
-              this.db.database.ref(`${CLIENTES_ROOT}${cliente.id}/`)
+              this.db.database.ref(`${SUC_CLIENTES_ROOT}${cliente.id}/`)
                   .set(cliente)
                   .then((updateOk) => {
                     obs.next(`Cambios guardados correctamente!`);
@@ -105,7 +105,7 @@ export class ClientesProvider {
 
   public remove(cliente: Cliente): Observable<string> {
     return new Observable((obs) => {
-      this.db.database.ref(`${CLIENTES_ROOT}${cliente.id}`)
+      this.db.database.ref(`${SUC_CLIENTES_ROOT}${cliente.id}`)
           .remove()
           .then(() => {
             obs.next(`Cliente ${cliente.Nombre} Eliminado!`);
@@ -119,12 +119,12 @@ export class ClientesProvider {
     });
   }
 
-  public getCurrentId(): Observable<number> {
+  public getCurrentNewId(): Observable<number> {
     return new Observable((obs) => {
       this.db.object(`${COMUN_CONTADORES}`)
           .subscribe((cont) => {
             if (cont.Clientes >= 0) {
-              obs.next(cont.Clientes);
+              obs.next(cont.Clientes + 1);
             } else {
               obs.error('Contador Clientes no Encontrado!');
             }

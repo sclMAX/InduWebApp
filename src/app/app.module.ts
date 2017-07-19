@@ -1,3 +1,9 @@
+import {
+  PedidosNewPage
+} from './../pages/documentos/pedidos/pedidos-new/pedidos-new';
+import {
+  ProductosPerfilesListPage
+} from './../pages/productos/productos-perfiles-list/productos-perfiles-list';
 import {FondosHomePage} from './../pages/fondos/fondos-home/fondos-home';
 import {
   RepartosHomePage
@@ -7,7 +13,7 @@ import {
 } from './../pages/productos/productos-home/productos-home';
 import {
   DocumentosAddPage
-} from './../pages/clientes/documentos-add/documentos-add';
+} from './../pages/documentos/documentos-add/documentos-add';
 import {ClientesAddPage} from './../pages/clientes/clientes-add/clientes-add';
 import {
   ClientesHomePage
@@ -40,6 +46,8 @@ import {
 } from '../components/perfiles-search-bar/perfiles-search-bar';
 import {PerfilesListComponent} from '../components/perfiles-list/perfiles-list';
 import {HttpModule} from '@angular/http';
+import {ColoresProvider} from '../providers/colores/colores';
+import {DocumentosProvider} from '../providers/documentos/documentos';
 
 export const environment = {
   production: false,
@@ -69,6 +77,8 @@ export const environment = {
     FooterComunComponent,
     PerfilesSearchBarComponent,
     PerfilesListComponent,
+    ProductosPerfilesListPage,
+    PedidosNewPage
   ],
   imports: [
     BrowserModule,
@@ -88,7 +98,9 @@ export const environment = {
     DocumentosAddPage,
     ProductosHomePage,
     RepartosHomePage,
-    FondosHomePage
+    FondosHomePage,
+    ProductosPerfilesListPage,
+    PedidosNewPage
   ],
   providers: [
     StatusBar,
@@ -97,7 +109,9 @@ export const environment = {
     ClientesProvider,
     SucursalProvider,
     UsuarioProvider,
-    ProductosProvider
+    ProductosProvider,
+    ColoresProvider,
+    DocumentosProvider
   ]
 })
 export class AppModule {

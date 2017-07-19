@@ -5,7 +5,10 @@ import {UsuarioProvider} from '../usuario/usuario';
 
 export let SUCURSAL: string = '';
 export let SUCURSAL_ROOT: string = '';
-export let CLIENTES_ROOT: string = '';
+export let SUC_CLIENTES_ROOT: string = '';
+export let SUC_COLORES_ROOT: string = '';
+export let SUC_DOCUMENTOS_ROOT: string = '';
+export let SUC_CONTADORES_ROOT: string = '';
 
 @Injectable()
 export class SucursalProvider {
@@ -34,6 +37,9 @@ export class SucursalProvider {
   private setPaths(sucursal: string) {
     SUCURSAL = sucursal;
     SUCURSAL_ROOT = `${ROOT}Sucursales/${SUCURSAL}/`;
-    CLIENTES_ROOT = `${SUCURSAL_ROOT}Clientes/`;
+    SUC_CLIENTES_ROOT = `${SUCURSAL_ROOT}Clientes/`;
+    SUC_COLORES_ROOT = `${SUCURSAL_ROOT}Colores/`;
+    SUC_DOCUMENTOS_ROOT = `${SUCURSAL_ROOT}Documentos/`;
+    SUC_CONTADORES_ROOT = `${SUCURSAL_ROOT}Contadores/`;
   }
 }

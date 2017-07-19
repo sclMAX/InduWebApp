@@ -4,13 +4,18 @@ export class Cliente {
   Direccion: Direccion = new Direccion();
   Telefonos: Telefono[] = [new Telefono()];
   Email: string = '';
+  Documentos: ClienteDocumentos = new ClienteDocumentos();
   Comentarios: string = '';
-  }
+}
+
+export interface ClientePedido { id: string; }
+
+export class ClienteDocumentos { Pedidos: ClientePedido[] = []; }
 
 export class Telefono {
   Numero: string;
-  Contacto: string ;
-  }
+  Contacto: string;
+}
 
 export class Direccion {
   Calle: string;

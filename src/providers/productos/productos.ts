@@ -1,7 +1,6 @@
 import {Http, Response} from '@angular/http';
 import {
   PRODUCTOS_PERFILES,
-  PRODUCTOS_COLORES,
   PRODUCTOS_LINEAS
 } from './../../models/db-base-paths';
 import {Observable} from 'rxjs/Observable';
@@ -30,7 +29,7 @@ export class ProductosProvider {
         }
         obs.complete();
       } else {
-        let list = this.db.list(PRODUCTOS_PERFILES,{query:{orderByKey:true}})
+        let list = this.db.list(PRODUCTOS_PERFILES, {query: {orderByKey: true}})
                        .subscribe(
                            (data: Perfil[]) => {
                              this.Perfiles = data;
@@ -41,28 +40,6 @@ export class ProductosProvider {
                              } else {
                                obs.next(this.Perfiles);
                              }
-                             list.unsubscribe();
-                             obs.complete();
-                           },
-                           (error) => {
-                             obs.error(error);
-                             obs.complete();
-                           });
-      }
-    });
-  }
-
-  public getColores(): Observable<Color[]> {
-    return new Observable((obs) => {
-      if (this.Colores) {
-        obs.next(this.Colores);
-        obs.complete();
-      } else {
-        let list = this.db.list(PRODUCTOS_COLORES)
-                       .subscribe(
-                           (data: Color[]) => {
-                             this.Colores = data;
-                             obs.next(this.Colores);
                              list.unsubscribe();
                              obs.complete();
                            },
@@ -96,7 +73,7 @@ export class ProductosProvider {
     });
   }
 
-  private perfilesDownloadWeb() {
+  public perfilesDownloadWeb() {
     this.http.get('http://www.indumatics.com.ar/api/perfiles/')
         .map((res: Response) => res.json())
         .subscribe((data) => {
@@ -109,12 +86,18 @@ export class ProductosProvider {
 
   private loadToFirebase(idx, wp: PerfilWeb[]) {
     let p: Perfil = new Perfil();
+    let round = function(value, precision) {
+      var multiplier = Math.pow(10, precision || 0);
+      return Math.round(value * multiplier) / multiplier;
+    };
     p.id = wp[idx].idPerfil;
     p.Codigo = p.id;
     p.Descripcion = wp[idx].descripcion;
     p.Largo = wp[idx].largo;
     p.BarrasPaquete = wp[idx].bxp;
-    p.PesoMetro = wp[idx].pxm;
+    p.PesoBase = wp[idx].pxm;
+    p.PesoNatural = round(p.PesoBase * 1.03, 3);
+    p.PesoPintado = round(p.PesoBase * 1.08, 3);
     p.Linea = new Linea();
     if (wp[idx].idLinea == 1) {
       p.Linea.id = "Tradicional";
@@ -125,14 +108,16 @@ export class ProductosProvider {
       p.Linea.Nombre = "6000";
       p.Linea.Descripcion = "Linea 6000 (Modena)";
     }
-    console.log('Guardando...', p.id, " Item ", idx + 1 , ' de ', wp.length);
-    this.db.database.ref(`${PRODUCTOS_PERFILES}${p.id}/`).set(p).then((ok)=>{
-      console.log('Guardado:', p.id);
-      if(idx < wp.length-1){
-        idx = idx + 1;
-        this.loadToFirebase(idx, wp);
-      }
-    });
+    console.log('Guardando...', p.id, " Item ", idx + 1, ' de ', wp.length);
+    this.db.database.ref(`${PRODUCTOS_PERFILES}${p.id}/`)
+        .set(p)
+        .then((ok) => {
+          console.log('Guardado:', p.id);
+          if (idx < wp.length - 1) {
+            idx = idx + 1;
+            this.loadToFirebase(idx, wp);
+          }
+        });
   }
 }
 

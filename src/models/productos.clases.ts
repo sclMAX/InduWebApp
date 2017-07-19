@@ -5,7 +5,9 @@ export class Perfil {
   Descripcion: string;
   Largo: number;
   BarrasPaquete: number;
-  PesoMetro: number;
+  PesoBase: number;
+  PesoNatural: number;
+  PesoPintado: number;
 }
 
 export class Linea {
@@ -14,9 +16,14 @@ export class Linea {
   Descripcion: string;
 }
 
+//{"id": "string", "idColorPlanta": "string","Nombre": "string","Descripcion": "string",  "PrecioUs": 6, "isPintura":true}
 export class Color {
   id: string;
+  idColorPlanta: string;
   Nombre: string;
   Descripcion: string;
-  Incremento: number;
+  PrecioUs: number;
+  isPintura: boolean;
 }
+
+

@@ -1,17 +1,10 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-title>Productos <span *ngIf="perfiles && perfiles.length > 0"> ({{perfiles.length | number:'3.0-0'}})</span></ion-title>
+    <ion-title>Productos</ion-title>
+    <button ion-button clear (click)="goPerfiles()">Perfiles</button>
   </ion-navbar>
 </ion-header>
-<ion-content padding #sc>
-  <ion-item color="toolBar" no-lines>
-    <perfiles-search-bar (onFilter)="onFilter($event)"></perfiles-search-bar>
-    <button ion-fab mini item-end color="dark" (click)="showImagenes = !showImagenes"><ion-icon *ngIf="!showImagenes" name="images"></ion-icon> <ion-icon *ngIf="showImagenes" name="list"></ion-icon></button>
-  </ion-item>
-  <perfiles-list [perfiles]="perfiles" color="listImpar" colorPar="listPar" [showImg]="showImagenes"></perfiles-list>
-  <ion-fab bottom right *ngIf="perfiles && perfiles.length > 8">
-    <button ion-fab color="dark"  (click)="sc.scrollToTop()"><ion-icon name="arrow-up"></ion-icon>
-   </button>
-  </ion-fab>
+<ion-content padding>
+  <h1>PRODUCTOS HOME</h1>
 </ion-content>
 <footer-comun></footer-comun>

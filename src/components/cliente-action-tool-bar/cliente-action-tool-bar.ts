@@ -1,10 +1,10 @@
 import {
+  PedidosNewPage
+} from './../../pages/documentos/pedidos/pedidos-new/pedidos-new';
+import {
   ClientesAddPage
 } from './../../pages/clientes/clientes-add/clientes-add';
 import {ClientesProvider} from './../../providers/clientes/clientes';
-import {
-  DocumentosAddPage
-} from './../../pages/clientes/documentos-add/documentos-add';
 import {Cliente} from './../../models/clientes.clases';
 import {Component, Input} from '@angular/core';
 import {
@@ -21,7 +21,7 @@ import {
 })
 export class ClienteActionToolBarComponent {
   @Input('cliente') cliente: Cliente;
-  @Input('color') color:string;
+  @Input('color') color: string;
 
   constructor(private alertCtrl: AlertController,
               private navCtrl: NavController,
@@ -33,7 +33,8 @@ export class ClienteActionToolBarComponent {
   ngOnInit() {}
 
   public showTelefonos(cliente: Cliente) {
-    let alert = this.alertCtrl.create({title: 'TELEFONOS', buttons: ['Cerrar']});
+    let alert =
+        this.alertCtrl.create({title: 'TELEFONOS', buttons: ['Cerrar']});
     let msg: string = '';
     cliente.Telefonos.forEach(
         (tel) => { msg += `<h5>${tel.Contacto}: ${tel.Numero}</h5>`; });
@@ -41,8 +42,8 @@ export class ClienteActionToolBarComponent {
     alert.present();
   }
 
-  public newDocumento(cliente: Cliente) {
-    this.navCtrl.push(DocumentosAddPage, {Cliente: cliente});
+  public newPedido(cliente: Cliente) {
+    this.navCtrl.push(PedidosNewPage, {Cliente: cliente});
   }
 
   public goClienteUpdate(cliente: Cliente) {

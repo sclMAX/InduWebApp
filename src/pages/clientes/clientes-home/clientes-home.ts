@@ -4,7 +4,7 @@ import {AlertController, LoadingController, ModalController, NavController, NavP
 import {Cliente} from './../../../models/clientes.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {ClientesAddPage} from './../clientes-add/clientes-add';
-import {DocumentosAddPage} from './../documentos-add/documentos-add';
+import {DocumentosAddPage} from '../../documentos/documentos-add/documentos-add';
 
 @Component({
   selector: 'page-clientes',

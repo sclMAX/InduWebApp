@@ -1,14 +1,17 @@
 {
     "V1": {
         "Comun": {
-            "Contadores": {
-                "Clientes": 0
-            }
+            "Contadores": {"Clientes": 0},
+            "Dolar": {"id": "Dolar", "Fecha":  "2017-07-18", "Valor": 17.20}
         },
         "Sucursales": {
             "Corrientes": {
                 "Contadores": {
                     "Documentos": 0
+                },
+                "Colores":{
+                    "Natural":{"id": "Natural", "idColorPlanta": "Natural","Nombre": "Natural","Descripcion": "Perfil Natural",  "PrecioUs": 5, "isPintura":false},
+                    "Blanco Brillante":{"id": "Blanco Brillante", "idColorPlanta": "Blanco Brillante","Nombre": "Blanco Brillante","Descripcion": "Pintado Blanco Brillante",  "PrecioUs": 6, "isPintura":true}
                 }
             },
             "Clientes": {

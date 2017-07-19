@@ -39,8 +39,8 @@ export class ClientesAddPage {
   }
 
   private async getCurrentId() {
-    this.clientesP.getCurrentId().subscribe((id) => {
-      this.newCliente.id = (id >= 0) ? id + 1 : 0;
+    this.clientesP.getCurrentNewId().subscribe((id) => {
+      this.newCliente.id = (id > 0) ? id : 0;
     }, (error) => { console.log(error); });
   }
 
