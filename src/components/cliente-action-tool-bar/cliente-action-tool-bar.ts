@@ -33,7 +33,7 @@ export class ClienteActionToolBarComponent {
   ngOnInit() {}
 
   public showTelefonos(cliente: Cliente) {
-    let alert = this.alertCtrl.create({title: 'TELEFONOS', buttons: ['OK']});
+    let alert = this.alertCtrl.create({title: 'TELEFONOS', buttons: ['Cerrar']});
     let msg: string = '';
     cliente.Telefonos.forEach(
         (tel) => { msg += `<h5>${tel.Contacto}: ${tel.Numero}</h5>`; });
