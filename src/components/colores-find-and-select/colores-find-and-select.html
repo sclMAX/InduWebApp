@@ -1,0 +1,15 @@
+<ion-header no-border>
+  <ion-item color="toolBar" no-lines>
+    <ion-searchbar (ionCancel)="onCancelFilter()" (ionInput)="onFilter($event)" placeholder="Buscar Color..."></ion-searchbar>
+    <button ion-fab mini item-end color="danger" (click)="onClose()"><ion-icon  name="close"></ion-icon> </button>
+  </ion-item>
+</ion-header>
+<ion-content color="scroll-content">
+  <ion-list>
+    <button ion-item (click)="onSelectColor(color)" *ngFor="let color of colores;let p=even" color="{{(p)?'listPar':'listImpar'}}"
+      no-lines>
+      <h2>{{color?.Nombre}}</h2>
+      <p>{{color?.Descripcion}}</p>
+    </button>
+  </ion-list>
+</ion-content>

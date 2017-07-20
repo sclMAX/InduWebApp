@@ -1,7 +1,9 @@
+import {Direccion} from './clientes.clases';
 import {Perfil, Color} from './productos.clases';
 import {Documento} from './documentos.class';
 export class Pedido extends Documento {
   FechaEntrega: string = new Date().toISOString();
+  DireccionEntrega: Direccion;
   isEntregado: boolean = false;
   Items: PedidoItem[] = [];
 }

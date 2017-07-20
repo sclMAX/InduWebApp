@@ -1,0 +1,39 @@
+<ion-row>
+  <ion-col>
+    <ion-row>
+      <ion-badge color="dark">Cantidad</ion-badge>
+    </ion-row>
+    <ion-row>
+      <button ion-item no-lines class="itemRound" color="light" (click)="goSelectCantidad()">
+          {{newItem?.Cantidad || 'Cantidad ?' }}
+        </button>
+    </ion-row>
+  </ion-col>
+  <ion-col>
+    <ion-row>
+      <ion-badge color="dark">Perfil</ion-badge>
+    </ion-row>
+    <ion-row>
+      <button ion-item no-lines class="itemRound" color="light" (click)="goSelectPerfil()">
+           {{newItem?.Perfil?.Codigo || 'Perfil ?'}}
+        </button>
+    </ion-row>
+  </ion-col>
+  <ion-col>
+    <ion-row>
+      <ion-badge color="dark">Color</ion-badge>
+    </ion-row>
+    <ion-row>
+      <button ion-item no-lines class="itemRound" color="light" (click)="goSelectColor()">
+         {{newItem?.Color?.Nombre || 'Color ?'}}
+        </button>
+    </ion-row>
+  </ion-col>
+  <ion-col>
+    <ion-row>
+      <button ion-fab middle mini color="secondary" [disabled]="!(newItem.Cantidad > 0) || !newItem.Color || !newItem.Perfil" (click)="addItem()">
+         <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-row>
+  </ion-col>
+</ion-row>

@@ -47,7 +47,21 @@ import {
 import {PerfilesListComponent} from '../components/perfiles-list/perfiles-list';
 import {HttpModule} from '@angular/http';
 import {ColoresProvider} from '../providers/colores/colores';
-import {DocumentosProvider} from '../providers/documentos/documentos';
+import {
+  PedidoHeaderEditComponent
+} from '../components/pedido-header-edit/pedido-header-edit';
+import {
+  PedidoHeaderAddItemComponent
+} from '../components/pedido-header-add-item/pedido-header-add-item';
+import {
+  PerfilesFindAndSelectComponent
+} from '../components/perfiles-find-and-select/perfiles-find-and-select';
+import {
+  ColoresFindAndSelectComponent
+} from '../components/colores-find-and-select/colores-find-and-select';
+import {
+  SucursalPedidosProvider
+} from '../providers/sucursal-pedidos/sucursal-pedidos';
 
 export const environment = {
   production: false,
@@ -78,7 +92,11 @@ export const environment = {
     PerfilesSearchBarComponent,
     PerfilesListComponent,
     ProductosPerfilesListPage,
-    PedidosNewPage
+    PedidosNewPage,
+    PedidoHeaderEditComponent,
+    PedidoHeaderAddItemComponent,
+    PerfilesFindAndSelectComponent,
+    ColoresFindAndSelectComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +118,9 @@ export const environment = {
     RepartosHomePage,
     FondosHomePage,
     ProductosPerfilesListPage,
-    PedidosNewPage
+    PedidosNewPage,
+    PerfilesFindAndSelectComponent,
+    ColoresFindAndSelectComponent
   ],
   providers: [
     StatusBar,
@@ -111,7 +131,7 @@ export const environment = {
     UsuarioProvider,
     ProductosProvider,
     ColoresProvider,
-    DocumentosProvider
+    SucursalPedidosProvider
   ]
 })
 export class AppModule {

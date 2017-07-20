@@ -6,7 +6,7 @@
 <ion-content padding #sc>
   <ion-item color="toolBar" no-lines>
     <perfiles-search-bar (onFilter)="onFilter($event)"></perfiles-search-bar>
-    <button ion-fab mini item-end color="dark" (click)="showImagenes = !showImagenes"><ion-icon *ngIf="!showImagenes" name="images"></ion-icon> <ion-icon *ngIf="showImagenes" name="list"></ion-icon></button>S
+    <button ion-fab mini item-end color="dark" (click)="showImagenes = !showImagenes"><ion-icon *ngIf="!showImagenes" name="images"></ion-icon> <ion-icon *ngIf="showImagenes" name="list"></ion-icon></button>
   </ion-item>
   <perfiles-list [perfiles]="perfiles" color="listImpar" colorPar="listPar" [showImg]="showImagenes"></perfiles-list>
   <ion-fab bottom right *ngIf="perfiles && perfiles.length > 8">

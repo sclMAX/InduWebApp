@@ -1,3 +1,4 @@
+import {Pedido} from './../../models/pedidos.clases';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
@@ -13,7 +14,9 @@ import {SUC_CLIENTES_ROOT} from '../sucursal/sucursal';
 export class ClientesProvider {
   constructor(private db: AngularFireDatabase) {}
 
-  public getAll(): Observable<Cliente[]> { return this.db.list(SUC_CLIENTES_ROOT); }
+  public getAll(): Observable<Cliente[]> {
+    return this.db.list(SUC_CLIENTES_ROOT);
+  }
 
   public getOne(id: number): Observable<Cliente> {
     return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);
@@ -72,6 +75,43 @@ export class ClientesProvider {
                 obs.error('Error Insesperado!');
                 obs.complete();
               });
+    });
+  }
+
+  public addPedido(pedido: Pedido): Observable<boolean> {
+    return new Observable((obs) => {
+      if (pedido && pedido.idCliente > 0) {
+        let getOne =
+            this.getOne(pedido.idCliente)
+                .subscribe(
+                    (cliente) => {
+                      console.log('AddPedido.Cliente:', cliente, ' Pedido:',
+                                  pedido);
+                                  CONTINUAR AQUI!!
+                                  No funciona porque no esta definido el array aun!
+                      cliente.Documentos.Pedidos.push({id: pedido.Numero});
+                      getOne.unsubscribe();
+                      let update = this.update(cliente).subscribe(
+                          (updateOk) => {
+                            obs.next(true);
+                            update.unsubscribe();
+                            obs.complete();
+                          },
+                          (updateError) => {
+                            obs.error(updateError);
+                            update.unsubscribe();
+                            obs.complete();
+                          });
+                    },
+                    (error) => {
+                      obs.error(error);
+                      getOne.unsubscribe();
+                      obs.complete();
+                    });
+      } else {
+        obs.error('Id Cliente Incorrecto!');
+        obs.complete();
+      }
     });
   }
 

@@ -8,7 +8,7 @@ export class Cliente {
   Comentarios: string = '';
 }
 
-export interface ClientePedido { id: string; }
+export interface ClientePedido { id: number; }
 
 export class ClienteDocumentos { Pedidos: ClientePedido[] = []; }
 

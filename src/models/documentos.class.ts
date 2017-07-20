@@ -2,7 +2,7 @@ import {Dolar} from './fondos.clases';
 import {Color, Perfil} from './productos.clases';
 
 export class Documento {
-  id: string;
+  id: number;
   Numero: number;
   idCliente: number;
   Fecha: string = new Date().toISOString();

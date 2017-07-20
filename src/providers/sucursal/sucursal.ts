@@ -9,6 +9,7 @@ export let SUC_CLIENTES_ROOT: string = '';
 export let SUC_COLORES_ROOT: string = '';
 export let SUC_DOCUMENTOS_ROOT: string = '';
 export let SUC_CONTADORES_ROOT: string = '';
+export let SUC_DOCUMENTOS_PEDIDOS: string = '';
 
 @Injectable()
 export class SucursalProvider {
@@ -39,7 +40,8 @@ export class SucursalProvider {
     SUCURSAL_ROOT = `${ROOT}Sucursales/${SUCURSAL}/`;
     SUC_CLIENTES_ROOT = `${SUCURSAL_ROOT}Clientes/`;
     SUC_COLORES_ROOT = `${SUCURSAL_ROOT}Colores/`;
-    SUC_DOCUMENTOS_ROOT = `${SUCURSAL_ROOT}Documentos/`;
     SUC_CONTADORES_ROOT = `${SUCURSAL_ROOT}Contadores/`;
+    SUC_DOCUMENTOS_ROOT = `${SUCURSAL_ROOT}Documentos/`;
+    SUC_DOCUMENTOS_PEDIDOS = `${SUC_DOCUMENTOS_ROOT}Pedidos/`;
   }
 }

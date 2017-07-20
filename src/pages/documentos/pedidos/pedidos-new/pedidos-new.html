@@ -1,9 +1,14 @@
-<ion-content padding>
-  <ion-header color="toolBar" no-border padding>
-    <h1>Header</h1>
-  </ion-header>
+<ion-content>
+  <ion-list padding color="scroll-content" fixed>
+    <ion-list-header color="scroll-content" no-lines fixed>
+      <pedido-header-edit [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
+    </ion-list-header>
+    <ion-item color="listImpar" *ngFor="let item of pedido.Items">
+      {{item |json}}
+    </ion-item>
+  </ion-list>
 </ion-content>
 <ion-footer text-center>
-    <button ion-button  color="ligth" (click)="goBack()">Cancelar</button>
-    <button ion-button color="primary" (click)="goBack()">Guardar</button>
+  <button ion-button color="light" (click)="goBack()">Cancelar</button>
+  <button ion-button color="primary" [disabled]="!isValid()" (click)="onGuardar()">Guardar</button>
 </ion-footer>

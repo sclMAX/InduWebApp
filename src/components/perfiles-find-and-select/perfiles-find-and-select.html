@@ -1,0 +1,10 @@
+<ion-header no-border>
+  <ion-item color="toolBar" no-lines>
+    <perfiles-search-bar [findCodigo]=false [selLinea]=false (onFilter)="onFilter($event)"></perfiles-search-bar>
+    <button ion-fab mini item-end color="dark" (click)="showImagenes = !showImagenes"><ion-icon *ngIf="!showImagenes" name="images"></ion-icon> <ion-icon *ngIf="showImagenes" name="list"></ion-icon></button>
+    <button ion-fab mini item-end color="danger" (click)="onClose()"><ion-icon  name="close"></ion-icon> </button>
+  </ion-item>
+</ion-header>
+<ion-content color="scroll-content">
+  <perfiles-list (onSelectItem)="onSelectPerfil($event)" color="listImpar" [colorPar]="'listPar'" [perfiles]="perfiles" [showImg]="showImagenes"></perfiles-list>
+</ion-content>
