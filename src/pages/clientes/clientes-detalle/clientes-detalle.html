@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar color="toolBar">
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item *ngFor="let pedido of pedidos">
+    {{pedido | json}}
+    <ion-item *ngFor="let item of pedido.Items">
+      {{item | json}}
+    </ion-item>
+  </ion-item>
+</ion-content>
+<footer-comun></footer-comun>

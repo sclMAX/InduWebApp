@@ -1,4 +1,7 @@
 import {
+  ClientesDetallePage
+} from './../pages/clientes/clientes-detalle/clientes-detalle';
+import {
   PedidosNewPage
 } from './../pages/documentos/pedidos/pedidos-new/pedidos-new';
 import {
@@ -62,7 +65,13 @@ import {
 import {
   SucursalPedidosProvider
 } from '../providers/sucursal-pedidos/sucursal-pedidos';
-import { PedidoItemsItemComponent } from '../components/pedido-items-item/pedido-items-item';
+import {
+  PedidoItemsItemComponent
+} from '../components/pedido-items-item/pedido-items-item';
+import {DolarProvider} from '../providers/dolar/dolar';
+import {
+  SucursalStockProvider
+} from '../providers/sucursal-stock/sucursal-stock';
 
 export const environment = {
   production: false,
@@ -98,7 +107,8 @@ export const environment = {
     PedidoHeaderAddItemComponent,
     PerfilesFindAndSelectComponent,
     ColoresFindAndSelectComponent,
-    PedidoItemsItemComponent
+    PedidoItemsItemComponent,
+    ClientesDetallePage
   ],
   imports: [
     BrowserModule,
@@ -122,7 +132,8 @@ export const environment = {
     ProductosPerfilesListPage,
     PedidosNewPage,
     PerfilesFindAndSelectComponent,
-    ColoresFindAndSelectComponent
+    ColoresFindAndSelectComponent,
+    ClientesDetallePage
   ],
   providers: [
     StatusBar,
@@ -133,7 +144,9 @@ export const environment = {
     UsuarioProvider,
     ProductosProvider,
     ColoresProvider,
-    SucursalPedidosProvider
+    SucursalPedidosProvider,
+    DolarProvider,
+    SucursalStockProvider
   ]
 })
 export class AppModule {

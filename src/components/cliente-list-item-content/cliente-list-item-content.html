@@ -2,11 +2,11 @@
   <div item-start text-center>
      <h1 >{{cliente?.id | number:'3.0-0'}} </h1>
   </div> 
-  <div>
+  <div  (click)="goCliente()" class="button">
     <h2 item-start>{{cliente?.Nombre}} <span *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos[0].Numero != null))"> - Tel: {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</span></h2>
     <h3>{{cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Direccion?.Provincia}}</h3>
   </div>
   <div item-end *ngIf="isShowActions">
-    <cliente-action-tool-bar [color]="color" [cliente]="cliente"></cliente-action-tool-bar>
+    <cliente-action-tool-bar [color]="color" (onVer)="goCliente()" [cliente]="cliente"></cliente-action-tool-bar>
   </div>
 </ion-item>

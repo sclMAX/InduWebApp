@@ -8,7 +8,7 @@
       <ion-icon name="at"></ion-icon>
     </a>
     <div ion-button icon-only style="width: 10px; pointer-events: none;"></div>
-    <button ion-button icon-only><ion-icon name="icon-ind_user" ></ion-icon></button>
+    <button ion-button icon-only (click)="goCliente()"><ion-icon name="icon-ind_user" ></ion-icon></button>
     <button ion-button icon-only (click)="goClienteUpdate(cliente)"><ion-icon name="icon-ind_user-check" ></ion-icon></button>
     <button *ngIf="!cliente.Documentos" ion-button icon-only (click)="removeCliente(cliente)"><ion-icon name="icon-ind_user-remove" ></ion-icon></button>
   </ion-buttons>

@@ -1,3 +1,6 @@
+import {
+  SucursalStockProvider
+} from './../../providers/sucursal-stock/sucursal-stock';
 import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
 import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
 import {ProductosHomePage} from './../productos/productos-home/productos-home';
@@ -27,6 +30,4 @@ export class HomePage {
   public goRespartos() { this.navCtrl.push(RepartosHomePage); }
 
   public goFondos() { this.navCtrl.push(FondosHomePage); }
-
-  // ionViewDidEnter() { this.title = currentSucursal; }
 }

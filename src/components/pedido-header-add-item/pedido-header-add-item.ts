@@ -1,11 +1,19 @@
 import {
+  SucursalStockProvider
+} from './../../providers/sucursal-stock/sucursal-stock';
+import {
   ColoresFindAndSelectComponent
 } from './../colores-find-and-select/colores-find-and-select';
 import {ColoresProvider} from './../../providers/colores/colores';
 import {
   PerfilesFindAndSelectComponent
 } from './../perfiles-find-and-select/perfiles-find-and-select';
-import {ModalController, AlertController} from 'ionic-angular';
+import {
+  ModalController,
+  AlertController,
+  LoadingController,
+  ToastController
+} from 'ionic-angular';
 import {ProductosProvider} from './../../providers/productos/productos';
 import {Perfil, Color} from './../../models/productos.clases';
 import {PedidoItem} from './../../models/pedidos.clases';
@@ -23,7 +31,10 @@ export class PedidoHeaderAddItemComponent {
 
   constructor(private productosP: ProductosProvider,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController) {}
+              private alertCtrl: AlertController,
+              private loadCtrl: LoadingController,
+              private stockP: SucursalStockProvider,
+              private toastCtrl: ToastController) {}
   goSelectCantidad() {
     let alert = this.alertCtrl.create({
       title: 'Cantidad',
@@ -78,6 +89,60 @@ export class PedidoHeaderAddItemComponent {
   }
 
   addItem() {
+    let load = this.loadCtrl.create({content: 'Consultando Stock...'});
+    let toast = this.toastCtrl.create({
+      message: 'Error de conexion!...Intente nuevamente.',
+      position: 'middle',
+      showCloseButton: true
+    });
+    load.present().then(() => {
+      this.stockP.getStockDisponible(this.newItem.Perfil.id,
+                                     this.newItem.Color.id)
+          .subscribe(
+              (stockDisponnible) => {
+                if (this.newItem.Cantidad > stockDisponnible) {
+                  this.stockP.getStock(this.newItem.Perfil.id,
+                                       this.newItem.Color.id)
+                      .subscribe(
+                          (stock) => {
+                            load.dismiss();
+                            let alert = this.alertCtrl.create({
+                              title: 'Stock No Disponible!',
+                              subTitle:
+                                  'No hay suficiente stock en el color solicitado.',
+                              buttons: [
+                                {text: 'Cancelar', role: 'cancel'},
+                                {
+                                  text: 'Aceptar',
+                                  role: 'ok',
+                                  handler: () => { this.emitItem(); }
+                                }
+
+                              ]
+                            });
+                            alert.setMessage(
+                                `Cantidad Pedida: ${this.newItem.Cantidad}<br>
+                                Stock Disponible: ${stockDisponnible} (${stockDisponnible - this.newItem.Cantidad })<br>
+                                Stock Total: ${stock} (${stock - this.newItem.Cantidad })<br>
+                                `);
+                            alert.present();
+                          },
+                          (error) => {
+                            load.dismiss();
+                            toast.present();
+                          });
+                } else {
+                  load.dismiss();
+                  this.emitItem();
+                }
+              },
+              (error) => {
+                load.dismiss();
+                toast.present();
+              });
+    });
+  }
+  private emitItem() {
     this.currentColor = this.newItem.Color;
     this.onNewItem.emit(this.newItem);
     this.newItem = new PedidoItem();

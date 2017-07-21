@@ -13,7 +13,7 @@ import {DocumentosAddPage} from '../../documentos/documentos-add/documentos-add'
 export class ClientesHomePage {
   clientes: Cliente[];
   filterClientes: Cliente[];
-  showComandos: boolean = false;
+  showComandos: boolean = true;
 
   constructor(
       public navCtrl: NavController, public navParams: NavParams,

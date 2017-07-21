@@ -3,21 +3,36 @@
     <ion-list-header color="scroll-content" no-lines fixed>
       <pedido-header-edit [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
     </ion-list-header>
-    <pedido-items-item [(items)]="pedido.Items"  ></pedido-items-item>
+    <pedido-items-item [(items)]="pedido.Items"></pedido-items-item>
   </ion-list>
+  <ion-fab top left>
+    <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
+  </ion-fab>
+  <ion-fab top right>
+    <button ion-fab color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+  </ion-fab>
 </ion-content>
 <ion-footer text-center>
-  <ion-row>
-    <ion-col>
-      <button ion-button color="light" (click)="goBack()">Cancelar</button>
-    </ion-col>
-    <button ion-button color="primary" [disabled]="!isValid()" (click)="onGuardar()">Guardar</button>
-    <ion-col>
-      {{calTotalU$() |number:'1.2-2'}}
-    </ion-col>
-    <ion-col>
-      {{totalUnidades|number:'1.2-2'}}
-    </ion-col>
-  </ion-row>
+  <ion-item color="footer">
+    <div item-start>
+      Ref: U$ 1 = ${{dolarValor |number:'1.3-3'}}
+    </div>
+    <div item-end>
+      {{calTotalBarras()|number}} Barras
+    </div>
+    <div item-end style="min-width: 10px;"></div>
+    <div item-end>
+      {{calTotalUnidades()|number:'1.2-2'}}kg.
+    </div>
+    <div item-end style="min-width: 10px;"></div>
+    <div item-end>
+      U${{calTotalU$() |number:'1.2-2'}}
+    </div>
+    <div item-end style="min-width: 10px;"></div>
+    <div item-end>
+      ${{(calTotalU$() * dolarValor) |number:'1.2-2'}}
+    </div>
+  </ion-item>
+
 
 </ion-footer>

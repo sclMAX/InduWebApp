@@ -6,7 +6,7 @@ import {
 } from './../../pages/clientes/clientes-add/clientes-add';
 import {ClientesProvider} from './../../providers/clientes/clientes';
 import {Cliente} from './../../models/clientes.clases';
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {
   AlertController,
   NavController,
@@ -22,6 +22,7 @@ import {
 export class ClienteActionToolBarComponent {
   @Input('cliente') cliente: Cliente;
   @Input('color') color: string;
+  @Output() onVer: EventEmitter<Cliente> = new EventEmitter<Cliente>();
 
   constructor(private alertCtrl: AlertController,
               private navCtrl: NavController,
@@ -41,6 +42,8 @@ export class ClienteActionToolBarComponent {
     alert.setMessage(msg);
     alert.present();
   }
+
+  goCliente() { this.onVer.emit(this.cliente); }
 
   public newPedido(cliente: Cliente) {
     this.navCtrl.push(PedidosNewPage, {Cliente: cliente});

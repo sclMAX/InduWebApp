@@ -1,3 +1,5 @@
+import { ClientesDetallePage } from './../../pages/clientes/clientes-detalle/clientes-detalle';
+import { NavController } from 'ionic-angular';
 import {Cliente} from './../../models/clientes.clases';
 import {Component, Input} from '@angular/core';
 
@@ -9,5 +11,9 @@ export class ClienteListItemContentComponent {
   @Input('cliente') cliente: Cliente;
   @Input('color') color: string;
   @Input('showActions') isShowActions: boolean = true;
-  constructor() {}
+  constructor(public navCtrl:NavController) {}
+
+  goCliente(){
+    this.navCtrl.push(ClientesDetallePage, {Cliente: this.cliente});
+  }
 }
