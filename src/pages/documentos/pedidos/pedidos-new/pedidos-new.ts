@@ -1,15 +1,9 @@
-import {
-  SucursalPedidosProvider
-} from './../../../../providers/sucursal-pedidos/sucursal-pedidos';
-import {Pedido} from './../../../../models/pedidos.clases';
-import {Cliente} from './../../../../models/clientes.clases';
 import {Component} from '@angular/core';
-import {
-  NavController,
-  NavParams,
-  LoadingController,
-  ToastController
-} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+
+import {Cliente} from './../../../../models/clientes.clases';
+import {Pedido, PedidoItem} from './../../../../models/pedidos.clases';
+import {SucursalPedidosProvider} from './../../../../providers/sucursal-pedidos/sucursal-pedidos';
 
 @Component({
   selector: 'page-pedidos-new',
@@ -19,11 +13,12 @@ export class PedidosNewPage {
   cliente: Cliente;
   pedido: Pedido;
   isEdit: boolean = false;
+  totalUnidades: number = 0.00;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private sucPedP: SucursalPedidosProvider,
-              private loadCtrl: LoadingController,
-              private toastCtrl: ToastController) {
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private sucPedP: SucursalPedidosProvider,
+      private loadCtrl: LoadingController, private toastCtrl: ToastController) {
     this.cliente = this.navParams.get('Cliente');
     this.pedido = this.navParams.get('Pedido');
     if (this.cliente) {
@@ -34,8 +29,9 @@ export class PedidosNewPage {
         this.pedido.idCliente = this.cliente.id;
         this.pedido.DireccionEntrega = this.cliente.Direccion;
         this.isEdit = false;
-        this.sucPedP.getCurrentNro().subscribe(
-            (data: number) => { this.pedido.Numero = data; });
+        this.sucPedP.getCurrentNro().subscribe((data: number) => {
+          this.pedido.Numero = data;
+        });
       }
     } else {
       this.navCtrl.pop();
@@ -52,6 +48,7 @@ export class PedidosNewPage {
       this.sucPedP.add(this.pedido)
           .subscribe(
               (ok) => {
+                console.log('OK');
                 this.navCtrl.pop();
                 load.dismiss();
                 toast.setMessage(ok);
@@ -66,16 +63,18 @@ export class PedidosNewPage {
     });
   }
 
-  goBack() { this.navCtrl.pop(); }
+  goBack() {
+    this.navCtrl.pop();
+  }
 
   isDireccionValid(): boolean {
     let estado: boolean = false;
     estado = (this.pedido.DireccionEntrega.Calle) &&
-             (this.pedido.DireccionEntrega.Calle.trim().length > 0);
+        (this.pedido.DireccionEntrega.Calle.trim().length > 0);
     estado = estado && (this.pedido.DireccionEntrega.Localidad) &&
-             (this.pedido.DireccionEntrega.Localidad.trim().length > 0);
+        (this.pedido.DireccionEntrega.Localidad.trim().length > 0);
     estado = estado && (this.pedido.FechaEntrega) &&
-             (this.pedido.FechaEntrega.trim().length > 0);
+        (this.pedido.FechaEntrega.trim().length > 0);
     return estado;
   }
 
@@ -85,5 +84,33 @@ export class PedidosNewPage {
     estado = estado && this.isDireccionValid();
     estado = estado && this.pedido.idCliente > 0;
     return estado;
+  }
+  calUnidades(i: PedidoItem): number {
+    let u: number = 0.00;
+    let pxm: number =
+        (i.Color.isPintura) ? i.Perfil.PesoPintado : i.Perfil.PesoNatural;
+    u = i.Cantidad * (pxm * (i.Perfil.Largo / 1000));
+    return u;
+  }
+  calPrecioU$(i: PedidoItem): number {
+    let p: number = 0.00;
+    p = i.Color.PrecioUs;
+    return p;
+  }
+  calSubTotalU$(i: PedidoItem): number {
+    let s: number = 0.00;
+    s = this.calUnidades(i) * this.calPrecioU$(i);
+    return s;
+  }
+  calTotalU$(): number {
+    let tU$: number = 0.00;
+    this.totalUnidades = 0.00;
+    if (this.pedido && this.pedido.Items) {
+      this.pedido.Items.forEach((i) => {
+        tU$ += this.calSubTotalU$(i);
+        this.totalUnidades += this.calUnidades(i);
+      });
+      }
+    return tU$;
   }
 }

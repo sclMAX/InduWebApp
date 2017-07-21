@@ -62,6 +62,7 @@ import {
 import {
   SucursalPedidosProvider
 } from '../providers/sucursal-pedidos/sucursal-pedidos';
+import { PedidoItemsItemComponent } from '../components/pedido-items-item/pedido-items-item';
 
 export const environment = {
   production: false,
@@ -96,7 +97,8 @@ export const environment = {
     PedidoHeaderEditComponent,
     PedidoHeaderAddItemComponent,
     PerfilesFindAndSelectComponent,
-    ColoresFindAndSelectComponent
+    ColoresFindAndSelectComponent,
+    PedidoItemsItemComponent
   ],
   imports: [
     BrowserModule,

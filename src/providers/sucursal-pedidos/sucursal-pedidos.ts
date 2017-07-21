@@ -32,7 +32,7 @@ export class SucursalPedidosProvider {
                           },
                           (addPedidoError) => {
                             obs.error(
-                                `ERROR INESPERADO... Se guardo el pedido con ERRORES, ANOTE el codio [P${pedido.id}C${pedido.idCliente}PN${Nro}] y contacte al Adiminsitrador!`);
+                                `ERROR INESPERADO[Clientes Add Pedido:${addPedidoError}]... Se guardo el pedido con ERRORES, ANOTE el codio [P${pedido.id}C${pedido.idCliente}PN${Nro}] y contacte al Adiminsitrador!`);
                             obs.complete();
                           });
                     },
@@ -45,7 +45,7 @@ export class SucursalPedidosProvider {
                           },
                           (removeError) => {
                             obs.error(
-                                `ERROR INESPERADO... Se guardo el pedido con ERRORES, ANOTE el codio [P${pedido.id}C${pedido.idCliente}PN${Nro}] y contacte al Adiminsitrador!`);
+                                `ERROR INESPERADO [SetContador:${removeError}]... Se guardo el pedido con ERRORES, ANOTE el codio [P${pedido.id}C${pedido.idCliente}PN${Nro}] y contacte al Adiminsitrador!`);
                             obs.complete();
                           });
                     });

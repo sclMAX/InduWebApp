@@ -1,0 +1,26 @@
+<div>
+  <ion-item color="toolBar" no-lines>
+    <ion-row>
+      <ion-col>CANTIDAD</ion-col>
+      <ion-col>CODIGO</ion-col>
+      <ion-col>COLOR</ion-col>
+      <ion-col>LARGO</ion-col>
+      <ion-col>UNIDADES</ion-col>
+      <ion-col>PRECIO (U$)</ion-col>
+      <ion-col>SUBTOTAL (U$)</ion-col>
+    </ion-row>
+    <button item-end ion-fab mini color="dark" ><ion-icon  name="help" ></ion-icon> </button>
+  </ion-item>
+  <ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of items;let idx=index; let p=even" no-lines>
+    <ion-row>
+      <ion-col>{{item?.Cantidad}}</ion-col>
+      <ion-col>{{item?.Perfil?.Codigo}}</ion-col>
+      <ion-col>{{item?.Color.Nombre}}</ion-col>
+      <ion-col>{{item?.Perfil?.Largo}}</ion-col>
+      <ion-col>{{calUnidades(item)|number:'1.2-2'}}Kg</ion-col>
+      <ion-col>U$ {{calPrecioU$(item)|number:'1.2-2'}}</ion-col>
+      <ion-col>U$ {{calSubTotalU$(item)|number:'1.2-2'}}</ion-col>
+    </ion-row>
+    <button item-end ion-fab mini color="danger" (click)="removeItem(idx)"><ion-icon  name="remove" ></ion-icon> </button>
+  </ion-item>  
+</div>

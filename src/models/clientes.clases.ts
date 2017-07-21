@@ -8,9 +8,9 @@ export class Cliente {
   Comentarios: string = '';
 }
 
-export interface ClientePedido { id: number; }
+export interface ClientePedido { id: boolean; }
 
-export class ClienteDocumentos { Pedidos: ClientePedido[] = []; }
+export class ClienteDocumentos { Pedidos: ClientePedido; }
 
 export class Telefono {
   Numero: string;

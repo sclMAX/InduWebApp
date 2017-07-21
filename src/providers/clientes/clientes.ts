@@ -1,14 +1,10 @@
-import {Pedido} from './../../models/pedidos.clases';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-
 import {Cliente} from '../../models/clientes.clases';
-import {
-  COMUN_CONTADORES,
-  COMUN_CONTADORES_CLIENTES
-} from '../../models/db-base-paths';
+import {COMUN_CONTADORES, COMUN_CONTADORES_CLIENTES} from '../../models/db-base-paths';
 import {SUC_CLIENTES_ROOT} from '../sucursal/sucursal';
+import {Pedido} from './../../models/pedidos.clases';
 
 @Injectable()
 export class ClientesProvider {
@@ -81,33 +77,18 @@ export class ClientesProvider {
   public addPedido(pedido: Pedido): Observable<boolean> {
     return new Observable((obs) => {
       if (pedido && pedido.idCliente > 0) {
-        let getOne =
-            this.getOne(pedido.idCliente)
-                .subscribe(
-                    (cliente) => {
-                      console.log('AddPedido.Cliente:', cliente, ' Pedido:',
-                                  pedido);
-                                  CONTINUAR AQUI!!
-                                  No funciona porque no esta definido el array aun!
-                      cliente.Documentos.Pedidos.push({id: pedido.Numero});
-                      getOne.unsubscribe();
-                      let update = this.update(cliente).subscribe(
-                          (updateOk) => {
-                            obs.next(true);
-                            update.unsubscribe();
-                            obs.complete();
-                          },
-                          (updateError) => {
-                            obs.error(updateError);
-                            update.unsubscribe();
-                            obs.complete();
-                          });
-                    },
-                    (error) => {
-                      obs.error(error);
-                      getOne.unsubscribe();
-                      obs.complete();
-                    });
+        this.db.database
+            .ref(`${SUC_CLIENTES_ROOT
+                 }${pedido.idCliente}/Documentos/Pedidos/${pedido.id}`)
+            .set(true)
+            .then((ok) => {
+              obs.next(true);
+              obs.complete();
+            })
+            .catch((error) => {
+              obs.error(error);
+              obs.complete();
+            });
       } else {
         obs.error('Id Cliente Incorrecto!');
         obs.complete();
@@ -161,14 +142,13 @@ export class ClientesProvider {
 
   public getCurrentNewId(): Observable<number> {
     return new Observable((obs) => {
-      this.db.object(`${COMUN_CONTADORES}`)
-          .subscribe((cont) => {
-            if (cont.Clientes >= 0) {
-              obs.next(cont.Clientes + 1);
-            } else {
-              obs.error('Contador Clientes no Encontrado!');
-            }
-          });
+      this.db.object(`${COMUN_CONTADORES}`).subscribe((cont) => {
+        if (cont.Clientes >= 0) {
+          obs.next(cont.Clientes + 1);
+        } else {
+          obs.error('Contador Clientes no Encontrado!');
+        }
+      });
     });
   }
 
@@ -197,9 +177,10 @@ export class ClientesProvider {
       this.getAll().subscribe(
           (clientes) => {
             let c = clientes.find(item => {
-              return ((item.Nombre.trim().toLocaleLowerCase() ===
-                       cliente.Nombre.trim().toLocaleLowerCase()) &&
-                      (item.id != cliente.id));
+              return (
+                  (item.Nombre.trim().toLocaleLowerCase() ===
+                   cliente.Nombre.trim().toLocaleLowerCase()) &&
+                  (item.id != cliente.id));
             });
             if (c && c.id >= 0) {
               obs.next(false);

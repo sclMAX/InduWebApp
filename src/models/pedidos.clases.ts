@@ -1,12 +1,13 @@
 import {Direccion} from './clientes.clases';
-import {Perfil, Color} from './productos.clases';
 import {Documento} from './documentos.class';
+import {Color, Perfil} from './productos.clases';
+
 export class Pedido extends Documento {
   FechaEntrega: string = new Date().toISOString();
   DireccionEntrega: Direccion;
   isEntregado: boolean = false;
   Items: PedidoItem[] = [];
-}
+  }
 
 export class PedidoItem {
   Cantidad: number;
@@ -17,4 +18,5 @@ export class PedidoItem {
   Descuento: number;
   isEmbalado: boolean = false;
   isStockActualizado: boolean = false;
+
 }
