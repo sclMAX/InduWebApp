@@ -1,0 +1,25 @@
+<div>
+  <ion-card color="toolBar">
+    <ion-item color="toolBar">
+      <ion-icon item-start name="icon-ind_new-document"></ion-icon>
+      Pedidos Pendientes ({{pedidos?.length}})
+      <button ion-fab mini item-end color="subToolBar" (click)="showList = !showList">
+         <ion-icon *ngIf="!showList" name="arrow-down"></ion-icon>
+         <ion-icon *ngIf="showList" name="arrow-up"></ion-icon>
+      </button>
+
+    </ion-item>
+    <ion-list *ngIf="!cliente && showList">
+      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido, getCliente(pedido.idCliente))">
+        {{pedido.Numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.Nombre}}
+        <ion-icon item-end name="more"></ion-icon>
+      </button>
+    </ion-list>
+    <ion-list *ngIf="cliente && showList">
+      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido, cliente)">
+        {{pedido.Numero | number:'3.0-0'}} - {{pedido.FechaEntrega | date:'dd/MM/yyyy'}}
+        <ion-icon item-end name="more"></ion-icon>
+      </button>
+    </ion-list>
+  </ion-card>
+</div>

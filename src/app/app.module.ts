@@ -72,6 +72,7 @@ import {DolarProvider} from '../providers/dolar/dolar';
 import {
   SucursalStockProvider
 } from '../providers/sucursal-stock/sucursal-stock';
+import { PedidosPendientesCardComponent } from '../components/pedidos-pendientes-card/pedidos-pendientes-card';
 
 export const environment = {
   production: false,
@@ -108,7 +109,8 @@ export const environment = {
     PerfilesFindAndSelectComponent,
     ColoresFindAndSelectComponent,
     PedidoItemsItemComponent,
-    ClientesDetallePage
+    ClientesDetallePage,
+    PedidosPendientesCardComponent
   ],
   imports: [
     BrowserModule,

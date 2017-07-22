@@ -1,18 +1,11 @@
-import {DolarProvider} from './../../../../providers/dolar/dolar';
-import {Observable} from 'rxjs/Observable';
 import {Component} from '@angular/core';
-import {
-  LoadingController,
-  NavController,
-  NavParams,
-  ToastController
-} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {Observable} from 'rxjs/Observable';
 
 import {Cliente} from './../../../../models/clientes.clases';
 import {Pedido, PedidoItem} from './../../../../models/pedidos.clases';
-import {
-  SucursalPedidosProvider
-} from './../../../../providers/sucursal-pedidos/sucursal-pedidos';
+import {DolarProvider} from './../../../../providers/dolar/dolar';
+import {SucursalPedidosProvider} from './../../../../providers/sucursal-pedidos/sucursal-pedidos';
 
 @Component({
   selector: 'page-pedidos-new',
@@ -21,26 +14,28 @@ import {
 export class PedidosNewPage {
   cliente: Cliente;
   pedido: Pedido;
+  oldPedido: Pedido;
   isEdit: boolean = false;
   dolarValor: number = 0.00;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private sucPedP: SucursalPedidosProvider,
-              private dolarP: DolarProvider,
-              private loadCtrl: LoadingController,
-              private toastCtrl: ToastController) {
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private sucPedP: SucursalPedidosProvider, private dolarP: DolarProvider,
+      private loadCtrl: LoadingController, private toastCtrl: ToastController) {
     this.cliente = this.navParams.get('Cliente');
-    this.pedido = this.navParams.get('Pedido');
+    this.oldPedido = this.navParams.get('Pedido');
     if (this.cliente) {
-      if (this.pedido) {
+      if (this.oldPedido) {
         this.isEdit = true;
+        this.pedido = JSON.parse(JSON.stringify(this.oldPedido));
       } else {
         this.pedido = new Pedido();
         this.pedido.idCliente = this.cliente.id;
         this.pedido.DireccionEntrega = this.cliente.Direccion;
         this.isEdit = false;
-        this.sucPedP.getCurrentNro().subscribe(
-            (data: number) => { this.pedido.Numero = data; });
+        this.sucPedP.getCurrentNro().subscribe((data: number) => {
+          this.pedido.Numero = data;
+        });
       }
     } else {
       this.navCtrl.pop();
@@ -51,38 +46,57 @@ export class PedidosNewPage {
   ionViewDidLoad() {}
 
   onGuardar() {
+    this.oldPedido = this.pedido;
     let load = this.loadCtrl.create({content: 'Guardando...'});
     let toast =
         this.toastCtrl.create({position: 'middle', showCloseButton: true});
     load.present().then(() => {
-      this.sucPedP.add(this.pedido)
-          .subscribe(
-              (ok) => {
-                console.log('OK');
-                this.navCtrl.pop();
-                load.dismiss();
-                toast.setMessage(ok);
-                toast.setDuration(2000);
-                toast.present();
-              },
-              (error) => {
-                load.dismiss();
-                toast.setMessage(error);
-                toast.present();
-              });
+      if (this.isEdit) {
+        this.sucPedP.update(this.oldPedido)
+            .subscribe(
+                (ok) => {
+                  this.navCtrl.pop();
+                  load.dismiss();
+                  toast.setMessage(ok);
+                  toast.setDuration(2000);
+                  toast.present();
+                },
+                (error) => {
+                  load.dismiss();
+                  toast.setMessage(error);
+                  toast.present();
+                });
+      } else {
+        this.sucPedP.add(this.oldPedido)
+            .subscribe(
+                (ok) => {
+                  this.navCtrl.pop();
+                  load.dismiss();
+                  toast.setMessage(ok);
+                  toast.setDuration(2000);
+                  toast.present();
+                },
+                (error) => {
+                  load.dismiss();
+                  toast.setMessage(error);
+                  toast.present();
+                });
+      }
     });
   }
 
-  goBack() { this.navCtrl.pop(); }
+  goBack() {
+    this.navCtrl.pop();
+  }
 
   isDireccionValid(): boolean {
     let estado: boolean = false;
     estado = (this.pedido.DireccionEntrega.Calle) &&
-             (this.pedido.DireccionEntrega.Calle.trim().length > 0);
+        (this.pedido.DireccionEntrega.Calle.trim().length > 0);
     estado = estado && (this.pedido.DireccionEntrega.Localidad) &&
-             (this.pedido.DireccionEntrega.Localidad.trim().length > 0);
+        (this.pedido.DireccionEntrega.Localidad.trim().length > 0);
     estado = estado && (this.pedido.FechaEntrega) &&
-             (this.pedido.FechaEntrega.trim().length > 0);
+        (this.pedido.FechaEntrega.trim().length > 0);
     return estado;
   }
 
@@ -94,12 +108,13 @@ export class PedidosNewPage {
     return estado;
   }
 
-  calTotalU$(): number { return this.sucPedP.calTotalU$(this.pedido.Items); }
+  calTotalU$(): number {
+    return this.sucPedP.calTotalU$(this.pedido.Items);
+    }
 
-  async getDolarValor() {
-    this.dolarP.getDolarValor()
-        .subscribe((val: number) => { this.dolarValor = val; })
-  }
+  async getDolarValor(){this.dolarP.getDolarValor().subscribe((val: number) => {
+    this.dolarValor = val;
+  })}
 
   calTotalUnidades(): number {
     return this.sucPedP.calTotalUnidades(this.pedido.Items);

@@ -1,6 +1,5 @@
 import {SUC_STOCK_ROOT} from './../sucursal/sucursal';
 import {Observable} from 'rxjs/Observable';
-import {Perfil} from './../../models/productos.clases';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
 @Injectable()
