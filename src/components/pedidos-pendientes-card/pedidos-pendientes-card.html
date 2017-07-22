@@ -1,9 +1,9 @@
 <div>
   <ion-card color="toolBar">
-    <ion-item color="toolBar">
+    <ion-item color="toolBar" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
       Pedidos Pendientes ({{pedidos?.length}})
-      <button ion-fab mini item-end color="subToolBar" (click)="showList = !showList">
+      <button *ngIf="pedidos && pedidos.length > 0" ion-fab mini item-end color="subToolBar" >
          <ion-icon *ngIf="!showList" name="arrow-down"></ion-icon>
          <ion-icon *ngIf="showList" name="arrow-up"></ion-icon>
       </button>

@@ -1,6 +1,3 @@
-import {
-  SucursalStockProvider
-} from './../../providers/sucursal-stock/sucursal-stock';
 import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
 import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
 import {ProductosHomePage} from './../productos/productos-home/productos-home';

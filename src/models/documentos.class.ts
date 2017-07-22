@@ -1,4 +1,3 @@
-import {Dolar} from './fondos.clases';
 import {Color, Perfil} from './productos.clases';
 
 export class Documento {

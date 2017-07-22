@@ -1,10 +1,10 @@
 <ion-item [color]="color">
   <div item-start text-center>
-     <h1 >{{cliente?.id | number:'3.0-0'}} </h1>
-  </div> 
-  <div  (click)="goCliente()" class="button">
+    <h1>{{cliente?.id | number:'3.0-0'}} </h1>
+  </div>
+  <div  (click)="goCliente()" style="pointer-events:auto;cursor: pointer;">
     <h2 item-start>{{cliente?.Nombre}} <span *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos[0].Numero != null))"> - Tel: {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</span></h2>
-    <h3>{{cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Direccion?.Provincia}}</h3>
+    <p>{{cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Direccion?.Provincia}}</p>
   </div>
   <div item-end *ngIf="isShowActions">
     <cliente-action-tool-bar [color]="color" (onVer)="goCliente()" [cliente]="cliente"></cliente-action-tool-bar>

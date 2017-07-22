@@ -4,16 +4,12 @@ import {Observable} from 'rxjs/Observable';
 
 import {Pedido, PedidoItem} from './../../models/pedidos.clases';
 import {SucursalContadores} from './../../models/sucursal.clases';
-import {ClientesProvider} from './../clientes/clientes';
 import {DolarProvider} from './../dolar/dolar';
-import {SucursalStockProvider} from './../sucursal-stock/sucursal-stock';
 import {SUC_CONTADORES_ROOT, SUC_DOCUMENTOS_PEDIDOS} from './../sucursal/sucursal';
 
 @Injectable()
 export class SucursalPedidosProvider {
-  constructor(
-      private db: AngularFireDatabase, private clientesP: ClientesProvider,
-      private dolarP: DolarProvider, private stockP: SucursalStockProvider) {}
+  constructor(private db: AngularFireDatabase, private dolarP: DolarProvider) {}
 
   public getAllCliente(idCliente: number): Observable<Pedido[]> {
     return new Observable((obs) => {
@@ -23,7 +19,6 @@ export class SucursalPedidosProvider {
               {query: {orderByChild: 'idCliente', equalTo: idCliente}})
           .subscribe(
               (data: Pedido[]) => {
-                console.log('PEDIDOS:', data);
                 obs.next(data);
               },
               (error) => {
@@ -48,6 +43,32 @@ export class SucursalPedidosProvider {
     });
   }
 
+  public getOne(Nro: number): Observable<Pedido> {
+    return new Observable((obs) => {
+      this.db.object(`${SUC_DOCUMENTOS_PEDIDOS}${Nro}`)
+          .subscribe(
+              (data: Pedido) => {
+                obs.next(data);
+              },
+              (error) => {
+                obs.error(error);
+              });
+    });
+  }
+
+  public getItemsPedido(Nro: number): Observable<PedidoItem[]> {
+    return new Observable((obs) => {
+      this.db.list(`${SUC_DOCUMENTOS_PEDIDOS}${Nro}/Items`)
+          .subscribe(
+              (data: PedidoItem[]) => {
+                obs.next(data);
+              },
+              (error) => {
+                obs.error(error);
+              });
+    });
+  }
+
   public add(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
       let Nro: number = pedido.Numero;
@@ -58,7 +79,6 @@ export class SucursalPedidosProvider {
             this.setContador(pedido.Numero)
                 .subscribe(
                     (setContadorOk) => {
-                      this.updateStockDisponible(0, pedido.Items, false);
                       obs.next(`Se guardo correctamete el pedido N: 00${Nro}`);
                       obs.complete();
                     },
@@ -94,26 +114,11 @@ export class SucursalPedidosProvider {
             obs.next('Pedido actualizado correctamente!');
             obs.complete();
           })
-          .catch(
-              (error) => {
-                obs.error(`Error al intentes actualizar!... ERROR: ${error}`);
-                obs.complete();
-              });
+          .catch((error) => {
+            obs.error(`Error al intentes actualizar!... ERROR: ${error}`);
+            obs.complete();
+          });
     });
-  }
-
-  private updateStockDisponible(
-      idx: number, items: PedidoItem[], inc: boolean = false) {
-    this.stockP
-        .setStockDisponible(
-            items[idx].Perfil.id, items[idx].Color.id,
-            (inc) ? (items[idx].Cantidad) : (items[idx].Cantidad * -1))
-        .subscribe((ok) => {}, (error) => {}, () => {
-          idx++;
-          if (idx < items.length) {
-            this.updateStockDisponible(idx, items, inc);
-          }
-        });
   }
 
   private remove(pedido: Pedido): Observable<string> {

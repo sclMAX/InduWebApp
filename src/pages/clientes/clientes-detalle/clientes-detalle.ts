@@ -29,7 +29,6 @@ export class ClientesDetallePage {
   private async getPedidos() {
     this.pedidosP.getAllCliente(this.cliente.id)
         .subscribe((pedidos) => {
-          console.log(pedidos);
           this.pedidos = pedidos;
         });
   }

@@ -8,7 +8,7 @@ export class Pedido extends Documento {
   isEntregado: boolean = false;
   isPreparado: boolean = false;
   Items: PedidoItem[] = [];
-}
+  }
 
 export class PedidoItem {
   Cantidad: number;
@@ -19,4 +19,4 @@ export class PedidoItem {
   Descuento: number;
   isEmbalado: boolean = false;
   isStockActualizado: boolean = false;
-}
+  }
