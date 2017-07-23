@@ -14,6 +14,7 @@ export class Linea {
   id: string;
   Nombre: string;
   Descripcion: string;
+  Adicional:number = 0;
   }
 
 //{"id": "string", "idColorPlanta": "string","Nombre": "string","Descripcion":

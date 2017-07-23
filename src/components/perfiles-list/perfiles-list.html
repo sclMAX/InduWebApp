@@ -2,7 +2,7 @@
   <ion-list [color]="color" *ngIf="showImg">
     <button ion-item (click)="onClickItem(perfil)" *ngFor="let perfil of perfiles; let p = even" [color]="(p && colorPar)?colorPar:color" no-lines>
       <ion-thumbnail item-start>
-        <img src="./../../assets/perfiles/80x80/{{perfil.id}}.png" style="background-color:azure;border-radius: 10px;">
+        <img src="http://www.indumatics.com.ar/assets/media/perfiles/xs/{{perfil.id}}.png" style="background-color:azure;border-radius: 10px;">
       </ion-thumbnail>
       <h2>{{perfil?.Codigo}} - <small>(Linea {{perfil?.Linea?.Nombre}})</small></h2>
       <h3>{{perfil?.Descripcion}}</h3>

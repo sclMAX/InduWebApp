@@ -4,18 +4,10 @@ export class Documento {
   id: number;
   Numero: number;
   idCliente: number;
-  Fecha: string = new Date().toISOString();
+  Fecha: string;
   Comentario: string;
-}
-
-export class DocumentoItem {
-  Cantidad: number;
-  Perfil: Perfil;
-  Color: Color;
-  Unidades: number;
-  PrecioUs: number;
-  Descuento: number;
-  isEmbalado: boolean = false;
-  isStockActualizado: boolean = false;
-}
+  constructor() {
+    this.Fecha = new Date().toISOString();
+  }
+  }
 
