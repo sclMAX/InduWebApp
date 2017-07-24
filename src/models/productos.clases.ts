@@ -59,7 +59,6 @@ export class StockEstado {
   }
 
  getDisponible():number {
-    console.log('CALCULA DISPONIBLE!');
     let totalPedidos: number = 0;
     this.pedidos.forEach((item) => {
       totalPedidos += (item.cantidad * 1);

@@ -1,11 +1,25 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {AlertController, LoadingController, ModalController, ToastController} from 'ionic-angular';
+import {
+  AlertController,
+  LoadingController,
+  ModalController,
+  ToastController
+} from 'ionic-angular';
 import {PedidoItem} from './../../models/pedidos.clases';
-import {Color, Perfil, Stock, StockEstado} from './../../models/productos.clases';
+import {
+  Color,
+  Perfil,
+  Stock,
+  StockEstado
+} from './../../models/productos.clases';
 import {ProductosProvider} from './../../providers/productos/productos';
 import {StockProvider} from './../../providers/stock/stock';
-import {ColoresFindAndSelectComponent} from './../colores-find-and-select/colores-find-and-select';
-import {PerfilesFindAndSelectComponent} from './../perfiles-find-and-select/perfiles-find-and-select';
+import {
+  ColoresFindAndSelectComponent
+} from './../colores-find-and-select/colores-find-and-select';
+import {
+  PerfilesFindAndSelectComponent
+} from './../perfiles-find-and-select/perfiles-find-and-select';
 
 @Component({
   selector: 'pedido-header-add-item',
@@ -18,34 +32,40 @@ export class PedidoHeaderAddItemComponent {
   perfiles: Perfil[];
   currentColor: Color;
 
-  constructor(
-      private productosP: ProductosProvider, private modalCtrl: ModalController,
-      private alertCtrl: AlertController, private loadCtrl: LoadingController,
-      private stockP: StockProvider, private toastCtrl: ToastController) {
+  constructor(private productosP: ProductosProvider,
+              private modalCtrl: ModalController,
+              private alertCtrl: AlertController,
+              private loadCtrl: LoadingController,
+              private stockP: StockProvider,
+              private toastCtrl: ToastController) {
     // nada
   }
 
   goSelectCantidad() {
     let alert = this.alertCtrl.create({
       title: 'Cantidad',
-      inputs: [{
-        name: 'Cantidad',
-        placeholder: 'Ingrese la cantida',
-        type: 'number',
-        value: `${this.newItem.Cantidad}`
-      }],
-      buttons: [{
-        text: 'Aceptar',
-        role: 'ok',
-        handler: (data) => {
-          if (data.Cantidad > 0) {
-            this.newItem.Cantidad = data.Cantidad;
-            if (!this.newItem.Perfil) {
-              this.goSelectPerfil();
+      inputs: [
+        {
+          name: 'Cantidad',
+          placeholder: 'Ingrese la cantida',
+          type: 'number',
+          value: `${this.newItem.Cantidad}`
+        }
+      ],
+      buttons: [
+        {
+          text: 'Aceptar',
+          role: 'ok',
+          handler: (data) => {
+            if (data.Cantidad > 0) {
+              this.newItem.Cantidad = data.Cantidad;
+              if (!this.newItem.Perfil) {
+                this.goSelectPerfil();
+              }
             }
           }
         }
-      }]
+      ]
     });
     alert.present();
   }
@@ -92,24 +112,18 @@ export class PedidoHeaderAddItemComponent {
                 title: 'Stock No Disponible!',
                 subTitle: 'No hay suficiente stock en el color solicitado.',
                 buttons: [
-                  {text: 'Cancelar', role: 'cancel'}, {
+                  {text: 'Cancelar', role: 'cancel'},
+                  {
                     text: 'Aceptar',
                     role: 'ok',
-                    handler: () => {
-                      this.emitItem();
-                    }
+                    handler: () => { this.emitItem(); }
                   }
 
                 ]
               });
-              alert.setMessage(
-                  `Cantidad Pedida: ${this.newItem.Cantidad}<br>
-                                Stock Disponible: ${disponible} (${disponible -
-                  this.newItem
-                      .Cantidad})<br>
-                                Stock Total: ${stkEst.stock} (${stkEst.stock -
-                  this.newItem.Cantidad})<br>
-                                `);
+              alert.setMessage(`Cantidad Pedida: ${this.newItem.Cantidad}<br>
+                                Stock Disponible: ${disponible} (${disponible - this.newItem.Cantidad})<br>
+                                Stock Total: ${stkEst.stock} (${stkEst.stock -this.newItem.Cantidad})<br>`);
               alert.present();
             } else {
               load.dismiss();
@@ -131,8 +145,7 @@ export class PedidoHeaderAddItemComponent {
   }
 
   ngOnInit() {
-    this.productosP.getPerfiles().subscribe((data) => {
-      this.perfiles = data;
-    });
+    this.productosP.getPerfiles().subscribe(
+        (data) => { this.perfiles = data; });
   }
 }

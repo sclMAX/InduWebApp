@@ -1,6 +1,4 @@
-import {
-  SucursalPedidosProvider
-} from './../../../providers/sucursal-pedidos/sucursal-pedidos';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {Pedido} from './../../../models/pedidos.clases';
 import {Cliente} from './../../../models/clientes.clases';
 import {Component} from '@angular/core';
@@ -16,7 +14,7 @@ export class ClientesDetallePage {
   pedidosEntregados: Pedido[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private pedidosP: SucursalPedidosProvider) {
+              private pedidosP: PedidosProvider) {
     this.cliente = this.navParams.get('Cliente');
     if (this.cliente) {
       this.title = this.cliente.Nombre;
@@ -28,8 +26,6 @@ export class ClientesDetallePage {
 
   private async getPedidos() {
     this.pedidosP.getAllCliente(this.cliente.id)
-        .subscribe((pedidos) => {
-          this.pedidos = pedidos;
-        });
+        .subscribe((pedidos) => { this.pedidos = pedidos; });
   }
 }

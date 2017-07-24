@@ -8,6 +8,7 @@ export class Pedido extends Documento {
   isEntregado: boolean = false;
   isPreparado: boolean = false;
   Items: PedidoItem[] = [];
+  CantidadPaquetes:number = 0;
 
   constructor() {
     super();

@@ -1,19 +1,15 @@
-import {
-  PedidosEmbalarPage
-} from './../../pages/documentos/pedidos/pedidos-embalar/pedidos-embalar';
-import {Component, Input} from '@angular/core';
-import {NavController} from 'ionic-angular';
-
-import {Cliente} from './../../models/clientes.clases';
 import {Pedido} from './../../models/pedidos.clases';
-import {ClientesProvider} from './../../providers/clientes/clientes';
 import {PedidosProvider} from './../../providers/pedidos/pedidos';
+import {NavController} from 'ionic-angular';
+import {ClientesProvider} from './../../providers/clientes/clientes';
+import {Cliente} from './../../models/clientes.clases';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'pedidos-pendientes-card',
-  templateUrl: 'pedidos-pendientes-card.html'
+  selector: 'pedidos-por-entregar-card',
+  templateUrl: 'pedidos-por-entregar-card.html'
 })
-export class PedidosPendientesCardComponent {
+export class PedidosPorEntregarCardComponent {
   @Input() cliente: Cliente;
   @Input() showList: boolean = false;
   @Input() autoOcultar: boolean = true;
@@ -35,20 +31,20 @@ export class PedidosPendientesCardComponent {
     }
   }
 
-  goPedido(pedido, cliente) {
-    this.navCtrl.push(PedidosEmbalarPage, {Pedido: pedido, Cliente: cliente});
-  }
+  goPedido(pedido, cliente) {}
 
   private async getData() {
     if (this.cliente) {
       this.pedidosP.getAllCliente(this.cliente.id)
           .subscribe((data) => {
-            this.pedidos = data.filter(
-                (pedido) => { return (pedido.isPreparado === false); });
+            this.pedidos = data.filter((pedido) => {
+              return (pedido.isPreparado === true) &&
+                     (pedido.isEntregado === false);
+            });
           });
     } else {
-      this.pedidosP.getPendientesEmbalar(false)
-          .subscribe((pedidos) => { this.pedidos = pedidos; });
+      this.pedidosP.getPendientesEntregar().subscribe(
+          (pedidos) => { this.pedidos = pedidos; });
 
       this.clientesP.getAll().subscribe(
           (clientes) => { this.clientes = clientes; });

@@ -1,0 +1,45 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card color="scroll-content">
+          <ion-item color="dark">
+            <span item-start>{{pedido?.Numero |number:'3.0-0'}}</span>
+            <span item-start>{{cliente?.Nombre}}</span>
+            <span item-end>{{pedido?.Fecha | date:'dd/MM/yyyy'}}</span>
+          </ion-item>
+          <ion-list>
+            <ion-item-divider color="toolBar">PENDIENTE ({{getItemsPendientes().length}})</ion-item-divider>
+            <ion-item *ngFor="let item of getItemsPendientes()" color="scroll-content">
+              <perfiles-perfil-img item-start [perfil]="item.Perfil"></perfiles-perfil-img>
+              <h3>{{item?.Perfil?.Codigo}} - {{item?.Color?.Nombre}} - {{item?.Perfil?.Largo}}</h3>
+              <button item-end ion-fab color="secondary" (click)="setEmbalado(item, true)">{{item?.Cantidad}}</button>
+            </ion-item>
+            <ion-item-divider color="toolBar">EMBALADO ({{getItemsEmbalados().length}})</ion-item-divider>
+            <ion-item *ngFor="let item of getItemsEmbalados()" color="scroll-content">
+              <perfiles-perfil-img item-start [perfil]="item.Perfil"></perfiles-perfil-img>
+              <h3>{{item?.Perfil?.Codigo}} - {{item?.Color?.Nombre}} - {{item?.Perfil?.Largo}}</h3>
+              <button item-end ion-fab color="danger" (click)="setEmbalado(item, false)">{{item?.Cantidad}}</button>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer text-center>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button ion-button color="light" (click)="goBack()">Cancelar</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="secondary" [disabled]="!isModificado || getItemsPendientes().length ==0" (click)="guardar()">Guardar</button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="primary" [disabled]="getItemsPendientes().length !=0" (click)="cerrarPedido()">Cerra Pedido</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

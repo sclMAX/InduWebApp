@@ -1,4 +1,3 @@
-import {Color, Perfil} from './productos.clases';
 
 export class Documento {
   id: number;

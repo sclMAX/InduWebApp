@@ -1,3 +1,6 @@
+import {
+  PedidosEmbalarPage
+} from './../pages/documentos/pedidos/pedidos-embalar/pedidos-embalar';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -8,38 +11,74 @@ import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
-import {ClienteActionToolBarComponent} from '../components/cliente-action-tool-bar/cliente-action-tool-bar';
-import {ClienteListItemContentComponent} from '../components/cliente-list-item-content/cliente-list-item-content';
-import {ColoresFindAndSelectComponent} from '../components/colores-find-and-select/colores-find-and-select';
+import {
+  ClienteActionToolBarComponent
+} from '../components/cliente-action-tool-bar/cliente-action-tool-bar';
+import {
+  ClienteListItemContentComponent
+} from '../components/cliente-list-item-content/cliente-list-item-content';
+import {
+  ColoresFindAndSelectComponent
+} from '../components/colores-find-and-select/colores-find-and-select';
 import {FooterComunComponent} from '../components/footer-comun/footer-comun';
-import {PedidoHeaderAddItemComponent} from '../components/pedido-header-add-item/pedido-header-add-item';
-import {PedidoHeaderEditComponent} from '../components/pedido-header-edit/pedido-header-edit';
-import {PedidoItemsItemComponent} from '../components/pedido-items-item/pedido-items-item';
-import {PedidosPendientesCardComponent} from '../components/pedidos-pendientes-card/pedidos-pendientes-card';
-import {PerfilesFindAndSelectComponent} from '../components/perfiles-find-and-select/perfiles-find-and-select';
+import {
+  PedidoHeaderAddItemComponent
+} from '../components/pedido-header-add-item/pedido-header-add-item';
+import {
+  PedidoHeaderEditComponent
+} from '../components/pedido-header-edit/pedido-header-edit';
+import {
+  PedidoItemsItemComponent
+} from '../components/pedido-items-item/pedido-items-item';
+import {
+  PedidosPendientesCardComponent
+} from '../components/pedidos-pendientes-card/pedidos-pendientes-card';
+import {
+  PerfilesFindAndSelectComponent
+} from '../components/perfiles-find-and-select/perfiles-find-and-select';
 import {PerfilesListComponent} from '../components/perfiles-list/perfiles-list';
-import {PerfilesSearchBarComponent} from '../components/perfiles-search-bar/perfiles-search-bar';
+import {
+  PerfilesSearchBarComponent
+} from '../components/perfiles-search-bar/perfiles-search-bar';
 import {HomePage} from '../pages/home/home';
 import {ClientesProvider} from '../providers/clientes/clientes';
 import {ColoresProvider} from '../providers/colores/colores';
 import {DolarProvider} from '../providers/dolar/dolar';
 import {ProductosProvider} from '../providers/productos/productos';
 import {StockProvider} from '../providers/stock/stock';
-import {SucursalPedidosProvider} from '../providers/sucursal-pedidos/sucursal-pedidos';
+import {PedidosProvider} from '../providers/pedidos/pedidos';
 import {SucursalProvider} from '../providers/sucursal/sucursal';
 import {UsuarioProvider} from '../providers/usuario/usuario';
 
 import {ClientesAddPage} from './../pages/clientes/clientes-add/clientes-add';
-import {ClientesDetallePage} from './../pages/clientes/clientes-detalle/clientes-detalle';
-import {ClientesHomePage} from './../pages/clientes/clientes-home/clientes-home';
-import {DocumentosAddPage} from './../pages/documentos/documentos-add/documentos-add';
-import {PedidosNewPage} from './../pages/documentos/pedidos/pedidos-new/pedidos-new';
+import {
+  ClientesDetallePage
+} from './../pages/clientes/clientes-detalle/clientes-detalle';
+import {
+  ClientesHomePage
+} from './../pages/clientes/clientes-home/clientes-home';
+import {
+  PedidosNewPage
+} from './../pages/documentos/pedidos/pedidos-new/pedidos-new';
 import {FondosHomePage} from './../pages/fondos/fondos-home/fondos-home';
 import {LoginPage} from './../pages/login/login';
-import {ProductosHomePage} from './../pages/productos/productos-home/productos-home';
-import {ProductosPerfilesListPage} from './../pages/productos/productos-perfiles-list/productos-perfiles-list';
-import {RepartosHomePage} from './../pages/repartos/repartos-home/repartos-home';
+import {
+  ProductosHomePage
+} from './../pages/productos/productos-home/productos-home';
+import {
+  ProductosPerfilesListPage
+} from './../pages/productos/productos-perfiles-list/productos-perfiles-list';
+import {
+  RepartosHomePage
+} from './../pages/repartos/repartos-home/repartos-home';
 import {MyApp} from './app.component';
+import {
+  PerfilesPerfilImgComponent
+} from '../components/perfiles-perfil-img/perfiles-perfil-img';
+import {
+  PedidosPorEntregarCardComponent
+} from '../components/pedidos-por-entregar-card/pedidos-por-entregar-card';
+import { AdicionalesProvider } from '../providers/adicionales/adicionales';
 
 export const environment = {
   production: false,
@@ -60,7 +99,6 @@ export const environment = {
     LoginPage,
     ClientesHomePage,
     ClientesAddPage,
-    DocumentosAddPage,
     ClienteActionToolBarComponent,
     ClienteListItemContentComponent,
     ProductosHomePage,
@@ -77,25 +115,49 @@ export const environment = {
     ColoresFindAndSelectComponent,
     PedidoItemsItemComponent,
     ClientesDetallePage,
-    PedidosPendientesCardComponent
+    PedidosPendientesCardComponent,
+    PedidosEmbalarPage,
+    PerfilesPerfilImgComponent,
+    PedidosPorEntregarCardComponent
   ],
   imports: [
-    BrowserModule, IonicModule.forRoot(MyApp),
+    BrowserModule,
+    IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule, AngularFireAuthModule, HttpModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    HttpModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp, HomePage, LoginPage, ClientesHomePage, ClientesAddPage,
-    DocumentosAddPage, ProductosHomePage, RepartosHomePage, FondosHomePage,
-    ProductosPerfilesListPage, PedidosNewPage, PerfilesFindAndSelectComponent,
-    ColoresFindAndSelectComponent, ClientesDetallePage
+    MyApp,
+    HomePage,
+    LoginPage,
+    ClientesHomePage,
+    ClientesAddPage,
+    ProductosHomePage,
+    RepartosHomePage,
+    FondosHomePage,
+    ProductosPerfilesListPage,
+    PedidosNewPage,
+    PerfilesFindAndSelectComponent,
+    ColoresFindAndSelectComponent,
+    ClientesDetallePage,
+    PedidosEmbalarPage
   ],
   providers: [
-    StatusBar, SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}, ClientesProvider,
-    SucursalProvider, UsuarioProvider, ProductosProvider, ColoresProvider,
-    SucursalPedidosProvider, DolarProvider, StockProvider
+    StatusBar,
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ClientesProvider,
+    SucursalProvider,
+    UsuarioProvider,
+    ProductosProvider,
+    ColoresProvider,
+    PedidosProvider,
+    DolarProvider,
+    StockProvider,
+    AdicionalesProvider
   ]
 })
 export class AppModule {

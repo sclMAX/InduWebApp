@@ -1,4 +1,3 @@
-import {Perfil} from './../../models/productos.clases';
 import {Cliente} from './../../models/clientes.clases';
 import {Pedido, PedidoItem} from './../../models/pedidos.clases';
 import {Component, Input} from '@angular/core';

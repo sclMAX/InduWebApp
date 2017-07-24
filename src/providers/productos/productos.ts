@@ -13,7 +13,6 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ProductosProvider {
   private Perfiles: Perfil[];
-  private Colores: Color[];
   private Lineas: Linea[];
 
   constructor(private db: AngularFireDatabase, private http: Http) {}

@@ -1,5 +1,4 @@
 import {Fondos} from './fondos.clases';
-import {Documento} from './documentos.class';
 import {Color} from './productos.clases';
 import {Cliente} from './clientes.clases';
 

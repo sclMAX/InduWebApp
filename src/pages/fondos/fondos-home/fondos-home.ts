@@ -1,3 +1,5 @@
+import { Dolar } from './../../../models/fondos.clases';
+import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 
@@ -6,7 +8,17 @@ import {NavController, NavParams} from 'ionic-angular';
   templateUrl: 'fondos-home.html',
 })
 export class FondosHomePage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  dolar:number;
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private dolarP: DolarProvider) {
+                this.dolarP.getDolarValor().subscribe((val)=>{
+                  this.dolar = val;
+                });
+              }
 
   ionViewDidLoad() {}
+
+  setDolar(valor: number) {
+    this.dolarP.setDolar(valor).subscribe();
+  }
 }

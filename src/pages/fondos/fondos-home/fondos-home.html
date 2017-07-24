@@ -6,6 +6,17 @@
 
 <ion-content padding>
   <h1>FONDOS HOME</h1>
+
+  <form #formDolar="ngForm">
+    <ion-item>
+      <ion-label >Valor Dolar</ion-label>
+      <ion-input type="number" [(ngModel)]="dolar" name="valor" #valor required></ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button [disabled]="!formDolar.valid" (click)="setDolar(valor.value)">Actualizar</button>      
+    </ion-item>
+  </form>
+
 </ion-content>
 
 <footer-comun></footer-comun>

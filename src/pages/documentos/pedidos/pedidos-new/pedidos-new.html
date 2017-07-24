@@ -30,7 +30,7 @@
     </div>
     <div item-end style="min-width: 10px;"></div>
     <div item-end>
-      ${{(calTotalU$() * dolarValor) |number:'1.2-2'}}
+      ${{calTotal$() | async |number:'1.2-2'}}
     </div>
   </ion-item>
 
