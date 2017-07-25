@@ -1,13 +1,13 @@
 import {
   PedidosEmbalarPage
-} from './../../pages/documentos/pedidos/pedidos-embalar/pedidos-embalar';
+} from './../../../pages/documentos/pedidos/pedidos-embalar/pedidos-embalar';
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
-import {Cliente} from './../../models/clientes.clases';
-import {Pedido} from './../../models/pedidos.clases';
-import {ClientesProvider} from './../../providers/clientes/clientes';
-import {PedidosProvider} from './../../providers/pedidos/pedidos';
+import {Cliente} from './../../../models/clientes.clases';
+import {Pedido} from './../../../models/pedidos.clases';
+import {ClientesProvider} from './../../../providers/clientes/clientes';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'pedidos-pendientes-card',
@@ -16,7 +16,6 @@ import {PedidosProvider} from './../../providers/pedidos/pedidos';
 export class PedidosPendientesCardComponent {
   @Input() cliente: Cliente;
   @Input() showList: boolean = false;
-  @Input() autoOcultar: boolean = true;
 
   pedidos: Pedido[];
   clientes: Cliente[];
@@ -35,8 +34,8 @@ export class PedidosPendientesCardComponent {
     }
   }
 
-  goPedido(pedido, cliente) {
-    this.navCtrl.push(PedidosEmbalarPage, {Pedido: pedido, Cliente: cliente});
+  goPedido(pedido: Pedido) {
+    this.navCtrl.push(PedidosEmbalarPage, {idPedido: pedido.Numero});
   }
 
   private async getData() {

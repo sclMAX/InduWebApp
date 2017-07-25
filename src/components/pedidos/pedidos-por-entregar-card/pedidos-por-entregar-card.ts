@@ -1,8 +1,8 @@
-import {Pedido} from './../../models/pedidos.clases';
-import {PedidosProvider} from './../../providers/pedidos/pedidos';
+import {Pedido, PedidoItem} from './../../../models/pedidos.clases';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {NavController} from 'ionic-angular';
-import {ClientesProvider} from './../../providers/clientes/clientes';
-import {Cliente} from './../../models/clientes.clases';
+import {ClientesProvider} from './../../../providers/clientes/clientes';
+import {Cliente} from './../../../models/clientes.clases';
 import {Component, Input} from '@angular/core';
 
 @Component({
@@ -31,7 +31,42 @@ export class PedidosPorEntregarCardComponent {
     }
   }
 
-  goPedido(pedido, cliente) {}
+  getSubTotalUnidades(items: PedidoItem[]): number {
+    if (items) {
+      return this.pedidosP.calTotalUnidades(items);
+    } else {
+      return 0.00;
+    }
+  }
+
+  getTotalUnidades(): number {
+    let t: number = 0.00;
+    if (this.pedidos) {
+      this.pedidos.forEach(
+          (pedido) => { t += this.getSubTotalUnidades(pedido.Items) * 1; });
+    }
+    return t;
+  }
+
+  getSubTotalUs(pedido: Pedido): number {
+    if (pedido) {
+      return this.pedidosP.calTotalU$(pedido,
+                                      this.getCliente(pedido.idCliente));
+    } else {
+      return 0.00;
+    }
+  }
+
+  getTotalUs(): number {
+    let t: number = 0.00;
+    if (this.pedidos) {
+      this.pedidos.forEach(
+          (pedido) => { t += this.getSubTotalUs(pedido) * 1; });
+    }
+    return t;
+  }
+
+  goPedido(pedido) {}
 
   private async getData() {
     if (this.cliente) {

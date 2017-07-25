@@ -9,8 +9,10 @@
       <ion-col>PRECIO (U$)</ion-col>
       <ion-col>SUBTOTAL (U$)</ion-col>
     </ion-row>
+     <ion-icon item-end  color="toolBar" name="medical"></ion-icon>
+    <ion-icon item-end color="toolBar" name="medical"></ion-icon>
   </ion-item>
-  <ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of items;let idx=index; let p=even" no-lines>
+  <ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of pedido.Items;let idx=index; let p=even" no-lines>
     <ion-row>
       <ion-col>{{item?.Cantidad}}</ion-col>
       <ion-col>{{item?.Perfil?.Codigo}}</ion-col>

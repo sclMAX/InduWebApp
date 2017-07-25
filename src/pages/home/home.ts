@@ -1,3 +1,4 @@
+import {Usuario} from './../../models/user.class';
 import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
 import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
 import {ProductosHomePage} from './../productos/productos-home/productos-home';
@@ -12,9 +13,13 @@ import {LoginPage} from './../login/login';
 
 export class HomePage {
   title: string = SUCURSAL;
+  usuario: Usuario;
 
   constructor(public navCtrl: NavController,
-              private usuarioP: UsuarioProvider) {}
+              private usuarioP: UsuarioProvider) {
+    this.usuarioP.getCurrentUser().subscribe(
+        (user) => { this.usuario = user; });
+  }
 
   public logOut() {
     this.usuarioP.logOut().then(() => { this.navCtrl.setRoot(LoginPage); });

@@ -1,3 +1,4 @@
+import {Dolar} from './fondos.clases';
 import {Direccion} from './clientes.clases';
 import {Documento} from './documentos.class';
 import {Color, Perfil} from './productos.clases';
@@ -8,30 +9,32 @@ export class Pedido extends Documento {
   isEntregado: boolean = false;
   isPreparado: boolean = false;
   Items: PedidoItem[] = [];
-  CantidadPaquetes:number = 0;
+  Dolar: Dolar;
+  DescuentoGeneral: number = 0.00;
+  CantidadPaquetes: number = 0;
 
   constructor() {
     super();
     this.FechaEntrega = new Date().toISOString();
   }
 
-  getTotalUnidades(){
-    if(this.Items && this.Items.length > 0){
-      let tU:number = 0;
-      this.Items.forEach((item:PedidoItem)=>{
-        tU += item.getUnidades() * 1;
-      });
+  getTotalUnidades() {
+    if (this.Items && this.Items.length > 0) {
+      let tU: number = 0;
+      this.Items.forEach(
+          (item: PedidoItem) => { tU += item.getUnidades() * 1; });
       return tU * 1;
-    }else{
+    } else {
       return 0;
     }
   }
-  }
+}
 
 export class PedidoItem {
   Cantidad: number;
   Perfil: Perfil;
   Color: Color;
+  Unidades: number;
   PrecioUs: number;
   Descuento: number;
   isEmbalado: boolean = false;
@@ -45,10 +48,10 @@ export class PedidoItem {
       return 0.00;
     };
   }
-  getSubTotalUs(){
-    if(this.Color){
+  getSubTotalUs() {
+    if (this.Color) {
       return this.getUnidades() * this.Color.PrecioUs * 1;
-    }else{
+    } else {
       return 0.00;
     }
   }

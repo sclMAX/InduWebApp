@@ -1,0 +1,30 @@
+<ion-fab top right>
+  <ion-buttons>
+    <button ion-fab mini (click)="print()"><ion-icon name="print"></ion-icon></button>
+    <button ion-fab mini (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  </ion-buttons>
+</ion-fab>
+<h1 padding>
+  {{pedido?.Numero |number:'3.0-0'}}
+</h1>
+
+<table padding border="1" alaing="center">
+  <tr>
+    <th>Perfil</th>
+    <th>Cantidad</th>
+    <th>Codigo</th>
+    <th>Largo</th>
+    <th>Color</th>
+    <th>Embalado</th>
+  </tr>
+  <tr *ngFor="let item of pedido.Items" text-center>
+    <td>
+      <perfiles-perfil-img [perfil]="item.Perfil"></perfiles-perfil-img>
+    </td>
+    <td padding><h3>{{item?.Cantidad}}</h3></td>
+    <td padding><h4>{{item?.Perfil?.Codigo}}</h4></td>
+    <td padding><h4>{{item?.Perfil?.Largo}}</h4></td>
+    <td padding><h4>{{item?.Color?.Nombre}}</h4></td>
+    <td padding> <ion-icon *ngIf="item.isEmbalado" name="checkmark-circle-outline"></ion-icon></td>
+  </tr>
+</table>

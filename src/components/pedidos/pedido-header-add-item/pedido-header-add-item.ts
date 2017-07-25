@@ -5,21 +5,21 @@ import {
   ModalController,
   ToastController
 } from 'ionic-angular';
-import {PedidoItem} from './../../models/pedidos.clases';
+import {PedidoItem} from './../../../models/pedidos.clases';
 import {
   Color,
   Perfil,
   Stock,
   StockEstado
-} from './../../models/productos.clases';
-import {ProductosProvider} from './../../providers/productos/productos';
-import {StockProvider} from './../../providers/stock/stock';
+} from './../../../models/productos.clases';
+import {ProductosProvider} from './../../../providers/productos/productos';
+import {StockProvider} from './../../../providers/stock/stock';
 import {
   ColoresFindAndSelectComponent
-} from './../colores-find-and-select/colores-find-and-select';
+} from './../../colores-find-and-select/colores-find-and-select';
 import {
   PerfilesFindAndSelectComponent
-} from './../perfiles-find-and-select/perfiles-find-and-select';
+} from './../../perfiles-find-and-select/perfiles-find-and-select';
 
 @Component({
   selector: 'pedido-header-add-item',

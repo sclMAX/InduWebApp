@@ -1,7 +1,8 @@
-import {Observable} from 'rxjs/Observable';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {SUC_STOCK_ROOT} from './../../../../providers/sucursal/sucursal';
-import {Stock} from './../../../../models/productos.clases';
+import {UsuarioProvider} from './../../../../providers/usuario/usuario';
+import {Usuario} from './../../../../models/user.class';
+import {
+  PrintPedidoParaEmbalarPage
+} from './../../../documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
 import {StockProvider} from './../../../../providers/stock/stock';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../../models/clientes.clases';
@@ -22,39 +23,74 @@ import {
 })
 export class PedidosEmbalarPage {
   pedido: Pedido;
-  oldPedido: Pedido;
+  idPedido: number;
   cliente: Cliente;
   isModificado: boolean = false;
+  usuario: Usuario;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private clientesP: ClientesProvider,
+              private usuarioP: UsuarioProvider,
               private pedidosP: PedidosProvider, private stockP: StockProvider,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
-              private alertCtrl: AlertController,
-              private db: AngularFireDatabase) {
-    this.oldPedido = this.navParams.get('Pedido');
-    this.cliente = this.navParams.get('Cliente');
-    if (!this.oldPedido) {
+              private alertCtrl: AlertController) {
+    this.idPedido = this.navParams.get('idPedido');
+    this.usuarioP.getCurrentUser().subscribe(
+        (user) => { this.usuario = user; });
+    if (!this.idPedido) {
       this.navCtrl.pop();
     } else {
-      this.pedido = JSON.parse(JSON.stringify(this.oldPedido));
-      if (!this.cliente) {
-        this.clientesP.getOne(this.pedido.idCliente)
-            .subscribe((cliente) => { this.cliente = cliente; });
-      }
+      this.pedidosP.getOne(this.idPedido)
+          .subscribe((ok) => { this.pedido = ok; });
+      this.clientesP.getOne(this.pedido.idCliente)
+          .subscribe((cliente) => { this.cliente = cliente; });
     }
   }
 
   getItemsPendientes(): PedidoItem[] {
-    return this.pedido.Items.filter((item) => { return !item.isEmbalado; });
+    if (this.pedido && this.pedido.Items) {
+      return this.pedido.Items.filter((item) => { return !item.isEmbalado; });
+    } else {
+      return [];
+    }
   }
 
   getItemsEmbalados(): PedidoItem[] {
-    return this.pedido.Items.filter((item) => { return item.isEmbalado; });
+    if (this.pedido && this.pedido.Items) {
+      return this.pedido.Items.filter((item) => { return item.isEmbalado; });
+    } else {
+      return [];
+    }
+  }
+
+  removeItem(item) {
+    let alert = this.alertCtrl.create({
+      title: 'Eliminar Item...',
+      subTitle: 'Esta seguro que desea eliminar el item?',
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {
+          text: 'Aceptar',
+          role: 'ok',
+          handler: () => {
+            let i =
+                this.pedido.Items.findIndex((it) => { return item === it; });
+            if (i > -1) {
+              this.pedido.Items.splice(i, 1);
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   goBack() { this.navCtrl.pop(); }
+
+  goPrintEmbalar() {
+    this.navCtrl.push(PrintPedidoParaEmbalarPage, {Pedido: this.pedido});
+  }
 
   guardar() {
     let load = this.loadCtrl.create({content: 'Guardando...'});
@@ -77,6 +113,43 @@ export class PedidosEmbalarPage {
                 toast.present();
               });
     });
+  }
+
+  borrarPedido() {
+    let alert = this.alertCtrl.create({
+      title: 'Eliminar Pedido...',
+      subTitle:
+          `Esta seguro que desea eliminar definitivamente el pedido Nro:${this.pedido.Numero}?`,
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {
+          text: 'Aceptar',
+          role: 'ok',
+          handler: () => {
+            let load = this.loadCtrl.create({content: 'Eliminando pedido...'});
+            let toast = this.toastCtrl.create({position: 'middle'});
+            load.present().then(() => {
+              this.pedidosP.remove(this.pedido)
+                  .subscribe(
+                      (ok) => {
+                        load.dismiss();
+                        this.navCtrl.pop();
+                        toast.setMessage(ok);
+                        toast.setDuration(1000);
+                        toast.present();
+                      },
+                      (error) => {
+                        load.dismiss();
+                        toast.setMessage(error);
+                        toast.setShowCloseButton(true);
+                        toast.present();
+                      });
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   cerrarPedido() {

@@ -1,4 +1,3 @@
-import { Dolar } from './../../../models/fondos.clases';
 import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';

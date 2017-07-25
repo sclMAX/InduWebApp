@@ -6,11 +6,7 @@
 
 <ion-content padding>
   <pedidos-pendientes-card [cliente]="cliente"></pedidos-pendientes-card>
-  <ion-item *ngFor="let pedido of pedidos">
-    {{pedido | json}}
-    <ion-item *ngFor="let item of pedido.Items">
-      {{item | json}}
-    </ion-item>
-  </ion-item>
+  <pedidos-por-entregar-card [cliente]="cliente"></pedidos-por-entregar-card>
+  <pedidos-entregados-card [cliente]="cliente"></pedidos-entregados-card>
 </ion-content>
 <footer-comun></footer-comun>

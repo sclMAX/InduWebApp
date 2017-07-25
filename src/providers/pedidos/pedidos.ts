@@ -1,3 +1,6 @@
+import {UsuarioProvider} from './../usuario/usuario';
+import {Usuario} from './../../models/user.class';
+import {Cliente} from './../../models/clientes.clases';
 import {AdicionalesProvider, Adicional} from './../adicionales/adicionales';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -14,10 +17,14 @@ import {
 @Injectable()
 export class PedidosProvider {
   private adicionales: Adicional[];
+  private usuario: Usuario;
   constructor(private db: AngularFireDatabase, private dolarP: DolarProvider,
-              private adicionalesP: AdicionalesProvider) {
+              private adicionalesP: AdicionalesProvider,
+              private usuarioP: UsuarioProvider) {
     this.adicionalesP.getAdicionales().subscribe(
         (data) => { this.adicionales = data; });
+    this.usuarioP.getCurrentUser().subscribe(
+        (user) => { this.usuario = user; });
   }
 
   public getAllCliente(idCliente: number): Observable<Pedido[]> {
@@ -98,7 +105,7 @@ export class PedidosProvider {
     });
   }
 
-  private remove(pedido: Pedido): Observable<string> {
+  public remove(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
       if (pedido) {
         this.db.database.ref(`${SUC_DOCUMENTOS_PEDIDOS}${pedido.Numero}`)
@@ -132,48 +139,98 @@ export class PedidosProvider {
   }
 
   public calUnidades(i: PedidoItem): number {
-    let u: number = 0.00;
-    let pxm: number =
-        (i.Color.isPintura) ? i.Perfil.PesoPintado : i.Perfil.PesoNatural;
-    u = i.Cantidad * (pxm * (i.Perfil.Largo / 1000));
-    return u;
+    if (i) {
+      if (i.Unidades > 0) {
+        return i.Unidades;
+      } else {
+        let u: number = 0.00;
+        let pxm: number =
+            (i.Color.isPintura) ? i.Perfil.PesoPintado : i.Perfil.PesoNatural;
+        u = i.Cantidad * (pxm * (i.Perfil.Largo / 1000));
+        return u;
+      }
+    } else {
+      return 0;
+    }
   }
 
-  public calPrecioU$(i: PedidoItem): number {
+  public calPrecioU$(i: PedidoItem, cliente: Cliente): number {
     let pUs: number = 0.00;
-    pUs = i.Color.PrecioUs * 1;
-    let adLinea =
-        this.adicionales.find((ad) => { return ad.id == i.Perfil.Linea.id; });
-    let adPerfil =
-        this.adicionales.find((ad) => { return ad.id == i.Perfil.id; });
-    pUs = pUs + ((adLinea) ? adLinea.adicional * 1 : 0) +
-          ((adPerfil) ? adPerfil.adicional * 1 : 0);
+    if (i.PrecioUs > 0) {
+      pUs = i.PrecioUs;
+    } else {
+      pUs = i.Color.PrecioUs * 1;
+      let adLinea =
+          this.adicionales.find((ad) => { return ad.id == i.Perfil.Linea.id; });
+      let adPerfil =
+          this.adicionales.find((ad) => { return ad.id == i.Perfil.id; });
+      pUs = pUs + ((adLinea) ? adLinea.adicional * 1 : 0) +
+            ((adPerfil) ? adPerfil.adicional * 1 : 0);
+      if (cliente && cliente.Descuentos && cliente.Descuentos.length > 0) {
+        let deLinea = cliente.Descuentos.find(
+            (de) => { return de.id == i.Perfil.Linea.id; });
+        let dePerfil =
+            cliente.Descuentos.find((de) => { return de.id == i.Perfil.id; });
+        let deColor =
+            cliente.Descuentos.find((de) => { return de.id == i.Color.id; });
+        let des: number = 0.00;
+        des += (deLinea && deLinea.Descuento) ? (deLinea.Descuento / 100) : 0;
+        des +=
+            (dePerfil && dePerfil.Descuento) ? (dePerfil.Descuento / 100) : 0;
+        des += (deColor && deColor.Descuento) ? (deColor.Descuento / 100) : 0;
+        if (this.usuario && (des > (this.usuario.MaxDescuentoItem / 100))) {
+          des = this.usuario.MaxDescuentoItem / 100;
+        }
+        des = (des < 0.15) ? des : 0;
+        pUs = pUs / (1 + des);
+      }
+    }
     return pUs;
   }
 
-  public calSubTotalU$(i: PedidoItem): number {
-    return this.calUnidades(i) * this.calPrecioU$(i) * 1 ;
+  public calSubTotalU$(i: PedidoItem, cliente: Cliente): number {
+    if (i) {
+      if (i.Unidades > 0 && i.PrecioUs > 0) {
+        return i.Unidades * i.PrecioUs;
+      } else {
+        return this.calUnidades(i) * this.calPrecioU$(i, cliente) * 1;
+      }
+    } else {
+      return 0.00;
+    }
   }
 
-  public calTotalU$(items: PedidoItem[]): number {
+  public calTotalU$(pedido: Pedido, cliente: Cliente): number {
     let tUs: number = 0.00;
-    items.forEach((i) => { tUs += this.calSubTotalU$(i) * 1; });
-    return tUs * 1 ;
+    if (pedido && pedido.Items) {
+      pedido.Items.forEach(
+          (i) => { tUs += this.calSubTotalU$(i, cliente) * 1; });
+    }
+    return tUs * 1;
   }
 
-  public calTotal$(items: PedidoItem[]): Observable<number> {
+  public calTotal$(pedido: Pedido, cliente: Cliente): Observable<number> {
     return new Observable((obs) => {
-      let tUs: number = this.calTotalU$(items);
-      this.dolarP.getDolarValor().subscribe(
-          (vU$) => {
-            obs.next(tUs * vU$);
-            obs.complete();
-          },
-          (error) => {
-            obs.error(error);
-            obs.complete();
-          });
-
+      let tUs: number = this.calTotalU$(pedido, cliente);
+      if (pedido) {
+        if (pedido.Dolar && pedido.Dolar.Valor && pedido.Dolar.Valor > 0) {
+          obs.next(tUs * pedido.Dolar.Valor * 1);
+          obs.complete();
+        } else {
+          this.dolarP.getDolarValor().subscribe(
+              (vU$) => {
+                obs.next(tUs * vU$);
+                obs.complete();
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
+        }
+      } else {
+        obs.error();
+        obs.complete();
+      }
     });
   }
 

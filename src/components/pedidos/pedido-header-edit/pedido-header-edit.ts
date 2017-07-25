@@ -1,5 +1,5 @@
-import {Cliente} from './../../models/clientes.clases';
-import {Pedido, PedidoItem} from './../../models/pedidos.clases';
+import {Cliente} from './../../../models/clientes.clases';
+import {Pedido, PedidoItem} from './../../../models/pedidos.clases';
 import {Component, Input} from '@angular/core';
 @Component(
     {selector: 'pedido-header-edit', templateUrl: 'pedido-header-edit.html'})

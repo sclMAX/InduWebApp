@@ -20,5 +20,5 @@ export class AdicionalesProvider {
 
 export class Adicional {
   id: string;
-  adicional: number
+  adicional: number;
 }

@@ -4,7 +4,7 @@ import {
   PRODUCTOS_LINEAS
 } from './../../models/db-base-paths';
 import {Observable} from 'rxjs/Observable';
-import {Perfil, Color, Linea} from './../../models/productos.clases';
+import {Perfil, Linea} from './../../models/productos.clases';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';

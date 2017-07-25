@@ -108,9 +108,9 @@ export class PedidosNewPage {
     return estado;
   }
 
-   calTotalU$() { return this.pedidosP.calTotalU$(this.pedido.Items); }
+  calTotalU$() { return this.pedidosP.calTotalU$(this.pedido, this.cliente); }
 
-   calTotal$() { return this.pedidosP.calTotal$(this.pedido.Items); }
+  calTotal$() { return this.pedidosP.calTotal$(this.pedido, this.cliente); }
 
   async getDolarValor() {
     this.dolarP.getDolarValor().subscribe(

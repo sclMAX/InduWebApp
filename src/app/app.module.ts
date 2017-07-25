@@ -1,4 +1,7 @@
 import {
+  PrintPedidoParaEmbalarPage
+} from './../pages/documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
+import {
   PedidosEmbalarPage
 } from './../pages/documentos/pedidos/pedidos-embalar/pedidos-embalar';
 import {ErrorHandler, NgModule} from '@angular/core';
@@ -23,16 +26,16 @@ import {
 import {FooterComunComponent} from '../components/footer-comun/footer-comun';
 import {
   PedidoHeaderAddItemComponent
-} from '../components/pedido-header-add-item/pedido-header-add-item';
+} from '../components/pedidos/pedido-header-add-item/pedido-header-add-item';
 import {
   PedidoHeaderEditComponent
-} from '../components/pedido-header-edit/pedido-header-edit';
+} from '../components/pedidos/pedido-header-edit/pedido-header-edit';
 import {
   PedidoItemsItemComponent
-} from '../components/pedido-items-item/pedido-items-item';
+} from '../components/pedidos/pedido-items-item/pedido-items-item';
 import {
   PedidosPendientesCardComponent
-} from '../components/pedidos-pendientes-card/pedidos-pendientes-card';
+} from '../components/pedidos/pedidos-pendientes-card/pedidos-pendientes-card';
 import {
   PerfilesFindAndSelectComponent
 } from '../components/perfiles-find-and-select/perfiles-find-and-select';
@@ -77,9 +80,9 @@ import {
 } from '../components/perfiles-perfil-img/perfiles-perfil-img';
 import {
   PedidosPorEntregarCardComponent
-} from '../components/pedidos-por-entregar-card/pedidos-por-entregar-card';
-import { AdicionalesProvider } from '../providers/adicionales/adicionales';
-
+} from '../components/pedidos/pedidos-por-entregar-card/pedidos-por-entregar-card';
+import {AdicionalesProvider} from '../providers/adicionales/adicionales';
+import { PedidosEntregadosCardComponent } from '../components/pedidos/pedidos-entregados-card/pedidos-entregados-card';
 export const environment = {
   production: false,
   firebase: {
@@ -118,7 +121,10 @@ export const environment = {
     PedidosPendientesCardComponent,
     PedidosEmbalarPage,
     PerfilesPerfilImgComponent,
-    PedidosPorEntregarCardComponent
+    PedidosPorEntregarCardComponent,
+    PrintPedidoParaEmbalarPage,
+    PedidosEntregadosCardComponent,
+    PedidosEntregadosCardComponent
   ],
   imports: [
     BrowserModule,
@@ -143,7 +149,8 @@ export const environment = {
     PerfilesFindAndSelectComponent,
     ColoresFindAndSelectComponent,
     ClientesDetallePage,
-    PedidosEmbalarPage
+    PedidosEmbalarPage,
+    PrintPedidoParaEmbalarPage
   ],
   providers: [
     StatusBar,

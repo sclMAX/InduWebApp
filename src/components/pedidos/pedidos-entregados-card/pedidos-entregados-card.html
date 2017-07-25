@@ -1,16 +1,16 @@
-<div *ngIf="autoOcultar && pedidos && pedidos.length > 0">
+<div >
   <ion-card color="toolBar">
-    <ion-item color="toolBar" (click)="showList = !showList">
+    <button ion-item color="pedidoEntregadoHeader" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
-      Pedidos x Entregar ({{pedidos?.length}})
-      <button *ngIf="pedidos && pedidos.length > 0" ion-fab mini item-end color="subToolBar">
+      Pedidos Entregados ({{pedidos?.length}})
+      <button *ngIf="pedidos && pedidos.length > 0" ion-fab mini item-end color="pedidoEntregadoHeader">
          <ion-icon *ngIf="!showList" name="arrow-down"></ion-icon>
          <ion-icon *ngIf="showList" name="arrow-up"></ion-icon>
       </button>
 
-    </ion-item>
+    </button>
     <ion-list *ngIf="!cliente && showList">
-      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido, getCliente(pedido.idCliente))">
+      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
         {{pedido.Numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.Nombre}}
         <ion-icon item-end name="more"></ion-icon>
       </button>
