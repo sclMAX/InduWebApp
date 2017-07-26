@@ -12,7 +12,6 @@ import {Component, Input} from '@angular/core';
 export class PedidosPorEntregarCardComponent {
   @Input() cliente: Cliente;
   @Input() showList: boolean = false;
-  @Input() autoOcultar: boolean = true;
 
   pedidos: Pedido[];
   clientes: Cliente[];

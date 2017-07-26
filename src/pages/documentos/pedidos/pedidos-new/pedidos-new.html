@@ -3,7 +3,7 @@
     <ion-list-header color="scroll-content" no-lines fixed>
       <pedido-header-edit [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
     </ion-list-header>
-    <pedido-items-item [(pedido)]="pedido" ></pedido-items-item>
+    <pedido-items-item [(pedido)]="pedido"></pedido-items-item>
   </ion-list>
   <ion-fab top left>
     <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>

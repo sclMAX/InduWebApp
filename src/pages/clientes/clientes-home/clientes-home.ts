@@ -1,10 +1,5 @@
 import {Component} from '@angular/core';
-import {
-  LoadingController,
-  ModalController,
-  NavController,
-  NavParams
-} from 'ionic-angular';
+import {LoadingController, NavController, NavParams} from 'ionic-angular';
 
 import {Cliente} from './../../../models/clientes.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
@@ -19,17 +14,14 @@ export class ClientesHomePage {
   filterClientes: Cliente[];
   showComandos: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private clientesP: ClientesProvider,
-              private loadCtrl: LoadingController,
-              private modalCtrl: ModalController){
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private clientesP: ClientesProvider, private loadCtrl: LoadingController){
 
   };
 
   public goClienteAdd() {
-    let clienteAddModal = this.modalCtrl.create(ClientesAddPage, {},
-                                                {enableBackdropDismiss: false});
-    clienteAddModal.present();
+    this.navCtrl.push(ClientesAddPage);
   };
 
   public onFindClientes(ev) {
@@ -40,12 +32,11 @@ export class ClientesHomePage {
         val = val.toLowerCase();
         this.filterClientes = this.clientes.filter((cliente) => {
           return (cliente.id.toString().toLowerCase().indexOf(val) > -1) ||
-                 (cliente.Nombre.toLowerCase().indexOf(val) > -1) ||
-                 (cliente.Email.toLowerCase().indexOf(val) > -1) ||
-                 ((cliente.Direccion != null) &&
-                  ((cliente.Direccion.Calle.toLowerCase().indexOf(val) > -1) ||
-                   (cliente.Direccion.Localidad.toLowerCase().indexOf(val) >
-                    -1)));
+              (cliente.Nombre.toLowerCase().indexOf(val) > -1) ||
+              (cliente.Email.toLowerCase().indexOf(val) > -1) ||
+              ((cliente.Direccion != null) &&
+               ((cliente.Direccion.Calle.toLowerCase().indexOf(val) > -1) ||
+                (cliente.Direccion.Localidad.toLowerCase().indexOf(val) > -1)));
         });
       }
     }
@@ -66,9 +57,13 @@ export class ClientesHomePage {
     }
   };
 
-  public onFindCancel(ev) { this.filterClientes = this.clientes; };
+  public onFindCancel(ev) {
+    this.filterClientes = this.clientes;
+  };
 
-  ionViewDidLoad() { this.getClientes(); };
+  ionViewDidLoad() {
+    this.getClientes();
+  };
 
   private getClientes() {
     let load =

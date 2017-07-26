@@ -1,4 +1,5 @@
 <ion-navbar color="{{color}}">
+  <ng-content></ng-content>
   <ion-buttons end>
     <button ion-button icon-only (click)="newPedido(cliente)"><ion-icon name="icon-ind_new-document" ></ion-icon></button>
     <div ion-button icon-only style="width: 10px;pointer-events: none;"></div>
@@ -8,8 +9,8 @@
       <ion-icon name="at"></ion-icon>
     </a>
     <div ion-button icon-only style="width: 10px; pointer-events: none;"></div>
-    <button ion-button icon-only (click)="goCliente()"><ion-icon name="icon-ind_user" ></ion-icon></button>
+    <button *ngIf="showDetalle" ion-button icon-only (click)="goCliente()"><ion-icon name="icon-ind_user" ></ion-icon></button>
     <button ion-button icon-only (click)="goClienteUpdate(cliente)"><ion-icon name="icon-ind_user-check" ></ion-icon></button>
-    <button *ngIf="!cliente.Documentos" ion-button icon-only (click)="removeCliente(cliente)"><ion-icon name="icon-ind_user-remove" ></ion-icon></button>
+    <button *ngIf="showRemove" ion-button icon-only (click)="removeCliente(cliente)"><ion-icon name="icon-ind_user-remove" ></ion-icon></button>
   </ion-buttons>
 </ion-navbar>

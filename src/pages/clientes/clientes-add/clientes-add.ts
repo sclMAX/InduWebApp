@@ -1,12 +1,9 @@
 import {Component} from '@angular/core';
-import {
-  LoadingController,
-  ToastController,
-  ViewController,
-  NavParams
-} from 'ionic-angular';
+import {LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {ClientesProvider} from '../../../providers/clientes/clientes';
 import {Cliente, Telefono} from './../../../models/clientes.clases';
+import {Usuario} from './../../../models/user.class';
+import {UsuarioProvider} from './../../../providers/usuario/usuario';
 
 @Component({
   selector: 'page-clientes-add',
@@ -21,27 +18,41 @@ export class ClientesAddPage {
   isShowTelefonos: boolean = false;
   isShowEmpresa: boolean = true;
   isShowComentarios: boolean = false;
+  isShowDescuentos: boolean = false;
+  usuario: Usuario;
+  descuentoUtilizado: number = 0;
 
-  constructor(public viewCtrl: ViewController, public parametros: NavParams,
-              private toastCtrl: ToastController,
-              private loadCtrl: LoadingController,
-              private clientesP: ClientesProvider) {
+  constructor(
+      public navCtrl: NavController, public parametros: NavParams,
+      private toastCtrl: ToastController, private loadCtrl: LoadingController,
+      private clientesP: ClientesProvider, private usuarioP: UsuarioProvider) {
     this.oldCliente = parametros.get('Cliente');
     if (this.oldCliente) {
       this.newCliente = JSON.parse(JSON.stringify(this.oldCliente));
       this.isEdit = true;
-      this.title = "Editar Cliente";
+      this.title = 'Editar Cliente';
     } else {
-      this.title = "Nuevo Cliente";
+      this.title = 'Nuevo Cliente';
       this.newCliente = new Cliente();
       this.getCurrentId();
     }
+    this.getUser();
   }
 
   private async getCurrentId() {
-    this.clientesP.getCurrentNewId().subscribe((id) => {
-      this.newCliente.id = (id > 0) ? id : 0;
-    }, (error) => { console.log(error); });
+    this.clientesP.getCurrentNewId().subscribe(
+        (id) => {
+          this.newCliente.id = (id > 0) ? id : 0;
+        },
+        (error) => {
+          console.log(error);
+        });
+  }
+
+  private async getUser() {
+    this.usuarioP.getCurrentUser().subscribe((user) => {
+      this.usuario = user;
+    });
   }
 
   public onAceptar() {
@@ -54,7 +65,7 @@ export class ClientesAddPage {
               .subscribe(
                   (ok) => {
                     load.dismiss();
-                    this.viewCtrl.dismiss();
+                    this.navCtrl.pop();
                     toast.setMessage(ok);
                     toast.setDuration(1000);
                     toast.present();
@@ -71,7 +82,7 @@ export class ClientesAddPage {
               .subscribe(
                   (val) => {
                     load.dismiss();
-                    this.viewCtrl.dismiss();
+                    this.navCtrl.pop();
                     toast.setMessage(val);
                     toast.setDuration(1000);
                     toast.present();
@@ -85,7 +96,7 @@ export class ClientesAddPage {
         }
       });
     } else {
-      this.viewCtrl.dismiss();
+      this.navCtrl.pop();
     }
   }
 
@@ -93,7 +104,7 @@ export class ClientesAddPage {
     if (this.isEdit) {
       this.newCliente = this.oldCliente;
     }
-    this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   ionViewDidLoad() {}
@@ -101,26 +112,31 @@ export class ClientesAddPage {
   public chkDireccionForm(): boolean {
     return ((this.newCliente.Direccion.Calle != null) &&
             (this.newCliente.Direccion.Calle.trim().length > 0)) &&
-           ((this.newCliente.Direccion.Localidad != null) &&
-            (this.newCliente.Direccion.Localidad.trim().length > 0)) &&
-           ((this.newCliente.Direccion.Provincia != null) &&
-            (this.newCliente.Direccion.Provincia.trim().length > 0)) &&
-           ((this.newCliente.Direccion.Pais != null) &&
-            (this.newCliente.Direccion.Pais.trim().length > 0));
+        ((this.newCliente.Direccion.Localidad != null) &&
+         (this.newCliente.Direccion.Localidad.trim().length > 0)) &&
+        ((this.newCliente.Direccion.Provincia != null) &&
+         (this.newCliente.Direccion.Provincia.trim().length > 0)) &&
+        ((this.newCliente.Direccion.Pais != null) &&
+         (this.newCliente.Direccion.Pais.trim().length > 0));
   }
 
   public chkEmpresaForm(): boolean {
-    return (((this.newCliente.Nombre != null) &&
-             (this.newCliente.Nombre.trim().length > 0)) &&
-            ((this.newCliente.Email != null) &&
-             (this.newCliente.Email.trim().length > 0)));
+    return (
+        ((this.newCliente.Nombre != null) &&
+         (this.newCliente.Nombre.trim().length > 0)) &&
+        ((this.newCliente.Email != null) &&
+         (this.newCliente.Email.trim().length > 0)));
   }
 
   public chkTelefonosForm(): boolean {
     return ((this.newCliente.Telefonos != null));
   }
 
-  public addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }
+  public addTelefono() {
+    this.newCliente.Telefonos.push(new Telefono());
+  }
 
-  public removeTelefono(i) { this.newCliente.Telefonos.splice(i, 1); }
+  public removeTelefono(i) {
+    this.newCliente.Telefonos.splice(i, 1);
+  }
 }

@@ -67,12 +67,22 @@
                 </ion-item>
               </ion-col>
               <ion-col col-auto *ngIf="i > 0">
-                <button ion-fab mini color="danger"  (click)="removeTelefono(i)"><ion-icon name="remove"></ion-icon></button>
+                <button ion-fab mini color="danger" (click)="removeTelefono(i)"><ion-icon name="remove"></ion-icon></button>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-item-group>
         <button ion-fab mini color="secondary" (click)="addTelefono()"><ion-icon name="add" ></ion-icon></button>
+      </ion-item-group>
+      <ion-item-divider color="toolBar" (click)="isShowDescuentos = !isShowDescuentos">
+        DESCUENTOS ({{descuentoUtilizado | number:'1.2-2'}}/{{usuario.MaxDescuentoItem |number:'1.2-2'}})
+        <ion-icon item-end name="{{(isShowDescuentos)?'arrow-up':'arrow-down'}}"></ion-icon>
+      </ion-item-divider>
+      <ion-item-group *ngIf="isShowDescuentos">
+        <ion-item color="scroll-content">
+          <ion-label floating>Descuentos Proximamente</ion-label>
+          <ion-textarea [(ngModel)]="newCliente.Comentarios" name="Comentarios"></ion-textarea>
+        </ion-item>
       </ion-item-group>
       <ion-item-divider color="toolBar" (click)="isShowComentarios = !isShowComentarios">
         COMENTARIOS
@@ -82,23 +92,22 @@
         <ion-item color="scroll-content">
           <ion-label floating>Comentarios</ion-label>
           <ion-textarea [(ngModel)]="newCliente.Comentarios" name="Comentarios"></ion-textarea>
-        </ion-item>        
+        </ion-item>
       </ion-item-group>
+
     </ion-list>
     <br>
   </form>
 </ion-content>
-<ion-footer no-border color="toolBar">
-  <ion-toolbar color="subToolBar">
-    <ion-buttons end>
-      <button ion-button icon-left (click)="onCancelar()">
-        <ion-icon name="icon-ind_user-remove"></ion-icon>
-        Cancelar
+  <ion-fab bottom left>
+      <button ion-fab  color="light" (click)="onCancelar()">
+        <ion-icon *ngIf="!isEdit" name="icon-ind_user-remove"></ion-icon>
+        <ion-icon *ngIf="isEdit" name="close"></ion-icon>
       </button>
-      <button ion-button icon-left (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
-        <ion-icon name="icon-ind_user-add"></ion-icon>
-        Guardar
+  </ion-fab>
+    <ion-fab bottom right>
+      <button ion-fab color="primary" (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
+        <ion-icon *ngIf="!isEdit" name="icon-ind_user-add"></ion-icon>
+        <ion-icon *ngIf="isEdit" name="icon-ind_user-check" ></ion-icon>
       </button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-footer>
+    </ion-fab>
