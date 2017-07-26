@@ -14,7 +14,8 @@ import {
   NavParams,
   AlertController,
   LoadingController,
-  ToastController
+  ToastController,
+  FabContainer
 } from 'ionic-angular';
 
 @Component({
@@ -64,7 +65,8 @@ export class PedidosEmbalarPage {
     }
   }
 
-  removeItem(item) {
+  removeItem(item, fab: FabContainer) {
+    fab.close();
     let alert = this.alertCtrl.create({
       title: 'Eliminar Item...',
       subTitle: 'Esta seguro que desea eliminar el item?',
@@ -78,6 +80,7 @@ export class PedidosEmbalarPage {
                 this.pedido.Items.findIndex((it) => { return item === it; });
             if (i > -1) {
               this.pedido.Items.splice(i, 1);
+              this.isModificado = true;
             }
           }
         }
@@ -183,7 +186,8 @@ export class PedidosEmbalarPage {
     alert.present();
   }
 
-  setEmbalado(item: PedidoItem, isEmbalado: boolean) {
+  setEmbalado(item: PedidoItem, isEmbalado: boolean, fab: FabContainer) {
+    fab.close();
     let alert = this.alertCtrl.create({
       title: `${(isEmbalado)?'Cantidad Embalada?':'Cantidad Desembalada?'}`,
       inputs: [

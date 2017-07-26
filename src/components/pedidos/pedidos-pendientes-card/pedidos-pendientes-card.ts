@@ -30,7 +30,11 @@ export class PedidosPendientesCardComponent {
     if (this.cliente) {
       return this.cliente;
     } else {
+      if(this.clientes){
       return this.clientes.find((cliente) => { return (cliente.id == id); });
+      }else{
+        return null;
+      }
     }
   }
 

@@ -13,10 +13,10 @@ import {SucursalProvider} from './../providers/sucursal/sucursal';
 export class MyApp {
   rootPage: any;
 
-  constructor(
-      platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-      auth: AngularFireAuth, sp: SucursalProvider, up: UsuarioProvider,
-      loadCtrl: LoadingController) {
+  constructor(platform: Platform, statusBar: StatusBar,
+              splashScreen: SplashScreen, auth: AngularFireAuth,
+              sp: SucursalProvider, up: UsuarioProvider,
+              loadCtrl: LoadingController) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -26,18 +26,16 @@ export class MyApp {
       load.present().then(() => {
         auth.authState.subscribe(user => {
           if (!user) {
-            load.dismiss();
-            this.rootPage = LoginPage;
+            load.dismiss().then(() => { this.rootPage = LoginPage; });
+
           } else {
             sp.setSucursal().subscribe(
                 (sucursal) => {
-                  load.dismiss();
-                  this.rootPage = HomePage;
+                  load.dismiss().then(() => { this.rootPage = HomePage; });
                 },
                 (error) => {
-                  load.dismiss();
-                  up.logOut().then(() => {
-                    this.rootPage = LoginPage;
+                  load.dismiss().then(() => {
+                    up.logOut().then(() => { this.rootPage = LoginPage; });
                   });
                 });
           }

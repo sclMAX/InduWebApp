@@ -1,0 +1,15 @@
+<ion-header no-border>
+  <ion-item color="toolBar" no-lines>
+    <ion-searchbar (ionCancel)="onCancelFilter()" (ionInput)="onFilter($event)" placeholder="Buscar Linea..."></ion-searchbar>
+    <button ion-fab mini item-end color="danger" (click)="onClose()"><ion-icon  name="close"></ion-icon> </button>
+  </ion-item>
+</ion-header>
+<ion-content color="scroll-content">
+  <ion-list>
+    <button ion-item (click)="onSelectLinea(linea)" *ngFor="let linea of lineas;let p=even" color="{{(p)?'listPar':'listImpar'}}"
+      no-lines>
+      <h2>{{linea?.Nombre}}</h2>
+      <p>{{linea?.Descripcion}}</p>
+    </button>
+  </ion-list>
+</ion-content>

@@ -4,6 +4,7 @@ import {Documento} from './documentos.class';
 import {Color, Perfil} from './productos.clases';
 
 export class Pedido extends Documento {
+  idCliente: number;
   FechaEntrega: string;
   DireccionEntrega: Direccion;
   isEntregado: boolean = false;
@@ -12,7 +13,6 @@ export class Pedido extends Documento {
   Dolar: Dolar;
   DescuentoGeneral: number = 0.00;
   CantidadPaquetes: number = 0;
-
   constructor() {
     super();
     this.FechaEntrega = new Date().toISOString();

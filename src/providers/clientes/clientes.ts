@@ -1,115 +1,97 @@
+import {UsuarioProvider} from './../usuario/usuario';
+import {UserDoc, Usuario} from './../../models/user.class';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Cliente} from '../../models/clientes.clases';
-import {COMUN_CONTADORES, COMUN_CONTADORES_CLIENTES} from '../../models/db-base-paths';
-import {SUC_CLIENTES_ROOT} from '../sucursal/sucursal';
+import {
+  COMUN_CONTADORES,
+  COMUN_CONTADORES_CLIENTES
+} from '../../models/db-base-paths';
+import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 import {Pedido} from './../../models/pedidos.clases';
 
 @Injectable()
 export class ClientesProvider {
-  constructor(private db: AngularFireDatabase) {}
-
-  public getAll(): Observable<Cliente[]> {
-    return this.db.list(SUC_CLIENTES_ROOT);
+  usuario: Usuario = new Usuario();
+  constructor(private db: AngularFireDatabase,
+              private usuarioP: UsuarioProvider) {
+    this.usuarioP.getCurrentUser().subscribe(
+        (user) => { this.usuario = user; });
   }
 
-  public getOne(id: number): Observable<Cliente> {
-    return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);
-  }
-
-  public add(newCliente: Cliente): Observable<string> {
-    return new Observable((obs) => {
-      this.isUnique(newCliente)
-          .subscribe(
-              (isUniqueOk) => {
-                if (isUniqueOk) {
-                  this.db.database.ref(`${SUC_CLIENTES_ROOT}${newCliente.id}`)
-                      .set(newCliente)
-                      .then((okAdd) => {
-                        this.setCurrentId(newCliente.id)
-                            .subscribe(
-                                (setIdOk) => {
-                                  obs.next(
-                                      `Se guardo correctamente el Cliente${newCliente
-                                          .Nombre}`);
-                                  obs.complete();
-                                },
-                                (setIderror) => {
-                                  this.remove(newCliente)
-                                      .subscribe(
-                                          (removeOk) => {
-                                            obs.error(
-                                                `No se pudo agregar el Cliente: ${newCliente
-                                                    .Nombre}`);
-                                            obs.complete();
-                                          },
-                                          (removeError) => {
-                                            obs.error(
-                                                `ERROR: Se agrego el Cliente: ${newCliente
-                                                    .Nombre
-                                                }, COntacte al Administrador y anote el Codigo:${newCliente
-                                                    .id}`);
-                                            obs.complete();
-                                          });
-
-                                });
-                      })
-                      .catch((errAdd) => {
-                        obs.error(`No se pudo agregar el Cliente: ${newCliente
-                                      .Nombre}`);
-                        obs.complete();
-                      });
-                } else {
-                  obs.error(
-                      `No se puede guardar!.Ya existe un cliente ${newCliente
-                          .Nombre}.`);
-                  obs.complete();
-                }
-              },
-              (errisUnique) => {
-                obs.error('Error Insesperado!');
-                obs.complete();
-              });
-    });
-  }
-
-  public addPedido(pedido: Pedido): Observable<boolean> {
-    return new Observable((obs) => {
-      if (pedido && pedido.idCliente > 0) {
-        this.db.database
-            .ref(`${SUC_CLIENTES_ROOT
-                 }${pedido.idCliente}/Documentos/Pedidos/${pedido.id}`)
-            .set(true)
-            .then((ok) => {
-              obs.next(true);
-              obs.complete();
-            })
-            .catch((error) => {
-              obs.error(error);
-              obs.complete();
-            });
-      } else {
-        obs.error('Id Cliente Incorrecto!');
-        obs.complete();
-      }
-    });
-  }
-
-  public update(cliente: Cliente): Observable<string> {
+  add(cliente: Cliente): Observable<string> {
     return new Observable((obs) => {
       this.isUnique(cliente).subscribe(
           (isUniqueOk) => {
             if (isUniqueOk) {
-              this.db.database.ref(`${SUC_CLIENTES_ROOT}${cliente.id}/`)
-                  .set(cliente)
+              if (!cliente.Creador) {
+                cliente.Creador = new UserDoc();
+              }
+              cliente.Creador.Fecha = new Date().toISOString();
+              cliente.Creador.Usuario = this.usuario;
+              let updData = {};
+              updData[`${SUC_CLIENTES_ROOT}${cliente.id}`] = cliente;
+              updData[`${COMUN_CONTADORES_CLIENTES}`] = cliente.id;
+              updData[`${SUC_LOG_ROOT}Clientes/Creados/${Date.now()}/`] = {
+                Cliente: cliente,
+                Usuario: this.usuario,
+                Fecha: new Date().toISOString(),
+                Comentario: 'Cliente Nuevo'
+              };
+              this.db.database.ref()
+                  .update(updData)
+                  .then((okAdd) => {
+                    obs.next(`Se guardo correctamente el Cliente${cliente
+                                          .Nombre}`);
+                    obs.complete();
+
+                  })
+                  .catch((errAdd) => {
+                    obs.error(`No se pudo agregar el Cliente: ${cliente
+                                      .Nombre}`);
+                    obs.complete();
+                  });
+            } else {
+              obs.error(`No se puede guardar!.Ya existe un cliente ${cliente
+                          .Nombre}.`);
+              obs.complete();
+            }
+          },
+          (errisUnique) => {
+            obs.error(`Sin Conexion!... Error:${errisUnique}`);
+            obs.complete();
+          });
+    });
+  }
+
+  update(cliente: Cliente): Observable<string> {
+    return new Observable((obs) => {
+      this.isUnique(cliente).subscribe(
+          (isUniqueOk) => {
+            if (isUniqueOk) {
+              if (!cliente.Modificador) {
+                cliente.Modificador = new UserDoc();
+              }
+              cliente.Modificador.Fecha = new Date().toISOString();
+              cliente.Modificador.Usuario = this.usuario;
+              let updData = {};
+              updData[`${SUC_CLIENTES_ROOT}${cliente.id}/`] = cliente;
+              updData[`${SUC_LOG_ROOT}Clientes/Modificados/${Date.now()}/`] = {
+                Cliente: cliente,
+                Usuario: this.usuario,
+                Fecha: new Date().toISOString(),
+                Comentario: 'Cliente Modificado!'
+              };
+              this.db.database.ref()
+                  .update(updData)
                   .then((updateOk) => {
                     obs.next(`Cambios guardados correctamente!`);
                     obs.complete();
                   })
                   .catch((updateError) => {
                     obs.error(
-                        'Error insesperado... No se pudo guradar, revise su conexion!');
+                        `No se pudo guardar, revise su conexion! Error:${updateError}`);
                     obs.complete();
                   });
             } else {
@@ -124,10 +106,18 @@ export class ClientesProvider {
     });
   }
 
-  public remove(cliente: Cliente): Observable<string> {
+  remove(cliente: Cliente): Observable<string> {
     return new Observable((obs) => {
-      this.db.database.ref(`${SUC_CLIENTES_ROOT}${cliente.id}`)
-          .remove()
+      let updData = {};
+      updData[`${SUC_CLIENTES_ROOT}${cliente.id}/`] = {};
+      updData[`${SUC_LOG_ROOT}Clientes/Eliminados/${Date.now()}/`] = {
+        Cliente: cliente,
+        Usuario: this.usuario,
+        Fecha: new Date().toISOString(),
+        Comentario: 'Cliente Eliminado!'
+      };
+      this.db.database.ref()
+          .update(updData)
           .then(() => {
             obs.next(`Cliente ${cliente.Nombre} Eliminado!`);
             obs.complete();
@@ -140,35 +130,22 @@ export class ClientesProvider {
     });
   }
 
-  public getCurrentNewId(): Observable<number> {
-    return new Observable((obs) => {
-      this.db.object(`${COMUN_CONTADORES}`).subscribe((cont) => {
-        if (cont.Clientes >= 0) {
-          obs.next(cont.Clientes + 1);
-        } else {
-          obs.error('Contador Clientes no Encontrado!');
-        }
-      });
-    });
+  getAll(): Observable<Cliente[]> { return this.db.list(SUC_CLIENTES_ROOT); }
+
+  getOne(id: number): Observable<Cliente> {
+    return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);
   }
 
-  private setCurrentId(id: number): Observable<any> {
+  getCurrentNewId(): Observable<number> {
     return new Observable((obs) => {
-      if (id >= 0) {
-        this.db.database.ref(`${COMUN_CONTADORES_CLIENTES}`)
-            .set(id)
-            .then(() => {
-              obs.next();
-              obs.complete();
-            })
-            .catch((error) => {
-              obs.error(error);
-              obs.complete();
-            });
-      } else {
-        obs.error();
-        obs.complete();
-      }
+      this.db.object(`${COMUN_CONTADORES}`)
+          .subscribe((cont) => {
+            if (cont.Clientes >= 0) {
+              obs.next(cont.Clientes + 1);
+            } else {
+              obs.error('Contador Clientes no Encontrado!');
+            }
+          });
     });
   }
 
@@ -177,10 +154,9 @@ export class ClientesProvider {
       this.getAll().subscribe(
           (clientes) => {
             let c = clientes.find(item => {
-              return (
-                  (item.Nombre.trim().toLocaleLowerCase() ===
-                   cliente.Nombre.trim().toLocaleLowerCase()) &&
-                  (item.id != cliente.id));
+              return ((item.Nombre.trim().toLocaleLowerCase() ===
+                       cliente.Nombre.trim().toLocaleLowerCase()) &&
+                      (item.id != cliente.id));
             });
             if (c && c.id >= 0) {
               obs.next(false);

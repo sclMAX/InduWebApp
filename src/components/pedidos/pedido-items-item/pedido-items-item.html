@@ -1,25 +1,31 @@
 <div>
   <ion-item color="toolBar" no-lines>
     <ion-row>
-      <ion-col>CANTIDAD</ion-col>
+      <ion-col>CANT</ion-col>
       <ion-col>CODIGO</ion-col>
-      <ion-col>COLOR</ion-col>
+      <ion-col>TRATAMINETO (COLOR)</ion-col>
       <ion-col>LARGO</ion-col>
       <ion-col>UNIDADES</ion-col>
       <ion-col>PRECIO (U$)</ion-col>
       <ion-col>SUBTOTAL (U$)</ion-col>
     </ion-row>
-     <ion-icon item-end  color="toolBar" name="medical"></ion-icon>
     <ion-icon item-end color="toolBar" name="medical"></ion-icon>
   </ion-item>
   <ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of pedido.Items;let idx=index; let p=even" no-lines>
     <ion-row>
       <ion-col>{{item?.Cantidad}}</ion-col>
       <ion-col>{{item?.Perfil?.Codigo}}</ion-col>
-      <ion-col>{{item?.Color.Nombre}}</ion-col>
+      <ion-col>{{item?.Color.Nombre}} (U${{item?.Color?.PrecioUs |number:'1.2-2'}})</ion-col>
       <ion-col>{{item?.Perfil?.Largo}}</ion-col>
       <ion-col>{{calUnidades(item)|number:'1.2-2'}}Kg</ion-col>
-      <ion-col>U$ {{calPrecioU$(item)|number:'1.2-2'}}</ion-col>
+      <ion-col>
+        <ion-badge *ngIf="(calPrecioU$(item) < item?.Color?.PrecioUs)" color="danger">
+          U$ {{calPrecioU$(item)|number:'1.2-2'}}
+        </ion-badge>
+        <div *ngIf="!(calPrecioU$(item) < item?.Color?.PrecioUs)">
+          U$ {{calPrecioU$(item)|number:'1.2-2'}}
+        </div>
+      </ion-col>
       <ion-col>U$ {{calSubTotalU$(item)|number:'1.2-2'}}</ion-col>
     </ion-row>
     <button item-end ion-fab mini color="danger" (click)="removeItem(idx)"><ion-icon  name="remove" ></ion-icon> </button>

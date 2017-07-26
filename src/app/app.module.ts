@@ -1,4 +1,10 @@
 import {
+  StockIngresoPage
+} from './../pages/documentos/stock/stock-ingreso/stock-ingreso';
+import {
+  ClientesAddDescuentoPage
+} from './../pages/clientes/clientes-add-descuento/clientes-add-descuento';
+import {
   PrintPedidoParaEmbalarPage
 } from './../pages/documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
 import {
@@ -82,7 +88,12 @@ import {
   PedidosPorEntregarCardComponent
 } from '../components/pedidos/pedidos-por-entregar-card/pedidos-por-entregar-card';
 import {AdicionalesProvider} from '../providers/adicionales/adicionales';
-import { PedidosEntregadosCardComponent } from '../components/pedidos/pedidos-entregados-card/pedidos-entregados-card';
+import {
+  PedidosEntregadosCardComponent
+} from '../components/pedidos/pedidos-entregados-card/pedidos-entregados-card';
+import {
+  LineasFindAndSelectComponent
+} from '../components/lineas-find-and-select/lineas-find-and-select';
 export const environment = {
   production: false,
   firebase: {
@@ -124,7 +135,10 @@ export const environment = {
     PedidosPorEntregarCardComponent,
     PrintPedidoParaEmbalarPage,
     PedidosEntregadosCardComponent,
-    PedidosEntregadosCardComponent
+    PedidosEntregadosCardComponent,
+    ClientesAddDescuentoPage,
+    LineasFindAndSelectComponent,
+    StockIngresoPage
   ],
   imports: [
     BrowserModule,
@@ -150,7 +164,10 @@ export const environment = {
     ColoresFindAndSelectComponent,
     ClientesDetallePage,
     PedidosEmbalarPage,
-    PrintPedidoParaEmbalarPage
+    PrintPedidoParaEmbalarPage,
+    ClientesAddDescuentoPage,
+    LineasFindAndSelectComponent,
+    StockIngresoPage
   ],
   providers: [
     StatusBar,

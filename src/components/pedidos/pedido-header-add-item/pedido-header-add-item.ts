@@ -29,7 +29,6 @@ export class PedidoHeaderAddItemComponent {
   @Output()
   onNewItem: EventEmitter<PedidoItem> = new EventEmitter<PedidoItem>();
   newItem: PedidoItem = new PedidoItem();
-  perfiles: Perfil[];
   currentColor: Color;
 
   constructor(private productosP: ProductosProvider,
@@ -145,7 +144,5 @@ export class PedidoHeaderAddItemComponent {
   }
 
   ngOnInit() {
-    this.productosP.getPerfiles().subscribe(
-        (data) => { this.perfiles = data; });
   }
 }

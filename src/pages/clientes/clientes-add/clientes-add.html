@@ -1,5 +1,5 @@
 <ion-header no-border>
-  <ion-navbar color="toolBar">
+  <ion-navbar color="toolBar" hideBackButton=true text-center>
     <ion-title>{{title}}: [{{newCliente.id | number:'3.0-0'}}]</ion-title>
   </ion-navbar>
 </ion-header>
@@ -75,13 +75,17 @@
         <button ion-fab mini color="secondary" (click)="addTelefono()"><ion-icon name="add" ></ion-icon></button>
       </ion-item-group>
       <ion-item-divider color="toolBar" (click)="isShowDescuentos = !isShowDescuentos">
-        DESCUENTOS ({{descuentoUtilizado | number:'1.2-2'}}/{{usuario.MaxDescuentoItem |number:'1.2-2'}})
+        DESCUENTOS ({{getDescuentoAcumulado() | number:'1.2-2'}}% usado de {{usuario.MaxDescuentoItem |number:'1.2-2'}}% permitido)
         <ion-icon item-end name="{{(isShowDescuentos)?'arrow-up':'arrow-down'}}"></ion-icon>
       </ion-item-divider>
       <ion-item-group *ngIf="isShowDescuentos">
-        <ion-item color="scroll-content">
-          <ion-label floating>Descuentos Proximamente</ion-label>
-          <ion-textarea [(ngModel)]="newCliente.Comentarios" name="Comentarios"></ion-textarea>
+        
+        <ion-item color="scroll-content" no-lines>
+          <ion-item  color="scroll-content" *ngFor="let des of newCliente.Descuentos; let desIdx = index" no-lines>
+          <span item-start>{{des?.id}} = {{des?.Descuento |number:'1.2-2'}}%</span>
+          <button item-start ion-fab mini color="danger" (click)="descuentoRemoveItem(desIdx)"><ion-icon name="remove"></ion-icon></button>
+        </ion-item>
+          <button item-end ion-fab mini color="primary" [disabled]="!(getDescuentoAcumulado() < usuario.MaxDescuentoItem)" (click)="descuentoAddItem()"><ion-icon name="add"></ion-icon></button>
         </ion-item>
       </ion-item-group>
       <ion-item-divider color="toolBar" (click)="isShowComentarios = !isShowComentarios">
@@ -99,15 +103,15 @@
     <br>
   </form>
 </ion-content>
-  <ion-fab bottom left>
-      <button ion-fab  color="light" (click)="onCancelar()">
+<ion-fab top left >
+  <button ion-fab color="light" (click)="onCancelar()">
         <ion-icon *ngIf="!isEdit" name="icon-ind_user-remove"></ion-icon>
         <ion-icon *ngIf="isEdit" name="close"></ion-icon>
       </button>
-  </ion-fab>
-    <ion-fab bottom right>
-      <button ion-fab color="primary" (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
+</ion-fab>
+<ion-fab top right>
+  <button ion-fab color="primary" (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
         <ion-icon *ngIf="!isEdit" name="icon-ind_user-add"></ion-icon>
         <ion-icon *ngIf="isEdit" name="icon-ind_user-check" ></ion-icon>
       </button>
-    </ion-fab>
+</ion-fab>

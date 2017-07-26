@@ -1,3 +1,4 @@
+import {UserDoc} from './user.class';
 export class Cliente {
   id: number;
   Nombre: string = '';
@@ -6,6 +7,8 @@ export class Cliente {
   Email: string = '';
   Comentarios: string = '';
   Descuentos: Descuento[] = [];
+  Creador: UserDoc = new UserDoc();
+  Modificador: UserDoc = new UserDoc();
 }
 
 export class Descuento {

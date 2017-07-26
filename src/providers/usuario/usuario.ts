@@ -14,7 +14,7 @@ export class UsuarioProvider {
     return new Observable(obs => {
       this.auth.authState.subscribe(
           (user) => {
-            if (user.uid) {
+            if (user && user.uid) {
               this.db.object(`${USUARIOS}${user.uid}`)
                   .subscribe(
                       (usuario: Usuario) => {
@@ -55,7 +55,5 @@ export class UsuarioProvider {
                 })});
   }
 
-  public logOut() {
-    return this.auth.auth.signOut();
-  }
+  public logOut() { return this.auth.auth.signOut(); }
 }

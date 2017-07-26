@@ -13,13 +13,10 @@ import {LoginPage} from './../login/login';
 
 export class HomePage {
   title: string = SUCURSAL;
-  usuario: Usuario;
+  usuario: Usuario = new Usuario();
 
   constructor(public navCtrl: NavController,
-              private usuarioP: UsuarioProvider) {
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
-  }
+              private usuarioP: UsuarioProvider) {}
 
   public logOut() {
     this.usuarioP.logOut().then(() => { this.navCtrl.setRoot(LoginPage); });
@@ -32,4 +29,13 @@ export class HomePage {
   public goRespartos() { this.navCtrl.push(RepartosHomePage); }
 
   public goFondos() { this.navCtrl.push(FondosHomePage); }
+
+  ngOnInit(){
+    this.getUser();
+  }
+
+  private async getUser() {
+    this.usuarioP.getCurrentUser().subscribe(
+        (user) => { this.usuario = user; });
+  }
 }

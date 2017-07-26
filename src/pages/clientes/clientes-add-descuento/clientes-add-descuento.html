@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar color="toolBar" text-center>
+    <ion-title>Agregar descuento...</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding color="scroll-content">
+  <ion-item-divider color="subToolBar" no-lines>
+    Descuento por
+  </ion-item-divider>
+  <ion-item color="scroll-content" no-lines>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button ion-button block (click)="goSelectColor()">Color</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button block (click)="goSelectLinea()">Linea</button>
+        </ion-col>
+        <ion-col>
+          <button ion-button block (click)="goSelectPerfil()">Perfil</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  <ion-item-divider color="subToolBar" no-lines>
+    Detalle
+  </ion-item-divider>
+  <form #descuentoForm="ngForm" novalidate>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item color="scroll-content" no-lines>
+            <ion-label floating>Producto</ion-label>
+            <ion-input type="text" [(ngModel)]="descuento.id" readonly=true name="id" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item color="scroll-content" no-lines>
+            <ion-label floating>Descuento (%)</ion-label>
+            <ion-input type="number" [(ngModel)]="descuento.Descuento" name="Descuento" max=10 required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+<footer-comun></footer-comun>
+<ion-fab top left>
+  <button ion-fab mini color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab top right>
+  <button ion-fab mini color="secondary" [disabled]="!descuentoForm.valid" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>

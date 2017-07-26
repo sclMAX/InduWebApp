@@ -1,5 +1,6 @@
+import { DocStockIngreso } from './../../models/documentos.class';
+import { AngularFireDatabase } from 'angularfire2/database';
 import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
 import {Pedido, PedidoItem} from './../../models/pedidos.clases';
@@ -137,4 +138,10 @@ export class StockProvider {
               observable.complete();
             });
   }
+
+setIngreso(doc:DocStockIngreso){
+
 }
+
+}
+

@@ -1,26 +1,26 @@
-<ion-header>
-  <ion-navbar color="toolBar">
-    <ion-title text-center>Red INDUMATICS</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-card margin-vertical>
-  <ion-card-header text-center>LOGIN</ion-card-header>
-  <ion-card-content>
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" role="login" novalidate>
-      <ion-item>
-        <ion-label floating>Email</ion-label>
-        <ion-input type="email" [(ngModel)]="user.email" name="User" autocorrect="email" autocomplete="email" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="user.password" name="Password" autocorrect="password" autocomplete="password" required></ion-input>
-      </ion-item>
-      <br>
-    </form>
-    <div text-center>
-      <button ion-button full icon-left (click)="login(user)" [disabled]="!loginForm.valid"><ion-icon name="icon-ind_login"></ion-icon> LOGIN</button>
-    </div>
-  </ion-card-content>
-</ion-card>
+ <ion-grid fixed padding>
+  <ion-row></ion-row>
+  <ion-row>    
+      <ion-card color="scroll-content">
+        <ion-item no-lines text-center color="subToolBar">Bienvenido</ion-item>
+        <form #loginForm="ngForm"  role="login" novalidate>
+          <ion-list>
+            <ion-item pading>
+              <ion-label floating>Usuario</ion-label>
+              <ion-input type="email" [(ngModel)]="user.email" name="User" autocorrect="email" autocomplete="email" required></ion-input>
+            </ion-item>
+            <ion-item pading>
+              <ion-label floating>Password</ion-label>
+              <ion-input type="password" [(ngModel)]="user.password" name="Password" autocorrect="password" autocomplete="password" required></ion-input>
+            </ion-item>
+            <ion-item no-pading>
+              <button ion-button block icon-left (click)="login(user)" [disabled]="!loginForm.valid"><ion-icon name="icon-ind_login"></ion-icon> LOGIN</button>
+            </ion-item>
+          </ion-list>
+        </form>
+      </ion-card>
+    
+  </ion-row>
+  <ion-row></ion-row>
+</ion-grid>
 <footer-comun></footer-comun>
