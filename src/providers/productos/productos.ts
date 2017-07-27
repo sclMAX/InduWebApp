@@ -17,7 +17,7 @@ export class ProductosProvider {
 
   constructor(private db: AngularFireDatabase, private http: Http) {}
 
-  public getPerfiles(linea?: Linea): Observable<Perfil[]> {
+  getPerfiles(linea?: Linea): Observable<Perfil[]> {
     return new Observable((obs) => {
       if (this.Perfiles) {
         if (linea) {
@@ -50,7 +50,7 @@ export class ProductosProvider {
     });
   }
 
-  public getLineas(): Observable<Linea[]> {
+  getLineas(): Observable<Linea[]> {
     return new Observable((obs) => {
       if (this.Lineas) {
         obs.next(this.Lineas);
@@ -72,7 +72,7 @@ export class ProductosProvider {
     });
   }
 
-  public perfilesDownloadWeb() {
+  perfilesDownloadWeb() {
     this.http.get('http://www.indumatics.com.ar/api/perfiles/')
         .map((res: Response) => res.json())
         .subscribe((data) => {

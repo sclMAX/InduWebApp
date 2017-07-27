@@ -1,33 +1,33 @@
-<div>
-  <ion-item color="toolBar" no-lines>
-    <ion-row>
-      <ion-col>CANT</ion-col>
-      <ion-col>CODIGO</ion-col>
-      <ion-col>TRATAMINETO (COLOR)</ion-col>
-      <ion-col>LARGO</ion-col>
-      <ion-col>UNIDADES</ion-col>
-      <ion-col>PRECIO (U$)</ion-col>
-      <ion-col>SUBTOTAL (U$)</ion-col>
-    </ion-row>
-    <ion-icon item-end color="toolBar" name="medical"></ion-icon>
-  </ion-item>
-  <ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of pedido.Items;let idx=index; let p=even" no-lines>
-    <ion-row>
-      <ion-col>{{item?.Cantidad}}</ion-col>
-      <ion-col>{{item?.Perfil?.Codigo}}</ion-col>
-      <ion-col>{{item?.Color.Nombre}} (U${{item?.Color?.PrecioUs |number:'1.2-2'}})</ion-col>
-      <ion-col>{{item?.Perfil?.Largo}}</ion-col>
-      <ion-col>{{calUnidades(item)|number:'1.2-2'}}Kg</ion-col>
-      <ion-col>
-        <ion-badge *ngIf="(calPrecioU$(item) < item?.Color?.PrecioUs)" color="danger">
+<ion-grid no-padding>
+  <ion-row ion-item color="toolBar" no-lines>
+    <ion-col item-start>Cant</ion-col>
+    <ion-col item-start>Codigo</ion-col>
+    <ion-col item-start>Color</ion-col>
+    <ion-col item-start>Largo</ion-col>
+    <ion-col item-start>Unidades</ion-col>
+    <ion-col item-start>Precio (U$)</ion-col>
+    <ion-col item-start>SubTotal (U$)</ion-col>
+  </ion-row>
+  <ion-row ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of pedido.Items;let idx=index; let p=even" no-lines>
+    <ion-col item-start>{{item?.Cantidad}}</ion-col>
+    <ion-col item-start>{{item?.Perfil?.Codigo}}</ion-col>
+    <ion-col item-start>{{item?.Color.Nombre}}</ion-col>
+    <ion-col item-start>{{item?.Perfil?.Largo}}</ion-col>
+    <ion-col item-start>{{calUnidades(item)|number:'1.2-2'}}Kg</ion-col>
+    <ion-col item-start *ngIf="(calPrecioU$(item) < item?.Color?.PrecioUs)" no-padding>
+      <ion-row no-padding>
+        <ion-badge color="toolBar"><small>U${{item?.Color?.PrecioUs |number:'1.2-2'}}</small></ion-badge>
+      </ion-row>
+      <ion-row no-padding>
+        <ion-badge color="danger">
           U$ {{calPrecioU$(item)|number:'1.2-2'}}
         </ion-badge>
-        <div *ngIf="!(calPrecioU$(item) < item?.Color?.PrecioUs)">
-          U$ {{calPrecioU$(item)|number:'1.2-2'}}
-        </div>
-      </ion-col>
-      <ion-col>U$ {{calSubTotalU$(item)|number:'1.2-2'}}</ion-col>
-    </ion-row>
-    <button item-end ion-fab mini color="danger" (click)="removeItem(idx)"><ion-icon  name="remove" ></ion-icon> </button>
-  </ion-item>
-</div>
+      </ion-row>
+    </ion-col>
+    <ion-col item-start *ngIf="!(calPrecioU$(item) < item?.Color?.PrecioUs)">
+      U$ {{calPrecioU$(item)|number:'1.2-2'}}
+    </ion-col>
+    <ion-col item-start>U$ {{calSubTotalU$(item)|number:'1.2-2'}}</ion-col>
+    <button ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
+  </ion-row>
+</ion-grid>

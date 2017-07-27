@@ -14,4 +14,5 @@ export class Sucursal {
 export class SucursalContadores {
   id: string;
   Pedidos: number;
+  DocStockIngreso: number;
 }

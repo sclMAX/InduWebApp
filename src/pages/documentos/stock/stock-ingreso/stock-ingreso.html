@@ -1,3 +1,69 @@
 <ion-content padding>
+    <button ion-item color="toolBar" no-lines text-center (click)="isShowDatos = !isShowDatos">Ingreso de mercaderia</button>
+    <ion-grid no-padding *ngIf="isShowDatos">
+        <ion-row ion-item color="scroll-content" no-lines no-padding>
+            <ion-col item-start>
+                <ion-row>
+                    <ion-badge color="dark">Nro</ion-badge>
+                </ion-row>
+                <ion-row>
+                    <ion-badge *ngIf="!(docIngreso.Numero > 0)" ion-item color="toolBar">
+                        <ion-spinner color="light" name="dots"></ion-spinner>
+                    </ion-badge>
+                    <ion-badge *ngIf="(docIngreso.Numero > 0)" ion-item color="toolBar">{{docIngreso?.Numero |number:'3.0-0'}}</ion-badge>
+                </ion-row>
+            </ion-col>
+            <ion-col item-start>
+                <ion-row>
+                    <ion-badge color="dark">Fecha</ion-badge>
+                </ion-row>
+                <ion-badge ion-item>
+                    <ion-datetime doneText="Aceptar" cancelText="Cancelar" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="docIngreso.Fecha"></ion-datetime>
+                </ion-badge>
+            </ion-col>
+            <ion-col item-start>
+                <ion-row>
+                    <ion-badge color="dark">Nro. Remito</ion-badge>
+                </ion-row>
+                <ion-badge ion-item>
+                    <ion-input type="text" [(ngModel)]="docIngreso.Remito" name="Remito"></ion-input>
+                </ion-badge>
+            </ion-col>
+        </ion-row>
+        <ion-row ion-item color="scroll-content" no-lines no-padding>
+            <ion-row>
+                <ion-badge color="dark">Comentarios</ion-badge>
+            </ion-row>
+            <ion-badge ion-item>
+                <ion-textarea [(ngModel)]="docIngreso.Comentario" name="Comentarios"></ion-textarea>
+            </ion-badge>
+        </ion-row>
+    </ion-grid>
+    <button ion-item color="subToolBar" (click)="isShowAddItem = !isShowAddItem" no-lines>Agregar item<ion-icon *ngIf="isShowAddItem" item-end name="more"></ion-icon></button>
+    <stock-ingreso-add-item *ngIf="isShowAddItem" (onNewItem)="addItem($event)"></stock-ingreso-add-item>
+    <ion-grid>
+        <ion-row *ngIf="docIngreso?.Items?.length > 0" ion-item color="dark" no-lines>
+            <ion-col col-sm-2>Cant</ion-col>
+            <ion-col col-sm-3>Codigo</ion-col>
+            <ion-col>Color</ion-col>
+        </ion-row>
+        <ion-row ion-item color="{{(p)?'listPar':'listImpar'}}" no-lines *ngFor="let item of docIngreso?.Items;let idx=index;let p=even">
+            <ion-col col-sm-2>{{item?.Cantidad}}</ion-col>
+            <ion-col col-sm-3>{{item?.Perfil?.Codigo}}</ion-col>
+            <ion-col>{{item?.Color?.Nombre}}</ion-col>
+            <button ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>
+<ion-footer color="footer">
+    <ion-item color="footer" no-lines>
+        Total Barras: {{getTotalBarras()}}
+    </ion-item>
+</ion-footer>
+<ion-fab top left>
+    <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab top right>
+    <button ion-fab color="primary" [disabled]="docIngreso?.Items?.length < 1" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>

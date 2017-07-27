@@ -94,6 +94,9 @@ import {
 import {
   LineasFindAndSelectComponent
 } from '../components/lineas-find-and-select/lineas-find-and-select';
+import {
+  StockIngresoAddItemComponent
+} from '../components/stock/stock-ingreso-add-item/stock-ingreso-add-item';
 export const environment = {
   production: false,
   firebase: {
@@ -138,7 +141,8 @@ export const environment = {
     PedidosEntregadosCardComponent,
     ClientesAddDescuentoPage,
     LineasFindAndSelectComponent,
-    StockIngresoPage
+    StockIngresoPage,
+    StockIngresoAddItemComponent
   ],
   imports: [
     BrowserModule,

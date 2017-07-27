@@ -1,57 +1,65 @@
-<ion-grid>
-  <ion-row>
-    <ion-item color="footer" no-lines>
-      <h5 item-start>Pedido Nro: {{pedido.Numero || 0 | number:'3.0-0'}}</h5>
-      <div text-center>
-        <h2>{{cliente?.Nombre}}</h2>
-        <h4>{{ cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</h4>
-      </div>
-      <h5 item-end>{{pedido.Fecha | date:'mediumDate'}}</h5>
-    </ion-item>
+<ion-grid no-padding>
+  <ion-row ion-item color="footer" no-lines>
+    <h5 item-start>Pedido Nro: {{pedido.Numero || 0 | number:'3.0-0'}}</h5>
+    <div text-center>
+      <h2>{{cliente?.Nombre}}</h2>
+      <h4>{{ cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</h4>
+    </div>
+    <h5 item-end>{{pedido.Fecha | date:'mediumDate'}}</h5>
   </ion-row>
-  <ion-row>
-    <ion-item-divider (click)="isShowEntrega = !isShowEntrega" color="listDivider1" no-lines>
+  <ion-row no-padding>
+    <button ion-item (click)="isShowEntrega = !isShowEntrega" color="listDivider1" no-lines>
       <ion-icon *ngIf="!validDireccion" item-start name="warning" color="danger"></ion-icon>
       Fecha y Lugar de Entrega
-      <ion-icon item-end name="{{(isShowEntrega)?'arrow-up':'arrow-down'}}"></ion-icon>
-    </ion-item-divider>
+    </button>
   </ion-row>
-  <ion-row *ngIf="isShowEntrega">
-    <ion-col col-3>
-      <ion-item color="toolBar">
-        <ion-label floating>Fecha de Entrega:</ion-label>
-        <ion-datetime cancelText="Cancelar" doneText="Aceptar" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="pedido.FechaEntrega"
-          name="FechaEntrega" required></ion-datetime>
-      </ion-item>
-    </ion-col>
-    <ion-col>
+
+  <ion-grid *ngIf="isShowEntrega" no-padding>
+    <ion-row color="toolBar">
+      <ion-col item-start>
+        <ion-row>
+          <ion-badge color="dark">Fecha de Entrega</ion-badge>
+        </ion-row>
+        <ion-row>
+          <ion-badge ion-item color="toolBar">
+            <ion-datetime cancelText="Cancelar" doneText="Aceptar" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="pedido.FechaEntrega"
+              name="FechaEntrega" required></ion-datetime>
+          </ion-badge>
+        </ion-row>
+      </ion-col>
+      <ion-col item-start>
+        <ion-row>
+          <ion-badge color="dark">Calle</ion-badge>
+        </ion-row>
+        <ion-badge ion-item color="toolBar">
+          <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Calle" name="Calle" required></ion-input>
+        </ion-badge>
+      </ion-col>
+
+      <ion-col item-start>
+        <ion-row>
+          <ion-badge color="dark">Localidad</ion-badge>
+        </ion-row>
+        <ion-badge ion-item color="toolBar">
+          <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Localidad" name="Localidad" required></ion-input>
+        </ion-badge>
+      </ion-col>
+    </ion-row>
+
+    <ion-row ion-item color="scroll-content" no-padding no-lines>
       <ion-row>
-        <ion-col>
-          <ion-item color="toolBar">
-            <ion-label floating>Calle</ion-label>
-            <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Calle" name="Calle" required></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item color="toolBar">
-            <ion-label floating>Localidad</ion-label>
-            <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Localidad" name="Localidad" required></ion-input>
-          </ion-item>
-        </ion-col>
+        <ion-badge color="dark">Comentarios</ion-badge>
       </ion-row>
-    </ion-col>
-    <ion-col col-12>
-      <ion-item no-lines color="toolBar">
-        <ion-label floating>Comentarios</ion-label>
+      <ion-badge ion-item color="toolBar">
         <ion-textarea [(ngModel)]="pedido.Comentario" name="Comentarios"></ion-textarea>
-      </ion-item>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-item-divider (click)="isShowAddItem = !isShowAddItem" color="listDivider2" no-lines>
+      </ion-badge>
+    </ion-row>
+  </ion-grid>
+
+  <ion-row no-padding>
+    <button ion-item (click)="isShowAddItem = !isShowAddItem" color="listDivider2" no-lines>
       Agregar Item
-      <ion-icon item-end name="{{(isShowAddItem)?'arrow-up':'arrow-down'}}"></ion-icon>
-    </ion-item-divider>
+    </button>
   </ion-row>
   <ion-row *ngIf="isShowAddItem">
     <pedido-header-add-item (onNewItem)="pedido.Items.push($event)"></pedido-header-add-item>

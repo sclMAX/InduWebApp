@@ -1,10 +1,10 @@
-<ion-row no-padding>
+<ion-row>
   <ion-col>
     <ion-row>
       <ion-badge color="dark">Cantidad</ion-badge>
     </ion-row>
     <ion-row>
-      <button ion-item no-lines class="itemRound" color="toolBar" (click)="goSelectCantidad()">
+      <button ion-item no-lines class="itemRound" color="light" (click)="goSelectCantidad()">
           {{newItem?.Cantidad || 'Cantidad ?' }}
         </button>
     </ion-row>
@@ -14,7 +14,7 @@
       <ion-badge color="dark">Perfil</ion-badge>
     </ion-row>
     <ion-row>
-      <button ion-item no-lines class="itemRound" color="toolBar" (click)="goSelectPerfil()">
+      <button ion-item no-lines class="itemRound" color="light" (click)="goSelectPerfil()">
            {{newItem?.Perfil?.Codigo || 'Perfil ?'}}
         </button>
     </ion-row>
@@ -24,7 +24,7 @@
       <ion-badge color="dark">Color</ion-badge>
     </ion-row>
     <ion-row>
-      <button ion-item no-lines class="itemRound" color="toolBar" (click)="goSelectColor()">
+      <button ion-item no-lines class="itemRound" color="light" (click)="goSelectColor()">
          {{newItem?.Color?.Nombre || 'Color ?'}}
         </button>
     </ion-row>

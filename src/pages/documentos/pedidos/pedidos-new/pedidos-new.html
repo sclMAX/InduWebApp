@@ -1,38 +1,36 @@
 <ion-content>
-  <ion-list padding color="scroll-content" fixed>
-    <ion-list-header color="scroll-content" no-lines fixed>
-      <pedido-header-edit [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
-    </ion-list-header>
+
+  <ion-item color="scroll-content" no-lines>
+    <pedido-header-edit [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
+  </ion-item>
+  <ion-list padding color="scroll-content">
     <pedido-items-item [(pedido)]="pedido"></pedido-items-item>
   </ion-list>
-  <ion-fab top left>
-    <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
-  </ion-fab>
-  <ion-fab top right>
-    <button ion-fab color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
-  </ion-fab>
 </ion-content>
-<ion-footer text-center>
-  <ion-item color="footer">
-    <div item-start>
-      Ref: U$ 1 = ${{dolarValor |number:'1.3-3'}}
-    </div>
-    <div item-end>
-      {{calTotalBarras()|number}} Barras
-    </div>
-    <div item-end style="min-width: 10px;"></div>
-    <div item-end>
-      {{calTotalUnidades()|number:'1.2-2'}}kg.
-    </div>
-    <div item-end style="min-width: 10px;"></div>
-    <div item-end>
-      U${{calTotalU$() |number:'1.2-2'}}
-    </div>
-    <div item-end style="min-width: 10px;"></div>
-    <div item-end>
-      ${{calTotal$() | async |number:'1.2-2'}}
-    </div>
-  </ion-item>
-
-
+<ion-footer>
+  <ion-grid no-padding>
+    <ion-row ion-item color="footer">
+      <ion-col item-start>
+        <small>U$1 = ${{dolarValor |number:'1.3-3'}}</small>
+      </ion-col>
+      <ion-col item-start>
+        {{calTotalBarras()|number}} Barras
+      </ion-col>
+      <ion-col item-start>
+        {{calTotalUnidades()|number:'1.2-2'}}kg.
+      </ion-col>
+      <ion-col item-start>
+        U${{calTotalU$() |number:'1.2-2'}}
+      </ion-col>
+      <ion-col item-start>
+        ${{calTotal$() | async |number:'1.2-2'}}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-footer>
+<ion-fab top left>
+  <button ion-fab mini color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
+</ion-fab>
+<ion-fab top right>
+  <button ion-fab mini color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>
