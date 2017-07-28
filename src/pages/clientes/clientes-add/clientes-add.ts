@@ -23,8 +23,8 @@ export class ClientesAddPage {
   newCliente: Cliente;
   private oldCliente: Cliente;
   isEdit: boolean = false;
-  isShowDireccion: boolean = false;
-  isShowTelefonos: boolean = false;
+  isShowDireccion: boolean = true;
+  isShowTelefonos: boolean = true;
   isShowEmpresa: boolean = true;
   isShowComentarios: boolean = false;
   isShowDescuentos: boolean = false;

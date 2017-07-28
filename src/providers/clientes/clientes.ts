@@ -130,7 +130,23 @@ export class ClientesProvider {
     });
   }
 
-  getAll(): Observable<Cliente[]> { return this.db.list(SUC_CLIENTES_ROOT); }
+  getAll(): Observable<Cliente[]> {
+    return new Observable((obs) => {
+      this.db.list(SUC_CLIENTES_ROOT)
+          .subscribe(
+              (clientes: Cliente[]) => {
+                if (clientes) {
+                  obs.next(clientes);
+                } else {
+                  obs.error();
+                }
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
+    });
+  }
 
   getOne(id: number): Observable<Cliente> {
     return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);

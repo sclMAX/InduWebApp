@@ -12,14 +12,13 @@ import {
   Stock,
   StockEstado
 } from './../../../models/productos.clases';
-import {ProductosProvider} from './../../../providers/productos/productos';
 import {StockProvider} from './../../../providers/stock/stock';
 import {
   ColoresFindAndSelectComponent
 } from './../../colores-find-and-select/colores-find-and-select';
 import {
   PerfilesFindAndSelectComponent
-} from './../../perfiles-find-and-select/perfiles-find-and-select';
+} from './../../perfiles/perfiles-find-and-select/perfiles-find-and-select';
 
 @Component({
   selector: 'pedido-header-add-item',
@@ -31,8 +30,7 @@ export class PedidoHeaderAddItemComponent {
   newItem: PedidoItem = new PedidoItem();
   currentColor: Color;
 
-  constructor(private productosP: ProductosProvider,
-              private modalCtrl: ModalController,
+  constructor(private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private loadCtrl: LoadingController,
               private stockP: StockProvider,
@@ -143,6 +141,5 @@ export class PedidoHeaderAddItemComponent {
     this.newItem.Color = this.currentColor;
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

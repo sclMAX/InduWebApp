@@ -44,11 +44,13 @@ import {
 } from '../components/pedidos/pedidos-pendientes-card/pedidos-pendientes-card';
 import {
   PerfilesFindAndSelectComponent
-} from '../components/perfiles-find-and-select/perfiles-find-and-select';
-import {PerfilesListComponent} from '../components/perfiles-list/perfiles-list';
+} from '../components/perfiles/perfiles-find-and-select/perfiles-find-and-select';
+import {
+  PerfilesListComponent
+} from '../components/perfiles/perfiles-list/perfiles-list';
 import {
   PerfilesSearchBarComponent
-} from '../components/perfiles-search-bar/perfiles-search-bar';
+} from '../components/perfiles/perfiles-search-bar/perfiles-search-bar';
 import {HomePage} from '../pages/home/home';
 import {ClientesProvider} from '../providers/clientes/clientes';
 import {ColoresProvider} from '../providers/colores/colores';
@@ -83,7 +85,7 @@ import {
 import {MyApp} from './app.component';
 import {
   PerfilesPerfilImgComponent
-} from '../components/perfiles-perfil-img/perfiles-perfil-img';
+} from '../components/perfiles/perfiles-perfil-img/perfiles-perfil-img';
 import {
   PedidosPorEntregarCardComponent
 } from '../components/pedidos/pedidos-por-entregar-card/pedidos-por-entregar-card';

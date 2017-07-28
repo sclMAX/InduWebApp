@@ -28,12 +28,12 @@
 
 <ion-content padding color="scroll-content">
   <ion-grid>
-    <ion-row *ngIf="usuario && usuario.isEmbalaje">
+    <ion-row *ngIf="isLogin && usuario && usuario.isEmbalaje">
       <ion-col>
         <pedidos-pendientes-card [showList]=true></pedidos-pendientes-card>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="usuario && !usuario.isEmbalaje">
+    <ion-row *ngIf="isLogin && usuario && !usuario.isEmbalaje">
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
     </ion-row>

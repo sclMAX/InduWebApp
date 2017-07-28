@@ -17,5 +17,12 @@
         </ion-item>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="isBuscando" justify-content-center>
+      <ion-col ion-item text-center color="subToolBar">
+        <ion-spinner item-start color="light" name="bubbles"></ion-spinner>
+        Buscando Perfiles...
+        <ion-spinner item-end color="light" name="bubbles"></ion-spinner>
+      </ion-col>
+    </ion-row>
   </ion-grid>
 </div>

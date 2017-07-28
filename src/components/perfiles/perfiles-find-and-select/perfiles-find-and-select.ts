@@ -1,4 +1,4 @@
-import {Perfil} from './../../models/productos.clases';
+import {Perfil} from './../../../models/productos.clases';
 import {Component} from '@angular/core';
 import {ViewController} from "ionic-angular";
 @Component({

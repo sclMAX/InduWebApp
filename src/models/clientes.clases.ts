@@ -23,7 +23,7 @@ export class Telefono {
 
 export class Direccion {
   Calle: string;
-  Localidad: string;
-  Provincia: string;
-  Pais: string;
+  Localidad: string = 'Corrientes';
+  Provincia: string = 'Corrientes';
+  Pais: string = 'Argentina';
 }

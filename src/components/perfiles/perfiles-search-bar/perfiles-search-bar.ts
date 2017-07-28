@@ -1,5 +1,5 @@
-import {ProductosProvider} from './../../providers/productos/productos';
-import {Perfil, Linea} from './../../models/productos.clases';
+import {ProductosProvider} from './../../../providers/productos/productos';
+import {Perfil, Linea} from './../../../models/productos.clases';
 import {Component, Output, EventEmitter, Input} from '@angular/core';
 @Component(
     {selector: 'perfiles-search-bar', templateUrl: 'perfiles-search-bar.html'})
@@ -12,12 +12,15 @@ export class PerfilesSearchBarComponent {
   lineas: Linea[];
   selectedLinea: Linea;
   filterPerfiles: Perfil[];
+  isBuscando: boolean = true;
 
   constructor(private productosP: ProductosProvider) {}
 
   onCancelOrChangeLinea() {
+    this.isBuscando = true;
     this.productosP.getPerfiles(this.selectedLinea)
         .subscribe((data: Perfil[]) => {
+          this.isBuscando = false;
           this.filterPerfiles = data;
           this.onFilter.emit(this.filterPerfiles);
         });

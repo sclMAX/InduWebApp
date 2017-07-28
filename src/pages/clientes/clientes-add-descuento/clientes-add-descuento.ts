@@ -7,7 +7,7 @@ import {
 } from './../../../components/colores-find-and-select/colores-find-and-select';
 import {
   PerfilesFindAndSelectComponent
-} from './../../../components/perfiles-find-and-select/perfiles-find-and-select';
+} from './../../../components/perfiles/perfiles-find-and-select/perfiles-find-and-select';
 import {Descuento} from './../../../models/clientes.clases';
 import {Component} from '@angular/core';
 import {ModalController, ViewController} from 'ionic-angular';

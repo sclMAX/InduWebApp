@@ -26,7 +26,11 @@ export class PedidosPorEntregarCardComponent {
     if (this.cliente) {
       return this.cliente;
     } else {
-      return this.clientes.find((cliente) => { return (cliente.id == id); });
+      if (this.clientes) {
+        return this.clientes.find((cliente) => { return (cliente.id == id); });
+      } else {
+        return null;
+      }
     }
   }
 
@@ -71,15 +75,16 @@ export class PedidosPorEntregarCardComponent {
     if (this.cliente) {
       this.pedidosP.getAllCliente(this.cliente.id)
           .subscribe((data) => {
-            this.pedidos = data.filter((pedido) => {
-              return (pedido.isPreparado === true) &&
-                     (pedido.isEntregado === false);
-            });
+            if (data) {
+              this.pedidos = data.filter((pedido) => {
+                return (pedido.isPreparado === true) &&
+                       (pedido.isEntregado === false);
+              });
+            }
           });
     } else {
       this.pedidosP.getPendientesEntregar().subscribe(
           (pedidos) => { this.pedidos = pedidos; });
-
       this.clientesP.getAll().subscribe(
           (clientes) => { this.clientes = clientes; });
     }

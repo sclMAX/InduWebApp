@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {Perfil} from '../../models/productos.clases';
+import {Perfil} from '../../../models/productos.clases';
 
 @Component({selector: 'perfiles-list', templateUrl: 'perfiles-list.html'})
 export class PerfilesListComponent {

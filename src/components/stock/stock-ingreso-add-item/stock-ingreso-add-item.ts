@@ -3,10 +3,9 @@ import {
 } from './../../colores-find-and-select/colores-find-and-select';
 import {
   PerfilesFindAndSelectComponent
-} from './../../perfiles-find-and-select/perfiles-find-and-select';
+} from './../../perfiles/perfiles-find-and-select/perfiles-find-and-select';
 import {Color, Perfil} from './../../../models/productos.clases';
 import {ModalController, AlertController} from 'ionic-angular';
-import {ProductosProvider} from './../../../providers/productos/productos';
 import {DocStockItem} from './../../../models/documentos.class';
 import {Component, EventEmitter, Output} from '@angular/core';
 @Component({
@@ -19,8 +18,7 @@ export class StockIngresoAddItemComponent {
   newItem: DocStockItem = new DocStockItem();
   currentColor: Color;
 
-  constructor(private productosP: ProductosProvider,
-              private alertCtrl: AlertController,
+  constructor(private alertCtrl: AlertController,
               private modalCtrl: ModalController) {}
 
   goSelectCantidad() {

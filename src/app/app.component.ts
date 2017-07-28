@@ -26,17 +26,18 @@ export class MyApp {
       load.present().then(() => {
         auth.authState.subscribe(user => {
           if (!user) {
-            load.dismiss().then(() => { this.rootPage = LoginPage; });
-
+            load.dismiss();
+            this.rootPage = LoginPage;
           } else {
             sp.setSucursal().subscribe(
                 (sucursal) => {
-                  load.dismiss().then(() => { this.rootPage = HomePage; });
+                  load.dismiss();
+                  this.rootPage = HomePage;
                 },
                 (error) => {
-                  load.dismiss().then(() => {
-                    up.logOut().then(() => { this.rootPage = LoginPage; });
-                  });
+                  load.dismiss();
+                  up.logOut();
+                  this.rootPage = LoginPage;
                 });
           }
         });
