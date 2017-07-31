@@ -27,3 +27,12 @@ export class Direccion {
   Provincia: string = 'Corrientes';
   Pais: string = 'Argentina';
 }
+
+export class CtaCte {
+  id: string;
+  idCliente: number;
+  Fecha: string = new Date().toISOString();
+  Debe: number = 0.00;
+  Haber: number = 0.00;
+  isEntregado:boolean = false;
+}

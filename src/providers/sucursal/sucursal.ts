@@ -12,8 +12,10 @@ export let SUC_DOCUMENTOS_PEDIDOS: string = '';
 export let SUC_CONTADORES_ROOT: string = '';
 export let SUC_STOCK_ROOT: string = '';
 export let SUC_ADICIONALES_ROOT: string = '';
+export let SUC_DESCUENTOS_ROOT: string = '';
 export let SUC_LOG_ROOT: string = '';
 export let SUC_DOCUMENTOS_STOCKINGRESOS_ROOT: string = '';
+export let SUC_DOCUMENTOS_CTASCTES_ROOT: string = '';
 
 @Injectable()
 export class SucursalProvider {
@@ -49,7 +51,9 @@ export class SucursalProvider {
     SUC_DOCUMENTOS_ROOT = `${SUCURSAL_ROOT}Documentos/`;
     SUC_DOCUMENTOS_PEDIDOS = `${SUC_DOCUMENTOS_ROOT}Pedidos/`;
     SUC_ADICIONALES_ROOT = `${SUCURSAL_ROOT}Adicionales/`;
+    SUC_DESCUENTOS_ROOT = `${SUCURSAL_ROOT}Descuentos/`;
     SUC_LOG_ROOT = `${SUCURSAL_ROOT}Log/`;
     SUC_DOCUMENTOS_STOCKINGRESOS_ROOT = `${SUC_DOCUMENTOS_ROOT}StockIngresos/`;
+    SUC_DOCUMENTOS_CTASCTES_ROOT = `${SUC_DOCUMENTOS_ROOT}CtasCtes/`;
   }
 }

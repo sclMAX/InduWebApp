@@ -1,4 +1,4 @@
-import {Pedido, PedidoItem} from './../../../models/pedidos.clases';
+import {Pedido} from './../../../models/pedidos.clases';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {NavController} from 'ionic-angular';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
@@ -34,27 +34,18 @@ export class PedidosPorEntregarCardComponent {
     }
   }
 
-  getSubTotalUnidades(items: PedidoItem[]): number {
-    if (items) {
-      return this.pedidosP.calTotalUnidades(items);
-    } else {
-      return 0.00;
-    }
-  }
-
   getTotalUnidades(): number {
     let t: number = 0.00;
     if (this.pedidos) {
-      this.pedidos.forEach(
-          (pedido) => { t += this.getSubTotalUnidades(pedido.Items) * 1; });
+      this.pedidos.forEach((pedido) => { t += pedido.TotalUnidades * 1; });
     }
     return t;
   }
 
   getSubTotalUs(pedido: Pedido): number {
     if (pedido) {
-      return this.pedidosP.calTotalU$(pedido,
-                                      this.getCliente(pedido.idCliente));
+      return pedido.TotalUs /
+             ( (pedido.DescuentoKilos > 0) ? (1 + (pedido.DescuentoKilos / 100)) : 1);
     } else {
       return 0.00;
     }

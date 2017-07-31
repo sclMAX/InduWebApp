@@ -95,7 +95,7 @@ export class StockProvider {
     });
   }
 
-  public update(item: Stock): Observable<string> {
+  update(item: Stock): Observable<string> {
     return new Observable((obs) => {
       this.db.object(`${SUC_STOCK_ROOT}${item.idPerfil}/${item.idColor}/Stock`)
           .update(item.stock)

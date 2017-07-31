@@ -99,6 +99,7 @@ import {
 import {
   StockIngresoAddItemComponent
 } from '../components/stock/stock-ingreso-add-item/stock-ingreso-add-item';
+import { DescuentosProvider } from '../providers/descuentos/descuentos';
 export const environment = {
   production: false,
   firebase: {
@@ -187,7 +188,8 @@ export const environment = {
     PedidosProvider,
     DolarProvider,
     StockProvider,
-    AdicionalesProvider
+    AdicionalesProvider,
+    DescuentosProvider
   ]
 })
 export class AppModule {

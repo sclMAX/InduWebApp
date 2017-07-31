@@ -3,7 +3,6 @@ import {Usuario} from './../../../../models/user.class';
 import {
   PrintPedidoParaEmbalarPage
 } from './../../../documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
-import {StockProvider} from './../../../../providers/stock/stock';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../../models/clientes.clases';
 import {ClientesProvider} from './../../../../providers/clientes/clientes';
@@ -32,7 +31,7 @@ export class PedidosEmbalarPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private clientesP: ClientesProvider,
               private usuarioP: UsuarioProvider,
-              private pedidosP: PedidosProvider, private stockP: StockProvider,
+              private pedidosP: PedidosProvider,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
               private alertCtrl: AlertController) {
@@ -155,7 +154,7 @@ export class PedidosEmbalarPage {
     alert.present();
   }
 
-  cerrarPedido() {
+  prepararPedido() {
     let alert = this.alertCtrl.create({
       title: 'Cantidad de Paquetes?',
       subTitle: 'Ingrese la cantidad de paquetes armados para el pedido.',
@@ -176,7 +175,7 @@ export class PedidosEmbalarPage {
             if (data) {
               let cp: number = data.cp * 1;
               if (cp > 0) {
-                this.updateStock(cp);
+                this.setPreparado(cp);
               }
             }
           }
@@ -250,19 +249,19 @@ export class PedidosEmbalarPage {
     }
   }
 
-  private updateStock(paquetes: number) {
+  private setPreparado(paquetes: number) {
     let load = this.loadCtrl.create({content: 'Actualizando Stock...'});
     let toast = this.toastCtrl.create({position: 'middle'});
     load.present().then(() => {
-      this.stockP.updateStockItems(this.pedido.Items)
+      this.pedido.CantidadPaquetes = paquetes;
+      this.pedidosP.prepararPedido(this.pedido)
           .subscribe(
               (ok) => {
+                this.navCtrl.pop();
                 load.dismiss();
-                this.pedido.CantidadPaquetes = paquetes;
-                this.pedido.isPreparado = true;
-                this.pedido.Items.forEach(
-                    (item) => { item.isStockActualizado = true; });
-                this.guardar();
+                toast.setMessage(ok);
+                toast.setDuration(1000);
+                toast.present();
               },
               (error) => {
                 load.dismiss();

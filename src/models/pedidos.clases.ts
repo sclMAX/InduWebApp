@@ -11,6 +11,9 @@ export class Pedido extends Documento {
   isPreparado: boolean = false;
   Items: PedidoItem[] = [];
   Dolar: Dolar;
+  TotalUnidades: number = 0.00;
+  TotalUs: number = 0.00;
+  DescuentoKilos: number = 0.00;
   DescuentoGeneral: number = 0.00;
   CantidadPaquetes: number = 0;
   constructor() {

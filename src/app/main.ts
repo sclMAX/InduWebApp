@@ -1,4 +1,3 @@
-import { UsuarioProvider } from './../providers/usuario/usuario';
 import { SucursalProvider } from './../providers/sucursal/sucursal';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
