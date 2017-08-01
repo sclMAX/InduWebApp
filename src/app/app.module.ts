@@ -1,4 +1,7 @@
 import {
+  PedidosEntregarPage
+} from './../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
+import {
   StockIngresoPage
 } from './../pages/documentos/stock/stock-ingreso/stock-ingreso';
 import {
@@ -99,7 +102,7 @@ import {
 import {
   StockIngresoAddItemComponent
 } from '../components/stock/stock-ingreso-add-item/stock-ingreso-add-item';
-import { DescuentosProvider } from '../providers/descuentos/descuentos';
+import {DescuentosProvider} from '../providers/descuentos/descuentos';
 export const environment = {
   production: false,
   firebase: {
@@ -145,7 +148,8 @@ export const environment = {
     ClientesAddDescuentoPage,
     LineasFindAndSelectComponent,
     StockIngresoPage,
-    StockIngresoAddItemComponent
+    StockIngresoAddItemComponent,
+    PedidosEntregarPage
   ],
   imports: [
     BrowserModule,
@@ -174,7 +178,8 @@ export const environment = {
     PrintPedidoParaEmbalarPage,
     ClientesAddDescuentoPage,
     LineasFindAndSelectComponent,
-    StockIngresoPage
+    StockIngresoPage,
+    PedidosEntregarPage
   ],
   providers: [
     StatusBar,

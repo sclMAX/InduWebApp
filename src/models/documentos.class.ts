@@ -1,5 +1,5 @@
 import {Perfil, Color} from './productos.clases';
-import {Usuario, UserDoc} from './user.class';
+import {UserDoc} from './user.class';
 
 export class Documento {
   id: number;

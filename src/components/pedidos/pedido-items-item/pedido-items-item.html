@@ -28,6 +28,6 @@
       U$ {{calPrecioU$(item)|number:'1.2-2'}}
     </ion-col>
     <ion-col item-start>U$ {{calSubTotalU$(item)|number:'1.2-2'}}</ion-col>
-    <button ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
+    <button *ngIf="showRemove" ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
   </ion-row>
 </ion-grid>

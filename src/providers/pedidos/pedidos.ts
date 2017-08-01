@@ -354,6 +354,10 @@ export class PedidosProvider {
   calTotal$(pedido: Pedido, cliente: Cliente): Observable<number> {
     return new Observable((obs) => {
       let tUs: number = this.calTotalU$(pedido, cliente);
+      pedido.DescuentoKilos = this.calDescuentoKilos(pedido);
+      tUs = tUs / ((pedido.DescuentoKilos > 0) ?
+                       (1 + (pedido.DescuentoKilos / 100)) :
+                       1);
       if (pedido) {
         if (pedido.Dolar && pedido.Dolar.Valor && pedido.Dolar.Valor > 0) {
           obs.next(tUs * pedido.Dolar.Valor * 1);

@@ -9,28 +9,23 @@ import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 export class PedidoItemsItemComponent {
   @Input() pedido: Pedido;
   @Input() cliente: Cliente;
-  constructor(
-      private pedidosP: PedidosProvider, private clienteP: ClientesProvider) {}
+  @Input() showRemove: boolean = true;
+
+  constructor(private pedidosP: PedidosProvider,
+              private clienteP: ClientesProvider) {}
 
   ngOnInit() {
-    this.clienteP.getOne(this.pedido.idCliente).subscribe((cliente) => {
-      this.cliente = cliente;
-    });
+    this.clienteP.getOne(this.pedido.idCliente)
+        .subscribe((cliente) => { this.cliente = cliente; });
   }
 
-  calUnidades(item): number {
-    return this.pedidosP.calUnidades(item);
-  }
+  calUnidades(item): number { return this.pedidosP.calUnidades(item); }
 
-  calPrecioU$(item) {
-    return this.pedidosP.calPrecioU$(item, this.cliente);
-  }
+  calPrecioU$(item) { return this.pedidosP.calPrecioU$(item, this.cliente); }
 
   calSubTotalU$(item) {
     return this.pedidosP.calSubTotalU$(item, this.cliente);
   }
 
-  removeItem(idx) {
-    this.pedido.Items.splice(idx, 1);
-  }
+  removeItem(idx) { this.pedido.Items.splice(idx, 1); }
 }

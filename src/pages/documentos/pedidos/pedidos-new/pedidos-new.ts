@@ -118,10 +118,23 @@ export class PedidosNewPage {
   }
 
   calTotalUnidades(): number {
-    return this.pedidosP.calTotalUnidades(this.pedido.Items);
+    this.pedido.TotalUnidades =
+        this.pedidosP.calTotalUnidades(this.pedido.Items);
+    return this.pedido.TotalUnidades;
   }
 
   calTotalBarras(): number {
     return this.pedidosP.calTotalBarras(this.pedido.Items);
+  }
+
+  calDescuentoKilos() {
+    this.calTotalUnidades();
+    this.pedido.DescuentoKilos = this.pedidosP.calDescuentoKilos(this.pedido);
+    return this.pedido.DescuentoKilos;
+  }
+
+  calTotalU$ConDescuento(): number {
+    let des: number = this.pedido.DescuentoKilos * 1;
+    return this.calTotalU$() / ((des > 0) ? (1 + (des / 100)) : 1);
   }
 }

@@ -3,7 +3,6 @@ import {AlertController, LoadingController, NavController, ToastController} from
 
 import {Cliente} from './../../models/clientes.clases';
 import {ClientesAddPage} from './../../pages/clientes/clientes-add/clientes-add';
-import {ClientesDetallePage} from './../../pages/clientes/clientes-detalle/clientes-detalle';
 import {PedidosNewPage} from './../../pages/documentos/pedidos/pedidos-new/pedidos-new';
 import {ClientesProvider} from './../../providers/clientes/clientes';
 import {PedidosProvider} from './../../providers/pedidos/pedidos';

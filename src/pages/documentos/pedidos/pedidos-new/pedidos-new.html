@@ -14,16 +14,28 @@
         <small>U$1 = ${{dolarValor |number:'1.3-3'}}</small>
       </ion-col>
       <ion-col item-start>
-        {{calTotalBarras()|number}} Barras
+        <ion-row> <small>Barras</small></ion-row>
+        <ion-row>{{calTotalBarras()|number}}</ion-row>
       </ion-col>
       <ion-col item-start>
-        {{calTotalUnidades()|number:'1.2-2'}}kg.
+        <ion-row> <small>Kilos</small></ion-row>
+        <ion-row>{{calTotalUnidades()|number:'1.2-2'}}kg.</ion-row>
       </ion-col>
       <ion-col item-start>
-        U${{calTotalU$() |number:'1.2-2'}}
+        <ion-row> <small>Total SD</small></ion-row>
+        <ion-row>U${{calTotalU$() |number:'1.2-2'}}</ion-row>
       </ion-col>
       <ion-col item-start>
-        ${{calTotal$() | async |number:'1.2-2'}}
+        <ion-row> <small>Des. Kilos</small></ion-row>
+        <ion-row>{{calDescuentoKilos()|number:'1.2-2'}}%</ion-row>
+      </ion-col>
+      <ion-col item-start>
+        <ion-row> <small>Total CD</small></ion-row>
+        <ion-row>U${{calTotalU$ConDescuento() |number:'1.2-2'}}</ion-row>
+      </ion-col>
+      <ion-col item-start>
+        <ion-row> <small>T. Pesos</small></ion-row>
+        <ion-row>${{calTotal$() | async |number:'1.2-2'}}</ion-row>
       </ion-col>
     </ion-row>
   </ion-grid>

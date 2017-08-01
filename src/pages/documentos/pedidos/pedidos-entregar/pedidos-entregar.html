@@ -1,0 +1,101 @@
+<ion-content>
+  <ion-row ion-item color="scroll-content" no-lines no-padding>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-badge color="toolBar">Pedido</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge color="listDivider1">{{pedido?.Numero |number:'3.0-0'}}</ion-badge>
+            <ion-badge color="listDivider1">{{pedido?.Fecha |date:'dd/MM/yyyy'}}</ion-badge>
+          </ion-row>
+        </ion-col>
+
+        <ion-col>
+          <ion-row>
+            <ion-badge color="toolBar">Cliente</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge color="listDivider1">{{cliente?.id |number:'3.0-0'}}</ion-badge>
+            <ion-badge color="listDivider1">{{cliente?.Nombre}}</ion-badge>
+          </ion-row>
+        </ion-col>
+
+        <ion-col>
+          <ion-row>
+            <ion-badge color="toolBar">Telefono</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge color="listDivider1">{{cliente?.Telefonos[0]?.Contacto}}</ion-badge>
+            <ion-badge color="listDivider1">{{cliente?.Telefonos[0]?.Numero}}</ion-badge>
+          </ion-row>
+        </ion-col>
+
+        <ion-col>
+          <ion-row>
+            <ion-badge color="toolBar">Direccion</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge color="listDivider1">{{cliente?.Direccion?.Calle}}</ion-badge>
+            <ion-badge color="listDivider1">{{cliente?.Direccion?.Localidad}}</ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-row>
+  <pedido-items-item [pedido]="pedido" [showRemove]=false></pedido-items-item>
+</ion-content>
+<ion-footer no-padding no-border>
+  <ion-row ion-item no-lines no-padding color="subToolBar">
+    <ion-col item-start>
+      <ion-row><small>T.Kilos</small></ion-row>
+      <ion-row><small>{{pedido?.TotalUnidades |number:'1.2-2'}}kg.</small></ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>Total SD</small></ion-row>
+      <ion-row>U${{pedido?.TotalUs |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>DK(%)</small></ion-row>
+      <ion-row><small>{{pedido?.DescuentoKilos |number:'1.2-2'}}%</small></ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>Total CD</small></ion-row>
+      <ion-row>U${{calTotalCDK() |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>DG.(%)</small></ion-row>
+      <ion-badge ion-button small color="scroll-content" (click)="setDescuentoGeneral()">
+        {{pedido?.DescuentoGeneral |number:'1.2-2'}}
+      </ion-badge>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>Total Neto</small></ion-row>
+      <ion-row>U${{calTotalNeto() |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>CV</small></ion-row>
+      <ion-badge ion-button small color="scroll-content" (click)="setCV()">
+        {{pedido?.CV?.Tipo || '?'}}
+      </ion-badge>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>T.Final(U$)</small></ion-row>
+      <ion-row>U${{calTotalFinal() |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>Dolar</small></ion-row>
+      <ion-row><small>${{dolar |number:'1.2-2'}}</small></ion-row>
+    </ion-col>
+    <ion-col item-start>
+      <ion-row><small>T.Final($)</small></ion-row>
+      <ion-row>${{calTotalFinal() * dolar |number:'1.2-2'}}</ion-row>
+    </ion-col>
+  </ion-row>
+</ion-footer>
+<ion-fab top right>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <button ion-fab color="primary" (click)="guardar()"><ion-icon name="add"></ion-icon></button>
+</ion-fab>

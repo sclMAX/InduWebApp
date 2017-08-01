@@ -1,3 +1,4 @@
+import {CV} from './../providers/usuario/usuario';
 import {Dolar} from './fondos.clases';
 import {Direccion} from './clientes.clases';
 import {Documento} from './documentos.class';
@@ -16,20 +17,10 @@ export class Pedido extends Documento {
   DescuentoKilos: number = 0.00;
   DescuentoGeneral: number = 0.00;
   CantidadPaquetes: number = 0;
+  CV: CV;
   constructor() {
     super();
     this.FechaEntrega = new Date().toISOString();
-  }
-
-  getTotalUnidades() {
-    if (this.Items && this.Items.length > 0) {
-      let tU: number = 0;
-      this.Items.forEach(
-          (item: PedidoItem) => { tU += item.getUnidades() * 1; });
-      return tU * 1;
-    } else {
-      return 0;
-    }
   }
 }
 
@@ -42,20 +33,4 @@ export class PedidoItem {
   Descuento: number;
   isEmbalado: boolean = false;
   isStockActualizado: boolean = false;
-  getUnidades() {
-    if (this.Perfil && this.Color) {
-      let pxm: number = (this.Color.isPintura) ? this.Perfil.PesoPintado :
-                                                 this.Perfil.PesoNatural;
-      return (this.Cantidad * ((pxm) * (this.Perfil.Largo / 1000)));
-    } else {
-      return 0.00;
-    };
-  }
-  getSubTotalUs() {
-    if (this.Color) {
-      return this.getUnidades() * this.Color.PrecioUs * 1;
-    } else {
-      return 0.00;
-    }
-  }
 }

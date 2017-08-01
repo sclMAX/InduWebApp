@@ -9,7 +9,6 @@ import {
   COMUN_CONTADORES_CLIENTES
 } from '../../models/db-base-paths';
 import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
-import {Pedido} from './../../models/pedidos.clases';
 
 @Injectable()
 export class ClientesProvider {

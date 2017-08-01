@@ -1,3 +1,4 @@
+import {COMUN_CV} from './../../models/db-base-paths';
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -10,7 +11,7 @@ import {UserLogin, Usuario} from '../../models/user.class';
 export class UsuarioProvider {
   constructor(private db: AngularFireDatabase, private auth: AngularFireAuth) {}
 
-  public getCurrentUser(): Observable<Usuario> {
+  getCurrentUser(): Observable<Usuario> {
     return new Observable(obs => {
       this.auth.authState.subscribe(
           (user) => {
@@ -41,7 +42,7 @@ export class UsuarioProvider {
     });
   }
 
-  public login(user: UserLogin): Observable<string> {
+  login(user: UserLogin): Observable<string> {
     return new Observable(
         (obs) => {
             this.auth.auth.signInWithEmailAndPassword(user.email, user.password)
@@ -55,5 +56,25 @@ export class UsuarioProvider {
                 })});
   }
 
-  public logOut() { return this.auth.auth.signOut(); }
+  logOut() { return this.auth.auth.signOut(); }
+
+  getCV(): Observable<CV[]> {
+    return new Observable((obs) => {
+      let list = this.db.list(COMUN_CV).subscribe(
+          (cv: CV[]) => {
+            obs.next(cv || []);
+            list.unsubscribe();
+            obs.complete();
+          },
+          (error) => {
+            obs.error(error);
+            obs.complete();
+          });
+    });
+  }
+}
+
+export class CV {
+  Tipo: string;
+  Monto: number = 0.00;
 }

@@ -1,3 +1,6 @@
+import {
+  PedidosEntregarPage
+} from './../../../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
 import {Pedido} from './../../../models/pedidos.clases';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {NavController} from 'ionic-angular';
@@ -44,8 +47,9 @@ export class PedidosPorEntregarCardComponent {
 
   getSubTotalUs(pedido: Pedido): number {
     if (pedido) {
-      return pedido.TotalUs /
-             ( (pedido.DescuentoKilos > 0) ? (1 + (pedido.DescuentoKilos / 100)) : 1);
+      return pedido.TotalUs / ((pedido.DescuentoKilos > 0) ?
+                                   (1 + (pedido.DescuentoKilos / 100)) :
+                                   1);
     } else {
       return 0.00;
     }
@@ -60,7 +64,11 @@ export class PedidosPorEntregarCardComponent {
     return t;
   }
 
-  goPedido(pedido) {}
+  goPedido(pedido: Pedido) {
+    this.navCtrl.push(
+        PedidosEntregarPage,
+        {Pedido: pedido, Cliente: this.getCliente(pedido.idCliente)});
+  }
 
   private async getData() {
     if (this.cliente) {
