@@ -1,0 +1,99 @@
+<ion-grid fixed padding margin-auto>
+  <ion-col>
+    <ion-row ion-item text-center no-lines>
+      <h5 item-start>Nro:{{pedido?.Numero |number:'3.0-0'}}</h5>
+      <h4><strong>{{cliente?.id}} - {{cliente?.Nombre}}</strong></h4>
+      <h5 item-end>{{pedido?.Fecha |date:'dd/MM/yyyy'}}</h5>
+    </ion-row>
+    <ion-row ion-item no-lines>
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <strong>Direccion:</strong> {{cliente?.Direccion.Calle}}, {{cliente?.Direccion.Localidad}}, {{cliente?.Direccion.Localidad}}
+          </ion-row>
+          <ion-row>
+            <strong> Direccion de entrega:</strong> {{pedido?.DireccionEntrega?.Calle}}, {{pedido?.DireccionEntrega?.Localidad}},
+            {{pedido?.DireccionEntrega?.Localidad}}
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row><strong>Telefonos</strong></ion-row>
+          <ion-row *ngFor="let tel of cliente?.Telefonos;let i=index">
+            <span *ngIf="i < 3">{{tel?.Contacto}}: {{tel.Numero}}</span></ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-row><strong>Comentarios</strong></ion-row>
+        <ion-row>
+          <p>{{pedido?.Comentario}}</p>
+        </ion-row>
+      </ion-row>
+    </ion-row>
+    <ion-row ion-item no-lines>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Cantidad</th>
+          <th>Codigo</th>
+          <th>Color</th>
+          <th>Largo</th>
+          <th>Kilos</th>
+          <th>Precio (U$)</th>
+          <th>SubTotal</th>
+        </tr>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of pedido?.Items; let p=even" text-right>
+          <td>{{item?.Cantidad}}</td>
+          <td>{{item?.Perfil?.Codigo}}</td>
+          <td text-center>{{item?.Color?.Nombre}}</td>
+          <td text-center>{{item?.Perfil?.Largo}}</td>
+          <td>{{item?.Unidades |number:'1.2-2'}}kg.</td>
+          <td>U$ {{item?.PrecioUs |number:'1.2-2'}}</td>
+          <td>U$ {{(item?.Unidades * item?.PrecioUs)|number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-row>
+    <ion-row padding>
+      <table width="100%" border=1>
+        <tr>
+          <th>C.Paq.</th>
+          <th>Kilos</th>
+          <th>Subtotal</th>
+          <th>D.Cant.</th>
+          <th>D.Esp.</th>
+          <th>Subtotal</th>
+          <th>CV</th>
+        </tr>
+        <tr text-center>
+          <td>{{pedido?.CantidadPaquetes}}</td>
+          <td>{{pedido?.TotalUnidades |number:'1.2-2'}}kg.</td>
+          <td>U$ {{pedido?.TotalUs |number:'1.2-2'}}</td>
+          <td>{{pedido?.DescuentoKilos |number:'1.2-2'}}%</td>
+          <td>{{pedido?.DescuentoGeneral |number:'1.2-2'}}%</td>
+          <td>U$ {{getTotalConDescuentos() |number:'1.2-2'}}</td>
+          <td>{{pedido?.CV?.Tipo}}</td>
+        </tr>
+      </table>
+    </ion-row>
+    <ion-row padding>
+      <table width="100%" border=1>
+        <tr>
+          <th>Total (U$)</th>
+          <th>Saldo Anterior</th>
+          <th>Saldo Actual</th>
+          <th>R.Dolar</th>
+          <th>Total ($)</th>
+        </tr>
+        <tr text-center>
+          <td>U$ {{calTotalFinal() |number:'1.2-2'}}</td>
+          <td>U$ {{saldo |number:'1.2-2'}}</td>
+          <td>U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
+          <td>${{pedido?.Dolar?.Valor |number:'1.2-2'}}</td>
+          <td>$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.Valor |number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+<ion-fab top right>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>

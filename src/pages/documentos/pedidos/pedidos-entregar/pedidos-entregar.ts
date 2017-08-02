@@ -1,3 +1,11 @@
+import {CtasCtesProvider} from './../../../../providers/ctas-ctes/ctas-ctes';
+import {Dolar} from './../../../../models/fondos.clases';
+import {
+  PrintPedidoEntregaPage
+} from './../../print/print-pedido-entrega/print-pedido-entrega';
+import {
+  PrintPedidoParaEmbalarPage
+} from './../../print/print-pedido-para-embalar/print-pedido-para-embalar';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {UsuarioProvider, CV} from './../../../../providers/usuario/usuario';
@@ -66,6 +74,11 @@ export class PedidosEntregarPage {
     });
   }
 
+  isValid(): boolean {
+    let res: boolean = false;
+    res = this.pedido.CV != null;
+    return res;
+  }
 
   goBack() { this.navCtrl.pop(); }
 
@@ -160,4 +173,12 @@ export class PedidosEntregarPage {
   }
 
   ionViewDidLoad() {}
+
+  print() {
+    this.pedido.Dolar = new Dolar();
+    this.pedido.Dolar.Fecha = new Date().toISOString();
+    this.pedido.Dolar.Valor = this.dolar;
+    this.navCtrl.push(PrintPedidoEntregaPage,
+                      {Pedido: this.pedido, Cliente: this.cliente});
+  }
 }

@@ -20,21 +20,28 @@ export class DolarProvider {
     });
   }
 
+  getDolar(): Observable<Dolar> {
+    return new Observable((obs) => {
+      this.db.object(COMUN_DOLAR)
+          .subscribe((dolar: Dolar) => { obs.next(dolar); }, (error) => {
+            obs.error(error);
+            obs.complete();
+          });
+    });
+  }
+
   public setDolar(valor: number): Observable<string> {
     return new Observable((obs) => {
       let updData = {};
-      updData[`${COMUN_DOLAR}`] = {
-        Fecha: new Date().toISOString(),
-        Valor: valor,
-        id: 'Dolar'
-      };
+      let dolar: Dolar = new Dolar();
+      dolar.Fecha = new Date().toISOString();
+      dolar.Valor = valor;
+      dolar.id = 'Dolar';
+      updData[`${COMUN_DOLAR}`] = dolar;
       let hoy = new Date();
       let n = `${hoy.getFullYear()}${hoy.getMonth()}${hoy.getDate()}`;
-      updData[`${ROOT}Comun/DolarHistorico/${n}`] = {
-        id: n,
-        Fecha: new Date().toISOString(),
-        Valor: valor
-      };
+
+      updData[`${ROOT}Comun/DolarHistorico/${n}`] = dolar;
       this.db.database.ref()
           .update(updData)
           .then(() => {

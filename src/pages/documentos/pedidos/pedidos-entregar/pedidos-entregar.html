@@ -1,50 +1,5 @@
 <ion-content>
-  <ion-row ion-item color="scroll-content" no-lines no-padding>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-row>
-            <ion-badge color="toolBar">Pedido</ion-badge>
-          </ion-row>
-          <ion-row>
-            <ion-badge color="listDivider1">{{pedido?.Numero |number:'3.0-0'}}</ion-badge>
-            <ion-badge color="listDivider1">{{pedido?.Fecha |date:'dd/MM/yyyy'}}</ion-badge>
-          </ion-row>
-        </ion-col>
-
-        <ion-col>
-          <ion-row>
-            <ion-badge color="toolBar">Cliente</ion-badge>
-          </ion-row>
-          <ion-row>
-            <ion-badge color="listDivider1">{{cliente?.id |number:'3.0-0'}}</ion-badge>
-            <ion-badge color="listDivider1">{{cliente?.Nombre}}</ion-badge>
-          </ion-row>
-        </ion-col>
-
-        <ion-col>
-          <ion-row>
-            <ion-badge color="toolBar">Telefono</ion-badge>
-          </ion-row>
-          <ion-row>
-            <ion-badge color="listDivider1">{{cliente?.Telefonos[0]?.Contacto}}</ion-badge>
-            <ion-badge color="listDivider1">{{cliente?.Telefonos[0]?.Numero}}</ion-badge>
-          </ion-row>
-        </ion-col>
-
-        <ion-col>
-          <ion-row>
-            <ion-badge color="toolBar">Direccion</ion-badge>
-          </ion-row>
-          <ion-row>
-            <ion-badge color="listDivider1">{{cliente?.Direccion?.Calle}}</ion-badge>
-            <ion-badge color="listDivider1">{{cliente?.Direccion?.Localidad}}</ion-badge>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-
-    </ion-grid>
-  </ion-row>
+<pedido-header [pedido]="pedido" [cliente]="cliente"></pedido-header>
   <pedido-items-item [pedido]="pedido" [showRemove]=false></pedido-items-item>
 </ion-content>
 <ion-footer no-padding no-border>
@@ -77,7 +32,7 @@
     </ion-col>
     <ion-col item-start>
       <ion-row><small>CV</small></ion-row>
-      <ion-badge ion-button small color="scroll-content" (click)="setCV()">
+      <ion-badge ion-button small [color]="(pedido.CV)?'scroll-content':'danger'" (click)="setCV()">
         {{pedido?.CV?.Tipo || '?'}}
       </ion-badge>
     </ion-col>
@@ -97,5 +52,6 @@
 </ion-footer>
 <ion-fab top right>
   <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
-  <button ion-fab color="primary" (click)="guardar()"><ion-icon name="add"></ion-icon></button>
+  <br>
+  <button ion-fab color="primary" [disabled]="!isValid()" (click)="print()"><ion-icon name="checkmark"></ion-icon></button>
 </ion-fab>

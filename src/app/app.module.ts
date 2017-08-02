@@ -1,4 +1,8 @@
 import {
+  PrintPedidoEntregaPage
+} from './../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
+import {Printer} from '@ionic-native/printer';
+import {
   PedidosEntregarPage
 } from './../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
 import {
@@ -103,6 +107,10 @@ import {
   StockIngresoAddItemComponent
 } from '../components/stock/stock-ingreso-add-item/stock-ingreso-add-item';
 import {DescuentosProvider} from '../providers/descuentos/descuentos';
+import {
+  PedidoHeaderComponent
+} from '../components/pedidos/pedido-header/pedido-header';
+import { CtasCtesProvider } from '../providers/ctas-ctes/ctas-ctes';
 export const environment = {
   production: false,
   firebase: {
@@ -149,7 +157,9 @@ export const environment = {
     LineasFindAndSelectComponent,
     StockIngresoPage,
     StockIngresoAddItemComponent,
-    PedidosEntregarPage
+    PedidosEntregarPage,
+    PedidoHeaderComponent,
+    PrintPedidoEntregaPage
   ],
   imports: [
     BrowserModule,
@@ -179,7 +189,8 @@ export const environment = {
     ClientesAddDescuentoPage,
     LineasFindAndSelectComponent,
     StockIngresoPage,
-    PedidosEntregarPage
+    PedidosEntregarPage,
+    PrintPedidoEntregaPage
   ],
   providers: [
     StatusBar,
@@ -194,7 +205,8 @@ export const environment = {
     DolarProvider,
     StockProvider,
     AdicionalesProvider,
-    DescuentosProvider
+    DescuentosProvider,
+    CtasCtesProvider
   ]
 })
 export class AppModule {

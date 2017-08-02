@@ -29,10 +29,16 @@ export class Direccion {
 }
 
 export class CtaCte {
-  id: string;
+  id: number;
   idCliente: number;
-  Fecha: string = new Date().toISOString();
-  Debe: number = 0.00;
-  Haber: number = 0.00;
-  isEntregado:boolean = false;
+  Saldo: number = 0.00;
+  Items: CtaCteItem[] = [];
+}
+
+export class CtaCteItem {
+  Documento:string;
+  Fecha:string = new Date().toISOString();
+  Debe:number = 0.00;
+  Haber:number = 0.00;
+  Saldo:number = 0.00;
 }
