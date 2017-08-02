@@ -1,9 +1,7 @@
 <div>
   <ion-list [color]="color" *ngIf="showImg">
     <button ion-item (click)="onClickItem(perfil)" *ngFor="let perfil of perfiles; let p = even" [color]="(p && colorPar)?colorPar:color" no-lines>
-      <ion-thumbnail item-start>
-        <img src="http://www.indumatics.com.ar/assets/media/perfiles/xs/{{perfil.id}}.png" style="background-color:azure;border-radius: 10px;">
-      </ion-thumbnail>
+      <perfiles-perfil-img item-start [perfil]="perfil"></perfiles-perfil-img>
       <h2>{{perfil?.Codigo}} - <small>(Linea {{perfil?.Linea?.Nombre}})</small></h2>
       <h3>{{perfil?.Descripcion}}</h3>
       <p>Largo: {{perfil?.Largo || 0}}mm Pesos por Metro[ Natural: {{perfil?.PesoNatural || 0.000 |number:'1.3-3'}}kg Pintado:{{perfil?.PesoPintado
