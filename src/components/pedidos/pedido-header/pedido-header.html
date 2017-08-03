@@ -5,8 +5,14 @@
       <h5>{{cliente?.Nombre}}</h5>
     </button>
   </ion-row>
-  <ion-row *ngIf="showClienteDetalle" padding>
+  <ion-row *ngIf="showClienteDetalle" padding >
     <ion-row>
+      <ion-col>
+        <ion-row>
+          <h5>Saldo Actual</h5>
+        </ion-row>
+        <ion-row><span><h4>U$ {{saldoActual |number:'1.2-2'}}</h4></span></ion-row>
+      </ion-col>
       <ion-col>
         <ion-row>
           <h6>Direccion</h6>
@@ -24,7 +30,9 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-row><h6>Direccion de Entrega</h6></ion-row>
+        <ion-row>
+          <h6>Direccion de Entrega</h6>
+        </ion-row>
         <ion-row><samp>{{pedido?.DireccionEntrega?.Calle}}, {{pedido?.DireccionEntrega?.Localidad}}</samp></ion-row>
       </ion-col>
     </ion-row>

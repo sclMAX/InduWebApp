@@ -3,10 +3,6 @@
     <button ion-item color="pedidoEntregarHeader" (click)="showList = !showList && pedidos && pedidos.length > 0">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
       Pedidos Preparados ({{pedidos?.length}})
-      <button *ngIf="pedidos && pedidos.length > 0" ion-fab mini item-end color="pedidoEntregarHeader">
-         <ion-icon *ngIf="!showList" name="arrow-down"></ion-icon>
-         <ion-icon *ngIf="showList" name="arrow-up"></ion-icon>
-      </button>
     </button>
     <ion-list *ngIf="showList">
       <ion-item color="pedidoEntregarSubHeader">

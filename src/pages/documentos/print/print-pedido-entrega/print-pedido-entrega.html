@@ -1,7 +1,7 @@
 <ion-grid fixed padding margin-auto>
   <ion-col>
     <ion-row ion-item text-center no-lines>
-      <h5 item-start>Nro:{{pedido?.Numero |number:'3.0-0'}}</h5>
+      <h5 item-start>Pedido Nro:{{pedido?.Numero |number:'3.0-0'}}</h5>
       <h4><strong>{{cliente?.id}} - {{cliente?.Nombre}}</strong></h4>
       <h5 item-end>{{pedido?.Fecha |date:'dd/MM/yyyy'}}</h5>
     </ion-row>
@@ -77,7 +77,7 @@
       <table width="100%" border=1>
         <tr>
           <th>Total (U$)</th>
-          <th>Saldo Anterior</th>
+          <th *ngIf="!pedido?.isEntregado">Saldo Anterior</th>
           <th>Saldo Actual</th>
           <th>R.Dolar</th>
           <th>Total ($)</th>
@@ -85,7 +85,7 @@
         <tr text-center>
           <td>U$ {{calTotalFinal() |number:'1.2-2'}}</td>
           <td>U$ {{saldo |number:'1.2-2'}}</td>
-          <td>U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
+          <td *ngIf="!pedido?.isEntregado">U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
           <td>${{pedido?.Dolar?.Valor |number:'1.2-2'}}</td>
           <td>$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.Valor |number:'1.2-2'}}</td>
         </tr>

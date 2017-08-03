@@ -1,24 +1,16 @@
-<div >
+<div>
   <ion-card color="toolBar">
     <button ion-item color="pedidoEntregadoHeader" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
       Pedidos Entregados ({{pedidos?.length}})
-      <button *ngIf="pedidos && pedidos.length > 0" ion-fab mini item-end color="pedidoEntregadoHeader">
-         <ion-icon *ngIf="!showList" name="arrow-down"></ion-icon>
-         <ion-icon *ngIf="showList" name="arrow-up"></ion-icon>
-      </button>
-
     </button>
-    <ion-list *ngIf="!cliente && showList">
+    <ion-list *ngIf="showList">
       <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
-        {{pedido.Numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.Nombre}}
-        <ion-icon item-end name="more"></ion-icon>
-      </button>
-    </ion-list>
-    <ion-list *ngIf="cliente && showList">
-      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido, cliente)">
-        {{pedido.Numero | number:'3.0-0'}} - {{pedido.FechaEntrega | date:'dd/MM/yyyy'}}
-        <ion-icon item-end name="more"></ion-icon>
+        <ion-col item-start>{{pedido.Numero | number:'3.0-0'}}</ion-col>
+        <ion-col item-start *ngIf="!cliente">{{getCliente(pedido.idCliente)?.Nombre}}</ion-col>
+        <ion-col item-start *ngIf="cliente">{{pedido.FechaEntrega | date:'dd/MM/yyyy'}}</ion-col>
+        <ion-col item-start>{{pedido?.TotalUnidades|number:'1.2-2'}}kg</ion-col>
+        <ion-col item-start>U$ {{calTotalUs(pedido) |number:'1.2-2'}}</ion-col>
       </button>
     </ion-list>
   </ion-card>

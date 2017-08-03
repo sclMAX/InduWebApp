@@ -9,18 +9,28 @@ export class CtasCtesProvider {
 
   getSaldoCliente(idCliente: number): Observable<number> {
     return new Observable((obs) => {
-      let obj = this.db.object(`${SUC_DOCUMENTOS_CTASCTES_ROOT}${idCliente}/`)
-                    .subscribe(
-                        (ctacte: CtaCte) => {
-                          obs.next(ctacte.Saldo);
-                          obj.unsubscribe();
-                          obs.complete();
-                        },
-                        (error) => {
-                          obs.error(error);
-                          obj.unsubscribe();
-                          obs.complete();
-                        });
+      this.getCtaCteCliente(idCliente).subscribe(
+          (cta) => {
+            let saldo: number = 0.00;
+            cta.forEach((i) => {
+              saldo += i.Debe || 0 - i.Haber || 0;
+              i.Saldo = saldo;
+            });
+            obs.next(saldo);
+            obs.complete();
+          },
+          (error) => {
+            obs.error(error);
+            obs.complete();
+          });
+    });
+  }
+
+  getCtaCteCliente(idCliente: number): Observable<CtaCte[]> {
+    return new Observable((obs) => {
+      this.db.list(`${SUC_DOCUMENTOS_CTASCTES_ROOT}${idCliente}/`)
+          .subscribe((cta) => { obs.next(cta || []); },
+                     (error) => { obs.error(error); });
     });
   }
 }

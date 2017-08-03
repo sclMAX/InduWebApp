@@ -51,7 +51,7 @@ export class PedidosNewPage {
     this.oldPedido = this.pedido;
     let load = this.loadCtrl.create({content: 'Guardando...'});
     let toast =
-        this.toastCtrl.create({position: 'middle', showCloseButton: true});
+        this.toastCtrl.create({position: 'middle'});
     load.present().then(() => {
       if (this.isEdit) {
         this.pedidosP.update(this.oldPedido)
@@ -60,12 +60,13 @@ export class PedidosNewPage {
                   this.navCtrl.pop();
                   load.dismiss();
                   toast.setMessage(ok);
-                  toast.setDuration(2000);
+                  toast.setDuration(1000);
                   toast.present();
                 },
                 (error) => {
                   load.dismiss();
                   toast.setMessage(error);
+                  toast.setShowCloseButton(true);
                   toast.present();
                 });
       } else {

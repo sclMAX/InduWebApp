@@ -1,6 +1,11 @@
+import {ClientesProvider} from './../../../../providers/clientes/clientes';
 import {CtasCtesProvider} from './../../../../providers/ctas-ctes/ctas-ctes';
 import {Cliente} from './../../../../models/clientes.clases';
-import {Pedido} from './../../../../models/pedidos.clases';
+import {
+  Pedido,
+  calSubTotalCDs,
+  calcularTotalFinal
+} from './../../../../models/pedidos.clases';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 
@@ -14,12 +19,28 @@ export class PrintPedidoEntregaPage {
   isPrint: boolean = false;
   saldo: number = 0.00;
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private ctacteP: CtasCtesProvider) {
+              private ctacteP: CtasCtesProvider,
+              private clientesP: ClientesProvider) {
     this.pedido = this.navParams.get('Pedido');
     this.cliente = this.navParams.get('Cliente');
     if (!this.pedido) {
       this.navCtrl.pop();
     } else {
+      if (!this.cliente) {
+        this.clientesP.getOne(this.pedido.idCliente)
+            .subscribe(
+                (c) => {
+                  if (c) {
+                    this.cliente = c;
+                  } else {
+                    this.navCtrl.pop();
+                  }
+                },
+                (error) => {
+                  console.error(error);
+                  this.navCtrl.pop();
+                });
+      }
       this.ctacteP.getSaldoCliente(this.pedido.idCliente)
           .subscribe((saldo) => { this.saldo = saldo; })
     }
@@ -34,33 +55,8 @@ export class PrintPedidoEntregaPage {
   }
   goBack() { this.navCtrl.pop(); }
 
-  getTotalConDescuentoKilos(): number {
-    if (this.pedido) {
-      return (this.pedido.TotalUs /
-              ((this.pedido.DescuentoKilos > 0) ?
-                   1 + (this.pedido.DescuentoKilos / 100) :
-                   1));
-    }
-    return 0.00;
-  }
+  getTotalConDescuentos(): number { return calSubTotalCDs(this.pedido); }
 
-  getTotalConDescuentos(): number {
-    if (this.pedido) {
-      return this.getTotalConDescuentoKilos() /
-             ((this.pedido.DescuentoGeneral > 0) ?
-                  (1 + (this.pedido.DescuentoGeneral / 100)) :
-                  1);
-    }
-    return 0.00;
-  }
-
-  calTotalFinal(): number {
-    if (this.pedido && this.pedido.CV) {
-      return this.getTotalConDescuentos() *
-             ((this.pedido.CV.Monto > 0) ? (1 + (this.pedido.CV.Monto / 100)) :
-                                           1);
-    }
-    return 0.00;
-  }
+  calTotalFinal(): number { return calcularTotalFinal(this.pedido); }
   ionViewDidLoad() {}
 }

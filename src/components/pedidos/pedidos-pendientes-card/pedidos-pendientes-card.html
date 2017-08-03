@@ -1,13 +1,8 @@
-<div >
+<div>
   <ion-card color="toolBar">
     <button ion-item color="pedidoEmbalarHeader" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
       Pedidos x Embalar ({{pedidos?.length}})
-      <button *ngIf="pedidos && pedidos.length > 0" ion-fab mini item-end color="pedidoEmbalarHeader">
-         <ion-icon *ngIf="!showList" name="arrow-down"></ion-icon>
-         <ion-icon *ngIf="showList" name="arrow-up"></ion-icon>
-      </button>
-
     </button>
     <ion-list *ngIf="!cliente && showList">
       <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido, getCliente(pedido.idCliente))">

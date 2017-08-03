@@ -1,7 +1,6 @@
 import {
   PrintPedidoEntregaPage
 } from './../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
-import {Printer} from '@ionic-native/printer';
 import {
   PedidosEntregarPage
 } from './../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
@@ -111,6 +110,7 @@ import {
   PedidoHeaderComponent
 } from '../components/pedidos/pedido-header/pedido-header';
 import { CtasCtesProvider } from '../providers/ctas-ctes/ctas-ctes';
+import { ClienteCtaCteCardComponent } from '../components/clientes/cliente-cta-cte-card/cliente-cta-cte-card';
 export const environment = {
   production: false,
   firebase: {
@@ -159,7 +159,8 @@ export const environment = {
     StockIngresoAddItemComponent,
     PedidosEntregarPage,
     PedidoHeaderComponent,
-    PrintPedidoEntregaPage
+    PrintPedidoEntregaPage,
+    ClienteCtaCteCardComponent
   ],
   imports: [
     BrowserModule,

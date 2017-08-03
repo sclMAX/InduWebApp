@@ -11,7 +11,11 @@ import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {UsuarioProvider, CV} from './../../../../providers/usuario/usuario';
 import {Usuario} from './../../../../models/user.class';
 import {Cliente} from './../../../../models/clientes.clases';
-import {Pedido} from './../../../../models/pedidos.clases';
+import {
+  Pedido,
+  calcularTotalFinal,
+  calSubTotalCDs
+} from './../../../../models/pedidos.clases';
 import {Component} from '@angular/core';
 import {
   NavController,
@@ -30,7 +34,7 @@ export class PedidosEntregarPage {
   cliente: Cliente;
   usuario: Usuario;
   CVs: CV[];
-  dolar: number = 0.00;
+  dolar: Dolar;
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
@@ -46,7 +50,7 @@ export class PedidosEntregarPage {
       this.usuarioP.getCurrentUser().subscribe(
           (user) => { this.usuario = user; });
       this.usuarioP.getCV().subscribe((cvs) => { this.CVs = cvs; });
-      this.dolarP.getDolarValor().subscribe((dolar) => { this.dolar = dolar; });
+      this.dolarP.getDolar().subscribe((dolar) => { this.pedido.Dolar = dolar; });
     }
   }
 
@@ -55,8 +59,7 @@ export class PedidosEntregarPage {
     let toast =
         this.toastCtrl.create({position: 'middle', closeButtonText: 'OK'});
     load.present().then(() => {
-      this.pedido.isEntregado = true;
-      this.pedidosP.update(this.pedido)
+      this.pedidosP.entregarPedido(this.pedido)
           .subscribe(
               (ok) => {
                 this.navCtrl.pop();
@@ -143,41 +146,12 @@ export class PedidosEntregarPage {
     });
     alert.present();
   }
-
-  calTotalCDK(): number {
-    if (this.pedido) {
-      return this.pedido.TotalUs /
-             ((this.pedido.DescuentoKilos > 0) ?
-                  (1 + (this.pedido.DescuentoKilos / 100)) :
-                  1);
-    }
-    return 0.00;
-  }
-
-  calTotalNeto(): number {
-    if (this.pedido) {
-      return this.calTotalCDK() /
-             ((this.pedido.DescuentoGeneral > 0) ?
-                  (1 + (this.pedido.DescuentoGeneral / 100)) :
-                  1);
-    }
-    return 0.00;
-  }
-  calTotalFinal(): number {
-    if (this.pedido && this.pedido.CV) {
-      return this.calTotalNeto() * ((this.pedido.CV.Monto > 0) ?
-                                        (1 + (this.pedido.CV.Monto / 100)) :
-                                        (1));
-    }
-    return 0.00;
-  }
+  calTotalNeto(): number { return calSubTotalCDs(this.pedido); }
+  calTotalFinal(): number { return calcularTotalFinal(this.pedido); }
 
   ionViewDidLoad() {}
 
   print() {
-    this.pedido.Dolar = new Dolar();
-    this.pedido.Dolar.Fecha = new Date().toISOString();
-    this.pedido.Dolar.Valor = this.dolar;
     this.navCtrl.push(PrintPedidoEntregaPage,
                       {Pedido: this.pedido, Cliente: this.cliente});
   }

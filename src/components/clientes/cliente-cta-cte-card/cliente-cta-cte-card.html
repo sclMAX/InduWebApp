@@ -1,0 +1,22 @@
+<ion-card [color]="colorHeader">
+  <button ion-item [color]="colorHeader" (click)="onClickHeader()">
+    <ion-icon item-start name="logo-usd"></ion-icon>
+    Cta. Cte. (U$ {{saldo |number:'1.2-2'}})
+  </button>
+  <ion-list *ngIf="showList">
+    <ion-row ion-item>
+      <ion-col>Fecha</ion-col>
+      <ion-col>Comprobante</ion-col>
+      <ion-col item-end>Debe</ion-col>
+      <ion-col item-end>Haber</ion-col>
+      <ion-col item-end>Saldo</ion-col>
+    </ion-row>
+    <ion-item *ngFor="let item of ctaCte">
+      <ion-col>{{item?.Fecha |date:'dd/MM/yyyy'}}</ion-col>
+      <ion-col>{{item?.TipoDocumento}}{{item?.Numero |number:'3.0-0'}}</ion-col>
+      <ion-col item-end>U$ {{item?.Debe |number:'1.2-2'}}</ion-col>
+      <ion-col item-end>U$ {{item?.Haber|number:'1.2-2'}}</ion-col>
+      <ion-col item-end>U$ {{item?.Saldo|number:'1.2-2'}}</ion-col>
+    </ion-item>
+  </ion-list>
+</ion-card>

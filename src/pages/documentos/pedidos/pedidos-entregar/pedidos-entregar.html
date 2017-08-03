@@ -1,5 +1,5 @@
 <ion-content>
-<pedido-header [pedido]="pedido" [cliente]="cliente"></pedido-header>
+  <pedido-header [pedido]="pedido" [cliente]="cliente"></pedido-header>
   <pedido-items-item [pedido]="pedido" [showRemove]=false></pedido-items-item>
 </ion-content>
 <ion-footer no-padding no-border>
@@ -9,16 +9,12 @@
       <ion-row><small>{{pedido?.TotalUnidades |number:'1.2-2'}}kg.</small></ion-row>
     </ion-col>
     <ion-col item-start>
-      <ion-row><small>Total SD</small></ion-row>
+      <ion-row><small>SubTotal</small></ion-row>
       <ion-row>U${{pedido?.TotalUs |number:'1.2-2'}}</ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>DK(%)</small></ion-row>
       <ion-row><small>{{pedido?.DescuentoKilos |number:'1.2-2'}}%</small></ion-row>
-    </ion-col>
-    <ion-col item-start>
-      <ion-row><small>Total CD</small></ion-row>
-      <ion-row>U${{calTotalCDK() |number:'1.2-2'}}</ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>DG.(%)</small></ion-row>
@@ -42,16 +38,18 @@
     </ion-col>
     <ion-col item-start>
       <ion-row><small>Dolar</small></ion-row>
-      <ion-row><small>${{dolar |number:'1.2-2'}}</small></ion-row>
+      <ion-row><small>${{pedido?.Dolar?.Valor |number:'1.2-2'}}</small></ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>T.Final($)</small></ion-row>
-      <ion-row>${{calTotalFinal() * dolar |number:'1.2-2'}}</ion-row>
+      <ion-row>${{calTotalFinal() * pedido?.Dolar?.Valor |number:'1.2-2'}}</ion-row>
     </ion-col>
   </ion-row>
 </ion-footer>
 <ion-fab top right>
   <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
   <br>
-  <button ion-fab color="primary" [disabled]="!isValid()" (click)="print()"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="primary" [disabled]="!isValid()" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <br>
+  <button ion-fab color="secondary" [disabled]="!isValid()" (click)="print()"><ion-icon name="print"></ion-icon></button>
 </ion-fab>

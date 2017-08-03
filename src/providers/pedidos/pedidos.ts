@@ -1,3 +1,4 @@
+import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {
   DescuentosProvider,
   DescuentosGlobales,
@@ -7,20 +8,25 @@ import {Stock} from './../../models/productos.clases';
 import {StockProvider} from './../stock/stock';
 import {UsuarioProvider} from './../usuario/usuario';
 import {Usuario, UserDoc} from './../../models/user.class';
-import {Cliente} from './../../models/clientes.clases';
+import {Cliente, CtaCte} from './../../models/clientes.clases';
 import {AdicionalesProvider, Adicional} from './../adicionales/adicionales';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
-import {Pedido, PedidoItem} from './../../models/pedidos.clases';
+import {
+  Pedido,
+  PedidoItem,
+  calcularTotalFinal
+} from './../../models/pedidos.clases';
 import {SucursalContadores} from './../../models/sucursal.clases';
 import {DolarProvider} from './../dolar/dolar';
 import {
   SUC_CONTADORES_ROOT,
   SUC_DOCUMENTOS_PEDIDOS,
   SUC_LOG_ROOT,
-  SUC_STOCK_ROOT
+  SUC_STOCK_ROOT,
+  SUC_DOCUMENTOS_CTASCTES_ROOT
 } from './../sucursal/sucursal';
 
 @Injectable()
@@ -31,8 +37,8 @@ export class PedidosProvider {
   constructor(private db: AngularFireDatabase, private dolarP: DolarProvider,
               private adicionalesP: AdicionalesProvider,
               private descuentosP: DescuentosProvider,
-              private stockP: StockProvider,
-              private usuarioP: UsuarioProvider) {
+              private stockP: StockProvider, private usuarioP: UsuarioProvider,
+              private ctacteP: CtasCtesProvider) {
     this.adicionalesP.getAdicionales().subscribe(
         (data) => { this.adicionales = data; });
     this.descuentosP.getDescuentos().subscribe(
@@ -189,6 +195,45 @@ export class PedidosProvider {
         obs.error('Faltan Datos');
         obs.complete();
       }
+    });
+  }
+
+  entregarPedido(pedido: Pedido): Observable<string> {
+    return new Observable((obs) => {
+      pedido.isEntregado = true;
+      let updData = {};
+      updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
+      this.ctacteP.getSaldoCliente(pedido.idCliente)
+          .subscribe(
+              (saldo) => {
+                let cta: CtaCte = new CtaCte();
+                cta.Fecha = new Date().toISOString();
+                cta.TipoDocumento = 'Pedido';
+                cta.Numero = pedido.id;
+                cta.Debe = calcularTotalFinal(pedido);
+                cta.Haber = 0;
+                cta.Saldo = saldo + cta.Debe - cta.Haber;
+                updData
+                    [`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pedido.idCliente}/${cta.TipoDocumento}${cta.Numero}/`] =
+                        cta;
+                this.db.database.ref()
+                    .update(updData)
+                    .then(() => {
+                      obs.next('Pedido cerrado y Cta. Cte. Acualizada correctamente!');
+                      obs.complete();
+                          })
+                    .catch((error) => {
+                      obs.error(`No se pudo cerrar el Pedido! Error:${error}`);
+                      obs.complete();
+                    });
+
+
+
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
     });
   }
 

@@ -34,3 +34,30 @@ export class PedidoItem {
   isEmbalado: boolean = false;
   isStockActualizado: boolean = false;
 }
+
+
+// Calcula el Subtotal con todos los descuentos
+export function calSubTotalCDs(pedido: Pedido): number {
+  if (pedido) {
+    let subtotal: number = pedido.TotalUs;
+    if (pedido.DescuentoKilos > 0) {
+      subtotal = subtotal / (1 + (pedido.DescuentoKilos / 100));
+    }
+    if (pedido.DescuentoGeneral > 0) {
+      subtotal = subtotal / (1 + (pedido.DescuentoGeneral / 100));
+    }
+    return subtotal;
+  } else {
+    return 0.00;
+  }
+}
+
+// Calcula Total final con todos los descuentos y CV
+export function calcularTotalFinal(pedido: Pedido): number {
+  if (pedido && pedido.CV) {
+    return calSubTotalCDs(pedido) *
+           ((pedido.CV.Monto > 0) ? (1 + (pedido.CV.Monto / 100)) : 1);
+  } else {
+    return 0.00;
+  }
+}

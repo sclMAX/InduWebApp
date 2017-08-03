@@ -1,7 +1,15 @@
+import {
+  PrintPedidoEntregaPage
+} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
+import {NavController} from 'ionic-angular';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../models/clientes.clases';
-import {Pedido} from './../../../models/pedidos.clases';
+import {
+  Pedido,
+  calSubTotalCDs,
+  calcularTotalFinal
+} from './../../../models/pedidos.clases';
 import {Component, Input} from '@angular/core';
 @Component({
   selector: 'pedidos-entregados-card',
@@ -16,7 +24,8 @@ export class PedidosEntregadosCardComponent {
   clientes: Cliente[];
 
   constructor(private pedidosP: PedidosProvider,
-              private clientesP: ClientesProvider) {}
+              private clientesP: ClientesProvider,
+              public navCtrl: NavController) {}
 
   ngOnInit() { this.getData(); }
   ionViewWillEnter() { this.getData(); }
@@ -29,8 +38,11 @@ export class PedidosEntregadosCardComponent {
     }
   }
 
-  goPedido(pedido) {}
+  goPedido(pedido: Pedido) {
+    this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
+  }
 
+  calTotalUs(pedido): number { return calcularTotalFinal(pedido); }
   private async getData() {
     if (this.cliente) {
       this.pedidosP.getAllCliente(this.cliente.id)
