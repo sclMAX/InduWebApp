@@ -7,7 +7,6 @@ import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../models/clientes.clases';
 import {
   Pedido,
-  calSubTotalCDs,
   calcularTotalFinal
 } from './../../../models/pedidos.clases';
 import {Component, Input} from '@angular/core';

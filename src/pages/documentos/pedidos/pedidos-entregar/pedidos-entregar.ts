@@ -1,11 +1,7 @@
-import {CtasCtesProvider} from './../../../../providers/ctas-ctes/ctas-ctes';
 import {Dolar} from './../../../../models/fondos.clases';
 import {
   PrintPedidoEntregaPage
 } from './../../print/print-pedido-entrega/print-pedido-entrega';
-import {
-  PrintPedidoParaEmbalarPage
-} from './../../print/print-pedido-para-embalar/print-pedido-para-embalar';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {UsuarioProvider, CV} from './../../../../providers/usuario/usuario';
