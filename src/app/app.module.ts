@@ -1,3 +1,4 @@
+import {BancosamPage} from './../pages/fondos/bancosam/bancosam';
 import {
   PrintPedidoEntregaPage
 } from './../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
@@ -109,8 +110,20 @@ import {DescuentosProvider} from '../providers/descuentos/descuentos';
 import {
   PedidoHeaderComponent
 } from '../components/pedidos/pedido-header/pedido-header';
-import { CtasCtesProvider } from '../providers/ctas-ctes/ctas-ctes';
-import { ClienteCtaCteCardComponent } from '../components/clientes/cliente-cta-cte-card/cliente-cta-cte-card';
+import {CtasCtesProvider} from '../providers/ctas-ctes/ctas-ctes';
+import {
+  ClienteCtaCteCardComponent
+} from '../components/clientes/cliente-cta-cte-card/cliente-cta-cte-card';
+import {BancosProvider} from '../providers/bancos/bancos';
+import {
+  BancosSearchBarComponent
+} from '../components/bancos/bancos-search-bar/bancos-search-bar';
+import {
+  BancosListComponent
+} from '../components/bancos/bancos-list/bancos-list';
+import {
+  BancosSucursalesListComponent
+} from '../components/bancos/bancos-sucursales-list/bancos-sucursales-list';
 export const environment = {
   production: false,
   firebase: {
@@ -160,7 +173,11 @@ export const environment = {
     PedidosEntregarPage,
     PedidoHeaderComponent,
     PrintPedidoEntregaPage,
-    ClienteCtaCteCardComponent
+    ClienteCtaCteCardComponent,
+    BancosSearchBarComponent,
+    BancosListComponent,
+    BancosSucursalesListComponent,
+    BancosamPage
   ],
   imports: [
     BrowserModule,
@@ -191,7 +208,8 @@ export const environment = {
     LineasFindAndSelectComponent,
     StockIngresoPage,
     PedidosEntregarPage,
-    PrintPedidoEntregaPage
+    PrintPedidoEntregaPage,
+    BancosamPage
   ],
   providers: [
     StatusBar,
@@ -207,7 +225,8 @@ export const environment = {
     StockProvider,
     AdicionalesProvider,
     DescuentosProvider,
-    CtasCtesProvider
+    CtasCtesProvider,
+    BancosProvider
   ]
 })
 export class AppModule {

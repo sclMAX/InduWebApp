@@ -5,8 +5,8 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Cliente} from '../../models/clientes.clases';
 import {
-  COMUN_CONTADORES,
-  COMUN_CONTADORES_CLIENTES
+  COMUN_CONTADORES_CLIENTES,
+  COMUN_CONTADORES_ROOT
 } from '../../models/db-base-paths';
 import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 
@@ -153,7 +153,7 @@ export class ClientesProvider {
 
   getCurrentNewId(): Observable<number> {
     return new Observable((obs) => {
-      this.db.object(`${COMUN_CONTADORES}`)
+      this.db.object(`${COMUN_CONTADORES_ROOT}`)
           .subscribe((cont) => {
             if (cont.Clientes >= 0) {
               obs.next(cont.Clientes + 1);

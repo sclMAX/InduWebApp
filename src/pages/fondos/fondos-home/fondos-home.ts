@@ -1,3 +1,4 @@
+import { BancosamPage } from './../bancosam/bancosam';
 import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
@@ -16,6 +17,10 @@ export class FondosHomePage {
               }
 
   ionViewDidLoad() {}
+
+  addBanco(){
+    this.navCtrl.push(BancosamPage);
+  }
 
   setDolar(valor: number) {
     this.dolarP.setDolar(valor).subscribe();

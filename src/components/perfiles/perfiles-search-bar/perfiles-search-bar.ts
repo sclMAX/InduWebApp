@@ -12,18 +12,19 @@ export class PerfilesSearchBarComponent {
   lineas: Linea[];
   selectedLinea: Linea;
   filterPerfiles: Perfil[];
+  perfiles: Perfil[];
   isBuscando: boolean = true;
 
   constructor(private productosP: ProductosProvider) {}
 
   onCancelOrChangeLinea() {
-    this.isBuscando = true;
-    this.productosP.getPerfiles(this.selectedLinea)
-        .subscribe((data: Perfil[]) => {
-          this.isBuscando = false;
-          this.filterPerfiles = data;
-          this.onFilter.emit(this.filterPerfiles);
-        });
+    if (this.selectedLinea) {
+      this.filterPerfiles = this.perfiles.filter(
+          (p) => { return p.Linea.id == this.selectedLinea.id; });
+    } else {
+      this.filterPerfiles = JSON.parse(JSON.stringify(this.perfiles));
+    }
+    this.onFilter.emit(this.filterPerfiles);
   }
 
   onFilterCodigo(ev) {
@@ -53,9 +54,16 @@ export class PerfilesSearchBarComponent {
     }
   }
 
-  ngOnInit() {
+  ngOnInit() { this.getData(); }
+
+  private async getData() {
+    this.isBuscando = true;
+    this.productosP.getPerfiles().subscribe((data: Perfil[]) => {
+      this.isBuscando = false;
+      this.perfiles = data;
+      this.onCancelOrChangeLinea();
+    });
     this.productosP.getLineas().subscribe(
         (data: Linea[]) => { this.lineas = data; });
-    this.onCancelOrChangeLinea();
   }
 }

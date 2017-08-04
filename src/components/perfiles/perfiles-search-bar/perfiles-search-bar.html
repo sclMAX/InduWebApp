@@ -1,28 +1,22 @@
-<div>
-  <ion-grid>
-    <ion-row align-items-center>
-      <ion-col *ngIf="isShowFindCodigo" no-padding>
-        <ion-searchbar (ionCancel)="onCancelOrChangeLinea()" (ionInput)="onFilterCodigo($event)" placeholder="Buscar Codigo..."></ion-searchbar>
-      </ion-col>
-      <ion-col *ngIf="isShowFindAll" no-padding>
-        <ion-searchbar (ionCancel)="onCancelOrChangeLinea()" (ionInput)=" onFilterAll($event)" placeholder="Codigo, Descripcion o Linea ..."></ion-searchbar>
-      </ion-col>
-      <ion-col *ngIf="isShowSelLinea">
-        <ion-item style="border-radius: 4px;">
-          <ion-label>Linea</ion-label>
-          <ion-select [(ngModel)]="selectedLinea" (ionChange)="onCancelOrChangeLinea()" text-center>
-            <ion-option value="" selected="true">Todas</ion-option>
-            <ion-option *ngFor="let linea of lineas" [value]="linea">{{linea?.Nombre}}</ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="isBuscando" justify-content-center>
-      <ion-col ion-item text-center color="subToolBar">
-        <ion-spinner item-start color="light" name="bubbles"></ion-spinner>
-        Buscando Perfiles...
-        <ion-spinner item-end color="light" name="bubbles"></ion-spinner>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+<ion-grid>
+  <ion-row align-items-center>
+    <ion-col *ngIf="isBuscando" ion-item text-center color="toolBar">
+      <ion-spinner color="light" name="bubbles"></ion-spinner>
+    </ion-col>
+    <ion-col *ngIf="isShowFindCodigo" no-padding>
+      <ion-searchbar (ionCancel)="onCancelOrChangeLinea()" (ionInput)="onFilterCodigo($event)" placeholder="Buscar Codigo..."></ion-searchbar>
+    </ion-col>
+    <ion-col *ngIf="isShowFindAll" no-padding>
+      <ion-searchbar (ionCancel)="onCancelOrChangeLinea()" (ionInput)=" onFilterAll($event)" placeholder="Codigo, Descripcion o Linea ..."></ion-searchbar>
+    </ion-col>
+    <ion-col *ngIf="isShowSelLinea">
+      <ion-item style="border-radius: 4px;">
+        <ion-label>Linea</ion-label>
+        <ion-select [(ngModel)]="selectedLinea" (ionChange)="onCancelOrChangeLinea()" text-center>
+          <ion-option value="" selected="true">Todas</ion-option>
+          <ion-option *ngFor="let linea of lineas" [value]="linea">{{linea?.Nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -1,0 +1,38 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar" text-center>
+    <ion-title>Bancos Altas modificaciones...</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <form #formBanco="ngForm" (ngSubmit)="guardar(formBanco)" novalidate>
+      <ion-row>
+        <ion-col col-sm-2>
+          <ion-row>
+            <ion-badge color="dark">Nro</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines>
+              <ion-input type="number" name="id" [(ngModel)]="newBanco.id" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <ion-col>
+          <ion-row>
+            <ion-badge color="dark">Banco</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines>
+              <ion-input type="text" name="Nombre" [(ngModel)]="newBanco.Nombre" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row ion-item color="listDivider1" text-center no-lines>
+        Sucursales
+        <button item-end ion-fab mini color="primary"><ion-icon name="add"></ion-icon></button>
+      </ion-row>
+      <bancos-sucursales-list [banco]="newBanco" ></bancos-sucursales-list>
+    </form>
+  </ion-grid>
+</ion-content>

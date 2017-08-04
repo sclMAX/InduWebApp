@@ -9,6 +9,7 @@ export class Pedido extends Documento {
   FechaEntrega: string;
   DireccionEntrega: Direccion;
   isEntregado: boolean = false;
+  isEntransito: boolean = false;
   isPreparado: boolean = false;
   Items: PedidoItem[] = [];
   Dolar: Dolar;

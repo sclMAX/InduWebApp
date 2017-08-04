@@ -1,4 +1,4 @@
-<ion-header no-border>
+<ion-header no-border color="scroll-content">
   <ion-item color="toolBar" no-lines>
     <perfiles-search-bar [findCodigo]=false [selLinea]=false (onFilter)="onFilter($event)"></perfiles-search-bar>
     <button ion-fab mini item-end color="dark" (click)="showImagenes = !showImagenes"><ion-icon *ngIf="!showImagenes" name="images"></ion-icon> <ion-icon *ngIf="showImagenes" name="list"></ion-icon></button>
