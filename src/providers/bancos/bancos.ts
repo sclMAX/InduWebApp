@@ -49,7 +49,7 @@ export class BancosProvider {
                         obs.complete();
                       });
                 } else {
-                  obs.error(`Ya existe el Banco ${banco.Nombre}!`);
+                  obs.error(`Ya existe el Banco Nro:${banco.id} y/o ${banco.Nombre}!`);
                   obs.complete();
                 }
               },
@@ -126,46 +126,41 @@ export class BancosProvider {
           .subscribe(
               (bancos: Banco[]) => {
                 obs.next(bancos || []);
-                obs.complete();
               },
               (error) => {
                 obs.error(error);
-                obs.complete();
               });
     });
   }
 
   private isUnique(banco: Banco, isNew: boolean = false): Observable<boolean> {
     return new Observable((obs) => {
-      let lst = this.db.list(BANCOS_ROOT)
-                    .subscribe(
-                        (bancos: Banco[]) => {
-                          if (bancos) {
-                            let otro = bancos.find((b) => {
-                              if (isNew) {
-                                return ((b.id == banco.id) ||
-                                        (b.Nombre.trim().toLowerCase() ==
-                                         banco.Nombre.trim().toLowerCase()));
-                              } else {
-                                return ((b.id != banco.id) &&
-                                        (b.Nombre.trim().toLowerCase() ==
-                                         banco.Nombre.trim().toLowerCase()));
-                              }
-                            });
-                            obs.next((otro) ? false : true);
-                            lst.unsubscribe();
-                            obs.complete();
-                          } else {
-                            obs.next(true);
-                            lst.unsubscribe();
-                            obs.complete();
-                          }
-                        },
-                        (error) => {
-                          obs.error(error);
-                          lst.unsubscribe();
-                          obs.complete();
-                        });
+      this.db.list(BANCOS_ROOT)
+          .subscribe(
+              (bancos: Banco[]) => {
+                if (bancos) {
+                  let otro = bancos.find((b) => {
+                    if (isNew) {
+                      return ((b.id == banco.id) ||
+                              (b.Nombre.trim().toLowerCase() ==
+                               banco.Nombre.trim().toLowerCase()));
+                    } else {
+                      return ((b.id != banco.id) &&
+                              (b.Nombre.trim().toLowerCase() ==
+                               banco.Nombre.trim().toLowerCase()));
+                    }
+                  });
+                  obs.next((otro) ? false : true);
+                  obs.complete();
+                } else {
+                  obs.next(true);
+                  obs.complete();
+                }
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
     });
   }
 }

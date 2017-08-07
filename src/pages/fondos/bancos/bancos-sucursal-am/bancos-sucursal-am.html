@@ -1,12 +1,105 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>BancosSucursalAm</ion-title>
+<ion-header no-border text-center>
+  <ion-navbar color="toolBar">
+    <ion-title>{{title}}</ion-title>
   </ion-navbar>
 
 </ion-header>
-
-
 <ion-content padding>
-
+  <ion-grid>
+    <form #formSucursal="ngForm" novalidate>
+      <ion-row>
+        <!-- id -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Nro</ion-badge>
+            <ion-badge *ngIf="!isIdValid" color="danger"><small>Nro de Sucursal existente!</small></ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input (ionBlur)="chkId()" [readonly]="isEdit" type="number" name="Sucursal.id" [(ngModel)]="newSucursal.id" min="0" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Nombre -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Nombre</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Sucursal.Nombre" [(ngModel)]="newSucursal.Nombre" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <!-- Direccion Calle -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Calle</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Sucursal.Direccion.Calle" [(ngModel)]="newSucursal.Direccion.Calle" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Direccion Localidad -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Localidad</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Sucursal.Direccion.Localidad" [(ngModel)]="newSucursal.Direccion.Localidad" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <!-- Direccion Provincia -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Provincia</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Sucursal.Direccion.Provincia" [(ngModel)]="newSucursal.Direccion.Provincia" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Direccion Pais -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Pais</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Sucursal.Direccion.Pais" [(ngModel)]="newSucursal.Direccion.Pais" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+       <ion-row>
+        <!--Telefonos -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Telefonos</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Sucursal.Telefono" [(ngModel)]="newSucursal.Telefono" ></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
 </ion-content>
+
+<ion-fab bottom right>
+  <button ion-fab color="primary" [disabled]="!isValid(formSucursal)" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>
+<ion-fab bottom left>
+  <button ion-fab color="light" (click)="cancelar()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>

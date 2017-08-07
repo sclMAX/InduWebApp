@@ -1,5 +1,6 @@
-import { UserDoc } from './user.class';
+import {UserDoc} from './user.class';
 import {Direccion} from './clientes.clases';
+import * as moment from 'moment';
 export class Fondos {}
 
 export class Dolar {
@@ -8,24 +9,37 @@ export class Dolar {
   Valor: number;
 }
 
-export class Cheque{
-  id:number;
-  idBanco:number;
+export class Cheque {
+  id: string;  // "idBanco"-"idSucursal"-"Numero"
+  idBanco: number;
   idSucursal: number;
-  FechaIngreso:string = new Date().toISOString();
+  Numero: number;
+  FechaIngreso: string = moment().format('DD/MM/YYYY');
   FechaEmision: string;
-  FechaCobro:string;
+  FechaCobro: string;
   Monto: number;
   Cuenta: number;
   Firmantes: ChequeFirmante[] = [];
-  idCliente:number;
-  Creador:UserDoc;
-  Modificador:UserDoc;
+  EntregadoPor: ChequeEntregadoPor;
+  EntregadoA: ChequeEntregadoA;
+  Creador: UserDoc;
+  Modificador: UserDoc;
+  Comentarios: string;
 }
 
-export class ChequeFirmante{
-  CUIT:number;
-  Nombre:string;
+export class ChequeEntregadoPor {
+  Sucursal: string;
+  idCliente: number;
+}
+
+export class ChequeEntregadoA {
+  Nombre: string;
+  Fecha: string = new Date().toISOString();
+}
+
+export class ChequeFirmante {
+  CUIT: number;
+  Nombre: string;
 }
 
 export class Banco {

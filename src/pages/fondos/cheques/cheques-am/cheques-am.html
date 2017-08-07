@@ -1,0 +1,116 @@
+<ion-header no-border>
+  <ion-navbar text-center color="toolBar">
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <form #formCheque="ngForm" novalidate>
+      <!-- Nro de Cheque -->
+      <ion-row>
+        <!-- Banco -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Banco</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input #nroBanco (ionChange)="chkBanco()" type="number" name="NroBanco" [(ngModel)]="newCheque.idBanco" [readonly]="isEdit"
+                required></ion-input>
+              <button *ngIf="!selBanco && !isEdit && nroBanco.value" ion-button item-end color="primary" (click)="addBanco()"><ion-icon name="add"></ion-icon></button>
+            </ion-badge>
+            <ion-badge *ngIf="!selBanco && !isEdit && nroBanco.value" color="danger"><small>Banco no encontrado!</small></ion-badge>
+            <ion-badge *ngIf="selBanco" color="secondary"><small>{{selBanco?.Nombre}}</small></ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Sucursal -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Sucursal</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input #nroSucursal (ionChange)="chkSucursal()" [disabled]="!selBanco" type="number" name="NroSucursal" [(ngModel)]="newCheque.idSucursal"
+                [readonly]="isEdit" required></ion-input>
+              <button *ngIf="selBanco && !selSucursal && !isEdit && nroSucursal.value" ion-button item-end color="primary" (click)="addSucursal()"><ion-icon name="add"></ion-icon></button>
+            </ion-badge>
+            <ion-badge *ngIf="selBanco && !selSucursal && !isEdit && nroSucursal.value" color="danger"><small>Sucursal no encontrada!</small></ion-badge>
+            <ion-badge *ngIf="selBanco && selSucursal" color="secondary"><small>{{selSucursal?.Nombre}}</small></ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Numero -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Numero</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="number" name="NroCheque" [disabled]="!selBanco || !selSucursal" [(ngModel)]="newCheque.Numero" [readonly]="isEdit"
+                required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- Fechas -->
+      <ion-row>
+        <!-- Fecha Ingreso -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Fecha Ingreso</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="datetime" disabled=true [(ngModel)]="newCheque.FechaIngreso" name="FechaIngreso" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Fecha Emision -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Fecha Emision</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input #fe type="datetime" [(ngModel)]="newCheque.FechaEmision" name="FechaEmision" required></ion-input>
+            </ion-badge>
+            <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>Fecha incorrecta ("dd/mm/yyyy")</small></ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Fecha Cobro -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Fecha Cobro</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="datetime" name="FechaCobro" [(ngModel)]="newCheque.FechaCobro"></ion-input>
+            </ion-badge>
+            <ion-badge *ngIf="!chkFecha(newCheque.FechaCobro)" color="danger"><small>Fecha incorrecta ("dd/mm/yyyy")</small></ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- Comentarios -->
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Comentarios</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-textarea name="comentarios" [(ngModel)]="newCheque.Comentarios"></ion-textarea>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-fab top left>
+  <button ion-fab color="light" (click)="cancelar()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+
+<ion-fab top right>
+  <button ion-fab color="primary" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>

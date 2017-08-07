@@ -1,23 +1,28 @@
 <ion-header>
   <ion-navbar color="toolBar">
     <ion-title>FondosHome</ion-title>
-    <button ion-button icon-only end (click)="addBanco()"><ion-icon name="add"></ion-icon></button>
+    <button ion-button icon-only end (click)="add()"><ion-icon name="add"></ion-icon></button>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h1>FONDOS HOME</h1>
-
-  <form #formDolar="ngForm">
-    <ion-item>
-      <ion-label>Valor Dolar</ion-label>
-      <ion-input type="number" [(ngModel)]="dolar" name="valor" #valor required></ion-input>
-    </ion-item>
-    <ion-item>
-      <button ion-button [disabled]="!formDolar.valid" (click)="setDolar(valor.value)">Actualizar</button>
-    </ion-item>
-  </form>
-  <a href="http://www.bna.com.ar/Cotizador/MonedasHistorico" target="_blank">DOLAR</a>
+  <ion-grid>
+    <ion-row>
+      <bancos-card colorHeader="bancosHeader"></bancos-card>
+    </ion-row>
+    <ion-row>
+      <form #formDolar="ngForm">
+        <ion-item>
+          <ion-label>Valor Dolar</ion-label>
+          <ion-input type="number" [(ngModel)]="dolar" name="valor" #valor required></ion-input>
+        </ion-item>
+        <ion-item>
+          <button ion-button [disabled]="!formDolar.valid" (click)="setDolar(valor.value)">Actualizar</button>
+        </ion-item>
+      </form>
+      <a href="http://www.bna.com.ar/Cotizador/MonedasHistorico" target="_blank">DOLAR</a>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 <footer-comun></footer-comun>
