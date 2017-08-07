@@ -132,7 +132,7 @@ export class ClientesAddPage {
   }
 
   public chkTelefonosForm(): boolean {
-    return ((this.newCliente.Telefonos != null));
+    return ((this.newCliente.Telefonos != null) && (this.newCliente.Telefonos[0].Numero != null));
   }
 
   public addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }

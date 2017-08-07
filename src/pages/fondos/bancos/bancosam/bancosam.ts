@@ -1,4 +1,4 @@
-import {Banco} from './../../../models/fondos.clases';
+import {Banco} from './../../../../models/fondos.clases';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 

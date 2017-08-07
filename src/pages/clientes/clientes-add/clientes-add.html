@@ -27,25 +27,47 @@
         <ion-icon item-end name="{{(isShowDireccion)?'arrow-up':'arrow-down'}}"></ion-icon>
       </ion-item-divider>
       <ion-item-group *ngIf="isShowDireccion" color="scroll-content">
-        <ion-item color="scroll-content">
-          <ion-label floating>Calle</ion-label>
-          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Calle" name="Calle" required></ion-input>
-        </ion-item>
-        <ion-item color="scroll-content">
-          <ion-label floating>Loacalidad</ion-label>
-          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Localidad" name="Localidad" required></ion-input>
-        </ion-item>
-        <ion-item color="scroll-content">
-          <ion-label floating>Provincia</ion-label>
-          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Provincia" name="Provincia" required></ion-input>
-        </ion-item>
-        <ion-item color="scroll-content">
-          <ion-label floating>Pais</ion-label>
-          <ion-input type="text" [(ngModel)]="newCliente.Direccion.Pais" name="Pais" required></ion-input>
-        </ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-badge color="dark">Calle</ion-badge>
+              <ion-row>
+                <ion-badge ion-item >
+                  <ion-input type="text" name="direccion.calle" [(ngModel)]="newCliente.Direccion.Calle" required></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+            <ion-col>
+              <ion-badge color="dark">Localidad</ion-badge>
+              <ion-row>
+                <ion-badge ion-item >
+                  <ion-input type="text" name="direccion.localidad" [(ngModel)]="newCliente.Direccion.Localidad" required></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-badge color="dark">Provincia</ion-badge>
+              <ion-row>
+                <ion-badge ion-item >
+                  <ion-input type="text" name="direccion.provincia" [(ngModel)]="newCliente.Direccion.Provincia" required></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+            <ion-col>
+              <ion-badge color="dark">Pais</ion-badge>
+              <ion-row>
+                <ion-badge ion-item >
+                  <ion-input type="text" name="direccion.pais" [(ngModel)]="newCliente.Direccion.Pais" required></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </ion-item-group>
       <ion-item-divider color="toolBar" (click)="isShowTelefonos = !isShowTelefonos">
-        <ion-icon *ngIf="!chkDireccionForm()" name="alert" color="danger"></ion-icon>
+        <ion-icon *ngIf="!chkTelefonosForm()" name="alert" color="danger"></ion-icon>
         TELEFONOS
         <ion-icon item-end name="{{(isShowTelefonos)?'arrow-up':'arrow-down'}}"></ion-icon>
       </ion-item-divider>
@@ -79,12 +101,12 @@
         <ion-icon item-end name="{{(isShowDescuentos)?'arrow-up':'arrow-down'}}"></ion-icon>
       </ion-item-divider>
       <ion-item-group *ngIf="isShowDescuentos">
-        
+
         <ion-item color="scroll-content" no-lines>
-          <ion-item  color="scroll-content" *ngFor="let des of newCliente.Descuentos; let desIdx = index" no-lines>
-          <span item-start>{{des?.id}} = {{des?.Descuento |number:'1.2-2'}}%</span>
-          <button item-start ion-fab mini color="danger" (click)="descuentoRemoveItem(desIdx)"><ion-icon name="remove"></ion-icon></button>
-        </ion-item>
+          <ion-item color="scroll-content" *ngFor="let des of newCliente.Descuentos; let desIdx = index" no-lines>
+            <span item-start>{{des?.id}} = {{des?.Descuento |number:'1.2-2'}}%</span>
+            <button item-start ion-fab mini color="danger" (click)="descuentoRemoveItem(desIdx)"><ion-icon name="remove"></ion-icon></button>
+          </ion-item>
           <button item-end ion-fab mini color="primary" [disabled]="!(getDescuentoAcumulado() < usuario.MaxDescuentoItem)" (click)="descuentoAddItem()"><ion-icon name="add"></ion-icon></button>
         </ion-item>
       </ion-item-group>
@@ -103,7 +125,7 @@
     <br>
   </form>
 </ion-content>
-<ion-fab top left >
+<ion-fab top left>
   <button ion-fab color="light" (click)="onCancelar()">
         <ion-icon *ngIf="!isEdit" name="icon-ind_user-remove"></ion-icon>
         <ion-icon *ngIf="isEdit" name="close"></ion-icon>

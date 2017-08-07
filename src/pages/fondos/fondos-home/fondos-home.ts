@@ -1,4 +1,4 @@
-import { BancosamPage } from './../bancosam/bancosam';
+import { BancosamPage } from './../bancos/bancosam/bancosam';
 import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
