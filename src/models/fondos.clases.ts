@@ -18,7 +18,7 @@ export class Cheque {
   FechaEmision: string;
   FechaCobro: string;
   Monto: number;
-  Cuenta: number;
+  Cuenta: string;
   Firmantes: ChequeFirmante[] = [];
   EntregadoPor: ChequeEntregadoPor;
   EntregadoA: ChequeEntregadoA;

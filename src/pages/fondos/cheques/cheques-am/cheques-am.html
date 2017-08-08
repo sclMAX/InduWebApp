@@ -46,8 +46,8 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="number" name="NroCheque" [disabled]="!selBanco || !selSucursal" [(ngModel)]="newCheque.Numero" [readonly]="isEdit"
-                required></ion-input>
+              <ion-input #nroCheque type="number" name="NroCheque" [disabled]="!selBanco || !selSucursal" [(ngModel)]="newCheque.Numero"
+                [readonly]="isEdit" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>
@@ -72,9 +72,10 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fe type="datetime" [(ngModel)]="newCheque.FechaEmision" name="FechaEmision" required></ion-input>
+              <ion-input #fe type="datetime" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.FechaEmision" name="FechaEmision"
+                required></ion-input>
             </ion-badge>
-            <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>Fecha incorrecta ("dd/mm/yyyy")</small></ion-badge>
+            <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>{{errorMsgFechaEmision}}</small></ion-badge>
           </ion-row>
         </ion-col>
         <!-- Fecha Cobro -->
@@ -84,9 +85,75 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="datetime" name="FechaCobro" [(ngModel)]="newCheque.FechaCobro"></ion-input>
+              <ion-input #fc type="datetime" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.FechaCobro" required></ion-input>
             </ion-badge>
-            <ion-badge *ngIf="!chkFecha(newCheque.FechaCobro)" color="danger"><small>Fecha incorrecta ("dd/mm/yyyy")</small></ion-badge>
+            <ion-badge *ngIf="!chkFechaCobro() && fc.value" color="danger"><small>{{errorMsgFechaCobro}}</small></ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- Cta y Monto -->
+      <ion-row>
+        <!-- Cta -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Nro. Cuenta</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="Cuenta" [(ngModel)]="newCheque.Cuenta" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!--  Monto -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Monto</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="number" name="Monto" [(ngModel)]="newCheque.Monto" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- Firmantes -->
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Firmates</ion-badge>
+          </ion-row>
+          <ion-row ion-item no-lines no-padding color="scroll-content">
+            <ion-col>
+              <ion-row ion-item no-lines no-padding color="scroll-content" *ngFor="let firmante of newCheque?.Firmantes; let idx=index">
+                <button item-start ion-fab mini color="danger" *ngIf="idx > 0" (click)="removeFirmante(idx)"><ion-icon name="remove"></ion-icon></button>
+                <ion-row>
+                  <!-- CUIT -->
+                  <ion-col>
+                    <ion-row>
+                      <ion-badge color="formLabel">CUIT</ion-badge>
+                    </ion-row>
+                    <ion-row>
+                      <ion-badge ion-item no-lines color="formInput">
+
+                        <ion-input type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" required></ion-input>
+                      </ion-badge>
+                    </ion-row>
+                  </ion-col>
+                  <!-- TITULAR -->
+                  <ion-col>
+                    <ion-row>
+                      <ion-badge color="formLabel">Titular</ion-badge>
+                    </ion-row>
+                    <ion-row>
+                      <ion-badge ion-item no-lines color="formInput">
+                        <ion-input type="text" name="Nombre{{idx}}" [(ngModel)]="firmante.Nombre" required></ion-input>
+                      </ion-badge>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </ion-row>
+            </ion-col>
+            <button item-end ion-fab mini color="primary" (click)="addFirmante()"><ion-icon  name="add"></ion-icon></button>
           </ion-row>
         </ion-col>
       </ion-row>
@@ -112,5 +179,5 @@
 </ion-fab>
 
 <ion-fab top right>
-  <button ion-fab color="primary" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="primary" [disabled]="!isValid(formCheque)" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
 </ion-fab>
