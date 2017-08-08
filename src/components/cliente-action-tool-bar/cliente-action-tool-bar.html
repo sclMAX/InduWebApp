@@ -2,7 +2,7 @@
   <ng-content></ng-content>
   <ion-buttons end>
     <button ion-button icon-only (click)="newPedido(cliente)"><ion-icon name="icon-ind_new-document" ></ion-icon></button>
-    <div ion-button icon-only style="width: 10px;pointer-events: none;"></div>
+    <button ion-button icon-only (click)="newPago(cliente)"><ion-icon name="logo-usd" ></ion-icon></button>
     <button ion-button icon-only *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos.length > 1))" (click)="showTelefonos(cliente)"><ion-icon name="call" ></ion-icon></button>
     <a *ngIf="cliente.Email" ion-button icon-only href="http://www.indumatics.com.ar/webmail/src/compose.php?mailbox=INBOX&startMessage=1&send_to={{cliente?.Email}}"
       target="_blank">

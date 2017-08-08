@@ -111,8 +111,9 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="number" name="Monto" [(ngModel)]="newCheque.Monto" required></ion-input>
+              <ion-input #monto type="number" name="Monto" [(ngModel)]="newCheque.Monto" required></ion-input>
             </ion-badge>
+            <ion-badge *ngIf="!chkMonto() && monto.value" color="danger"><small>El monto debe ser mayor que 0!</small></ion-badge>
           </ion-row>
         </ion-col>
       </ion-row>
@@ -134,9 +135,9 @@
                     </ion-row>
                     <ion-row>
                       <ion-badge ion-item no-lines color="formInput">
-
-                        <ion-input type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" required></ion-input>
+                        <ion-input #cuit type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" required></ion-input>
                       </ion-badge>
+                      <ion-badge *ngIf="!chkCuit(firmante.CUIT) && cuit.value" color="danger"><small>CUIT incorrecto!</small></ion-badge>
                     </ion-row>
                   </ion-col>
                   <!-- TITULAR -->

@@ -1,3 +1,6 @@
+import {
+  ClientesAddPagoPage
+} from './../pages/clientes/clientes-add-pago/clientes-add-pago';
 import {ChequesAmPage} from './../pages/fondos/cheques/cheques-am/cheques-am';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
@@ -134,6 +137,8 @@ import {MyApp} from './app.component';
 import {
   BancosCardComponent
 } from '../components/bancos/bancos-card/bancos-card';
+import { FormBadgeItemComponent } from '../components/form-badge-item/form-badge-item';
+import { FormBadgeInputItemComponent } from '../components/form-badge-input-item/form-badge-input-item';
 
 export const environment = {
   production: false,
@@ -192,7 +197,10 @@ export const environment = {
     DireccionEditItemComponent,
     BancosSucursalAmPage,
     BancosCardComponent,
-    ChequesAmPage
+    ChequesAmPage,
+    ClientesAddPagoPage,
+    FormBadgeItemComponent,
+    FormBadgeInputItemComponent
   ],
   imports: [
     BrowserModule,
@@ -226,7 +234,8 @@ export const environment = {
     PrintPedidoEntregaPage,
     BancosamPage,
     BancosSucursalAmPage,
-    ChequesAmPage
+    ChequesAmPage,
+    ClientesAddPagoPage
   ],
   providers: [
     StatusBar,

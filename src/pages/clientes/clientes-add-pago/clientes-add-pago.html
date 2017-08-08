@@ -1,0 +1,78 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar" text-center hideBackButton=true>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <!-- Saldos,Ref Dolar y Total Pago -->
+    <ion-row>
+      <!-- Saldo Cta Cte -->
+      <form-badge-item label="Saldo Cta. Cte.">
+        <h2>U$ {{saldoCliente |number:'1.2-2'}}</h2>
+      </form-badge-item>
+      <!-- Ref Dolar -->
+      <form-badge-input-item label="Ref. Dolar" padding-left>
+        <ion-input type="number" name="dolarValor" readonly=false [value]="dolar?.Valor"></ion-input>
+      </form-badge-input-item>
+      <!-- Total Pago -->
+      <form-badge-item label="Total Pago (U$)" padding-left>
+        <h2>U$ {{calTotalPago() |number:'1.2-2'}}</h2>
+      </form-badge-item>
+      <!-- Saldo Actual -->
+      <form-badge-item label="Saldo Actual" padding-left>
+        <h2>U$ {{calSandoActual() |number:'1.2-2'}}</h2>
+      </form-badge-item>
+    </ion-row>
+    <!-- Efectivo-->
+    <ion-row ion-item no-lines color="listDivider1" text-center>
+      Efectivo
+    </ion-row>
+    <ion-row>
+      <!-- PESOS -->
+      <form-badge-input-item label="Monto Efectivo ($)">
+        <ion-input type="number" name="Efectivo" [(ngModel)]="newPago.Efectivo"></ion-input>
+      </form-badge-input-item>
+      <!-- DOLARES -->
+      <form-badge-input-item label="Monto Dolares (U$)" padding-left>
+        <ion-input type="number" name="dolares" [(ngModel)]="newPago.Dolares"></ion-input>
+      </form-badge-input-item>
+    </ion-row>
+    <!-- Cheques Header-->
+    <ion-row ion-item no-lines color="listDivider1" text-center>
+      Cheques
+      <button item-end ion-button mini small color="primary" (click)="addCheque()"><ion-icon name="add"></ion-icon></button>
+    </ion-row>
+    <!-- Cheques List-->
+    <ion-row ion-item no-lines [color]="(p)?'listPar':'listImpar'" *ngFor="let cheque of newPago?.Cheques; let idx=index;let p=even">
+      <!-- Remover Item -->
+      <button item-end ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button>
+      <!-- Nro Cheque -->
+      <form-badge-item item-start label="Nro. Cheque">
+        <h2>{{cheque?.Cheque?.idBanco |number:'3.0-0'}}-{{cheque?.Cheque?.idSucursal |number:'3.0-0'}}-{{cheque?.Cheque?.Numero
+          |number:'8.0-0'}}
+        </h2>
+      </form-badge-item>
+      <!-- Monto -->
+      <form-badge-item item-start label="Monto($)">
+        <h2>$ {{cheque?.Cheque?.Monto |number:'1.2-2'}}</h2>
+      </form-badge-item>
+      <!-- Dolar Cheque -->
+      <form-badge-input-item item-start label="Ref Dolar Cheque">
+        <ion-input type="number" name="dolar" [(ngModel)]="cheque?.Dolar.Valor"></ion-input>
+      </form-badge-input-item>
+      <!-- Monto en Dolares -->
+      <form-badge-item item-start label="Monto(U$)">
+        <h2>U$ {{(cheque?.Cheque?.Monto / cheque?.Dolar?.Valor) |number:'1.2-2'}}</h2>
+      </form-badge-item>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<footer-comun></footer-comun>
+
+<ion-fab top left>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab top right>
+  <button ion-fab color="primary" (click)="goBack()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>

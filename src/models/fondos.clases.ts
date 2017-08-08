@@ -1,3 +1,4 @@
+import { FFECHA } from './db-base-paths';
 import {UserDoc} from './user.class';
 import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
@@ -14,7 +15,7 @@ export class Cheque {
   idBanco: number;
   idSucursal: number;
   Numero: number;
-  FechaIngreso: string = moment().format('DD/MM/YYYY');
+  FechaIngreso: string = moment().format(FFECHA);
   FechaEmision: string;
   FechaCobro: string;
   Monto: number;
@@ -55,4 +56,24 @@ export class BancoSucursal {
   Nombre: string;
   Direccion: Direccion = new Direccion();
   Telefono: string;
+}
+
+export function validaCuit(cuit: string) {
+  const sec = '5432765432';
+  let aMult = sec.split('').map(Number);
+  if (cuit && cuit.length == 11) {
+    let aCUIT = cuit.split('').map(Number);
+    let iResult: number = 0;
+    for (let i = 0; i <= 9; i++) {
+      iResult += aCUIT[i] * aMult[i];
+    }
+    iResult = (iResult % 11);
+    iResult = 11 - iResult;
+    if (iResult == 11) iResult = 0;
+    if (iResult == 10) iResult = 9;
+    if (iResult == aCUIT[10]) {
+      return true;
+    }
+  }
+  return false;
 }

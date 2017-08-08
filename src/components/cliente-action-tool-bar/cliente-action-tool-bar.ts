@@ -1,3 +1,4 @@
+import { ClientesAddPagoPage } from './../../pages/clientes/clientes-add-pago/clientes-add-pago';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {AlertController, LoadingController, NavController, ToastController} from 'ionic-angular';
 
@@ -44,6 +45,9 @@ export class ClienteActionToolBarComponent {
 
   newPedido(cliente: Cliente) {
     this.navCtrl.push(PedidosNewPage, {Cliente: cliente});
+  }
+  newPago(cliente:Cliente){
+    this.navCtrl.push(ClientesAddPagoPage, {Cliente:cliente});
   }
 
   goClienteUpdate(cliente: Cliente) {
