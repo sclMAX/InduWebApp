@@ -1,22 +1,6 @@
 {
   "rules": {
-    ".read": "auth != null && auth.token.email.matches(/.*@indumatics.com.ar$/)",
-    ".write": "auth != null && auth.token.email.matches(/.*@indumatics.com.ar$/)",
-    "V1": {
-      "Sucursales": {
-        "$id": {
-          "Documentos": {
-            "Pedidos": {
-              ".indexOn": [
-                "isPreparado",
-                "idCliente",
-                "Numero",
-                "isStockActualizado"
-              ]
-            }
-          }
-        }
-      }
-    }
+    ".read": "auth != null",
+    ".write": "auth != null"
   }
 }
