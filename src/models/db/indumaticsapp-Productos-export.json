@@ -1,0 +1,1151 @@
+{
+  "Colores": {
+    "Blanco Aluar": {
+      "Descripcion": "Pintado Blanco Aluar",
+      "Incremento": 0.04,
+      "Nombre": "Blanco Aluar",
+      "id": "Blanco Aluar"
+    },
+    "Blanco Brillante": {
+      "Descripcion": "Pintado Blanco Brillante",
+      "Incremento": 0.04,
+      "Nombre": "Blanco Brillante",
+      "id": "Blanco Brillante"
+    },
+    "Natural": {
+      "Descripcion": "Perfil Natural",
+      "Incremento": 0.0,
+      "Nombre": "Natural",
+      "id": "Natural"
+    }
+  },
+  "Lineas": {
+    "6000": {
+      "Descripcion": "Tipo Modena",
+      "Nombre": "Linea 6000",
+      "id": 6000
+    },
+    "3000A": {
+      "Descripcion": "Tipo A30 New",
+      "Nombre": "Linea 3000A",
+      "id": "3000A"
+    },
+    "Tradicional": {
+      "Descripcion": "Tipo Herrero",
+      "Nombre": "Linea Tradicional",
+      "id": "Tradicional"
+    }
+  },
+  "Perfiles": {
+    "044": {
+      "BarrasPaquete": "5",
+      "Codigo": "044",
+      "Descripcion": "Ventana Travesaño / Puerta Travesaño",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.85",
+      "PesoNatural": 0.876,
+      "PesoPintado": 0.918,
+      "id": "044"
+    },
+    "049": {
+      "BarrasPaquete": "10",
+      "Codigo": "049",
+      "Descripcion": "Marco Union",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.41",
+      "PesoNatural": 0.422,
+      "PesoPintado": 0.443,
+      "id": "049"
+    },
+    "108": {
+      "BarrasPaquete": "20",
+      "Codigo": "108",
+      "Descripcion": "Contavidrio",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.165",
+      "PesoNatural": 0.17,
+      "PesoPintado": 0.178,
+      "id": "108"
+    },
+    "289": {
+      "BarrasPaquete": "6",
+      "Codigo": "289",
+      "Descripcion": "Postigon Marco / Puerta Marco",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.66",
+      "PesoNatural": 0.68,
+      "PesoPintado": 0.713,
+      "id": "289"
+    },
+    "291": {
+      "BarrasPaquete": "8",
+      "Codigo": "291",
+      "Descripcion": "Marco Postigo  25 chico",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.47",
+      "PesoNatural": 0.484,
+      "PesoPintado": 0.508,
+      "id": "291"
+    },
+    "403": {
+      "BarrasPaquete": "6",
+      "Codigo": "403",
+      "Descripcion": "Puerta Marco 36mm",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.55",
+      "PesoNatural": 0.567,
+      "PesoPintado": 0.594,
+      "id": "403"
+    },
+    "404": {
+      "BarrasPaquete": "4",
+      "Codigo": "404",
+      "Descripcion": "Puerta Parante 36mm",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.95",
+      "PesoNatural": 0.978,
+      "PesoPintado": 1.026,
+      "id": "404"
+    },
+    "405": {
+      "BarrasPaquete": "4",
+      "Codigo": "405",
+      "Descripcion": "Puerta Travesaño 36mm",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.96",
+      "PesoNatural": 0.989,
+      "PesoPintado": 1.037,
+      "id": "405"
+    },
+    "406": {
+      "BarrasPaquete": "10",
+      "Codigo": "406",
+      "Descripcion": "Puerta Doble Contacto 36mm",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.3",
+      "PesoNatural": 0.309,
+      "PesoPintado": 0.324,
+      "id": "406"
+    },
+    "461": {
+      "BarrasPaquete": "10",
+      "Codigo": "461",
+      "Descripcion": "Postigo Tapajunta",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.245",
+      "PesoNatural": 0.252,
+      "PesoPintado": 0.265,
+      "id": "461"
+    },
+    "462": {
+      "BarrasPaquete": "8",
+      "Codigo": "462",
+      "Descripcion": "Postigon  Parante 37mm",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.5",
+      "PesoNatural": 0.515,
+      "PesoPintado": 0.54,
+      "id": "462"
+    },
+    "464": {
+      "BarrasPaquete": "5",
+      "Codigo": "464",
+      "Descripcion": "Postigon Parante / Puerta Parante  70mm",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.65",
+      "PesoNatural": 0.67,
+      "PesoPintado": 0.702,
+      "id": "464"
+    },
+    "501": {
+      "BarrasPaquete": "4",
+      "Codigo": "501",
+      "Descripcion": "Ventana Marco Liviano",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.59",
+      "PesoNatural": 0.608,
+      "PesoPintado": 0.637,
+      "id": "501"
+    },
+    "502": {
+      "BarrasPaquete": "10",
+      "Codigo": "502",
+      "Descripcion": "Ventana Hoja Travesaño Liviano",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.385",
+      "PesoNatural": 0.397,
+      "PesoPintado": 0.416,
+      "id": "502"
+    },
+    "503": {
+      "BarrasPaquete": "6",
+      "Codigo": "503",
+      "Descripcion": "Ventana Hoja Parante Lateral Liviano",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.37",
+      "PesoNatural": 0.381,
+      "PesoPintado": 0.4,
+      "id": "503"
+    },
+    "504": {
+      "BarrasPaquete": "6",
+      "Codigo": "504",
+      "Descripcion": "Ventana Hoja Parante Central Liviano",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.37",
+      "PesoNatural": 0.381,
+      "PesoPintado": 0.4,
+      "id": "504"
+    },
+    "690": {
+      "BarrasPaquete": "6",
+      "Codigo": "690",
+      "Descripcion": "Guia Ventana Corrediza",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.48",
+      "PesoNatural": 0.494,
+      "PesoPintado": 0.518,
+      "id": "690"
+    },
+    "781": {
+      "BarrasPaquete": "5",
+      "Codigo": "781",
+      "Descripcion": "Revestimiento Tubular",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.97",
+      "PesoNatural": 0.999,
+      "PesoPintado": 1.048,
+      "id": "781"
+    },
+    "831": {
+      "BarrasPaquete": "5",
+      "Codigo": "831",
+      "Descripcion": "Escuadra",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.53",
+      "PesoNatural": 0.546,
+      "PesoPintado": 0.572,
+      "id": "831"
+    },
+    "853": {
+      "BarrasPaquete": "4",
+      "Codigo": "853",
+      "Descripcion": "Ventana Corrediza Parante Lateral Reforzado",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.55",
+      "PesoNatural": 0.567,
+      "PesoPintado": 0.594,
+      "id": "853"
+    },
+    "854": {
+      "BarrasPaquete": "4",
+      "Codigo": "854",
+      "Descripcion": "Ventana Corrediza Parante Central Reforzado",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.6",
+      "PesoNatural": 0.618,
+      "PesoPintado": 0.648,
+      "id": "854"
+    },
+    "901": {
+      "BarrasPaquete": "4",
+      "Codigo": "901",
+      "Descripcion": "Ventana Marco",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.8",
+      "PesoNatural": 0.824,
+      "PesoPintado": 0.864,
+      "id": "901"
+    },
+    "902": {
+      "BarrasPaquete": "10",
+      "Codigo": "902",
+      "Descripcion": "Ventana Hoja Travesaño",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.49",
+      "PesoNatural": 0.505,
+      "PesoPintado": 0.529,
+      "id": "902"
+    },
+    "903": {
+      "BarrasPaquete": "6",
+      "Codigo": "903",
+      "Descripcion": "Ventana Hoja Parante Lateral",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.43",
+      "PesoNatural": 0.443,
+      "PesoPintado": 0.464,
+      "id": "903"
+    },
+    "904": {
+      "BarrasPaquete": "6",
+      "Codigo": "904",
+      "Descripcion": "Ventana Hoja Parante Central",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.42",
+      "PesoNatural": 0.433,
+      "PesoPintado": 0.454,
+      "id": "904"
+    },
+    "905": {
+      "BarrasPaquete": "10",
+      "Codigo": "905",
+      "Descripcion": "Mosquitero",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.32",
+      "PesoNatural": 0.33,
+      "PesoPintado": 0.346,
+      "id": "905"
+    },
+    "907": {
+      "BarrasPaquete": "6",
+      "Codigo": "907",
+      "Descripcion": "Paño Fijo Marco",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.53",
+      "PesoNatural": 0.546,
+      "PesoPintado": 0.572,
+      "id": "907"
+    },
+    "917": {
+      "BarrasPaquete": "4",
+      "Codigo": "917",
+      "Descripcion": "Ventana Corrediza Umbral",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.88",
+      "PesoNatural": 0.906,
+      "PesoPintado": 0.95,
+      "id": "917"
+    },
+    "961": {
+      "BarrasPaquete": "4",
+      "Codigo": "961",
+      "Descripcion": "Ventana Corr. Marco 3 Guias",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "1.175",
+      "PesoNatural": 1.21,
+      "PesoPintado": 1.269,
+      "id": "961"
+    },
+    "964": {
+      "BarrasPaquete": "4",
+      "Codigo": "964",
+      "Descripcion": "Ventana Marco 4 Guias",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "1.17",
+      "PesoNatural": 1.205,
+      "PesoPintado": 1.264,
+      "id": "964"
+    },
+    "965": {
+      "BarrasPaquete": "4",
+      "Codigo": "965",
+      "Descripcion": "Ventana Marco Combinado",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "1.15",
+      "PesoNatural": 1.185,
+      "PesoPintado": 1.242,
+      "id": "965"
+    },
+    "971": {
+      "BarrasPaquete": "10",
+      "Codigo": "971",
+      "Descripcion": "Vidrio Repartido Central",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.36",
+      "PesoNatural": 0.371,
+      "PesoPintado": 0.389,
+      "id": "971"
+    },
+    "972": {
+      "BarrasPaquete": "10",
+      "Codigo": "972",
+      "Descripcion": "Vidrio Repartido Perimetral",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.25",
+      "PesoNatural": 0.258,
+      "PesoPintado": 0.27,
+      "id": "972"
+    },
+    "992": {
+      "BarrasPaquete": "5",
+      "Codigo": "992",
+      "Descripcion": "Revestimiento Doble Faz",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.69",
+      "PesoNatural": 0.711,
+      "PesoPintado": 0.745,
+      "id": "992"
+    },
+    "1403": {
+      "BarrasPaquete": "6",
+      "Codigo": "1403",
+      "Descripcion": "Marco Recto Puerta 36",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.66",
+      "PesoNatural": 0.68,
+      "PesoPintado": 0.713,
+      "id": "1403"
+    },
+    "1427": {
+      "BarrasPaquete": "6",
+      "Codigo": "1427",
+      "Descripcion": "Puerta Marco Placa 1' 1/2\"",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.45",
+      "PesoNatural": 0.464,
+      "PesoPintado": 0.486,
+      "id": "1427"
+    },
+    "1428": {
+      "BarrasPaquete": "6",
+      "Codigo": "1428",
+      "Descripcion": "Marco Puerta Placa 2",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.45",
+      "PesoNatural": 0.464,
+      "PesoPintado": 0.486,
+      "id": "1428"
+    },
+    "6200": {
+      "BarrasPaquete": "4",
+      "Codigo": "6200",
+      "Descripcion": "Ventana Corrediza TM Marco 90/45",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.28",
+      "PesoNatural": 1.318,
+      "PesoPintado": 1.382,
+      "id": "6200"
+    },
+    "6201": {
+      "BarrasPaquete": "4",
+      "Codigo": "6201",
+      "Descripcion": "Ventana Marco Jamba TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.67",
+      "PesoNatural": 0.69,
+      "PesoPintado": 0.724,
+      "id": "6201"
+    },
+    "6203": {
+      "BarrasPaquete": "6",
+      "Codigo": "6203",
+      "Descripcion": "Ventana Hoja Parante Lateral TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.61",
+      "PesoNatural": 0.628,
+      "PesoPintado": 0.659,
+      "id": "6203"
+    },
+    "6204": {
+      "BarrasPaquete": "6",
+      "Codigo": "6204",
+      "Descripcion": "Ventana Hoja Travesaño  TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.68",
+      "PesoNatural": 0.7,
+      "PesoPintado": 0.734,
+      "id": "6204"
+    },
+    "6205": {
+      "BarrasPaquete": "10",
+      "Codigo": "6205",
+      "Descripcion": "Premarco TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.35",
+      "PesoNatural": 0.361,
+      "PesoPintado": 0.378,
+      "id": "6205"
+    },
+    "6206": {
+      "BarrasPaquete": "10",
+      "Codigo": "6206",
+      "Descripcion": "Tapa Premarco TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.185",
+      "PesoNatural": 0.191,
+      "PesoPintado": 0.2,
+      "id": "6206"
+    },
+    "6207": {
+      "BarrasPaquete": "6",
+      "Codigo": "6207",
+      "Descripcion": "Ventana Hoja Parante Central  TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.58",
+      "PesoNatural": 0.597,
+      "PesoPintado": 0.626,
+      "id": "6207"
+    },
+    "6213": {
+      "BarrasPaquete": "10",
+      "Codigo": "6213",
+      "Descripcion": "Perfil de Acople",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.255",
+      "PesoNatural": 0.263,
+      "PesoPintado": 0.275,
+      "id": "6213"
+    },
+    "6214": {
+      "BarrasPaquete": "4",
+      "Codigo": "6214",
+      "Descripcion": "Puerta Hoja Parante TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.1",
+      "PesoNatural": 1.133,
+      "PesoPintado": 1.188,
+      "id": "6214"
+    },
+    "6216": {
+      "BarrasPaquete": "4",
+      "Codigo": "6216",
+      "Descripcion": "Puerta Marco TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.73",
+      "PesoNatural": 0.752,
+      "PesoPintado": 0.788,
+      "id": "6216"
+    },
+    "6218": {
+      "BarrasPaquete": "4",
+      "Codigo": "6218",
+      "Descripcion": "Puerta Hoja Travesaño TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.15",
+      "PesoNatural": 1.185,
+      "PesoPintado": 1.242,
+      "id": "6218"
+    },
+    "6219": {
+      "BarrasPaquete": "2",
+      "Codigo": "6219",
+      "Descripcion": "Puerta Hoja Travesaño Alto TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.65",
+      "PesoNatural": 1.7,
+      "PesoPintado": 1.782,
+      "id": "6219"
+    },
+    "6230": {
+      "BarrasPaquete": "10",
+      "Codigo": "6230",
+      "Descripcion": "Contravidrio Curvo 29MM TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.21",
+      "PesoNatural": 0.216,
+      "PesoPintado": 0.227,
+      "id": "6230"
+    },
+    "6231": {
+      "BarrasPaquete": "10",
+      "Codigo": "6231",
+      "Descripcion": "Contravidrio Curvo 15MM TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.16",
+      "PesoNatural": 0.165,
+      "PesoPintado": 0.173,
+      "id": "6231"
+    },
+    "6232": {
+      "BarrasPaquete": "20",
+      "Codigo": "6232",
+      "Descripcion": "Contravidrio Curvo 22mm TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.18",
+      "PesoNatural": 0.185,
+      "PesoPintado": 0.194,
+      "id": "6232"
+    },
+    "6235": {
+      "BarrasPaquete": "6",
+      "Codigo": "6235",
+      "Descripcion": "Hoja Curva Ventana Abrir DC / Banderola",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.9",
+      "PesoNatural": 0.927,
+      "PesoPintado": 0.972,
+      "id": "6235"
+    },
+    "6236": {
+      "BarrasPaquete": "6",
+      "Codigo": "6236",
+      "Descripcion": "Hoja Curva Ventiluz",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.9",
+      "PesoNatural": 0.927,
+      "PesoPintado": 0.972,
+      "id": "6236"
+    },
+    "6248": {
+      "BarrasPaquete": "6",
+      "Codigo": "6248",
+      "Descripcion": "Ventana Hoja Parante Lateral DVH TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.65",
+      "PesoNatural": 0.67,
+      "PesoPintado": 0.702,
+      "id": "6248"
+    },
+    "6249": {
+      "BarrasPaquete": "6",
+      "Codigo": "6249",
+      "Descripcion": "Ventana Hoja Travesaño DVH TM",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.68",
+      "PesoNatural": 0.7,
+      "PesoPintado": 0.734,
+      "id": "6249"
+    },
+    "6250": {
+      "BarrasPaquete": "6",
+      "Codigo": "6250",
+      "Descripcion": "Ventana Hoja Parante Central DVH TM",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.61",
+      "PesoNatural": 0.628,
+      "PesoPintado": 0.659,
+      "id": "6250"
+    },
+    "6621": {
+      "BarrasPaquete": "6",
+      "Codigo": "6621",
+      "Descripcion": "Ventana Corrediza TM Hoja 45º",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.78",
+      "PesoNatural": 0.803,
+      "PesoPintado": 0.842,
+      "id": "6621"
+    },
+    "6622": {
+      "BarrasPaquete": "6",
+      "Codigo": "6622",
+      "Descripcion": "Ventana Corrediza DVH TM Hoja 45º",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.76",
+      "PesoNatural": 0.783,
+      "PesoPintado": 0.821,
+      "id": "6622"
+    },
+    "6623": {
+      "BarrasPaquete": "10",
+      "Codigo": "6623",
+      "Descripcion": "Ventana Corrediza 45º TM  Encuentro Central",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "0.26",
+      "PesoNatural": 0.268,
+      "PesoPintado": 0.281,
+      "id": "6623"
+    },
+    "7726": {
+      "BarrasPaquete": "4",
+      "Codigo": "7726",
+      "Descripcion": "Jamba y cabezal de hoja puerta de rebatir",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.195",
+      "PesoNatural": 1.231,
+      "PesoPintado": 1.291,
+      "id": "7726"
+    },
+    "7729": {
+      "BarrasPaquete": "4",
+      "Codigo": "7729",
+      "Descripcion": "Travesaño hoja pta. de rebatir",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.261",
+      "PesoNatural": 1.299,
+      "PesoPintado": 1.362,
+      "id": "7729"
+    },
+    "7730": {
+      "BarrasPaquete": "4",
+      "Codigo": "7730",
+      "Descripcion": "Zócalo hoja puerta de rebatir",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea 6000 (Modena)",
+        "Nombre": "6000",
+        "id": "6000"
+      },
+      "PesoBase": "1.69",
+      "PesoNatural": 1.741,
+      "PesoPintado": 1.825,
+      "id": "7730"
+    },
+    "192T": {
+      "BarrasPaquete": "10",
+      "Codigo": "192T",
+      "Descripcion": "Postigon Tablilla (TROQUELADA)",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.275",
+      "PesoNatural": 0.283,
+      "PesoPintado": 0.297,
+      "id": "192T"
+    },
+    "192XT": {
+      "BarrasPaquete": "10",
+      "Codigo": "192XT",
+      "Descripcion": "Postigon Tablilla (SIN TROQUELAR)",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.275",
+      "PesoNatural": 0.283,
+      "PesoPintado": 0.297,
+      "id": "192XT"
+    },
+    "404-45": {
+      "BarrasPaquete": "4",
+      "Codigo": "404-45",
+      "Descripcion": "Puerta Parante 36mm (4500mm largo)",
+      "Largo": "4500",
+      "Linea": {
+        "Descripcion": "Linea Tradicional (Herrero)",
+        "Nombre": "Tradicional",
+        "id": "Tradicional"
+      },
+      "PesoBase": "0.95",
+      "PesoNatural": 0.978,
+      "PesoPintado": 1.026,
+      "id": "404-45"
+    },
+    "6036": {
+      "BarrasPaquete": "4",
+      "Codigo": "6036",
+      "Descripcion": "Jambas de marco",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase": 0.890,
+      "PesoNatural": 0.917,
+      "PesoPintado": 0.961,
+      "id": "6036"
+    },
+    "6037": {
+      "BarrasPaquete": "2",
+      "Codigo": "6037",
+      "Descripcion": "Umbral y dintel de marco",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase": 1.774,
+      "PesoNatural": 1.827,
+      "PesoPintado": 1.916,
+      "id": "6037"
+    },
+    "6066": {
+      "BarrasPaquete": "10",
+      "Codigo": "6066",
+      "Descripcion": "Premarco",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase": 0.550,
+      "PesoNatural": 0.567,
+      "PesoPintado": 0.594,
+      "id": "6066"
+    },
+    "6071": {
+      "BarrasPaquete": "2",
+      "Codigo": "6071",
+      "Descripcion": "Parante lateral corrediza para DVH",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase":1.335,
+      "PesoNatural": 1.375,
+      "PesoPintado": 1.442,
+      "id": "6071"
+    },
+    "6072": {
+      "BarrasPaquete": "2",
+      "Codigo": "6072",
+      "Descripcion": "Parante central corrediza para DVH",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase":1.460,
+      "PesoNatural": 1.504,
+      "PesoPintado": 1.577,
+      "id": "6072"
+    },
+    "6073": {
+      "BarrasPaquete": "6",
+      "Codigo": "6073",
+      "Descripcion": "Zócalo y cabezal corrediza para DVH",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase":0.860,
+      "PesoNatural": 0.886,
+      "PesoPintado": 0.929,
+      "id": "6073"
+    },
+    "6074": {
+      "BarrasPaquete": "4",
+      "Codigo": "6074",
+      "Descripcion": "Zócalo alto corrediza para DVH",
+      "Largo": "6050",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase":1.415,
+      "PesoNatural": 1.457,
+      "PesoPintado": 1.528,
+      "id": "6074"
+    },
+    "6508": {
+      "BarrasPaquete": "10",
+      "Codigo": "6508",
+      "Descripcion": "Adaptador VS",
+      "Largo": "6200",
+      "Linea": {
+        "Descripcion": "Tipo A30 New",
+        "Nombre": "Linea 3000A",
+        "id": "3000A"
+      },
+      "PesoBase":0.250,
+      "PesoNatural": 0.258,
+      "PesoPintado": 0.270,
+      "id": "6508"
+    }
+  }
+}

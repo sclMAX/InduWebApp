@@ -7,6 +7,9 @@
   <ion-grid>
     <!-- Saldos,Ref Dolar y Total Pago -->
     <ion-row>
+      <form-badge-item label="Nro. Pago">
+        <h2>{{newPago?.id |number:'3.0-0'}}</h2>
+      </form-badge-item>
       <!-- Saldo Cta Cte -->
       <form-badge-item label="Saldo Cta. Cte.">
         <h2>U$ {{saldoCliente |number:'1.2-2'}}</h2>
@@ -74,5 +77,5 @@
   <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
 <ion-fab top right>
-  <button ion-fab color="primary" (click)="goBack()"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="primary" [disabled]="!isValid()" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
 </ion-fab>

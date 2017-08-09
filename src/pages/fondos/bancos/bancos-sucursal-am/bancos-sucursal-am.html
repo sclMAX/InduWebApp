@@ -2,7 +2,6 @@
   <ion-navbar color="toolBar">
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
-
 </ion-header>
 <ion-content padding>
   <ion-grid>
@@ -12,11 +11,11 @@
         <ion-col>
           <ion-row>
             <ion-badge color="formLabel">Nro</ion-badge>
-            <ion-badge *ngIf="!isIdValid" color="danger"><small>Nro de Sucursal existente!</small></ion-badge>
+            <ion-badge *ngIf="!chkId() && idSucursal.value " color="danger"><small>Nro de Sucursal existente!</small></ion-badge>
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input (ionBlur)="chkId()" [readonly]="isEdit" type="number" name="Sucursal.id" [(ngModel)]="newSucursal.id" min="0" required></ion-input>
+              <ion-input #idSucursal  [readonly]="isEdit" type="number" name="Sucursal.id" [(ngModel)]="newSucursal.id" min="0" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>

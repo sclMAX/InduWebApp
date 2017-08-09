@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ModalController, NavParams, ViewController} from 'ionic-angular';
 import * as moment from 'moment';
 
-import {FFECHA} from './../../../../models/db-base-paths';
+import {FECHA} from './../../../../models/db-base-paths';
 import {
   Banco,
   BancoSucursal,
@@ -105,8 +105,8 @@ export class ChequesAmPage {
 
   chkFechaEmision(): boolean {
     if (this.newCheque.FechaEmision) {
-      let fi = moment(this.newCheque.FechaIngreso, FFECHA, true);
-      let fe = moment(this.newCheque.FechaEmision, FFECHA, true);
+      let fi = moment(this.newCheque.FechaIngreso, FECHA, true);
+      let fe = moment(this.newCheque.FechaEmision, FECHA, true);
       if (fe.isValid()) {
         let dif = fe.diff(fi, 'days');
         if (dif <= 0) {
@@ -124,9 +124,9 @@ export class ChequesAmPage {
 
   chkFechaCobro(): boolean {
     if (this.newCheque.FechaCobro) {
-      let fi = moment(this.newCheque.FechaIngreso, FFECHA, true);
-      let fe = moment(this.newCheque.FechaEmision, FFECHA, true);
-      let fc = moment(this.newCheque.FechaCobro, FFECHA, true);
+      let fi = moment(this.newCheque.FechaIngreso, FECHA, true);
+      let fe = moment(this.newCheque.FechaEmision, FECHA, true);
+      let fc = moment(this.newCheque.FechaCobro, FECHA, true);
       if (fc.isValid()) {
         if (fc.diff(fe, 'days') > -1) {
           if (fc.diff(fe, 'years') < 1) {
@@ -172,9 +172,8 @@ export class ChequesAmPage {
     res = res && this.chkFechaEmision();
     res = res && this.chkFechaCobro();
     res = res && this.chkMonto();
-    this.newCheque.Firmantes.forEach((f)=>{
-      res = res && this.chkCuit(f.CUIT);
-    });
+    this.newCheque.Firmantes.forEach(
+        (f) => { res = res && this.chkCuit(f.CUIT); });
     return res;
   }
 }

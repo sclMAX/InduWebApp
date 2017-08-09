@@ -1,4 +1,4 @@
-import { FFECHA } from './db-base-paths';
+import {FECHA, ClaseControlada} from './db-base-paths';
 import {UserDoc} from './user.class';
 import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
@@ -6,16 +6,16 @@ export class Fondos {}
 
 export class Dolar {
   id: string = "Dolar";
-  Fecha: string = new Date().toISOString();
+  Fecha: string = moment().format(FECHA);
   Valor: number;
 }
 
-export class Cheque {
+export class Cheque extends ClaseControlada {
   id: string;  // "idBanco"-"idSucursal"-"Numero"
   idBanco: number;
   idSucursal: number;
   Numero: number;
-  FechaIngreso: string = moment().format(FFECHA);
+  FechaIngreso: string = moment().format(FECHA);
   FechaEmision: string;
   FechaCobro: string;
   Monto: number;
@@ -23,8 +23,6 @@ export class Cheque {
   Firmantes: ChequeFirmante[] = [];
   EntregadoPor: ChequeEntregadoPor;
   EntregadoA: ChequeEntregadoA;
-  Creador: UserDoc;
-  Modificador: UserDoc;
   Comentarios: string;
 }
 
@@ -35,7 +33,7 @@ export class ChequeEntregadoPor {
 
 export class ChequeEntregadoA {
   Nombre: string;
-  Fecha: string = new Date().toISOString();
+  Fecha: string = moment().format(FECHA);
 }
 
 export class ChequeFirmante {
@@ -43,12 +41,10 @@ export class ChequeFirmante {
   Nombre: string;
 }
 
-export class Banco {
+export class Banco extends ClaseControlada {
   id: number;
   Nombre: string;
   Sucursales: BancoSucursal[] = [];
-  Creador: UserDoc;
-  Modificador: UserDoc;
 }
 
 export class BancoSucursal {

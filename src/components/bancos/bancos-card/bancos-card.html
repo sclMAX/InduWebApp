@@ -5,9 +5,10 @@
   </button>
   <ion-list *ngIf="showList" >
     <ion-item [color]="colorSubHeader" no-lines>
-      <button ion-fab mini item-end color="primary" (click)="add()"><ion-icon name="add"></ion-icon></button>
+      <ion-searchbar placeholder="Buscar Banco..." (ionCancel)="cancelFilter()" (ionInput)="filtar($event)"> </ion-searchbar>
+      <button ion-button small item-end color="primary" (click)="add()"><ion-icon name="add"></ion-icon></button>
     </ion-item>
-    <button ion-item no-lines (click)="edit(banco)" [color]="(p)? colorItemPar : colorItemImpar" *ngFor="let banco of bancos;let p=even">
+    <button ion-item no-lines (click)="edit(banco)" [color]="(p)? colorItemPar : colorItemImpar" *ngFor="let banco of filterBancos;let p=even">
       <h3 item-start>{{banco?.id |number:'3.0-0'}}</h3>
       <span>{{banco?.Nombre}}</span>
       <h5 item-end>({{banco?.Sucursales?.length}})</h5>

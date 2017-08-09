@@ -13,7 +13,6 @@ export class BancosSucursalAmPage {
   newSucursal: BancoSucursal;
   oldSucursal: BancoSucursal;
   isEdit: boolean = false;
-  isIdValid: boolean = true;
   constructor(public viewCtrl: ViewController, public navParams: NavParams) {
     this.banco = this.navParams.get('Banco');
     this.oldSucursal = this.navParams.get('Sucursal');
@@ -25,13 +24,14 @@ export class BancosSucursalAmPage {
       this.isEdit = true;
       this.title = `Editando Suc. ${this.newSucursal.Nombre}...`;
     } else {
+      if(!this.banco.Sucursales){this.banco.Sucursales = [];}
       this.newSucursal = new BancoSucursal();
       this.isEdit = false;
       this.title = `Agregar Suc. a ${this.banco.Nombre}`;
     }
   }
 
-  chkId() { this.isIdValid = this.isUnique(this.newSucursal); }
+  chkId():boolean { return this.isUnique(this.newSucursal); }
 
   guardar() {
     if (!this.isEdit) {

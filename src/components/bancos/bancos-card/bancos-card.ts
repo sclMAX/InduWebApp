@@ -14,6 +14,7 @@ export class BancosCardComponent {
   @Input() colorItemImpar: string = 'listImpar';
 
   bancos: Banco[] = [];
+  filterBancos: Banco[] = [];
   constructor(private bancosP: BancosProvider,
               private modalCtrl: ModalController) {}
 
@@ -21,6 +22,20 @@ export class BancosCardComponent {
     let addBanco =
         this.modalCtrl.create(BancosamPage, {}, {enableBackdropDismiss: false});
     addBanco.present();
+  }
+
+  cancelFilter() { this.filterBancos = this.bancos; }
+
+  filtar(ev) {
+    this.cancelFilter();
+    let val: string = ev.target.value;
+    if (val && val.trim() != '') {
+      val = val.trim().toLowerCase();
+      this.filterBancos = this.bancos.filter((b) => {
+        return (b.id.toString().indexOf(val) > -1) ||
+               (b.Nombre.toLocaleLowerCase().indexOf(val) > -1);
+      });
+    }
   }
 
   edit(banco: Banco) {
@@ -32,6 +47,9 @@ export class BancosCardComponent {
   ngOnInit() { this.getData(); }
 
   private async getData() {
-    this.bancosP.getAll().subscribe((bancos) => { this.bancos = bancos; });
+    this.bancosP.getAll().subscribe((bancos) => {
+      this.bancos = bancos;
+      this.cancelFilter();
+    });
   }
 }

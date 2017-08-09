@@ -1,5 +1,3 @@
-import {UsuarioProvider} from './../usuario/usuario';
-import {Usuario, UserDoc} from './../../models/user.class';
 import {SucursalContadores} from './../../models/sucursal.clases';
 import {DocStockIngreso, DocStockItem} from './../../models/documentos.class';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -16,20 +14,14 @@ import {
   SUC_DOCUMENTOS_PEDIDOS,
   SUC_STOCK_ROOT,
   SUC_CONTADORES_ROOT,
-  SUC_DOCUMENTOS_STOCKINGRESOS_ROOT
+  SUC_DOCUMENTOS_STOCKINGRESOS_ROOT,
+  SucursalProvider
 } from './../sucursal/sucursal';
 
 @Injectable()
 export class StockProvider {
-  usuario: Usuario;
   constructor(private db: AngularFireDatabase,
-              private usuarioP: UsuarioProvider) {
-    this.getUser();
-  };
-  private async getUser() {
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
-  }
+              private sucP: SucursalProvider){};
 
   getAll(): Observable<any[]> {
     return new Observable((obs) => {
@@ -160,11 +152,7 @@ export class StockProvider {
       if (doc && SUC_DOCUMENTOS_STOCKINGRESOS_ROOT) {
         let updData = {};
         doc.id = doc.Numero;
-        if (!doc.Creador) {
-          doc.Creador = new UserDoc();
-        }
-        doc.Creador.Usuario = this.usuario;
-        doc.Creador.Fecha = new Date().toISOString();
+        doc.Creador = this.sucP.genUserDoc();
         doc.Items.forEach((i) => { i.isStockActualizado = true; });
         updData[`${SUC_DOCUMENTOS_STOCKINGRESOS_ROOT}${doc.id}`] = doc;
         updData[`${SUC_CONTADORES_ROOT}DocStockIngreso/`] = doc.id;

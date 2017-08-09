@@ -1,4 +1,5 @@
-export class Perfil {
+import {ClaseControlada} from './db-base-paths';
+export class Perfil extends ClaseControlada {
   id: string;
   Linea: Linea;
   Codigo: string;
@@ -8,25 +9,23 @@ export class Perfil {
   PesoBase: number;
   PesoNatural: number;
   PesoPintado: number;
-  }
+}
 
-export class Linea {
+export class Linea extends ClaseControlada {
   id: string;
   Nombre: string;
   Descripcion: string;
-  Adicional:number = 0;
-  }
+  Adicional: number = 0;
+}
 
-//{"id": "string", "idColorPlanta": "string","Nombre": "string","Descripcion":
-//"string",  "PrecioUs": 6, "isPintura":true}
-export class Color {
+export class Color extends ClaseControlada {
   id: string;
   idColorPlanta: string;
   Nombre: string;
   Descripcion: string;
   PrecioUs: number;
   isPintura: boolean;
-  }
+}
 
 
 export class Stock {
@@ -38,34 +37,28 @@ export class Stock {
     this.idColor = idColor;
     this.stock = stock;
   }
-  }
+}
 
 export class StockEstado {
   stock: number = 0;
   disponible: number = 0;
   pedidos: StockEstadoPedidosDetalle[] = [];
 
-  constructor(stock?: number) {
-    this.stock = stock;
-  }
+  constructor(stock?: number) { this.stock = stock; }
 
-  setPedidos(pedidos: StockEstadoPedidosDetalle[]) {
-    this.pedidos = pedidos;
-  }
+  setPedidos(pedidos: StockEstadoPedidosDetalle[]) { this.pedidos = pedidos; }
 
   addPedido(pedido: StockEstadoPedidosDetalle) {
     this.pedidos.push(pedido);
     this.disponible = this.getDisponible();
   }
 
- getDisponible():number {
+  getDisponible(): number {
     let totalPedidos: number = 0;
-    this.pedidos.forEach((item) => {
-      totalPedidos += (item.cantidad * 1);
-    });
-    return this.stock  - totalPedidos;
+    this.pedidos.forEach((item) => { totalPedidos += (item.cantidad * 1); });
+    return this.stock - totalPedidos;
   }
-  }
+}
 
 export class StockEstadoPedidosDetalle {
   cantidad: number;

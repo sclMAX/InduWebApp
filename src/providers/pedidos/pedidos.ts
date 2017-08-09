@@ -1,3 +1,6 @@
+import {UsuarioProvider} from './../usuario/usuario';
+import {Usuario} from './../../models/user.class';
+import {FECHA} from './../../models/db-base-paths';
 import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {
   DescuentosProvider,
@@ -6,8 +9,6 @@ import {
 } from './../descuentos/descuentos';
 import {Stock} from './../../models/productos.clases';
 import {StockProvider} from './../stock/stock';
-import {UsuarioProvider} from './../usuario/usuario';
-import {Usuario, UserDoc} from './../../models/user.class';
 import {Cliente, CtaCte} from './../../models/clientes.clases';
 import {AdicionalesProvider, Adicional} from './../adicionales/adicionales';
 import {Injectable} from '@angular/core';
@@ -19,15 +20,16 @@ import {
   PedidoItem,
   calcularTotalFinal
 } from './../../models/pedidos.clases';
-import {SucursalContadores} from './../../models/sucursal.clases';
 import {DolarProvider} from './../dolar/dolar';
 import {
   SUC_CONTADORES_ROOT,
   SUC_DOCUMENTOS_PEDIDOS,
   SUC_LOG_ROOT,
   SUC_STOCK_ROOT,
-  SUC_DOCUMENTOS_CTASCTES_ROOT
+  SUC_DOCUMENTOS_CTASCTES_ROOT,
+  SucursalProvider
 } from './../sucursal/sucursal';
+import * as moment from 'moment';
 
 @Injectable()
 export class PedidosProvider {
@@ -37,7 +39,8 @@ export class PedidosProvider {
   constructor(private db: AngularFireDatabase, private dolarP: DolarProvider,
               private adicionalesP: AdicionalesProvider,
               private descuentosP: DescuentosProvider,
-              private stockP: StockProvider, private usuarioP: UsuarioProvider,
+              private stockP: StockProvider, private sucP: SucursalProvider,
+              private usuarioP: UsuarioProvider,
               private ctacteP: CtasCtesProvider) {
     this.adicionalesP.getAdicionales().subscribe(
         (data) => { this.adicionales = data; });
@@ -51,20 +54,13 @@ export class PedidosProvider {
     return new Observable((obs) => {
       let Nro: number = pedido.Numero;
       pedido.id = pedido.Numero;
-      if (!pedido.Creador) {
-        pedido.Creador = new UserDoc();
-      }
-      pedido.Creador.Fecha = new Date().toISOString();
-      pedido.Creador.Usuario = this.usuario;
+      pedido.Creador = this.sucP.genUserDoc();
       let updData = {};
       updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
       updData[`${SUC_CONTADORES_ROOT}Pedidos/`] = pedido.id;
-      updData[`${SUC_LOG_ROOT}Pedidos/Creados/${Date.now()}/`] = {
-        Pedido: pedido,
-        Usuario: this.usuario,
-        Fecha: new Date().toISOString(),
-        Comentario: 'Pedido Nuevo'
-      };
+      // log
+      let log = this.sucP.genLog(pedido);
+      updData[`${SUC_LOG_ROOT}Pedidos/Creados/${log.id}/`] = log;
       this.db.database.ref()
           .update(updData)
           .then((ok) => {
@@ -80,19 +76,12 @@ export class PedidosProvider {
 
   update(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
-      if (!pedido.Modificador) {
-        pedido.Modificador = new UserDoc();
-      }
-      pedido.Modificador.Fecha = new Date().toISOString();
-      pedido.Modificador.Usuario = this.usuario;
+      pedido.Modificador = this.sucP.genUserDoc();
       let updData = {};
       updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
-      updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${Date.now()}/`] = {
-        Pedido: pedido,
-        Usuario: this.usuario,
-        Fecha: new Date().toISOString(),
-        Comentario: 'Pedido Modificado'
-      };
+      // log
+      let log = this.sucP.genLog(pedido);
+      updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${log.id}/`] = log;
       this.db.database.ref()
           .update(updData)
           .then((ok) => {
@@ -111,12 +100,9 @@ export class PedidosProvider {
       if (pedido) {
         let updData = {};
         updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = {};
-        updData[`${SUC_LOG_ROOT}Pedidos/Eliminados/${Date.now()}/`] = {
-          Pedido: pedido,
-          Usuario: this.usuario,
-          Fecha: new Date().toISOString(),
-          Comentario: 'Pedido Eliminado'
-        };
+        // log
+        let log = this.sucP.genLog(pedido);
+        updData[`${SUC_LOG_ROOT}Pedidos/Eliminados/${log.id}/`] = log;
         this.db.database.ref()
             .update(updData)
             .then((ok) => {
@@ -137,11 +123,7 @@ export class PedidosProvider {
   prepararPedido(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
       if (pedido && pedido.Items) {
-        if (!pedido.Modificador) {
-          pedido.Modificador = new UserDoc();
-        }
-        pedido.Modificador.Fecha = new Date().toISOString();
-        pedido.Modificador.Usuario = this.usuario;
+        pedido.Modificador = this.sucP.genUserDoc();
         pedido.TotalUnidades = this.calTotalUnidades(pedido.Items);
         pedido.TotalUs = this.calTotalU$(pedido);
         pedido.DescuentoKilos = this.calDescuentoKilos(pedido);
@@ -152,17 +134,18 @@ export class PedidosProvider {
         setData(true);
         let updData = {};
         updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
-        updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${Date.now()}/`] = {
-          Pedido: pedido,
-          Usuario: this.usuario,
-          Fecha: new Date().toISOString(),
-          Comentario: 'Pedido Preparado'
-        };
+        // log
+        let log = this.sucP.genLog(pedido);
+        updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${log.id}/`] = log;
         let loop = (idx: number) => {
           let stkItem: Stock = new Stock(pedido.Items[idx].Perfil.id,
                                          pedido.Items[idx].Color.id);
           this.stockP.getStock(stkItem).subscribe(
               (stk) => {
+                let logstk = this.sucP.genLog(stk);
+                updData
+                    [`${SUC_LOG_ROOT}Stock/Modificados/${stkItem.idPerfil}/${stkItem.idColor}/${logstk.id}/`] =
+                        logstk;
                 updData
                     [`${SUC_STOCK_ROOT}${stkItem.idPerfil}/${stkItem.idColor}/Stock/`] =
                         stk * 1 - pedido.Items[idx].Cantidad * 1;
@@ -201,13 +184,20 @@ export class PedidosProvider {
   entregarPedido(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
       pedido.isEntregado = true;
+      pedido.FechaEntrega = moment().format(FECHA);
+      // Editor
+      pedido.Modificador = this.sucP.genUserDoc();
       let updData = {};
       updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
+      // log pedidos
+      let log = this.sucP.genLog(pedido);
+      updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${log.id}/`] = log;
       this.ctacteP.getSaldoCliente(pedido.idCliente)
           .subscribe(
               (saldo) => {
                 let cta: CtaCte = new CtaCte();
-                cta.Fecha = new Date().toISOString();
+                cta.Fecha = moment().format(FECHA);
+                cta.Creador = this.sucP.genUserDoc();
                 cta.TipoDocumento = 'Pedido';
                 cta.Numero = pedido.id;
                 cta.Debe = calcularTotalFinal(pedido);
@@ -219,9 +209,10 @@ export class PedidosProvider {
                 this.db.database.ref()
                     .update(updData)
                     .then(() => {
-                      obs.next('Pedido cerrado y Cta. Cte. Acualizada correctamente!');
+                      obs.next(
+                          'Pedido cerrado y Cta. Cte. Acualizada correctamente!');
                       obs.complete();
-                          })
+                    })
                     .catch((error) => {
                       obs.error(`No se pudo cerrar el Pedido! Error:${error}`);
                       obs.complete();
@@ -307,19 +298,6 @@ export class PedidosProvider {
             obs.error(error);
             console.error(error);
           });
-    });
-  }
-
-  getCurrentNro(): Observable<number> {
-    return new Observable((obs) => {
-      this.db.object(SUC_CONTADORES_ROOT)
-          .subscribe((contadores: SucursalContadores) => {
-            if (contadores.Pedidos >= 0) {
-              obs.next(contadores.Pedidos + 1);
-            } else {
-              obs.error();
-            }
-          }, (error) => { obs.error(error); });
     });
   }
 

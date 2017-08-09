@@ -1,4 +1,6 @@
-export const FFECHA: string = 'DD/MM/YYYY';
+import {Usuario, UserDoc} from './user.class';
+export const FECHA: string = 'DD/MM/YYYY';
+export const FECHA_FULL: string = 'DD/MM/YYYY hh:mm:ss';
 export const ROOT: string = 'V1/';
 export const COMUN_ROOT: string = `${ROOT}Comun/`;
 export const COMUN_CONTADORES_ROOT: string = `${COMUN_ROOT}Contadores/`;
@@ -15,3 +17,17 @@ export const LOG_ROOT: string = `${ROOT}Log/`;
 export const LOG_BANCOS_ROOT: string = `${LOG_ROOT}Bancos/`;
 export const LOG_BANCOS_CREADOS: string = `${LOG_BANCOS_ROOT}Creados/`;
 export const LOG_BANCOS_MODIFICADOS: string = `${LOG_BANCOS_ROOT}Modificados/`;
+
+export class Contadores { Clientes: number; }
+
+export class Log {
+  id: number;
+  Fecha: string;
+  Data: any;
+  Usuario: Usuario;
+}
+
+export class ClaseControlada {
+  Creador: UserDoc;
+  Modificador: UserDoc;
+}

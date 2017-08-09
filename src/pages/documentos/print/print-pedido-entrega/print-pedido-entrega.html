@@ -3,7 +3,7 @@
     <ion-row ion-item text-center no-lines>
       <h5 item-start>Pedido Nro:{{pedido?.Numero |number:'3.0-0'}}</h5>
       <h4><strong>{{cliente?.id}} - {{cliente?.Nombre}}</strong></h4>
-      <h5 item-end>{{pedido?.Fecha |date:'dd/MM/yyyy'}}</h5>
+      <h5 item-end>Fecha Pedido:{{pedido?.Fecha}}<br>Fecha Entrega:{{pedido?.FechaEntrega}}</h5>
     </ion-row>
     <ion-row ion-item no-lines>
       <ion-row>

@@ -1,3 +1,6 @@
+import {
+  ContadoresProvider
+} from './../../../../providers/contadores/contadores';
 import {Component} from '@angular/core';
 import {
   LoadingController,
@@ -24,6 +27,7 @@ export class PedidosNewPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private pedidosP: PedidosProvider, private dolarP: DolarProvider,
               private loadCtrl: LoadingController,
+              private contadoresP: ContadoresProvider,
               private toastCtrl: ToastController) {
     this.cliente = this.navParams.get('Cliente');
     this.oldPedido = this.navParams.get('Pedido');
@@ -36,8 +40,7 @@ export class PedidosNewPage {
         this.pedido.idCliente = this.cliente.id;
         this.pedido.DireccionEntrega = this.cliente.Direccion;
         this.isEdit = false;
-        this.pedidosP.getCurrentNro().subscribe(
-            (data: number) => { this.pedido.Numero = data; });
+        this.getData();
       }
     } else {
       this.navCtrl.pop();
@@ -50,8 +53,7 @@ export class PedidosNewPage {
   onGuardar() {
     this.oldPedido = this.pedido;
     let load = this.loadCtrl.create({content: 'Guardando...'});
-    let toast =
-        this.toastCtrl.create({position: 'middle'});
+    let toast = this.toastCtrl.create({position: 'middle'});
     load.present().then(() => {
       if (this.isEdit) {
         this.pedidosP.update(this.oldPedido)
@@ -137,5 +139,10 @@ export class PedidosNewPage {
   calTotalU$ConDescuento(): number {
     let des: number = this.pedido.DescuentoKilos * 1;
     return this.calTotalU$() / ((des > 0) ? (1 + (des / 100)) : 1);
+  }
+
+  private async getData() {
+    this.contadoresP.getPedidosCurrentNro().subscribe(
+        (data: number) => { this.pedido.Numero = data; });
   }
 }

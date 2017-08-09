@@ -1,3 +1,4 @@
+import {ContadoresProvider} from './../../../providers/contadores/contadores';
 import {
   ClientesAddDescuentoPage
 } from './../clientes-add-descuento/clientes-add-descuento';
@@ -35,6 +36,7 @@ export class ClientesAddPage {
               private toastCtrl: ToastController,
               private loadCtrl: LoadingController,
               private clientesP: ClientesProvider,
+              private contadoresP: ContadoresProvider,
               private usuarioP: UsuarioProvider) {
     this.oldCliente = parametros.get('Cliente');
     if (this.oldCliente) {
@@ -51,9 +53,9 @@ export class ClientesAddPage {
   ngOnInit() { this.getUser(); }
 
   private async getCurrentId() {
-    this.clientesP.getCurrentNewId().subscribe((id) => {
+    this.contadoresP.getClientesCurrentId().subscribe((id) => {
       this.newCliente.id = (id > 0) ? id : 0;
-    }, (error) => { console.log(error); });
+    }, (error) => { console.error(error); });
   }
 
   private async getUser() {
@@ -132,7 +134,8 @@ export class ClientesAddPage {
   }
 
   public chkTelefonosForm(): boolean {
-    return ((this.newCliente.Telefonos != null) && (this.newCliente.Telefonos[0].Numero != null));
+    return ((this.newCliente.Telefonos != null) &&
+            (this.newCliente.Telefonos[0].Numero != null));
   }
 
   public addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }

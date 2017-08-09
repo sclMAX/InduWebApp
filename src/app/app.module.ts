@@ -139,6 +139,8 @@ import {
 } from '../components/bancos/bancos-card/bancos-card';
 import { FormBadgeItemComponent } from '../components/form-badge-item/form-badge-item';
 import { FormBadgeInputItemComponent } from '../components/form-badge-input-item/form-badge-input-item';
+import { PagosProvider } from '../providers/pagos/pagos';
+import { ContadoresProvider } from '../providers/contadores/contadores';
 
 export const environment = {
   production: false,
@@ -252,7 +254,9 @@ export const environment = {
     AdicionalesProvider,
     DescuentosProvider,
     CtasCtesProvider,
-    BancosProvider
+    BancosProvider,
+    PagosProvider,
+    ContadoresProvider
   ]
 })
 export class AppModule {

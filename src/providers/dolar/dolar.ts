@@ -1,11 +1,14 @@
+import {SucursalProvider} from './../sucursal/sucursal';
 import {Dolar} from './../../models/fondos.clases';
-import {COMUN_DOLAR, ROOT} from './../../models/db-base-paths';
+import {COMUN_DOLAR, ROOT, FECHA, LOG_ROOT} from './../../models/db-base-paths';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
+import * as moment from 'moment';
 @Injectable()
 export class DolarProvider {
-  constructor(private db: AngularFireDatabase) {}
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider) {
+  }
 
   public getDolarValor(): Observable<number> {
     return new Observable((obs) => {
@@ -34,14 +37,15 @@ export class DolarProvider {
     return new Observable((obs) => {
       let updData = {};
       let dolar: Dolar = new Dolar();
-      dolar.Fecha = new Date().toISOString();
+      dolar.Fecha = moment().format(FECHA);
       dolar.Valor = valor;
       dolar.id = 'Dolar';
       updData[`${COMUN_DOLAR}`] = dolar;
-      let hoy = new Date();
-      let n = `${hoy.getFullYear()}${hoy.getMonth()}${hoy.getDate()}`;
-
-      updData[`${ROOT}Comun/DolarHistorico/${n}`] = dolar;
+      let now = moment(dolar.Fecha, FECHA);
+      let id = `${now.year()}-${now.month()}-${now.day()}`;
+      updData[`${ROOT}Comun/DolarHistorico/${id}`] = dolar;
+      let log = this.sucP.genLog(dolar);
+      updData[`${LOG_ROOT}Dolar/Modificado/${log.id}`] = log;
       this.db.database.ref()
           .update(updData)
           .then(() => {

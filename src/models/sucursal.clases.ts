@@ -15,4 +15,5 @@ export class SucursalContadores {
   id: string;
   Pedidos: number;
   DocStockIngreso: number;
+  Pagos: number;
 }

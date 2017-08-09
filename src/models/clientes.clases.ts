@@ -1,8 +1,9 @@
 import {Dolar, Cheque} from './fondos.clases';
-import {FFECHA} from './db-base-paths';
+import {FECHA, ClaseControlada} from './db-base-paths';
 import {UserDoc} from './user.class';
 import * as moment from 'moment';
-export class Cliente {
+
+export class Cliente extends ClaseControlada {
   id: number;
   Nombre: string = '';
   Direccion: Direccion = new Direccion();
@@ -10,8 +11,6 @@ export class Cliente {
   Email: string = '';
   Comentarios: string = '';
   Descuentos: Descuento[] = [];
-  Creador: UserDoc = new UserDoc();
-  Modificador: UserDoc = new UserDoc();
 }
 
 export class Descuento {
@@ -31,19 +30,20 @@ export class Direccion {
   Pais: string = 'Argentina';
 }
 
-export class CtaCte {
+export class CtaCte extends ClaseControlada {
+  id: string;
   TipoDocumento: string;
   Numero: number;
-  Fecha: string = new Date().toISOString();
+  Fecha: string = moment().format(FECHA);
   Debe: number = 0.00;
   Haber: number = 0.00;
   Saldo: number = 0.00;
 }
 
-export class ClientePago {
+export class ClientePago extends ClaseControlada {
   id: number;
   idCliente: number;
-  Fecha: string = moment().format(FFECHA);
+  Fecha: string = moment().format(FECHA);
   Comentarios: string;
   RefDolar: Dolar;
   Cheques: ClientePagoCheque[] = [];

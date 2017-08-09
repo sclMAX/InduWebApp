@@ -1,22 +1,14 @@
-import {UsuarioProvider} from './../usuario/usuario';
-import {UserDoc, Usuario} from './../../models/user.class';
+import {SucursalProvider} from './../sucursal/sucursal';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Cliente} from '../../models/clientes.clases';
-import {
-  COMUN_CONTADORES_CLIENTES,
-  COMUN_CONTADORES_ROOT
-} from '../../models/db-base-paths';
+import {COMUN_CONTADORES_CLIENTES} from '../../models/db-base-paths';
 import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 
 @Injectable()
 export class ClientesProvider {
-  usuario: Usuario = new Usuario();
-  constructor(private db: AngularFireDatabase,
-              private usuarioP: UsuarioProvider) {
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider) {
   }
 
   add(cliente: Cliente): Observable<string> {
@@ -24,20 +16,12 @@ export class ClientesProvider {
       this.isUnique(cliente).subscribe(
           (isUniqueOk) => {
             if (isUniqueOk) {
-              if (!cliente.Creador) {
-                cliente.Creador = new UserDoc();
-              }
-              cliente.Creador.Fecha = new Date().toISOString();
-              cliente.Creador.Usuario = this.usuario;
+              cliente.Creador = this.sucP.genUserDoc();
               let updData = {};
               updData[`${SUC_CLIENTES_ROOT}${cliente.id}`] = cliente;
               updData[`${COMUN_CONTADORES_CLIENTES}`] = cliente.id;
-              updData[`${SUC_LOG_ROOT}Clientes/Creados/${Date.now()}/`] = {
-                Cliente: cliente,
-                Usuario: this.usuario,
-                Fecha: new Date().toISOString(),
-                Comentario: 'Cliente Nuevo'
-              };
+              let log = this.sucP.genLog(cliente);
+              updData[`${SUC_LOG_ROOT}Clientes/Creados/${log.id}/`] = log;
               this.db.database.ref()
                   .update(updData)
                   .then((okAdd) => {
@@ -69,19 +53,11 @@ export class ClientesProvider {
       this.isUnique(cliente).subscribe(
           (isUniqueOk) => {
             if (isUniqueOk) {
-              if (!cliente.Modificador) {
-                cliente.Modificador = new UserDoc();
-              }
-              cliente.Modificador.Fecha = new Date().toISOString();
-              cliente.Modificador.Usuario = this.usuario;
+              cliente.Modificador = this.sucP.genUserDoc();
               let updData = {};
               updData[`${SUC_CLIENTES_ROOT}${cliente.id}/`] = cliente;
-              updData[`${SUC_LOG_ROOT}Clientes/Modificados/${Date.now()}/`] = {
-                Cliente: cliente,
-                Usuario: this.usuario,
-                Fecha: new Date().toISOString(),
-                Comentario: 'Cliente Modificado!'
-              };
+              let log = this.sucP.genLog(cliente);
+              updData[`${SUC_LOG_ROOT}Clientes/Modificados/${log.id}/`] = log;
               this.db.database.ref()
                   .update(updData)
                   .then((updateOk) => {
@@ -109,12 +85,8 @@ export class ClientesProvider {
     return new Observable((obs) => {
       let updData = {};
       updData[`${SUC_CLIENTES_ROOT}${cliente.id}/`] = {};
-      updData[`${SUC_LOG_ROOT}Clientes/Eliminados/${Date.now()}/`] = {
-        Cliente: cliente,
-        Usuario: this.usuario,
-        Fecha: new Date().toISOString(),
-        Comentario: 'Cliente Eliminado!'
-      };
+      let log = this.sucP.genLog(cliente);
+      updData[`${SUC_LOG_ROOT}Clientes/Eliminados/${log.id}/`] = log;
       this.db.database.ref()
           .update(updData)
           .then(() => {
@@ -151,18 +123,6 @@ export class ClientesProvider {
     return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);
   }
 
-  getCurrentNewId(): Observable<number> {
-    return new Observable((obs) => {
-      this.db.object(`${COMUN_CONTADORES_ROOT}`)
-          .subscribe((cont) => {
-            if (cont.Clientes >= 0) {
-              obs.next(cont.Clientes + 1);
-            } else {
-              obs.error('Contador Clientes no Encontrado!');
-            }
-          });
-    });
-  }
 
   private isUnique(cliente: Cliente): Observable<boolean> {
     return new Observable((obs) => {

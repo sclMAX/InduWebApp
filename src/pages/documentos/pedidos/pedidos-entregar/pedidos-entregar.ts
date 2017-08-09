@@ -20,6 +20,8 @@ import {
   ToastController,
   LoadingController
 } from 'ionic-angular';
+import {FECHA} from "../../../../models/db-base-paths";
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-pedidos-entregar',
@@ -43,10 +45,12 @@ export class PedidosEntregarPage {
     if (!this.pedido || !this.cliente) {
       this.navCtrl.pop();
     } else {
+      this.pedido.FechaEntrega = moment().format(FECHA);
       this.usuarioP.getCurrentUser().subscribe(
           (user) => { this.usuario = user; });
       this.usuarioP.getCV().subscribe((cvs) => { this.CVs = cvs; });
-      this.dolarP.getDolar().subscribe((dolar) => { this.pedido.Dolar = dolar; });
+      this.dolarP.getDolar().subscribe(
+          (dolar) => { this.pedido.Dolar = dolar; });
     }
   }
 

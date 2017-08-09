@@ -1,5 +1,4 @@
-import {UsuarioProvider} from './../usuario/usuario';
-import {UserDoc, Usuario} from './../../models/user.class';
+import {SucursalProvider} from './../sucursal/sucursal';
 import {
   BANCOS_ROOT,
   LOG_BANCOS_CREADOS,
@@ -11,11 +10,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
 @Injectable()
 export class BancosProvider {
-  private usuario: Usuario;
-  constructor(private db: AngularFireDatabase,
-              private usuarioP: UsuarioProvider) {
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider) {
   }
 
   add(banco: Banco): Observable<string> {
@@ -24,18 +19,11 @@ export class BancosProvider {
           .subscribe(
               (isUnique) => {
                 if (isUnique) {
-                  if (!banco.Creador) {
-                    banco.Creador = new UserDoc();
-                  }
-                  banco.Creador.Fecha = new Date().toISOString();
-                  banco.Creador.Usuario = this.usuario;
+                  banco.Creador = this.sucP.genUserDoc();
                   let updData = {};
                   updData[`${BANCOS_ROOT}${banco.id}/`] = banco;
-                  updData[`${LOG_BANCOS_CREADOS}${Date.now()}/`] = {
-                    Fecha: new Date().toISOString(),
-                    Banco: banco,
-                    Usuario: banco.Creador
-                  };
+                  let log = this.sucP.genLog(banco);
+                  updData[`${LOG_BANCOS_CREADOS}${log.id}/`] = log;
                   this.db.database.ref()
                       .update(updData)
                       .then(() => {
@@ -49,7 +37,8 @@ export class BancosProvider {
                         obs.complete();
                       });
                 } else {
-                  obs.error(`Ya existe el Banco Nro:${banco.id} y/o ${banco.Nombre}!`);
+                  obs.error(
+                      `Ya existe el Banco Nro:${banco.id} y/o ${banco.Nombre}!`);
                   obs.complete();
                 }
               },
@@ -66,18 +55,11 @@ export class BancosProvider {
           .subscribe(
               (isUnique) => {
                 if (isUnique) {
-                  if (!banco.Modificador) {
-                    banco.Modificador = new UserDoc();
-                  }
-                  banco.Modificador.Fecha = new Date().toISOString();
-                  banco.Modificador.Usuario = this.usuario;
+                  banco.Modificador = this.sucP.genUserDoc();
                   let updData = {};
                   updData[`${BANCOS_ROOT}${banco.id}/`] = banco;
-                  updData[`${LOG_BANCOS_MODIFICADOS}${Date.now()}/`] = {
-                    Fecha: new Date().toISOString(),
-                    Banco: banco,
-                    Usuario: banco.Modificador
-                  };
+                  let log = this.sucP.genLog(banco);
+                  updData[`${LOG_BANCOS_MODIFICADOS}${log.id}/`] = log;
                   this.db.database.ref()
                       .update(updData)
                       .then(() => {
@@ -123,13 +105,8 @@ export class BancosProvider {
   getAll(): Observable<Banco[]> {
     return new Observable((obs) => {
       this.db.list(BANCOS_ROOT)
-          .subscribe(
-              (bancos: Banco[]) => {
-                obs.next(bancos || []);
-              },
-              (error) => {
-                obs.error(error);
-              });
+          .subscribe((bancos: Banco[]) => { obs.next(bancos || []); },
+                     (error) => { obs.error(error); });
     });
   }
 
