@@ -1,6 +1,24 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    ".validate": "true",
+    ".read": "auth != null && auth.token.email.matches(/.*@indumatics.com.ar$/)",
+    ".write": "auth != null && auth.token.email.matches(/.*@indumatics.com.ar$/)",
+    "$version": {
+      "Sucursales": {
+        "$id": {
+          ".write": "data.val() != null && newData.val() != null && newData.val() == root.child('Usuarios').child(auth.uid).child('Sucursal').val()",
+          ".read": "true",
+          "Documentos": {
+            "Pedidos": {
+              ".write": "data.val() != null && newData.val() != null && newData.val() == root.child('Usuarios').child(auth.uid).child('Sucursal').val()",
+              ".read": "true",
+              ".indexOn": [
+                "isPreparado"
+              ]
+            }
+          }
+        }
+      }
+    }
   }
 }

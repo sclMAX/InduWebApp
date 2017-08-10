@@ -1,6 +1,5 @@
 import {FECHA, ClaseControlada} from './db-base-paths';
 import {Perfil, Color} from './productos.clases';
-import {UserDoc} from './user.class';
 import * as moment from 'moment';
 
 export class Documento extends ClaseControlada {

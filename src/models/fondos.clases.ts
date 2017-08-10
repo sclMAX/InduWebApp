@@ -1,5 +1,4 @@
 import {FECHA, ClaseControlada} from './db-base-paths';
-import {UserDoc} from './user.class';
 import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
 export class Fondos {}

@@ -1,4 +1,4 @@
-import {FECHA, FECHA_FULL, Log} from './../../models/db-base-paths';
+import {FECHA_FULL, Log} from './../../models/db-base-paths';
 import {Usuario, UserDoc} from './../../models/user.class';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';

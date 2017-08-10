@@ -3,11 +3,14 @@ path / {
     write(){auth != null && /*auth.token.email_verified == true &&*/ auth.token.email.matches(/.*@indumatics.com.ar$/)}
 }
 
-
-
-path Sucursales/{id}  {
+path /{version}/Sucursales/{id}  {
   read() { true }
   update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
+}
+path /{version}/Sucursales/{id}/Documentos/Pedidos  {
+  read() { true }
+  update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
+  index(){['isPreparado']}
 }
 
 type Cliente {
