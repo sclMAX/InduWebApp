@@ -3,14 +3,14 @@ path / {
     write(){auth != null && /*auth.token.email_verified == true &&*/ auth.token.email.matches(/.*@indumatics.com.ar$/)}
 }
 
-path /{version}/Sucursales/{id}  {
+path /{version}/Sucursales/{sucursal}  {
   read() { true }
   update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
 }
-path /{version}/Sucursales/{id}/Documentos/Pedidos  {
+path /{version}/Sucursales/{sucursal}/Documentos/Pedidos  {
   read() { true }
   update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
-  index(){['isPreparado','idCliente']}
+  index(){['isPreparado','idCliente','isStockActualizado']}
 }
 
 type Cliente {

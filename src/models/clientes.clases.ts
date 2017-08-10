@@ -1,5 +1,5 @@
 import {Dolar, Cheque} from './fondos.clases';
-import {FECHA, ClaseControlada} from './db-base-paths';
+import {FECHA, ClaseControlada} from './comunes.clases';
 import * as moment from 'moment';
 
 export class Cliente extends ClaseControlada {

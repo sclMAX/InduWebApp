@@ -1,30 +1,47 @@
+<ion-grid fixed padding margin-auto>
+  <ion-col>
+    <!-- Header -->
+    <ion-row ion-item no-lines>
+      <h3>Pedido:{{pedido?.Numero |number:'3.0-0'}} del {{pedido?.Fecha|date:'dd/MM/yyyy'}} para {{pedido?.FechaEntrega|date:'dd/MM/yyyy'}}</h3>
+      <h3><strong>Cliente: {{cliente?.id}} - {{cliente?.Nombre}}</strong></h3>
+    </ion-row>
+    <!-- Body -->
+    <ion-row ion-item no-lines>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Codigo</th>
+          <th>Perfil</th>
+          <th>Largo</th>
+          <th>Color</th>
+          <th>Cantidad</th>
+          <th>Embalado</th>
+        </tr>
+        <tr *ngFor="let item of pedido.Items" text-center>
+          <td>
+            <h4>{{item?.Perfil?.Codigo}}</h4>
+          </td>
+          <td width="82">
+            <perfiles-perfil-img onlyImg=true [perfil]="item.Perfil"></perfiles-perfil-img>
+          </td>
+          <td>
+            <h4>{{item?.Perfil?.Largo}}</h4>
+          </td>
+          <td>
+            <h4>{{item?.Color?.Nombre}}</h4>
+          </td>
+          <td>
+            <h3>{{item?.Cantidad}}</h3>
+          </td>
+          <td>
+            <ion-icon *ngIf="item.isEmbalado" name="checkmark-circle-outline"></ion-icon>
+          </td>
+        </tr>
+      </table>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+<!-- Botones -->
 <ion-fab top right>
-  <ion-buttons>
-    <button ion-fab mini (click)="print()"><ion-icon name="print"></ion-icon></button>
-    <button ion-fab mini (click)="goBack()"><ion-icon name="close"></ion-icon></button>
-  </ion-buttons>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
-<h1 padding>
-  {{pedido?.Numero |number:'3.0-0'}}
-</h1>
-
-<table padding border="1" alaing="center">
-  <tr>
-    <th>Perfil</th>
-    <th>Cantidad</th>
-    <th>Codigo</th>
-    <th>Largo</th>
-    <th>Color</th>
-    <th>Embalado</th>
-  </tr>
-  <tr *ngFor="let item of pedido.Items" text-center>
-    <td>
-      <perfiles-perfil-img [perfil]="item.Perfil"></perfiles-perfil-img>
-    </td>
-    <td padding><h3>{{item?.Cantidad}}</h3></td>
-    <td padding><h4>{{item?.Perfil?.Codigo}}</h4></td>
-    <td padding><h4>{{item?.Perfil?.Largo}}</h4></td>
-    <td padding><h4>{{item?.Color?.Nombre}}</h4></td>
-    <td padding> <ion-icon *ngIf="item.isEmbalado" name="checkmark-circle-outline"></ion-icon></td>
-  </tr>
-</table>

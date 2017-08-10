@@ -1,6 +1,7 @@
+import {COMUN_DOLAR, ROOT, LOG_ROOT} from './../../models/db-base-paths';
 import {SucursalProvider} from './../sucursal/sucursal';
 import {Dolar} from './../../models/fondos.clases';
-import {COMUN_DOLAR, ROOT, FECHA, LOG_ROOT} from './../../models/db-base-paths';
+import {FECHA} from './../../models/comunes.clases';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';

@@ -4,6 +4,7 @@ import {Component, Input} from '@angular/core';
     {selector: 'perfiles-perfil-img', templateUrl: 'perfiles-perfil-img.html'})
 export class PerfilesPerfilImgComponent {
   @Input() perfil: Perfil;
+  @Input() onlyImg: boolean = false;
 
   constructor() {}
 }

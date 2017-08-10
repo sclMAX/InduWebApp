@@ -1,4 +1,4 @@
-import {ClaseControlada} from './db-base-paths';
+import {ClaseControlada} from './comunes.clases';
 export class Perfil extends ClaseControlada {
   id: string;
   Linea: Linea;
@@ -39,25 +39,20 @@ export class Stock {
   }
 }
 
+export class StockPerfil {
+  color: string;
+  stock: number;
+  constructor(color: string, stock: number) {
+    this.color = color;
+    this.stock = stock;
+  }
+}
+
 export class StockEstado {
   stock: number = 0;
   disponible: number = 0;
   pedidos: StockEstadoPedidosDetalle[] = [];
-
   constructor(stock?: number) { this.stock = stock; }
-
-  setPedidos(pedidos: StockEstadoPedidosDetalle[]) { this.pedidos = pedidos; }
-
-  addPedido(pedido: StockEstadoPedidosDetalle) {
-    this.pedidos.push(pedido);
-    this.disponible = this.getDisponible();
-  }
-
-  getDisponible(): number {
-    let totalPedidos: number = 0;
-    this.pedidos.forEach((item) => { totalPedidos += (item.cantidad * 1); });
-    return this.stock - totalPedidos;
-  }
 }
 
 export class StockEstadoPedidosDetalle {

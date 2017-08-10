@@ -1,0 +1,82 @@
+{
+  "Parana": {
+    "Adicionales": {
+      "192T": {
+        "adicional": 0.3,
+        "id": "192T"
+      },
+      "3000A": {
+        "adicional": 0.5,
+        "id": "3000A"
+      }
+    },
+    "Colores": {
+      "Blanco Brillante": {
+        "Descripcion": "Pintado Blanco Brillante",
+        "Nombre": "Blanco Brillante",
+        "PrecioUs": 8.26,
+        "id": "Blanco Brillante",
+        "idColorPlanta": "Blanco Brillante",
+        "isPintura": true
+      },
+      "Natural": {
+        "Descripcion": "Perfil Natural",
+        "Nombre": "Natural",
+        "PrecioUs": 7.26,
+        "id": "Natural",
+        "idColorPlanta": "Natural",
+        "isPintura": false
+      }
+    },
+    "Contadores": {
+      "DocStockIngreso": 0,
+      "Pagos": 0,
+      "Pedidos": 0
+    },
+    "Descuentos": {
+      "Kilos": [
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 100
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 200
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 300
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 400
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 500
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 600
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 700
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 800
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 900
+        },
+        {
+          "Descuento": 0.5,
+          "MinimoUnidades": 1000
+        }
+      ]
+    },
+    "id": "Parana"
+  }
+}

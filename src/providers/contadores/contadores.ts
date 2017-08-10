@@ -1,5 +1,6 @@
+import { Contadores } from './../../models/comunes.clases';
 import {SUC_CONTADORES_ROOT} from './../sucursal/sucursal';
-import {Contadores, COMUN_CONTADORES_ROOT} from './../../models/db-base-paths';
+import { COMUN_CONTADORES_ROOT} from './../../models/db-base-paths';
 import {SucursalContadores} from './../../models/sucursal.clases';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -31,6 +32,15 @@ export class ContadoresProvider {
       this.db.object(SUC_CONTADORES_ROOT)
           .subscribe((contadores: SucursalContadores) => {
             obs.next(contadores.Pedidos + 1 || 1);
+          }, (error) => { obs.error(error); });
+    });
+  }
+
+  getStockIngresoCurrentNro(): Observable<number> {
+    return new Observable((obs) => {
+      this.db.object(SUC_CONTADORES_ROOT)
+          .subscribe((contadores: SucursalContadores) => {
+            obs.next(contadores.DocStockIngreso * 1 + 1 || 1);
           }, (error) => { obs.error(error); });
     });
   }

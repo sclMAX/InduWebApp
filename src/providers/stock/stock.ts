@@ -8,7 +8,8 @@ import {Pedido, PedidoItem} from './../../models/pedidos.clases';
 import {
   Stock,
   StockEstado,
-  StockEstadoPedidosDetalle
+  StockEstadoPedidosDetalle,
+  StockPerfil
 } from './../../models/productos.clases';
 import {
   SUC_DOCUMENTOS_PEDIDOS,
@@ -43,6 +44,25 @@ export class StockProvider {
             obs.error(error);
             obs.complete();
           });
+    });
+  }
+
+  getStockPerfil(idPerfil: string): Observable<StockPerfil[]> {
+    return new Observable((obs) => {
+      this.db.list(`${SUC_STOCK_ROOT}${idPerfil}/`)
+          .subscribe(
+              (data) => {
+                let res: StockPerfil[] = [];
+                data.forEach(
+                    (i) => { res.push(new StockPerfil(i.$key, i.Stock)); });
+                obs.next(res);
+                obs.complete();
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
+
     });
   }
 
@@ -194,19 +214,6 @@ export class StockProvider {
         obs.complete();
       }
 
-    });
-  }
-
-  getDocStockCurrentNro(): Observable<number> {
-    return new Observable((obs) => {
-      this.db.object(SUC_CONTADORES_ROOT)
-          .subscribe((contadores: SucursalContadores) => {
-            if (contadores && contadores.DocStockIngreso >= 0) {
-              obs.next(contadores.DocStockIngreso * 1 + 1);
-            } else {
-              obs.next(0 * 1);
-            }
-          }, (error) => { obs.error(error); });
     });
   }
 }

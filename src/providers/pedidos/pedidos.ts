@@ -1,6 +1,6 @@
 import {UsuarioProvider} from './../usuario/usuario';
 import {Usuario} from './../../models/user.class';
-import {FECHA} from './../../models/db-base-paths';
+import {FECHA} from './../../models/comunes.clases';
 import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {
   DescuentosProvider,

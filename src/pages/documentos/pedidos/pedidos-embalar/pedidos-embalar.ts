@@ -91,7 +91,8 @@ export class PedidosEmbalarPage {
   goBack() { this.navCtrl.pop(); }
 
   goPrintEmbalar() {
-    this.navCtrl.push(PrintPedidoParaEmbalarPage, {Pedido: this.pedido});
+    this.navCtrl.push(PrintPedidoParaEmbalarPage,
+                      {Pedido: this.pedido, Cliente: this.cliente});
   }
 
   guardar() {

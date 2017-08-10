@@ -11,6 +11,4 @@ export class PedidoHeaderEditComponent {
   isShowAddItem: boolean = true;
   newItem: PedidoItem = new PedidoItem();
   constructor() {}
-
-  
 }

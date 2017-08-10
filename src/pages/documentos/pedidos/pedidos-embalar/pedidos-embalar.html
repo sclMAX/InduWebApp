@@ -7,7 +7,7 @@
             <span item-start *ngIf="pedido.Numero">{{pedido?.Numero |number:'3.0-0'}}</span>
             <span item-start *ngIf="!pedido.Numero">[PEDIDO ELIMINADO]</span>
             <span item-start>{{cliente?.Nombre}}</span>
-            <span item-end>{{pedido?.Fecha | date:'dd/MM/yyyy'}}</span>
+            <span item-end>del {{pedido?.Fecha |date:'dd/MM/yyyy'}} para {{pedido?.FechaEntrega |date:'dd/MM/yyyy'}}</span>
           </ion-item>
           <ion-list>
             <ion-item-divider color="toolBar">PENDIENTE ({{getItemsPendientes().length}})

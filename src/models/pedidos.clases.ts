@@ -4,7 +4,7 @@ import {Direccion} from './clientes.clases';
 import {Documento} from './documentos.class';
 import {Color, Perfil} from './productos.clases';
 import * as moment from 'moment';
-import {FECHA} from "./db-base-paths";
+import {FECHA} from './comunes.clases';
 
 export class Pedido extends Documento {
   idCliente: number;

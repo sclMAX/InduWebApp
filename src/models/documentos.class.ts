@@ -1,4 +1,4 @@
-import {FECHA, ClaseControlada} from './db-base-paths';
+import {FECHA, ClaseControlada} from './comunes.clases';
 import {Perfil, Color} from './productos.clases';
 import * as moment from 'moment';
 

@@ -12,7 +12,7 @@
         (click)="goPedido(pedido)">
         <span item-start>{{pedido.Numero | number:'3.0-0'}} </span>
         <p>
-          {{(!cliente)?(getCliente(pedido.idCliente)?.Nombre) :(pedido.FechaEntrega | date:'dd/MM/yyyy') }}<br>
+          {{(!cliente)?(getCliente(pedido.idCliente)?.Nombre) :(pedido.Fecha |date:'dd/MM/yyyy') }}<br>
           <small>U${{pedido?.TotalUs |number:'1.2-2'}} - {{pedido?.TotalUnidades |number:'1.2-2'}}kg. - Des:{{pedido?.DescuentoKilos ||0 |number:'1.2-2'}}% </small>
         </p>
         <span item-end>U${{getSubTotalUs(pedido) | number:'1.2-2'}}</span>

@@ -1,0 +1,34 @@
+<ion-grid fixed padding margin-auto>
+  <ion-col>
+    <!-- Header -->
+    <ion-row ion-item text-center no-lines>
+      <h2>Detalle Cta. Cte.</h2>
+      <h3><strong>{{cliente?.id}} - {{cliente?.Nombre}}</strong></h3>
+      <h5 item-end>Fecha: {{fecha|date:'dd/MM/yyyy'}}</h5>
+    </ion-row>
+    <!-- Body -->
+    <ion-row ion-item no-lines>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Fecha</th>
+          <th>Comprobante</th>
+          <th>Debe</th>
+          <th>Haber</th>
+          <th>Saldo</th>
+        </tr>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of ctaCte; let p=even" text-right>
+          <td>{{item?.Fecha}}</td>
+          <td>{{item?.TipoDocumento}}-{{item?.Numero |number:'3.0-0'}}</td>
+          <td>U$ {{item?.Debe |number:'1.2-2'}}</td>
+          <td>U$ {{item?.Haber |number:'1.2-2'}}</td>
+          <td>U$ {{item?.Saldo |number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+<!-- Botones -->
+<ion-fab top right>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>

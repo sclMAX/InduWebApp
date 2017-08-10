@@ -20,7 +20,7 @@ import {
   ToastController,
   LoadingController
 } from 'ionic-angular';
-import {FECHA} from "../../../../models/db-base-paths";
+import {FECHA} from '../../../../models/comunes.clases';
 import * as moment from 'moment';
 
 @Component({

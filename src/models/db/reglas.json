@@ -13,7 +13,8 @@
               ".write": "data.val() != null && newData.val() != null && newData.val() == root.child('Usuarios').child(auth.uid).child('Sucursal').val()",
               ".read": "true",
               ".indexOn": [
-                "isPreparado"
+                "isPreparado",
+                "idCliente"
               ]
             }
           }

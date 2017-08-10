@@ -1,3 +1,5 @@
-<ion-thumbnail>
+<ion-thumbnail *ngIf="!onlyImg">
   <img src="assets/perfiles/80x80/{{perfil?.id}}.png" class="imagen">
 </ion-thumbnail>
+
+<img *ngIf="onlyImg" width="40" height="40" src="assets/perfiles/80x80/{{perfil?.id}}.png">

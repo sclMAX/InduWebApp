@@ -61,7 +61,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="datetime" disabled=true [(ngModel)]="newCheque.FechaIngreso" name="FechaIngreso" required></ion-input>
+              <ion-input type="date" disabled=true [(ngModel)]="newCheque.FechaIngreso" name="FechaIngreso" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>
@@ -72,7 +72,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fe type="datetime" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.FechaEmision" name="FechaEmision"
+              <ion-input #fe type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.FechaEmision" name="FechaEmision"
                 required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>{{errorMsgFechaEmision}}</small></ion-badge>
@@ -85,7 +85,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fc type="datetime" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.FechaCobro" required></ion-input>
+              <ion-input #fc type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.FechaCobro" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaCobro() && fc.value" color="danger"><small>{{errorMsgFechaCobro}}</small></ion-badge>
           </ion-row>

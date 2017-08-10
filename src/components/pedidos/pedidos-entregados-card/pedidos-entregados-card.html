@@ -8,7 +8,7 @@
       <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
         <ion-col item-start>{{pedido.Numero | number:'3.0-0'}}</ion-col>
         <ion-col item-start *ngIf="!cliente">{{getCliente(pedido.idCliente)?.Nombre}}</ion-col>
-        <ion-col item-start *ngIf="cliente">{{pedido.FechaEntrega | date:'dd/MM/yyyy'}}</ion-col>
+        <ion-col item-start *ngIf="cliente">{{pedido.FechaEntrega |date:'dd/MM/yyyy'}}</ion-col>
         <ion-col item-start>{{pedido?.TotalUnidades|number:'1.2-2'}}kg</ion-col>
         <ion-col item-start>U$ {{calTotalUs(pedido) |number:'1.2-2'}}</ion-col>
       </button>

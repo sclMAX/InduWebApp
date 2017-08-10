@@ -5,7 +5,7 @@
       <h2>{{cliente?.Nombre}}</h2>
       <h4>{{ cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</h4>
     </div>
-    <h5 item-end>{{pedido?.Fecha | date:'mediumDate'}}</h5>
+    <h5 item-end>{{pedido?.Fecha |date:'dd/MM/yyyy'}}</h5>
   </ion-row>
   <ion-row no-padding>
     <button ion-item (click)="isShowEntrega = !isShowEntrega" color="listDivider1" no-lines>
@@ -15,42 +15,27 @@
   </ion-row>
 
   <ion-grid *ngIf="isShowEntrega" no-padding>
-    <ion-row color="toolBar">
-      <ion-col item-start>
-        <ion-row>
-          <ion-badge color="dark">Fecha de Entrega</ion-badge>
-        </ion-row>
-        <ion-row>
-          <ion-badge ion-item color="toolBar">
-            <ion-datetime cancelText="Cancelar" doneText="Aceptar" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY" [(ngModel)]="pedido.FechaEntrega"
-              name="FechaEntrega" required></ion-datetime>
-          </ion-badge>
-        </ion-row>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row>
-          <ion-badge color="dark">Calle</ion-badge>
-        </ion-row>
-        <ion-badge ion-item color="toolBar">
-          <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Calle" name="Calle" required></ion-input>
-        </ion-badge>
-      </ion-col>
-
-      <ion-col item-start>
-        <ion-row>
-          <ion-badge color="dark">Localidad</ion-badge>
-        </ion-row>
-        <ion-badge ion-item color="toolBar">
-          <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Localidad" name="Localidad" required></ion-input>
-        </ion-badge>
-      </ion-col>
+    <ion-row ion-item no-lines color="scroll-content" no-padding>
+      <!-- Fecha Entrega -->
+      <form-badge-input-item item-start padding-left label="Fecha de Entrega">
+        <ion-input type="date" [(ngModel)]="pedido.FechaEntrega" name="FechaEntrega" required></ion-input>
+      </form-badge-input-item>
+      <!-- Direccion de Entrega -->
+      <!-- Calle-->
+      <form-badge-input-item item-start padding-left label="Calle">
+        <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Calle" name="Calle" required></ion-input>
+      </form-badge-input-item>
+      <!-- Localidad -->
+      <form-badge-input-item item-start padding-left label="Localidad">
+        <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Localidad" name="Localidad" required></ion-input>
+      </form-badge-input-item>
     </ion-row>
-
+    <!-- Comentarios -->
     <ion-row ion-item color="scroll-content" no-padding no-lines>
       <ion-row>
-        <ion-badge color="dark">Comentarios</ion-badge>
+        <ion-badge color="formLabel">Comentarios</ion-badge>
       </ion-row>
-      <ion-badge ion-item color="toolBar">
+      <ion-badge ion-item color="formInput">
         <ion-textarea [(ngModel)]="pedido.Comentario" name="Comentarios"></ion-textarea>
       </ion-badge>
     </ion-row>
@@ -61,7 +46,6 @@
       Agregar Item
     </button>
   </ion-row>
-  <ion-row *ngIf="isShowAddItem">
-    <pedido-header-add-item (onNewItem)="pedido.Items.push($event)"></pedido-header-add-item>
-  </ion-row>
+  <pedido-header-add-item *ngIf="isShowAddItem" (onNewItem)="pedido.Items.push($event)"></pedido-header-add-item>
+
 </ion-grid>

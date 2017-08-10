@@ -1,4 +1,4 @@
-import {FECHA_FULL, Log} from './../../models/db-base-paths';
+import {FECHA_FULL, Log} from './../../models/comunes.clases';
 import {Usuario, UserDoc} from './../../models/user.class';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
@@ -51,6 +51,10 @@ export class SucursalProvider {
     ud.Fecha = moment().format(FECHA_FULL);
     ud.Usuario = this.usuario;
     return ud;
+  }
+
+  getUsuario():Usuario{
+    return this.usuario;
   }
 
   genLog(data: any): Log {

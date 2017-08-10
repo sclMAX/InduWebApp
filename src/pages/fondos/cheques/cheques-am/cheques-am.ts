@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {ModalController, NavParams, ViewController} from 'ionic-angular';
 import * as moment from 'moment';
-
-import {FECHA} from './../../../../models/db-base-paths';
+import {FECHA} from './../../../../models/comunes.clases';
 import {
   Banco,
   BancoSucursal,

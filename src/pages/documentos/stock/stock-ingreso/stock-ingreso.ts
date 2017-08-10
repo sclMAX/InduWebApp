@@ -1,3 +1,6 @@
+import {
+  ContadoresProvider
+} from './../../../../providers/contadores/contadores';
 import {StockProvider} from './../../../../providers/stock/stock';
 import {
   DocStockIngreso,
@@ -20,7 +23,9 @@ export class StockIngresoPage {
   isShowDatos: boolean = true;
   docIngreso: DocStockIngreso = new DocStockIngreso();
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private stokP: StockProvider, private loadCtrl: LoadingController,
+              private stokP: StockProvider,
+              private contadoresP: ContadoresProvider,
+              private loadCtrl: LoadingController,
               private toastCtrl: ToastController) {}
 
   ionViewDidLoad() {}
@@ -28,7 +33,7 @@ export class StockIngresoPage {
   ngOnInit() { this.getNro(); }
 
   private async getNro() {
-    this.stokP.getDocStockCurrentNro().subscribe((nro) => {
+    this.contadoresP.getStockIngresoCurrentNro().subscribe((nro) => {
       this.docIngreso.Numero = nro;
     }, (error) => { console.log(error); });
   }

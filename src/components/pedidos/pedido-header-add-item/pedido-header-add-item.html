@@ -1,34 +1,16 @@
 <ion-row no-padding>
-  <ion-col>
-    <ion-row>
-      <ion-badge color="dark">Cantidad</ion-badge>
-    </ion-row>
-    <ion-row>
-      <button ion-item no-lines class="itemRound" color="toolBar" (click)="goSelectCantidad()">
-          {{newItem?.Cantidad || 'Cantidad ?' }}
-        </button>
-    </ion-row>
-  </ion-col>
-  <ion-col>
-    <ion-row>
-      <ion-badge color="dark">Perfil</ion-badge>
-    </ion-row>
-    <ion-row>
-      <button ion-item no-lines class="itemRound" color="toolBar" (click)="goSelectPerfil()">
-           {{newItem?.Perfil?.Codigo || 'Perfil ?'}}
-        </button>
-    </ion-row>
-  </ion-col>
-  <ion-col>
-    <ion-row>
-      <ion-badge color="dark">Color</ion-badge>
-    </ion-row>
-    <ion-row>
-      <button ion-item no-lines class="itemRound" color="toolBar" (click)="goSelectColor()">
-         {{newItem?.Color?.Nombre || 'Color ?'}}
-        </button>
-    </ion-row>
-  </ion-col>
+  <!-- Cantidad -->
+  <form-badge-input-item label="Cantidad" padding-left>
+    <button ion-button small clear (click)="goSelectCantidad()">{{newItem?.Cantidad || 'Cantidad ?' }}</button>
+  </form-badge-input-item>
+  <!-- Perfil -->
+  <form-badge-input-item label="Perfil" padding-left>
+    <button ion-button small clear (click)="goSelectPerfil()">{{newItem?.Perfil?.Codigo || 'Perfil ?'}}</button>
+  </form-badge-input-item>
+  <!-- Color -->
+  <form-badge-input-item label="Color" padding-left>
+    <button ion-button small clear (click)="goSelectColor()">{{newItem?.Color?.Nombre || 'Color ?'}}</button>
+  </form-badge-input-item>
   <ion-col align-self-center>
     <ion-row justify-content-center>
       <ion-col align-self-center>
