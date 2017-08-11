@@ -88,6 +88,33 @@ export class PedidosEmbalarPage {
     alert.present();
   }
 
+  modificarItem(item:PedidoItem, fab: FabContainer){
+    fab.close();
+    let alert = this.alertCtrl.create({
+      title: 'Cambiar Cantidad...',
+      inputs:[{
+        name:'cantidad',
+        type:'number',
+        min:'1',
+        value:`${item.Cantidad}`
+      }],
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {
+          text: 'Aceptar',
+          role: 'ok',
+          handler: (data) => {
+            if(data && data.cantidad > 0){
+              item.Cantidad = data.cantidad;
+              this.isModificado = true;
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   goBack() { this.navCtrl.pop(); }
 
   goPrintEmbalar() {

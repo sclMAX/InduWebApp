@@ -1,53 +1,41 @@
-import {UsuarioProvider} from './../usuario/usuario';
-import {Usuario} from './../../models/user.class';
-import {FECHA} from './../../models/comunes.clases';
-import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
-import {
-  DescuentosProvider,
-  DescuentosGlobales,
-  DescuentoKilos
-} from './../descuentos/descuentos';
-import {Stock} from './../../models/productos.clases';
-import {StockProvider} from './../stock/stock';
-import {Cliente, CtaCte} from './../../models/clientes.clases';
-import {AdicionalesProvider, Adicional} from './../adicionales/adicionales';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
+import * as moment from 'moment';
 import {Observable} from 'rxjs/Observable';
 
-import {
-  Pedido,
-  PedidoItem,
-  calcularTotalFinal
-} from './../../models/pedidos.clases';
+import {Cliente, CtaCte} from './../../models/clientes.clases';
+import {FECHA} from './../../models/comunes.clases';
+import {calcularTotalFinal, Pedido, PedidoItem} from './../../models/pedidos.clases';
+import {Stock} from './../../models/stock.clases';
+import {Usuario} from './../../models/user.class';
+import {Adicional, AdicionalesProvider} from './../adicionales/adicionales';
+import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
+import {DescuentoKilos, DescuentosGlobales, DescuentosProvider} from './../descuentos/descuentos';
 import {DolarProvider} from './../dolar/dolar';
-import {
-  SUC_CONTADORES_ROOT,
-  SUC_DOCUMENTOS_PEDIDOS,
-  SUC_LOG_ROOT,
-  SUC_STOCK_ROOT,
-  SUC_DOCUMENTOS_CTASCTES_ROOT,
-  SucursalProvider
-} from './../sucursal/sucursal';
-import * as moment from 'moment';
+import {StockProvider} from './../stock/stock';
+import {SUC_CONTADORES_ROOT, SUC_DOCUMENTOS_CTASCTES_ROOT, SUC_DOCUMENTOS_PEDIDOS, SUC_LOG_ROOT, SUC_STOCK_ROOT, SucursalProvider} from './../sucursal/sucursal';
+import {UsuarioProvider} from './../usuario/usuario';
 
 @Injectable()
 export class PedidosProvider {
   private adicionales: Adicional[];
   private descuentos: DescuentosGlobales;
   private usuario: Usuario;
-  constructor(private db: AngularFireDatabase, private dolarP: DolarProvider,
-              private adicionalesP: AdicionalesProvider,
-              private descuentosP: DescuentosProvider,
-              private stockP: StockProvider, private sucP: SucursalProvider,
-              private usuarioP: UsuarioProvider,
-              private ctacteP: CtasCtesProvider) {
-    this.adicionalesP.getAdicionales().subscribe(
-        (data) => { this.adicionales = data; });
-    this.descuentosP.getDescuentos().subscribe(
-        (ok) => { this.descuentos = ok; });
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
+  constructor(
+      private db: AngularFireDatabase, private dolarP: DolarProvider,
+      private adicionalesP: AdicionalesProvider,
+      private descuentosP: DescuentosProvider, private stockP: StockProvider,
+      private sucP: SucursalProvider, private usuarioP: UsuarioProvider,
+      private ctacteP: CtasCtesProvider) {
+    this.adicionalesP.getAdicionales().subscribe((data) => {
+      this.adicionales = data;
+    });
+    this.descuentosP.getDescuentos().subscribe((ok) => {
+      this.descuentos = ok;
+    });
+    this.usuarioP.getCurrentUser().subscribe((user) => {
+      this.usuario = user;
+    });
   }
 
   add(pedido: Pedido): Observable<string> {
@@ -122,62 +110,6 @@ export class PedidosProvider {
 
   prepararPedido(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
-      if (pedido && pedido.Items) {
-        pedido.Modificador = this.sucP.genUserDoc();
-        pedido.TotalUnidades = this.calTotalUnidades(pedido.Items);
-        pedido.TotalUs = this.calTotalU$(pedido);
-        pedido.DescuentoKilos = this.calDescuentoKilos(pedido);
-        let setData = (estado: boolean) => {
-          pedido.isPreparado = estado;
-          pedido.Items.forEach((item) => { item.isStockActualizado = estado; });
-        };
-        setData(true);
-        let updData = {};
-        updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
-        // log
-        let log = this.sucP.genLog(pedido);
-        updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${log.id}/`] = log;
-        let loop = (idx: number) => {
-          let stkItem: Stock = new Stock(pedido.Items[idx].Perfil.id,
-                                         pedido.Items[idx].Color.id);
-          this.stockP.getStock(stkItem).subscribe(
-              (stk) => {
-                let logstk = this.sucP.genLog(stk);
-                updData
-                    [`${SUC_LOG_ROOT}Stock/Modificados/${stkItem.idPerfil}/${stkItem.idColor}/${logstk.id}/`] =
-                        logstk;
-                updData
-                    [`${SUC_STOCK_ROOT}${stkItem.idPerfil}/${stkItem.idColor}/Stock/`] =
-                        stk * 1 - pedido.Items[idx].Cantidad * 1;
-                idx++;
-                if (idx < pedido.Items.length) {
-                  loop(idx);
-                } else {
-                  this.db.database.ref()
-                      .update(updData)
-                      .then((ok) => {
-                        obs.next('Stock Actualizado Correctamente!');
-                        obs.complete();
-                      })
-                      .catch((error) => {
-                        setData(false);
-                        obs.error(
-                            'Error al intentar Actualizar el Stock, No se realizaron cambios!');
-                        obs.complete();
-                      });
-                }
-              },
-              (stkError) => {
-                obs.error('Error al consultar el Stock!');
-                setData(false);
-                obs.complete();
-              });
-        };
-        loop(0);
-      } else {
-        obs.error('Faltan Datos');
-        obs.complete();
-      }
     });
   }
 
@@ -203,9 +135,9 @@ export class PedidosProvider {
                 cta.Debe = calcularTotalFinal(pedido);
                 cta.Haber = 0;
                 cta.Saldo = saldo + cta.Debe - cta.Haber;
-                updData
-                    [`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pedido.idCliente}/${cta.TipoDocumento}${cta.Numero}/`] =
-                        cta;
+                updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pedido
+                            .idCliente}/${cta.TipoDocumento}${cta.Numero}/`] =
+                    cta;
                 this.db.database.ref()
                     .update(updData)
                     .then(() => {
@@ -231,12 +163,18 @@ export class PedidosProvider {
   getAllCliente(idCliente: number): Observable<Pedido[]> {
     return new Observable((obs) => {
       if (SUC_DOCUMENTOS_PEDIDOS) {
-        this.db.list(`${SUC_DOCUMENTOS_PEDIDOS}`,
-                     {query: {orderByChild: 'idCliente', equalTo: idCliente}})
-            .subscribe((data: Pedido[]) => { obs.next(data); }, (error) => {
-              obs.error(error);
-              console.error(error);
-            });
+        this.db
+            .list(
+                `${SUC_DOCUMENTOS_PEDIDOS}`,
+                {query: {orderByChild: 'idCliente', equalTo: idCliente}})
+            .subscribe(
+                (data: Pedido[]) => {
+                  obs.next(data);
+                },
+                (error) => {
+                  obs.error(error);
+                  console.error(error);
+                });
       } else {
         obs.error('Sin sucursal');
         obs.complete();
@@ -247,8 +185,10 @@ export class PedidosProvider {
   getPendientesEmbalar(emablados: boolean): Observable<Pedido[]> {
     return new Observable((obs) => {
       if (SUC_DOCUMENTOS_PEDIDOS) {
-        this.db.list(SUC_DOCUMENTOS_PEDIDOS,
-                     {query: {orderByChild: 'isPreparado', equalTo: emablados}})
+        this.db
+            .list(
+                SUC_DOCUMENTOS_PEDIDOS,
+                {query: {orderByChild: 'isPreparado', equalTo: emablados}})
             .subscribe(
                 (data: Pedido[]) => {
                   if (data) {
@@ -270,34 +210,47 @@ export class PedidosProvider {
 
   getPendientesEntregar(): Observable<Pedido[]> {
     return new Observable((obs) => {
-      this.getPendientesEmbalar(true).subscribe((pedidos: Pedido[]) => {
-        if (pedidos) {
-          obs.next(pedidos.filter(
-              (pedido) => { return (pedido.isEntregado === false); }));
-        } else {
-          obs.next([]);
-        }
-      }, (error) => { obs.error(error); });
+      this.getPendientesEmbalar(true).subscribe(
+          (pedidos: Pedido[]) => {
+            if (pedidos) {
+              obs.next(pedidos.filter((pedido) => {
+                return (pedido.isEntregado === false);
+              }));
+            } else {
+              obs.next([]);
+            }
+          },
+          (error) => {
+            obs.error(error);
+          });
     });
   }
 
   getOne(Nro: number): Observable<Pedido> {
     return new Observable((obs) => {
       this.db.object(`${SUC_DOCUMENTOS_PEDIDOS}${Nro}`)
-          .subscribe((data: Pedido) => { obs.next(data); }, (error) => {
-            obs.error(error);
-            console.error(error);
-          });
+          .subscribe(
+              (data: Pedido) => {
+                obs.next(data);
+              },
+              (error) => {
+                obs.error(error);
+                console.error(error);
+              });
     });
   }
 
   getItemsPedido(Nro: number): Observable<PedidoItem[]> {
     return new Observable((obs) => {
       this.db.list(`${SUC_DOCUMENTOS_PEDIDOS}${Nro}/Items`)
-          .subscribe((data: PedidoItem[]) => { obs.next(data); }, (error) => {
-            obs.error(error);
-            console.error(error);
-          });
+          .subscribe(
+              (data: PedidoItem[]) => {
+                obs.next(data);
+              },
+              (error) => {
+                obs.error(error);
+                console.error(error);
+              });
     });
   }
 
@@ -324,19 +277,24 @@ export class PedidosProvider {
       pUs = i.PrecioUs;
     } else {
       pUs = i.Color.PrecioUs * 1;
-      let adLinea =
-          this.adicionales.find((ad) => { return ad.id == i.Perfil.Linea.id; });
-      let adPerfil =
-          this.adicionales.find((ad) => { return ad.id == i.Perfil.id; });
+      let adLinea = this.adicionales.find((ad) => {
+        return ad.id == i.Perfil.Linea.id;
+      });
+      let adPerfil = this.adicionales.find((ad) => {
+        return ad.id == i.Perfil.id;
+      });
       pUs = pUs + ((adLinea) ? adLinea.adicional * 1 : 0) +
-            ((adPerfil) ? adPerfil.adicional * 1 : 0);
+          ((adPerfil) ? adPerfil.adicional * 1 : 0);
       if (cliente && cliente.Descuentos && cliente.Descuentos.length > 0) {
-        let deLinea = cliente.Descuentos.find(
-            (de) => { return de.id == i.Perfil.Linea.id; });
-        let dePerfil =
-            cliente.Descuentos.find((de) => { return de.id == i.Perfil.id; });
-        let deColor =
-            cliente.Descuentos.find((de) => { return de.id == i.Color.id; });
+        let deLinea = cliente.Descuentos.find((de) => {
+          return de.id == i.Perfil.Linea.id;
+        });
+        let dePerfil = cliente.Descuentos.find((de) => {
+          return de.id == i.Perfil.id;
+        });
+        let deColor = cliente.Descuentos.find((de) => {
+          return de.id == i.Color.id;
+        });
         let des: number = 0.00;
         des += (deLinea && deLinea.Descuento) ? (deLinea.Descuento / 100) : 0;
         des +=
@@ -368,9 +326,10 @@ export class PedidosProvider {
   calTotalU$(pedido: Pedido, cliente?: Cliente): number {
     let tUs: number = 0.00;
     if (pedido && pedido.Items) {
-      pedido.Items.forEach(
-          (i) => { tUs += this.calSubTotalU$(i, cliente) * 1; });
-    }
+      pedido.Items.forEach((i) => {
+        tUs += this.calSubTotalU$(i, cliente) * 1;
+      });
+      }
     return tUs * 1;
   }
 
@@ -406,16 +365,20 @@ export class PedidosProvider {
   calTotalUnidades(items: PedidoItem[]): number {
     let tU: number = 0.00;
     if (items) {
-      items.forEach((i) => { tU += this.calUnidades(i); });
-    }
+      items.forEach((i) => {
+        tU += this.calUnidades(i);
+      });
+      }
     return tU;
   }
 
   calTotalBarras(items: PedidoItem[]): number {
     let tB: number = 0.00;
     if (items) {
-      items.forEach((i) => { tB += (i.Cantidad * 1); });
-    }
+      items.forEach((i) => {
+        tB += (i.Cantidad * 1);
+      });
+      }
     return <number>tB;
   }
 
@@ -427,7 +390,7 @@ export class PedidosProvider {
           des += dk.Descuento * 1;
         }
       });
-    }
+      }
     return des;
   }
 }
