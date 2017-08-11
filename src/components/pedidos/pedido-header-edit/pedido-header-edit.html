@@ -1,11 +1,13 @@
 <ion-grid no-padding>
   <ion-row ion-item color="footer" no-lines>
-    <h5 item-start>Pedido Nro: {{pedido?.Numero || 0 | number:'3.0-0'}}</h5>
+    <h5 item-start>
+      {{tipo}} Nro: {{pedido?.Numero || 0 | number:'3.0-0'}}<br>
+      Fecha: {{pedido?.Fecha |date:'dd/MM/yyyy'}}
+    </h5>
     <div text-center>
       <h2>{{cliente?.Nombre}}</h2>
       <h4>{{ cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</h4>
     </div>
-    <h5 item-end>{{pedido?.Fecha |date:'dd/MM/yyyy'}}</h5>
   </ion-row>
   <ion-row no-padding>
     <button ion-item (click)="isShowEntrega = !isShowEntrega" color="listDivider1" no-lines>

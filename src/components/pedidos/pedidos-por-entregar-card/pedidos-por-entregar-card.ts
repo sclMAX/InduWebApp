@@ -2,7 +2,7 @@ import {
   PedidosEntregarPage
 } from './../../../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
 import {Pedido} from './../../../models/pedidos.clases';
-import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import { PedidosProvider, EMBALADOS } from './../../../providers/pedidos/pedidos';
 import {NavController} from 'ionic-angular';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {Cliente} from './../../../models/clientes.clases';
@@ -72,7 +72,7 @@ export class PedidosPorEntregarCardComponent {
 
   private async getData() {
     if (this.cliente) {
-      this.pedidosP.getAllCliente(this.cliente.id)
+      this.pedidosP.getAllCliente(this.cliente.id, EMBALADOS)
           .subscribe((data) => {
             if (data) {
               this.pedidos = data.filter((pedido) => {

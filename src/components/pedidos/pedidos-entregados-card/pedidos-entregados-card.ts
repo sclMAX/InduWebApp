@@ -3,7 +3,7 @@ import {
 } from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {NavController} from 'ionic-angular';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import { PedidosProvider, ENTREGADOS } from './../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../models/clientes.clases';
 import {
   Pedido,
@@ -44,7 +44,7 @@ export class PedidosEntregadosCardComponent {
   calTotalUs(pedido): number { return calcularTotalFinal(pedido); }
   private async getData() {
     if (this.cliente) {
-      this.pedidosP.getAllCliente(this.cliente.id)
+      this.pedidosP.getAllCliente(this.cliente.id, ENTREGADOS)
           .subscribe((data) => {
             this.pedidos = data.filter((pedido) => {
               return (pedido.isPreparado === true) &&

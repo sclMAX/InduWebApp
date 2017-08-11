@@ -7,7 +7,7 @@ import {NavController} from 'ionic-angular';
 import {Cliente} from './../../../models/clientes.clases';
 import {Pedido} from './../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import {PedidosProvider, PEDIDO} from './../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'pedidos-pendientes-card',
@@ -30,31 +30,31 @@ export class PedidosPendientesCardComponent {
     if (this.cliente) {
       return this.cliente;
     } else {
-      if(this.clientes){
-      return this.clientes.find((cliente) => { return (cliente.id == id); });
-      }else{
+      if (this.clientes) {
+        return this.clientes.find((cliente) => { return (cliente.id == id); });
+      } else {
         return null;
       }
     }
   }
 
   goPedido(pedido: Pedido) {
-    this.navCtrl.push(PedidosEmbalarPage, {idPedido: pedido.Numero});
+    this.navCtrl.push(PedidosEmbalarPage, {idPedido: pedido.id});
   }
 
   private async getData() {
     if (this.cliente) {
-      this.pedidosP.getAllCliente(this.cliente.id)
-          .subscribe((data) => {
-            this.pedidos = data.filter(
-                (pedido) => { return (pedido.isPreparado === false); });
-          });
+      this.pedidosP.getAllCliente(this.cliente.id, PEDIDO)
+          .subscribe((data) => { this.pedidos = data; });
     } else {
-      this.pedidosP.getPendientesEmbalar(false)
-          .subscribe((pedidos) => { this.pedidos = pedidos; });
-
-      this.clientesP.getAll().subscribe(
-          (clientes) => { this.clientes = clientes; });
+      this.pedidosP.getAll(PEDIDO).subscribe((pedidos) => {
+        this.pedidos = pedidos;
+        this.clientes = [];
+        pedidos.forEach((p) => {
+          this.clientesP.getOne(p.idCliente)
+              .subscribe((c) => { this.clientes.push(c); });
+        });
+      });
     }
   }
 }

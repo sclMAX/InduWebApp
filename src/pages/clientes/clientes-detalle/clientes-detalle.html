@@ -6,6 +6,7 @@
 </ion-header>
 
 <ion-content padding>
+  <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)" [cliente]="cliente" color="primary" headerColor="dark"></presupuestos-card>
   <pedidos-pendientes-card [cliente]="cliente"></pedidos-pendientes-card>
   <pedidos-por-entregar-card [cliente]="cliente"></pedidos-por-entregar-card>
   <pedidos-entregados-card [cliente]="cliente"></pedidos-entregados-card>

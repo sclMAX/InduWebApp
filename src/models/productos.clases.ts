@@ -1,4 +1,5 @@
 import {ClaseControlada} from './comunes.clases';
+
 export class Perfil extends ClaseControlada {
   id: string;
   Linea: Linea;

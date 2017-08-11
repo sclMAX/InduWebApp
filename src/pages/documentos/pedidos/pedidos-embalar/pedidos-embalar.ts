@@ -3,7 +3,7 @@ import {Usuario} from './../../../../models/user.class';
 import {
   PrintPedidoParaEmbalarPage
 } from './../../../documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
-import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
+import {PedidosProvider, PEDIDO} from './../../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../../models/clientes.clases';
 import {ClientesProvider} from './../../../../providers/clientes/clientes';
 import {Pedido, PedidoItem} from './../../../../models/pedidos.clases';
@@ -41,7 +41,7 @@ export class PedidosEmbalarPage {
     if (!this.idPedido) {
       this.navCtrl.pop();
     } else {
-      this.pedidosP.getOne(this.idPedido)
+      this.pedidosP.getOne(PEDIDO, this.idPedido)
           .subscribe((ok) => { this.pedido = ok; });
       this.clientesP.getOne(this.pedido.idCliente)
           .subscribe((cliente) => { this.cliente = cliente; });
@@ -88,23 +88,25 @@ export class PedidosEmbalarPage {
     alert.present();
   }
 
-  modificarItem(item:PedidoItem, fab: FabContainer){
+  modificarItem(item: PedidoItem, fab: FabContainer) {
     fab.close();
     let alert = this.alertCtrl.create({
       title: 'Cambiar Cantidad...',
-      inputs:[{
-        name:'cantidad',
-        type:'number',
-        min:'1',
-        value:`${item.Cantidad}`
-      }],
+      inputs: [
+        {
+          name: 'cantidad',
+          type: 'number',
+          min: '1',
+          value: `${item.Cantidad}`
+        }
+      ],
       buttons: [
         {text: 'Cancelar', role: 'cancel'},
         {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
-            if(data && data.cantidad > 0){
+            if (data && data.cantidad > 0) {
               item.Cantidad = data.cantidad;
               this.isModificado = true;
             }

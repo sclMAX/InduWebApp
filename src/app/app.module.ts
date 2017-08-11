@@ -148,6 +148,7 @@ import {
 } from '../components/form-badge-input-item/form-badge-input-item';
 import {PagosProvider} from '../providers/pagos/pagos';
 import {ContadoresProvider} from '../providers/contadores/contadores';
+import { PresupuestosCardComponent } from '../components/pedidos/presupuestos-card/presupuestos-card';
 
 export const environment = {
   production: false,
@@ -210,7 +211,8 @@ export const environment = {
     ClientesAddPagoPage,
     FormBadgeItemComponent,
     FormBadgeInputItemComponent,
-    PrintCtacteCardPage
+    PrintCtacteCardPage,
+    PresupuestosCardComponent
   ],
   imports: [
     BrowserModule,

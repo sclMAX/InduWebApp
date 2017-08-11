@@ -1,8 +1,9 @@
+import { PedidosNewPage } from './../../documentos/pedidos/pedidos-new/pedidos-new';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {Cliente} from './../../../models/clientes.clases';
 import {Pedido} from './../../../models/pedidos.clases';
-import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import { PedidosProvider, PRESUPUESTO } from './../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'page-clientes-detalle',
@@ -24,8 +25,13 @@ export class ClientesDetallePage {
       this.navCtrl.pop();
     }
   }
+
+  onClickPresupuestosItem(item){
+    this.navCtrl.push(PedidosNewPage, {Cliente:this.cliente, Pedido:item, tipo: PRESUPUESTO});
+    }
+
   private async getPedidos() {
-    this.pedidosP.getAllCliente(this.cliente.id)
+    this.pedidosP.getAllCliente(this.cliente.id, PRESUPUESTO)
         .subscribe((pedidos) => { this.pedidos = pedidos; });
   }
 }

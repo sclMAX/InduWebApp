@@ -1,6 +1,6 @@
 <ion-content>
   <ion-item color="scroll-content" no-lines>
-    <pedido-header-edit [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
+    <pedido-header-edit [tipo]="tipo" [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
   </ion-item>
   <ion-list padding color="scroll-content">
     <pedido-items-item [(pedido)]="pedido"></pedido-items-item>
@@ -39,9 +39,9 @@
     </ion-row>
   </ion-grid>
 </ion-footer>
-<ion-fab top left>
-  <button ion-fab mini color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
-</ion-fab>
 <ion-fab top right>
-  <button ion-fab mini color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab  color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button><br>
+  <button ion-fab  color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <br>
+  <button ion-fab  color="primary" [disabled]="!isValid()" (click)="confirmar()"><ion-icon name="done-all"></ion-icon></button>
 </ion-fab>

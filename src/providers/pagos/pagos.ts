@@ -1,3 +1,4 @@
+import {ContadoresProvider} from './../contadores/contadores';
 import {
   SUC_DOCUMENTOS_PAGOS_ROOT,
   SUC_FONDOS_CHEQUES_CARTERA,
@@ -13,8 +14,8 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class PagosProvider {
-  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider) {
-  }
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
+              private contadoresP: ContadoresProvider) {}
 
   add(pago: ClientePago): Observable<string> {
     return new Observable((obs) => {
@@ -45,7 +46,7 @@ export class PagosProvider {
       updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pago.idCliente}/${cta.id}/`] =
           cta;
       // Contador
-      updData[`${SUC_CONTADORES_ROOT}Pagos/`] = Nro;
+      this.contadoresP.genPagosUpdateData(updData, Nro);
       // Log
       let log = this.sucP.genLog(pago);
       updData[`${SUC_LOG_ROOT}Pagos/Creados/${log.id}`] = log;

@@ -1,3 +1,4 @@
+import {ContadoresProvider} from './../contadores/contadores';
 import {SucursalProvider} from './../sucursal/sucursal';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -8,8 +9,8 @@ import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 
 @Injectable()
 export class ClientesProvider {
-  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider) {
-  }
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
+              private contadoresP: ContadoresProvider) {}
 
   add(cliente: Cliente): Observable<string> {
     return new Observable((obs) => {
@@ -18,10 +19,14 @@ export class ClientesProvider {
             if (isUniqueOk) {
               cliente.Creador = this.sucP.genUserDoc();
               let updData = {};
+              // Add Cliente
               updData[`${SUC_CLIENTES_ROOT}${cliente.id}`] = cliente;
-              updData[`${COMUN_CONTADORES_CLIENTES}`] = cliente.id;
+              // Set Contador
+              this.contadoresP.genClientesUpdateData(updData, cliente.id);
+              //Log
               let log = this.sucP.genLog(cliente);
               updData[`${SUC_LOG_ROOT}Clientes/Creados/${log.id}/`] = log;
+              //Actualizar
               this.db.database.ref()
                   .update(updData)
                   .then((okAdd) => {

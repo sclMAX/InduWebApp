@@ -1,3 +1,4 @@
+import {ClientesProvider} from './../../../../providers/clientes/clientes';
 import {
   ContadoresProvider
 } from './../../../../providers/contadores/contadores';
@@ -6,12 +7,16 @@ import {
   LoadingController,
   NavController,
   NavParams,
-  ToastController
+  ToastController,
+  AlertController
 } from 'ionic-angular';
 import {Cliente} from './../../../../models/clientes.clases';
 import {Pedido} from './../../../../models/pedidos.clases';
 import {DolarProvider} from './../../../../providers/dolar/dolar';
-import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
+import {
+  PedidosProvider,
+  PRESUPUESTO
+} from './../../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'page-pedidos-new',
@@ -23,18 +28,23 @@ export class PedidosNewPage {
   oldPedido: Pedido;
   isEdit: boolean = false;
   dolarValor: number = 0.00;
+  tipo: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private pedidosP: PedidosProvider, private dolarP: DolarProvider,
               private loadCtrl: LoadingController,
               private contadoresP: ContadoresProvider,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private alertCtrl: AlertController,
+              private clientesP: ClientesProvider) {
     this.cliente = this.navParams.get('Cliente');
+    this.tipo = this.navParams.get('tipo');
     this.oldPedido = this.navParams.get('Pedido');
-    if (this.cliente) {
+    if ((this.cliente || this.oldPedido) && this.tipo) {
       if (this.oldPedido) {
         this.isEdit = true;
         this.pedido = JSON.parse(JSON.stringify(this.oldPedido));
+        this.getData();
       } else {
         this.pedido = new Pedido();
         this.pedido.idCliente = this.cliente.id;
@@ -56,7 +66,7 @@ export class PedidosNewPage {
     let toast = this.toastCtrl.create({position: 'middle'});
     load.present().then(() => {
       if (this.isEdit) {
-        this.pedidosP.update(this.oldPedido)
+        this.pedidosP.update(this.oldPedido, this.tipo)
             .subscribe(
                 (ok) => {
                   this.navCtrl.pop();
@@ -72,7 +82,7 @@ export class PedidosNewPage {
                   toast.present();
                 });
       } else {
-        this.pedidosP.add(this.oldPedido)
+        this.pedidosP.add(this.oldPedido, this.tipo)
             .subscribe(
                 (ok) => {
                   this.navCtrl.pop();
@@ -90,6 +100,40 @@ export class PedidosNewPage {
     });
   }
 
+  confirmar() {
+    let alert = this.alertCtrl.create({
+      title: 'Confirmar Presupuesto...',
+      subTitle: 'Pasar presupuesto a Pedido?',
+      message:
+          'Aceptar para confirmar el Presupuesto y pasarlo a Pedido para su Embalaje.',
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {text: 'Aceptar', role: 'ok', handler: () => { this.toPedido(); }}
+      ]
+    });
+    alert.present();
+  }
+  private toPedido() {
+    let load = this.loadCtrl.create({content: 'Confirmando Presupuesto...'});
+    let toast = this.toastCtrl.create({position: 'middle'});
+    load.present().then(() => {
+      this.pedidosP.confirmarPresupuesto(this.pedido)
+          .subscribe(
+              (ok) => {
+                this.navCtrl.pop();
+                load.dismiss();
+                toast.setMessage(ok);
+                toast.setDuration(1000);
+                toast.present();
+              },
+              (error) => {
+                load.dismiss();
+                toast.setMessage(error);
+                toast.setShowCloseButton(true);
+                toast.present();
+              });
+    });
+  }
   goBack() { this.navCtrl.pop(); }
 
   isDireccionValid(): boolean {
@@ -142,7 +186,11 @@ export class PedidosNewPage {
   }
 
   private async getData() {
-    this.contadoresP.getPedidosCurrentNro().subscribe(
-        (data: number) => { this.pedido.Numero = data; });
+    this.contadoresP.getPedidosCurrentNro(this.tipo)
+        .subscribe((data: number) => { this.pedido.Numero = data; });
+    if (this.oldPedido && !this.cliente) {
+      this.clientesP.getOne(this.oldPedido.idCliente)
+          .subscribe((data) => { this.cliente = data; })
+    }
   }
 }

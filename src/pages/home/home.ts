@@ -1,3 +1,5 @@
+import { PedidosNewPage } from './../documentos/pedidos/pedidos-new/pedidos-new';
+import { PRESUPUESTO } from './../../providers/pedidos/pedidos';
 import {Usuario} from './../../models/user.class';
 import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
 import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
@@ -15,6 +17,7 @@ export class HomePage {
   title: string = SUCURSAL;
   usuario: Usuario = new Usuario();
   isLogin: boolean = true;
+  PRESUPUESTO = PRESUPUESTO;
 
   constructor(public navCtrl: NavController,
               private usuarioP: UsuarioProvider) {}
@@ -32,6 +35,10 @@ export class HomePage {
   public goRespartos() { this.navCtrl.push(RepartosHomePage); }
 
   public goFondos() { this.navCtrl.push(FondosHomePage); }
+
+  onClickPresupuestosItem(item){
+    this.navCtrl.push(PedidosNewPage, {Pedido: item, tipo: PRESUPUESTO});
+  }
 
   ngOnInit() { this.getUser(); }
 

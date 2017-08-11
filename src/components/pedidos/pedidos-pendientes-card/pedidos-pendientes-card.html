@@ -1,20 +1,12 @@
-<div>
-  <ion-card color="toolBar">
-    <button ion-item color="pedidoEmbalarHeader" (click)="showList = !showList">
+<ion-card color="toolBar">
+  <button ion-item color="pedidoEmbalarHeader" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
       Pedidos x Embalar ({{pedidos?.length}})
     </button>
-    <ion-list *ngIf="!cliente && showList">
-      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido, getCliente(pedido.idCliente))">
-        {{pedido.Numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.Nombre}}
-        <ion-icon item-end name="more"></ion-icon>
+  <ion-list *ngIf="showList">
+    <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
+        <span *ngIf="!cliente">{{pedido.Numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.Nombre}}</span> 
+        <span *ngIf="cliente">{{pedido.Numero | number:'3.0-0'}} - {{pedido.FechaEntrega | date:'dd/MM/yyyy'}}</span>
       </button>
-    </ion-list>
-    <ion-list *ngIf="cliente && showList">
-      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
-        {{pedido.Numero | number:'3.0-0'}} - {{pedido.FechaEntrega | date:'dd/MM/yyyy'}}
-        <ion-icon item-end name="more"></ion-icon>
-      </button>
-    </ion-list>
-  </ion-card>
-</div>
+  </ion-list>
+</ion-card>

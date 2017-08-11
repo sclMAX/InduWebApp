@@ -1,12 +1,23 @@
-import { ClientesAddPagoPage } from './../../pages/clientes/clientes-add-pago/clientes-add-pago';
+import {
+  ClientesAddPagoPage
+} from './../../pages/clientes/clientes-add-pago/clientes-add-pago';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {AlertController, LoadingController, NavController, ToastController} from 'ionic-angular';
+import {
+  AlertController,
+  LoadingController,
+  NavController,
+  ToastController
+} from 'ionic-angular';
 
 import {Cliente} from './../../models/clientes.clases';
-import {ClientesAddPage} from './../../pages/clientes/clientes-add/clientes-add';
-import {PedidosNewPage} from './../../pages/documentos/pedidos/pedidos-new/pedidos-new';
+import {
+  ClientesAddPage
+} from './../../pages/clientes/clientes-add/clientes-add';
+import {
+  PedidosNewPage
+} from './../../pages/documentos/pedidos/pedidos-new/pedidos-new';
 import {ClientesProvider} from './../../providers/clientes/clientes';
-import {PedidosProvider} from './../../providers/pedidos/pedidos';
+import {PedidosProvider, PRESUPUESTO} from './../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'cliente-action-tool-bar',
@@ -19,35 +30,32 @@ export class ClienteActionToolBarComponent {
   @Output() onVer: EventEmitter<Cliente> = new EventEmitter<Cliente>();
   showRemove: boolean = false;
 
-  constructor(
-      private alertCtrl: AlertController, private navCtrl: NavController,
-      private loadCtrl: LoadingController, private toastCtrl: ToastController,
-      private clientesP: ClientesProvider, private pedidosP: PedidosProvider) {}
+  constructor(private alertCtrl: AlertController,
+              private navCtrl: NavController,
+              private loadCtrl: LoadingController,
+              private toastCtrl: ToastController,
+              private clientesP: ClientesProvider,
+              private pedidosP: PedidosProvider) {}
 
-  ngOnInit() {
-    this.getShowRemove();
-  }
+  ngOnInit() { this.getShowRemove(); }
 
   public showTelefonos(cliente: Cliente) {
     let alert =
         this.alertCtrl.create({title: 'TELEFONOS', buttons: ['Cerrar']});
     let msg: string = '';
-    cliente.Telefonos.forEach((tel) => {
-      msg += `<h5>${tel.Contacto}: ${tel.Numero}</h5>`;
-    });
+    cliente.Telefonos.forEach(
+        (tel) => { msg += `<h5>${tel.Contacto}: ${tel.Numero}</h5>`; });
     alert.setMessage(msg);
     alert.present();
   }
 
-  goCliente() {
-    this.onVer.emit(this.cliente);
-  }
+  goCliente() { this.onVer.emit(this.cliente); }
 
   newPedido(cliente: Cliente) {
-    this.navCtrl.push(PedidosNewPage, {Cliente: cliente});
+    this.navCtrl.push(PedidosNewPage, {Cliente: cliente, tipo: PRESUPUESTO});
   }
-  newPago(cliente:Cliente){
-    this.navCtrl.push(ClientesAddPagoPage, {Cliente:cliente});
+  newPago(cliente: Cliente) {
+    this.navCtrl.push(ClientesAddPagoPage, {Cliente: cliente});
   }
 
   goClienteUpdate(cliente: Cliente) {
@@ -55,12 +63,8 @@ export class ClienteActionToolBarComponent {
   }
 
   private getShowRemove() {
-    this.pedidosP.getAllCliente(this.cliente.id).subscribe((data) => {
-      if (data && data.length > 0) {
-        this.showRemove = false;
-      } else {
-        this.showRemove = true;
-      }
+    this.pedidosP.isDocsCliente(this.cliente.id).subscribe((data)=>{
+      this.showRemove = !data;
     });
   }
 
@@ -71,7 +75,8 @@ export class ClienteActionToolBarComponent {
           `Esta seguro que quiere ELIMINAR definitivamete el cliente: ${cliente
               .Nombre}?`,
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
