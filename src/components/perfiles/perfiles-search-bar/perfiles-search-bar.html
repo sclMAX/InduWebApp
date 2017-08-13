@@ -14,7 +14,7 @@
         <ion-label>Linea</ion-label>
         <ion-select [(ngModel)]="selectedLinea" (ionChange)="onCancelOrChangeLinea()" text-center>
           <ion-option value="" selected="true">Todas</ion-option>
-          <ion-option *ngFor="let linea of lineas" [value]="linea">{{linea?.Nombre}}</ion-option>
+          <ion-option *ngFor="let linea of lineas" [value]="linea">{{linea?.nombre}}</ion-option>
         </ion-select>
       </ion-item>
     </ion-col>

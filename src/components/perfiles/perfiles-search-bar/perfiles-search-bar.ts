@@ -33,7 +33,7 @@ export class PerfilesSearchBarComponent {
     if (val && val.trim() != '') {
       val = val.toLowerCase();
       this.onFilter.emit(this.filterPerfiles.filter((item: Perfil) => {
-        return ((item.Codigo) && (item.Codigo.toLowerCase().indexOf(val) > -1));
+        return ((item.codigo) && (item.codigo.toLowerCase().indexOf(val) > -1));
       }));
     }
   }
@@ -44,12 +44,12 @@ export class PerfilesSearchBarComponent {
     if (val && val.trim() != '') {
       val = val.toLowerCase();
       this.onFilter.emit(this.filterPerfiles.filter((item: Perfil) => {
-        return ((item.Codigo) &&
-                (item.Codigo.toLowerCase().indexOf(val) > -1)) ||
-               ((item.Descripcion) &&
-                (item.Descripcion.toLowerCase().indexOf(val) > -1)) ||
-               ((item.Linea.Nombre) &&
-                (item.Linea.Nombre.toLowerCase().indexOf(val) > -1));
+        return ((item.codigo) &&
+                (item.codigo.toLowerCase().indexOf(val) > -1)) ||
+               ((item.descripcion) &&
+                (item.descripcion.toLowerCase().indexOf(val) > -1)) ||
+               ((item.Linea.nombre) &&
+                (item.Linea.nombre.toLowerCase().indexOf(val) > -1));
       }));
     }
   }

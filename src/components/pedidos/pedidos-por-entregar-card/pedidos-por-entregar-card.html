@@ -8,12 +8,12 @@
       <ion-item color="pedidoEntregarSubHeader">
         <span item-start>{{getTotalUnidades() | number:'1.2-2'}} Kg.</span><span item-end>U$ {{getTotalUs() |number:'1.2-2'}}</span>
       </ion-item>
-      <button ion-item [color]="pedido.DescuentoKilos > 0?'pedidoCardItemConDescuento':'pedidoCardItem'" *ngFor="let pedido of pedidos"
+      <button ion-item [color]="pedido.descuentoKilos > 0?'pedidoCardItemConDescuento':'pedidoCardItem'" *ngFor="let pedido of pedidos"
         (click)="goPedido(pedido)">
-        <span item-start>{{pedido.Numero | number:'3.0-0'}} </span>
+        <span item-start>{{pedido.numero | number:'3.0-0'}} </span>
         <p>
-          {{(!cliente)?(getCliente(pedido.idCliente)?.Nombre) :(pedido.Fecha |date:'dd/MM/yyyy') }}<br>
-          <small>U${{pedido?.TotalUs |number:'1.2-2'}} - {{pedido?.TotalUnidades |number:'1.2-2'}}kg. - Des:{{pedido?.DescuentoKilos ||0 |number:'1.2-2'}}% </small>
+          {{(!cliente)?(getCliente(pedido.idCliente)?.nombre) :(pedido.fecha |date:'dd/MM/yyyy') }}<br>
+          <small>U${{pedido?.totalUs |number:'1.2-2'}} - {{pedido?.totalUnidades |number:'1.2-2'}}kg. - Des:{{pedido?.descuentoKilos ||0 |number:'1.2-2'}}% </small>
         </p>
         <span item-end>U${{getSubTotalUs(pedido) | number:'1.2-2'}}</span>
         <ion-icon item-end name="more"></ion-icon>

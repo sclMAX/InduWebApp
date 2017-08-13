@@ -6,14 +6,14 @@ export class Sucursal {
   id: string;
   Clientes: Cliente[];
   Colores: Color[];
-  Documentos: number;
+  documentos: number;
   Contadores: SucursalContadores;
   Fondos: Fondos;
 }
 
 export class SucursalContadores {
   id: string;
-  Pedidos: number;
-  DocStockIngreso: number;
-  Pagos: number;
+  pedido: number;
+  docStockIngreso: number;
+  pago: number;
 }

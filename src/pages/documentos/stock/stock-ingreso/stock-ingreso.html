@@ -4,16 +4,16 @@
         <ion-row ion-item color="scroll-content" no-lines no-padding>
             <!-- Nro Ingreso -->
             <form-badge-item item-start label="Nro" padding-left>
-                <ion-spinner *ngIf="!(docIngreso.Numero > 0)" color="dark" name="dots"></ion-spinner>
-                <h2 *ngIf="(docIngreso.Numero > 0)">{{docIngreso?.Numero |number:'3.0-0'}}</h2>
+                <ion-spinner *ngIf="!(docIngreso.numero > 0)" color="dark" name="dots"></ion-spinner>
+                <h2 *ngIf="(docIngreso.numero > 0)">{{docIngreso?.numero |number:'3.0-0'}}</h2>
             </form-badge-item>
             <!-- Fecha -->
             <form-badge-input-item item-start label="Fecha" padding-left>
-                <ion-input type="date" name="fecha" [(ngModel)]="docIngreso.Fecha"></ion-input>
+                <ion-input type="date" name="fecha" [(ngModel)]="docIngreso.fecha"></ion-input>
             </form-badge-input-item>
             <!-- Nro Remito Ingreso -->
             <form-badge-input-item item-start label="Nro. Remito" padding-left>
-                <ion-input type="text" [(ngModel)]="docIngreso.Remito" name="Remito"></ion-input>
+                <ion-input type="text" [(ngModel)]="docIngreso.remito" name="Remito"></ion-input>
             </form-badge-input-item>
         </ion-row>
         <!-- Comentario -->
@@ -22,7 +22,7 @@
                 <ion-badge color="dark">Comentarios</ion-badge>
             </ion-row>
             <ion-badge ion-item>
-                <ion-textarea [(ngModel)]="docIngreso.Comentario" name="Comentarios"></ion-textarea>
+                <ion-textarea [(ngModel)]="docIngreso.comentario" name="Comentarios"></ion-textarea>
             </ion-badge>
         </ion-row>
     </ion-grid>
@@ -35,9 +35,9 @@
             <ion-col>Color</ion-col>
         </ion-row>
         <ion-row ion-item color="{{(p)?'listPar':'listImpar'}}" no-lines *ngFor="let item of docIngreso?.Items;let idx=index;let p=even">
-            <ion-col col-sm-2>{{item?.Cantidad}}</ion-col>
-            <ion-col col-sm-3>{{item?.Perfil?.Codigo}}</ion-col>
-            <ion-col>{{item?.Color?.Nombre}}</ion-col>
+            <ion-col col-sm-2>{{item?.cantidad}}</ion-col>
+            <ion-col col-sm-3>{{item?.Perfil?.codigo}}</ion-col>
+            <ion-col>{{item?.Color?.nombre}}</ion-col>
             <button ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
         </ion-row>
     </ion-grid>

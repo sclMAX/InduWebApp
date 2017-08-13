@@ -4,10 +4,10 @@
       <ion-col>
         <ion-card color="scroll-content">
           <ion-item color="dark">
-            <span item-start *ngIf="pedido.Numero">{{pedido?.Numero |number:'3.0-0'}}</span>
-            <span item-start *ngIf="!pedido.Numero">[PEDIDO ELIMINADO]</span>
-            <span item-start>{{cliente?.Nombre}}</span>
-            <span item-end>del {{pedido?.Fecha |date:'dd/MM/yyyy'}} para {{pedido?.FechaEntrega |date:'dd/MM/yyyy'}}</span>
+            <span item-start *ngIf="pedido.numero">{{pedido?.numero |number:'3.0-0'}}</span>
+            <span item-start *ngIf="!pedido.numero">[PEDIDO ELIMINADO]</span>
+            <span item-start>{{cliente?.nombre}}</span>
+            <span item-end>del {{pedido?.fecha |date:'dd/MM/yyyy'}} para {{pedido?.fechaEntrega |date:'dd/MM/yyyy'}}</span>
           </ion-item>
           <ion-list>
             <ion-item-divider color="toolBar">PENDIENTE ({{getItemsPendientes().length}})
@@ -17,14 +17,14 @@
               <perfiles-perfil-img item-start [perfil]="item.Perfil"></perfiles-perfil-img>
               <button *ngIf="!usuario.isEmbalaje" item-start ion-fab mini color="danger" (click)="removeItem(item, fab)"><ion-icon name="close"></ion-icon></button>
               <button *ngIf="!usuario.isEmbalaje" item-end ion-fab mini color="primary" (click)="modificarItem(item, fab)"><ion-icon name="icon-ind_edit"></ion-icon></button>
-              <h3>{{item?.Perfil?.Codigo}} - {{item?.Color?.Nombre}} - {{item?.Perfil?.Largo}}</h3>
-              <button item-end ion-fab mini color="secondary" (click)="setEmbalado(item, true ,fab)">{{item?.Cantidad}}</button>
+              <h3>{{item?.Perfil?.codigo}} - {{item?.Color?.nombre}} - {{item?.Perfil?.largo}}</h3>
+              <button item-end ion-fab mini color="secondary" (click)="setEmbalado(item, true ,fab)">{{item?.cantidad}}</button>
             </ion-item>
             <ion-item-divider color="toolBar">EMBALADO ({{getItemsEmbalados().length}})</ion-item-divider>
             <ion-item *ngFor="let item of getItemsEmbalados()" color="scroll-content">
               <perfiles-perfil-img item-start [perfil]="item.Perfil"></perfiles-perfil-img>
-              <h3>{{item?.Perfil?.Codigo}} - {{item?.Color?.Nombre}} - {{item?.Perfil?.Largo}}</h3>
-              <button item-end ion-fab mini color="danger" (click)="setEmbalado(item, false, fab)">{{item?.Cantidad}}</button>
+              <h3>{{item?.Perfil?.codigo}} - {{item?.Color?.nombre}} - {{item?.Perfil?.largo}}</h3>
+              <button item-end ion-fab mini color="danger" (click)="setEmbalado(item, false, fab)">{{item?.cantidad}}</button>
             </ion-item>
           </ion-list>
         </ion-card>
@@ -37,12 +37,13 @@
   <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
 <ion-fab bottom right #fab>
-  <button ion-fab  [disabled]="!((!((getItemsEmbalados().length == 0)||(getItemsPendientes().length != 0))) || (!(!isModificado || getItemsPendientes().length == 0)) || (!usuario.isEmbalaje && getItemsEmbalados().length == 0))" color="primary">
+  <button ion-fab  color="primary">
     <ion-icon item-start name="icon-ind_new-document"></ion-icon>
   </button>
   <ion-fab-list side="left" >
     <button ion-fab color="primary" *ngIf="!((getItemsEmbalados().length == 0)||(getItemsPendientes().length != 0))" (click)="prepararPedido()"><ion-icon name="done-all"></ion-icon></button>
     <button ion-fab color="secondary" *ngIf="!(!isModificado || getItemsPendientes().length == 0)" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
+    <button ion-fab color="light" *ngIf="!usuario.isEmbalaje && getItemsPendientes().length != 0" (click)="editar()"><ion-icon name="icon-ind_edit"></ion-icon></button>
     <button ion-fab *ngIf="!usuario.isEmbalaje && getItemsEmbalados().length == 0" color="danger" (click)="borrarPedido()"><ion-icon name="trash"></ion-icon></button>
   </ion-fab-list>
 </ion-fab>

@@ -1,21 +1,14 @@
-import {UsuarioProvider} from './../../../../providers/usuario/usuario';
-import {Usuario} from './../../../../models/user.class';
-import {
-  PrintPedidoParaEmbalarPage
-} from './../../../documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
-import {PedidosProvider, PEDIDO} from './../../../../providers/pedidos/pedidos';
-import {Cliente} from './../../../../models/clientes.clases';
-import {ClientesProvider} from './../../../../providers/clientes/clientes';
-import {Pedido, PedidoItem} from './../../../../models/pedidos.clases';
 import {Component} from '@angular/core';
-import {
-  NavController,
-  NavParams,
-  AlertController,
-  LoadingController,
-  ToastController,
-  FabContainer
-} from 'ionic-angular';
+import {AlertController, FabContainer, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+
+import {Cliente} from './../../../../models/clientes.clases';
+import {Pedido, PedidoItem} from './../../../../models/pedidos.clases';
+import {Usuario} from './../../../../models/user.class';
+import {ClientesProvider} from './../../../../providers/clientes/clientes';
+import {PEDIDO, PedidosProvider} from './../../../../providers/pedidos/pedidos';
+import {UsuarioProvider} from './../../../../providers/usuario/usuario';
+import {PrintPedidoParaEmbalarPage} from './../../../documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
+import {PedidosNewPage} from './../pedidos-new/pedidos-new';
 
 @Component({
   selector: 'page-pedidos-embalar',
@@ -28,29 +21,32 @@ export class PedidosEmbalarPage {
   isModificado: boolean = false;
   usuario: Usuario;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private clientesP: ClientesProvider,
-              private usuarioP: UsuarioProvider,
-              private pedidosP: PedidosProvider,
-              private loadCtrl: LoadingController,
-              private toastCtrl: ToastController,
-              private alertCtrl: AlertController) {
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private clientesP: ClientesProvider, private usuarioP: UsuarioProvider,
+      private pedidosP: PedidosProvider, private loadCtrl: LoadingController,
+      private toastCtrl: ToastController, private alertCtrl: AlertController) {
     this.idPedido = this.navParams.get('idPedido');
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
+    this.usuarioP.getCurrentUser().subscribe((user) => {
+      this.usuario = user;
+    });
     if (!this.idPedido) {
       this.navCtrl.pop();
     } else {
-      this.pedidosP.getOne(PEDIDO, this.idPedido)
-          .subscribe((ok) => { this.pedido = ok; });
-      this.clientesP.getOne(this.pedido.idCliente)
-          .subscribe((cliente) => { this.cliente = cliente; });
+      this.pedidosP.getOne(PEDIDO, this.idPedido).subscribe((ok) => {
+        this.pedido = ok;
+      });
+      this.clientesP.getOne(this.pedido.idCliente).subscribe((cliente) => {
+        this.cliente = cliente;
+      });
     }
   }
 
   getItemsPendientes(): PedidoItem[] {
     if (this.pedido && this.pedido.Items) {
-      return this.pedido.Items.filter((item) => { return !item.isEmbalado; });
+      return this.pedido.Items.filter((item) => {
+        return !item.isEmbalado;
+      });
     } else {
       return [];
     }
@@ -58,7 +54,9 @@ export class PedidosEmbalarPage {
 
   getItemsEmbalados(): PedidoItem[] {
     if (this.pedido && this.pedido.Items) {
-      return this.pedido.Items.filter((item) => { return item.isEmbalado; });
+      return this.pedido.Items.filter((item) => {
+        return item.isEmbalado;
+      });
     } else {
       return [];
     }
@@ -70,13 +68,13 @@ export class PedidosEmbalarPage {
       title: 'Eliminar Item...',
       subTitle: 'Esta seguro que desea eliminar el item?',
       buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
+        {text: 'Cancelar', role: 'cancel'}, {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
-            let i =
-                this.pedido.Items.findIndex((it) => { return item === it; });
+            let i = this.pedido.Items.findIndex((it) => {
+              return item === it;
+            });
             if (i > -1) {
               this.pedido.Items.splice(i, 1);
               this.isModificado = true;
@@ -92,22 +90,19 @@ export class PedidosEmbalarPage {
     fab.close();
     let alert = this.alertCtrl.create({
       title: 'Cambiar Cantidad...',
-      inputs: [
-        {
-          name: 'cantidad',
-          type: 'number',
-          min: '1',
-          value: `${item.Cantidad}`
-        }
-      ],
+      inputs: [{
+        name: 'cantidad',
+        type: 'number',
+        min: '1',
+        value: `${item.cantidad}`
+      }],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
+        {text: 'Cancelar', role: 'cancel'}, {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
             if (data && data.cantidad > 0) {
-              item.Cantidad = data.cantidad;
+              item.cantidad = data.cantidad;
               this.isModificado = true;
             }
           }
@@ -117,11 +112,14 @@ export class PedidosEmbalarPage {
     alert.present();
   }
 
-  goBack() { this.navCtrl.pop(); }
+  goBack() {
+    this.navCtrl.pop();
+  }
 
   goPrintEmbalar() {
-    this.navCtrl.push(PrintPedidoParaEmbalarPage,
-                      {Pedido: this.pedido, Cliente: this.cliente});
+    this.navCtrl.push(
+        PrintPedidoParaEmbalarPage,
+        {Pedido: this.pedido, Cliente: this.cliente});
   }
 
   guardar() {
@@ -147,14 +145,19 @@ export class PedidosEmbalarPage {
     });
   }
 
+  editar() {
+    this.navCtrl.pop();
+    this.navCtrl.push(PedidosNewPage, {Pedido: this.pedido});
+  }
+
   borrarPedido() {
     let alert = this.alertCtrl.create({
       title: 'Eliminar Pedido...',
       subTitle:
-          `Esta seguro que desea eliminar definitivamente el pedido Nro:${this.pedido.Numero}?`,
+          `Esta seguro que desea eliminar definitivamente el pedido Nro:${this
+              .pedido.numero}?`,
       buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
+        {text: 'Cancelar', role: 'cancel'}, {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
@@ -188,24 +191,21 @@ export class PedidosEmbalarPage {
     let alert = this.alertCtrl.create({
       title: 'Cantidad de Paquetes?',
       subTitle: 'Ingrese la cantidad de paquetes armados para el pedido.',
-      inputs: [
-        {
-          name: 'cp',
-          type: 'number',
-          min: '1',
-          placeholder: 'Cantidad de paquetes...'
-        }
-      ],
+      inputs: [{
+        name: 'cp',
+        type: 'number',
+        min: '1',
+        placeholder: 'Cantidad de paquetes...'
+      }],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
+        {text: 'Cancelar', role: 'cancel'}, {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
             if (data) {
               let cp: number = data.cp * 1;
               if (cp > 0) {
-                this.setPreparado(cp);
+                this.pedidoToEmbalado(cp);
               }
             }
           }
@@ -218,31 +218,29 @@ export class PedidosEmbalarPage {
   setEmbalado(item: PedidoItem, isEmbalado: boolean, fab: FabContainer) {
     fab.close();
     let alert = this.alertCtrl.create({
-      title: `${(isEmbalado)?'Cantidad Embalada?':'Cantidad Desembalada?'}`,
-      inputs: [
-        {
-          type: 'number',
-          value: `${item.Cantidad}`,
-          max: `${item.Cantidad}`,
-          min: '1',
-          name: 'newCantidad'
-        }
-      ],
+      title: `${(isEmbalado) ? 'Cantidad Embalada?' : 'Cantidad Desembalada?'
+                                                      }`,
+      inputs: [{
+        type: 'number',
+        value: `${item.cantidad}`,
+        max: `${item.cantidad}`,
+        min: '1',
+        name: 'newCantidad'
+      }],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
+        {text: 'Cancelar', role: 'cancel'}, {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
             if (data) {
               let nc: number = data.newCantidad * 1;
-              if ((nc > 0) && (nc <= (item.Cantidad * 1))) {
-                if (nc < item.Cantidad * 1) {
+              if ((nc > 0) && (nc <= (item.cantidad * 1))) {
+                if (nc < item.cantidad * 1) {
                   let newItem: PedidoItem = new PedidoItem();
                   newItem = JSON.parse(JSON.stringify(item));
-                  newItem.Cantidad = item.Cantidad - nc;
+                  newItem.cantidad = item.cantidad - nc;
                   newItem.isEmbalado = !isEmbalado;
-                  item.Cantidad = nc;
+                  item.cantidad = nc;
                   item.isEmbalado = isEmbalado;
                   this.pedido.Items.push(newItem);
                 } else {
@@ -270,8 +268,8 @@ export class PedidosEmbalarPage {
               (items[i].isStockActualizado == items[x].isStockActualizado) &&
               (items[i].Perfil.id == items[x].Perfil.id) &&
               (items[i].Color.id == items[x].Color.id)) {
-            items[i].Cantidad =
-                (items[i].Cantidad * 1) + (items[x].Cantidad * 1);
+            items[i].cantidad =
+                (items[i].cantidad * 1) + (items[x].cantidad * 1);
             items.splice(x, 1);
           }
         }
@@ -279,12 +277,12 @@ export class PedidosEmbalarPage {
     }
   }
 
-  private setPreparado(paquetes: number) {
+  private pedidoToEmbalado(paquetes: number) {
     let load = this.loadCtrl.create({content: 'Actualizando Stock...'});
     let toast = this.toastCtrl.create({position: 'middle'});
     load.present().then(() => {
-      this.pedido.CantidadPaquetes = paquetes;
-      this.pedidosP.prepararPedido(this.pedido)
+      this.pedido.cantidadPaquetes = paquetes;
+      this.pedidosP.setEmbalado(this.pedido)
           .subscribe(
               (ok) => {
                 this.navCtrl.pop();

@@ -35,13 +35,13 @@ export class ClienteCtaCteCardComponent {
       this.ctaCteP.getCtaCteCliente(this.cliente.id)
           .subscribe((ctacte) => {
             this.ctaCte = ctacte.sort((a, b) => {
-              return moment(a.Fecha, FECHA)
-                  .diff(moment(b.Fecha, FECHA), 'days');
+              return moment(a.fecha, FECHA)
+                  .diff(moment(b.fecha, FECHA), 'days');
             });
             this.saldo = 0.00;
             this.ctaCte.forEach((c) => {
-              this.saldo += c.Debe - c.Haber;
-              c.Saldo = this.saldo;
+              this.saldo += c.debe - c.haber;
+              c.saldo = this.saldo;
             });
           });
     }

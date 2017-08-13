@@ -29,7 +29,7 @@ export class ProductosPerfilesListPage {
   onSelectItem(perfil: Perfil) {
     let load = this.loadCtrl.create({content: 'Consultando Stock...'});
     let toast = this.toastCtrl.create({
-      message: `Perfil: ${perfil.Codigo} Sin Stock!`,
+      message: `Perfil: ${perfil.codigo} Sin Stock!`,
       position: 'middle',
       showCloseButton: true
     });
@@ -47,7 +47,7 @@ export class ProductosPerfilesListPage {
               });
               msg += `<strong>Total: </strong><strong> ${st}</strong><br>`;
               let showStock = this.alertCtrl.create({
-                title: `Stock ${perfil.Codigo}`,
+                title: `Stock ${perfil.codigo}`,
                 message: msg,
                 buttons: [{text: 'Aceptar', role: 'ok'}]
               });

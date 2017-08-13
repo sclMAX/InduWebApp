@@ -14,11 +14,10 @@ export class DescuentosProvider {
         obs.next(this.descuentos);
         obs.complete();
       } else {
-        let obj = this.db.object(SUC_DESCUENTOS_ROOT)
+        this.db.object(SUC_DESCUENTOS_ROOT)
                       .subscribe(
                           (ok: DescuentosGlobales) => {
                             this.descuentos = ok;
-                            obj.unsubscribe();
                             obs.next(this.descuentos);
                             obs.complete();
                           },
@@ -34,6 +33,6 @@ export class DescuentosProvider {
 export class DescuentosGlobales { Kilos: DescuentoKilos[] = []; }
 
 export class DescuentoKilos {
-  MinimoUnidades: number = 0;
-  Descuento: number = 0.00;
+  minimoUnidades: number = 0;
+  descuento: number = 0.00;
 }

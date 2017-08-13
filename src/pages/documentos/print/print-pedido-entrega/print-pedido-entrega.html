@@ -1,9 +1,9 @@
 <ion-grid fixed padding margin-auto>
   <ion-col>
     <ion-row ion-item text-center no-lines>
-      <h5 item-start>Pedido Nro:{{pedido?.Numero |number:'3.0-0'}}</h5>
-      <h4><strong>{{cliente?.id}} - {{cliente?.Nombre}}</strong></h4>
-      <h5 item-end>Fecha Pedido:{{pedido?.Fecha}}<br>Fecha Entrega:{{pedido?.FechaEntrega}}</h5>
+      <h5 item-start>Pedido Nro:{{pedido?.numero |number:'3.0-0'}}</h5>
+      <h4><strong>{{cliente?.id}} - {{cliente?.nombre}}</strong></h4>
+      <h5 item-end>Fecha Pedido:{{pedido?.fecha}}<br>Fecha Entrega:{{pedido?.fechaEntrega}}</h5>
     </ion-row>
     <ion-row ion-item no-lines>
       <ion-row>
@@ -19,7 +19,7 @@
         <ion-col>
           <ion-row><strong>Telefonos</strong></ion-row>
           <ion-row *ngFor="let tel of cliente?.Telefonos;let i=index">
-            <span *ngIf="i < 3">{{tel?.Contacto}}: {{tel.Numero}}</span></ion-row>
+            <span *ngIf="i < 3">{{tel?.contacto}}: {{tel.numero}}</span></ion-row>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -41,13 +41,13 @@
           <th>SubTotal</th>
         </tr>
         <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of pedido?.Items; let p=even" text-right>
-          <td>{{item?.Cantidad}}</td>
-          <td>{{item?.Perfil?.Codigo}}</td>
-          <td text-center>{{item?.Color?.Nombre}}</td>
-          <td text-center>{{item?.Perfil?.Largo}}</td>
-          <td>{{item?.Unidades |number:'1.2-2'}}kg.</td>
-          <td>U$ {{item?.PrecioUs |number:'1.2-2'}}</td>
-          <td>U$ {{(item?.Unidades * item?.PrecioUs)|number:'1.2-2'}}</td>
+          <td>{{item?.cantidad}}</td>
+          <td>{{item?.Perfil?.codigo}}</td>
+          <td text-center>{{item?.Color?.nombre}}</td>
+          <td text-center>{{item?.Perfil?.largo}}</td>
+          <td>{{item?.unidades |number:'1.2-2'}}kg.</td>
+          <td>U$ {{item?.precioUs |number:'1.2-2'}}</td>
+          <td>U$ {{(item?.unidades * item?.precioUs)|number:'1.2-2'}}</td>
         </tr>
       </table>
     </ion-row>
@@ -63,13 +63,13 @@
           <th>CV</th>
         </tr>
         <tr text-center>
-          <td>{{pedido?.CantidadPaquetes}}</td>
-          <td>{{pedido?.TotalUnidades |number:'1.2-2'}}kg.</td>
-          <td>U$ {{pedido?.TotalUs |number:'1.2-2'}}</td>
-          <td>{{pedido?.DescuentoKilos |number:'1.2-2'}}%</td>
-          <td>{{pedido?.DescuentoGeneral |number:'1.2-2'}}%</td>
+          <td>{{pedido?.cantidadPaquetes}}</td>
+          <td>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</td>
+          <td>U$ {{pedido?.totalUs |number:'1.2-2'}}</td>
+          <td>{{pedido?.descuentoKilos |number:'1.2-2'}}%</td>
+          <td>{{pedido?.descuentoGeneral |number:'1.2-2'}}%</td>
           <td>U$ {{getTotalConDescuentos() |number:'1.2-2'}}</td>
-          <td>{{pedido?.CV?.Tipo}}</td>
+          <td>{{pedido?.CV?.tipo}}</td>
         </tr>
       </table>
     </ion-row>
@@ -86,8 +86,8 @@
           <td>U$ {{calTotalFinal() |number:'1.2-2'}}</td>
           <td>U$ {{saldo |number:'1.2-2'}}</td>
           <td *ngIf="!pedido?.isEntregado">U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
-          <td>${{pedido?.Dolar?.Valor |number:'1.2-2'}}</td>
-          <td>$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.Valor |number:'1.2-2'}}</td>
+          <td>${{pedido?.Dolar?.valor |number:'1.2-2'}}</td>
+          <td>$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.valor |number:'1.2-2'}}</td>
         </tr>
       </table>
     </ion-row>

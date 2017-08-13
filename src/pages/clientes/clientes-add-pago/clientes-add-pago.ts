@@ -40,7 +40,7 @@ export class ClientesAddPagoPage {
     if (this.cliente) {
       this.newPago = new ClientePago();
       this.newPago.idCliente = this.cliente.id;
-      this.title = `Nuevo Pago Cliente ${this.cliente.Nombre}...`;
+      this.title = `Nuevo Pago Cliente ${this.cliente.nombre}...`;
       this.getData();
     } else {
       this.navCtrl.pop();
@@ -72,14 +72,14 @@ export class ClientesAddPagoPage {
   calTotalPago(): number {
     if (this.newPago && this.newPago.RefDolar) {
       let res: number = 0.00;
-      res = (this.newPago.Efectivo * 1 || 0) / (this.dolar.Valor * 1 || 1);
-      res += (this.newPago.Dolares * 1 || 0);
+      res = (this.newPago.efectivo * 1 || 0) / (this.dolar.valor * 1 || 1);
+      res += (this.newPago.dolares * 1 || 0);
       if (this.newPago.Cheques) {
         this.newPago.Cheques.forEach((c) => {
-          res += (c.Cheque.Monto * 1 || 0) / (c.Dolar.Valor * 1 || 1);
+          res += (c.Cheque.monto * 1 || 0) / (c.Dolar.valor * 1 || 1);
         });
       }
-      this.newPago.TotalUs = res;
+      this.newPago.totalUs = res;
       return res;
     }
     return 0.00;

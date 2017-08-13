@@ -1,20 +1,20 @@
 <ion-row no-padding>
   <!-- Cantidad -->
   <form-badge-input-item label="Cantidad" padding-left>
-    <button ion-button small clear (click)="goSelectCantidad()">{{newItem?.Cantidad || 'Cantidad ?' }}</button>
+    <button ion-button small clear (click)="goSelectCantidad()">{{newItem?.cantidad || 'Cantidad ?' }}</button>
   </form-badge-input-item>
   <!-- Perfil -->
   <form-badge-input-item label="Perfil" padding-left>
-    <button ion-button small clear (click)="goSelectPerfil()">{{newItem?.Perfil?.Codigo || 'Perfil ?'}}</button>
+    <button ion-button small clear (click)="goSelectPerfil()">{{newItem?.Perfil?.codigo || 'Perfil ?'}}</button>
   </form-badge-input-item>
   <!-- Color -->
   <form-badge-input-item label="Color" padding-left>
-    <button ion-button small clear (click)="goSelectColor()">{{newItem?.Color?.Nombre || 'Color ?'}}</button>
+    <button ion-button small clear (click)="goSelectColor()">{{newItem?.Color?.nombre || 'Color ?'}}</button>
   </form-badge-input-item>
   <ion-col align-self-center>
     <ion-row justify-content-center>
       <ion-col align-self-center>
-        <button ion-fab middle mini color="secondary" [disabled]="!(newItem.Cantidad > 0) || !newItem.Color || !newItem.Perfil" (click)="addItem()">
+        <button ion-fab middle mini color="secondary" [disabled]="!(newItem.cantidad > 0) || !newItem.Color || !newItem.Perfil" (click)="addItem()">
          <ion-icon name="add"></ion-icon>
         </button>
       </ion-col>

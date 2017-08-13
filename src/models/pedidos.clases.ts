@@ -8,32 +8,29 @@ import {FECHA} from './comunes.clases';
 
 export class Pedido extends Documento {
   idCliente: number;
-  FechaEntrega: string;
+  fechaEntrega: string;
   DireccionEntrega: Direccion;
-  isEntregado: boolean = false;
-  isEntransito: boolean = false;
-  isPreparado: boolean = false;
   Items: PedidoItem[] = [];
   Dolar: Dolar;
-  TotalUnidades: number = 0.00;
-  TotalUs: number = 0.00;
-  DescuentoKilos: number = 0.00;
-  DescuentoGeneral: number = 0.00;
-  CantidadPaquetes: number = 0;
+  totalUnidades: number = 0.00;
+  totalUs: number = 0.00;
+  descuentoKilos: number = 0.00;
+  descuentoGeneral: number = 0.00;
+  cantidadPaquetes: number = 0;
   CV: CV;
   constructor() {
     super();
-    this.FechaEntrega = moment().format(FECHA);
+    this.fechaEntrega = moment().format(FECHA);
   }
 }
 
 export class PedidoItem {
-  Cantidad: number;
+  cantidad: number;
   Perfil: Perfil;
   Color: Color;
-  Unidades: number;
-  PrecioUs: number;
-  Descuento: number;
+  unidades: number;
+  precioUs: number;
+  descuento: number;
   isEmbalado: boolean = false;
   isStockActualizado: boolean = false;
 }
@@ -42,12 +39,12 @@ export class PedidoItem {
 // Calcula el Subtotal con todos los descuentos
 export function calSubTotalCDs(pedido: Pedido): number {
   if (pedido) {
-    let subtotal: number = pedido.TotalUs;
-    if (pedido.DescuentoKilos > 0) {
-      subtotal = subtotal / (1 + (pedido.DescuentoKilos / 100));
+    let subtotal: number = pedido.totalUs;
+    if (pedido.descuentoKilos > 0) {
+      subtotal = subtotal / (1 + (pedido.descuentoKilos / 100));
     }
-    if (pedido.DescuentoGeneral > 0) {
-      subtotal = subtotal / (1 + (pedido.DescuentoGeneral / 100));
+    if (pedido.descuentoGeneral > 0) {
+      subtotal = subtotal / (1 + (pedido.descuentoGeneral / 100));
     }
     return subtotal;
   } else {
@@ -59,7 +56,7 @@ export function calSubTotalCDs(pedido: Pedido): number {
 export function calcularTotalFinal(pedido: Pedido): number {
   if (pedido && pedido.CV) {
     return calSubTotalCDs(pedido) *
-           ((pedido.CV.Monto > 0) ? (1 + (pedido.CV.Monto / 100)) : 1);
+           ((pedido.CV.monto > 0) ? (1 + (pedido.CV.monto / 100)) : 1);
   } else {
     return 0.00;
   }

@@ -6,20 +6,20 @@
   <ion-row ion-item no-lines no-padding color="subToolBar">
     <ion-col item-start>
       <ion-row><small>T.Kilos</small></ion-row>
-      <ion-row><small>{{pedido?.TotalUnidades |number:'1.2-2'}}kg.</small></ion-row>
+      <ion-row><small>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</small></ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>SubTotal</small></ion-row>
-      <ion-row>U${{pedido?.TotalUs |number:'1.2-2'}}</ion-row>
+      <ion-row>U${{pedido?.totalUs |number:'1.2-2'}}</ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>DK(%)</small></ion-row>
-      <ion-row><small>{{pedido?.DescuentoKilos |number:'1.2-2'}}%</small></ion-row>
+      <ion-row><small>{{pedido?.descuentoKilos |number:'1.2-2'}}%</small></ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>DG.(%)</small></ion-row>
       <ion-badge ion-button small color="scroll-content" (click)="setDescuentoGeneral()">
-        {{pedido?.DescuentoGeneral |number:'1.2-2'}}
+        {{pedido?.descuentoGeneral |number:'1.2-2'}}
       </ion-badge>
     </ion-col>
     <ion-col item-start>
@@ -29,7 +29,7 @@
     <ion-col item-start>
       <ion-row><small>CV</small></ion-row>
       <ion-badge ion-button small [color]="(pedido.CV)?'scroll-content':'danger'" (click)="setCV()">
-        {{pedido?.CV?.Tipo || '?'}}
+        {{pedido?.CV?.tipo || '?'}}
       </ion-badge>
     </ion-col>
     <ion-col item-start>
@@ -38,11 +38,11 @@
     </ion-col>
     <ion-col item-start>
       <ion-row><small>Dolar</small></ion-row>
-      <ion-row><small>${{pedido?.Dolar?.Valor |number:'1.2-2'}}</small></ion-row>
+      <ion-row><small>${{pedido?.Dolar?.valor |number:'1.2-2'}}</small></ion-row>
     </ion-col>
     <ion-col item-start>
       <ion-row><small>T.Final($)</small></ion-row>
-      <ion-row>${{calTotalFinal() * pedido?.Dolar?.Valor |number:'1.2-2'}}</ion-row>
+      <ion-row>${{calTotalFinal() * pedido?.Dolar?.valor |number:'1.2-2'}}</ion-row>
     </ion-col>
   </ion-row>
 </ion-footer>
@@ -51,5 +51,5 @@
   <br>
   <button ion-fab color="primary" [disabled]="!isValid()" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
   <br>
-  <button ion-fab color="secondary" [disabled]="!isValid()" (click)="print()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab color="dark" [disabled]="!isValid()" (click)="print()"><ion-icon name="print"></ion-icon></button>
 </ion-fab>

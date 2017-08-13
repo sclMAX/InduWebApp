@@ -1,8 +1,8 @@
 <ion-grid no-padding no-border>
   <ion-row>
     <button ion-item no-lines color="docHeader" text-center (click)="showClienteDetalle = !showClienteDetalle">
-      <h6 item-start>{{pedido?.Numero |number:'3.0-0'}} - {{pedido?.Fecha |date:'dd/MM/yyyy'}}</h6>
-      <h5>{{cliente?.Nombre}}</h5>
+      <h6 item-start>{{pedido?.numero |number:'3.0-0'}} - {{pedido?.fecha |date:'dd/MM/yyyy'}}</h6>
+      <h5>{{cliente?.nombre}}</h5>
     </button>
   </ion-row>
   <ion-row *ngIf="showClienteDetalle" padding >
@@ -17,14 +17,14 @@
         <ion-row>
           <h6>Direccion</h6>
         </ion-row>
-        <ion-row><span>{{cliente?.Direccion?.Calle}}, {{cliente?.Direccion?.Localidad}}</span></ion-row>
+        <ion-row><span>{{cliente?.Direccion?.calle}}, {{cliente?.Direccion?.localidad}}</span></ion-row>
       </ion-col>
       <ion-col>
         <ion-row>
           <h6>Telefonos</h6>
         </ion-row>
         <ion-row *ngFor="let tel of cliente?.Telefonos">
-          <span>{{tel?.Contacto}}: {{tel?.Numero}} </span> <br>
+          <span>{{tel?.contacto}}: {{tel?.numero}} </span> <br>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -33,7 +33,7 @@
         <ion-row>
           <h6>Direccion de Entrega</h6>
         </ion-row>
-        <ion-row><samp>{{pedido?.DireccionEntrega?.Calle}}, {{pedido?.DireccionEntrega?.Localidad}}</samp></ion-row>
+        <ion-row><samp>{{pedido?.DireccionEntrega?.calle}}, {{pedido?.DireccionEntrega?.localidad}}</samp></ion-row>
       </ion-col>
     </ion-row>
   </ion-row>

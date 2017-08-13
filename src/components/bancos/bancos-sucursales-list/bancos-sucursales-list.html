@@ -1,4 +1,4 @@
 <button ion-item [color]="(p)?colorPar:colorImpar" *ngFor="let sucursal of banco?.Sucursales; let p=even" (click)="onClick(sucursal)">
   <h3 item-start>{{sucursal?.id}}</h3>
-  <span>{{sucursal?.Nombre }}</span>
+  <span>{{sucursal?.nombre }}</span>
 </button>

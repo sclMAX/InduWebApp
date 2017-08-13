@@ -4,18 +4,19 @@ import * as moment from 'moment';
 
 export class Documento extends ClaseControlada {
   id: number;
-  Numero: number;
-  Fecha: string = moment().format(FECHA);
-  Comentario: string;
+  tipo:string;
+  numero: number;
+  fecha: string = moment().format(FECHA);
+  comentario: string;
 }
 
 export class DocStockIngreso extends Documento {
-  Remito: string;
+  remito: string;
   Items: DocStockItem[] = [];
 }
 
 export class DocStockItem extends ClaseControlada {
-  Cantidad: number = 0;
+  cantidad: number = 0;
   Perfil: Perfil;
   Color: Color;
   isStockActualizado: boolean = false;

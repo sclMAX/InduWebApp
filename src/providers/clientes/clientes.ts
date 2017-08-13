@@ -4,7 +4,6 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {Cliente} from '../../models/clientes.clases';
-import {COMUN_CONTADORES_CLIENTES} from '../../models/db-base-paths';
 import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 
 @Injectable()
@@ -31,18 +30,18 @@ export class ClientesProvider {
                   .update(updData)
                   .then((okAdd) => {
                     obs.next(`Se guardo correctamente el Cliente${cliente
-                                          .Nombre}`);
+                                          .nombre}`);
                     obs.complete();
 
                   })
                   .catch((errAdd) => {
                     obs.error(`No se pudo agregar el Cliente: ${cliente
-                                      .Nombre}`);
+                                      .nombre}`);
                     obs.complete();
                   });
             } else {
               obs.error(`No se puede guardar!.Ya existe un cliente ${cliente
-                          .Nombre}.`);
+                          .nombre}.`);
               obs.complete();
             }
           },
@@ -75,7 +74,7 @@ export class ClientesProvider {
                     obs.complete();
                   });
             } else {
-              obs.error(`Ya existe un Cliente ${cliente.Nombre}!`);
+              obs.error(`Ya existe un Cliente ${cliente.nombre}!`);
               obs.complete();
             }
           },
@@ -95,12 +94,12 @@ export class ClientesProvider {
       this.db.database.ref()
           .update(updData)
           .then(() => {
-            obs.next(`Cliente ${cliente.Nombre} Eliminado!`);
+            obs.next(`Cliente ${cliente.nombre} Eliminado!`);
             obs.complete();
           })
           .catch((error) => {
             obs.error(
-                `Error al intentar Eliminar el Cliente ${cliente.Nombre} !`);
+                `Error al intentar Eliminar el Cliente ${cliente.nombre} !`);
             obs.complete();
           });
     });
@@ -134,8 +133,8 @@ export class ClientesProvider {
       this.getAll().subscribe(
           (clientes) => {
             let c = clientes.find(item => {
-              return ((item.Nombre.trim().toLocaleLowerCase() ===
-                       cliente.Nombre.trim().toLocaleLowerCase()) &&
+              return ((item.nombre.trim().toLocaleLowerCase() ===
+                       cliente.nombre.trim().toLocaleLowerCase()) &&
                       (item.id != cliente.id));
             });
             if (c && c.id >= 0) {

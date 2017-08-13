@@ -44,7 +44,7 @@ export class ClienteActionToolBarComponent {
         this.alertCtrl.create({title: 'TELEFONOS', buttons: ['Cerrar']});
     let msg: string = '';
     cliente.Telefonos.forEach(
-        (tel) => { msg += `<h5>${tel.Contacto}: ${tel.Numero}</h5>`; });
+        (tel) => { msg += `<h5>${tel.contacto}: ${tel.numero}</h5>`; });
     alert.setMessage(msg);
     alert.present();
   }
@@ -73,7 +73,7 @@ export class ClienteActionToolBarComponent {
       title: 'Eliminar?',
       subTitle:
           `Esta seguro que quiere ELIMINAR definitivamete el cliente: ${cliente
-              .Nombre}?`,
+              .nombre}?`,
       buttons: [
         {text: 'Cancelar', role: 'cancel'},
         {

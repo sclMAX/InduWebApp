@@ -29,17 +29,17 @@ export class PedidoHeaderAddItemComponent {
     let alert = this.alertCtrl.create({
       title: 'Cantidad',
       inputs: [{
-        name: 'Cantidad',
+        name: 'cantidad',
         placeholder: 'Ingrese la cantida',
         type: 'number',
-        value: `${this.newItem.Cantidad}`
+        value: `${this.newItem.cantidad}`
       }],
       buttons: [{
         text: 'Aceptar',
         role: 'ok',
         handler: (data) => {
-          if (data.Cantidad > 0) {
-            this.newItem.Cantidad = data.Cantidad;
+          if (data.cantidad > 0) {
+            this.newItem.cantidad = data.cantidad;
             if (!this.newItem.Perfil) {
               this.goSelectPerfil();
             }
@@ -86,13 +86,12 @@ export class PedidoHeaderAddItemComponent {
           .subscribe(
               (stkEst: StockEstado) => {
                 let disponible = stkEst.disponible;
-                if (this.newItem.Cantidad > disponible) {
+                if (this.newItem.cantidad > disponible) {
                   load.dismiss();
                   let alert = this.alertCtrl.create({
                     title: 'Stock No Disponible!',
                     subTitle: 'No hay suficiente stock en el color solicitado.',
-                    buttons: [
-                      {text: 'Cancelar', role: 'cancel'}, {
+                    buttons: [ {
                         text: 'Aceptar',
                         role: 'ok',
                         handler: () => {
@@ -103,12 +102,15 @@ export class PedidoHeaderAddItemComponent {
                     ]
                   });
                   alert.setMessage(
-                      `Cantidad Pedida: ${this.newItem.Cantidad}<br>
-                                Stock Disponible: ${disponible} (${disponible -
+                      `<strong>Cantidad Pedida:</strong> ${this.newItem.cantidad
+                      }<br>
+                               <strong>Stock Disponible:</strong> ${disponible
+                      } (${disponible -
                       this.newItem
-                          .Cantidad})<br>
-                                Stock Total: ${stkEst.stock} (${stkEst.stock -
-                      this.newItem.Cantidad})<br>`);
+                          .cantidad})<br>
+                                <strong>Stock Total:</strong> ${stkEst
+                          .stock} (${stkEst.stock -
+                      this.newItem.cantidad})<br>`);
                   alert.present();
                 } else {
                   load.dismiss();

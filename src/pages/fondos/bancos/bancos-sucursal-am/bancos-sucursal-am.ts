@@ -22,12 +22,12 @@ export class BancosSucursalAmPage {
     if (this.oldSucursal) {
       this.newSucursal = JSON.parse(JSON.stringify(this.oldSucursal));
       this.isEdit = true;
-      this.title = `Editando Suc. ${this.newSucursal.Nombre}...`;
+      this.title = `Editando Suc. ${this.newSucursal.nombre}...`;
     } else {
       if(!this.banco.Sucursales){this.banco.Sucursales = [];}
       this.newSucursal = new BancoSucursal();
       this.isEdit = false;
-      this.title = `Agregar Suc. a ${this.banco.Nombre}`;
+      this.title = `Agregar Suc. a ${this.banco.nombre}`;
     }
   }
 

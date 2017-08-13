@@ -15,11 +15,11 @@
       <ion-col item-end>Saldo</ion-col>
     </ion-row>
     <ion-row ion-item *ngFor="let item of ctaCte">
-      <ion-col>{{item?.Fecha |date:'dd/MM/yyyy'}}</ion-col>
-      <ion-col>{{item?.TipoDocumento}}{{item?.Numero |number:'3.0-0'}}</ion-col>
-      <ion-col item-end>U$ {{item?.Debe |number:'1.2-2'}}</ion-col>
-      <ion-col item-end>U$ {{item?.Haber|number:'1.2-2'}}</ion-col>
-      <ion-col item-end>U$ {{item?.Saldo|number:'1.2-2'}}</ion-col>
+      <ion-col>{{item?.fecha |date:'dd/MM/yyyy'}}</ion-col>
+      <ion-col>{{item?.tipoDocumento}}{{item?.numero |number:'3.0-0'}}</ion-col>
+      <ion-col item-end>U$ {{item?.debe |number:'1.2-2'}}</ion-col>
+      <ion-col item-end>U$ {{item?.haber|number:'1.2-2'}}</ion-col>
+      <ion-col item-end>U$ {{item?.saldo|number:'1.2-2'}}</ion-col>
     </ion-row>
   </ion-list>
 </ion-card>

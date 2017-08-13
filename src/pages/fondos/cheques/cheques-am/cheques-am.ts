@@ -103,9 +103,9 @@ export class ChequesAmPage {
   removeFirmante(idx) { this.newCheque.Firmantes.splice(idx, 1); }
 
   chkFechaEmision(): boolean {
-    if (this.newCheque.FechaEmision) {
-      let fi = moment(this.newCheque.FechaIngreso, FECHA, true);
-      let fe = moment(this.newCheque.FechaEmision, FECHA, true);
+    if (this.newCheque.fechaEmision) {
+      let fi = moment(this.newCheque.fechaIngreso, FECHA, true);
+      let fe = moment(this.newCheque.fechaEmision, FECHA, true);
       if (fe.isValid()) {
         let dif = fe.diff(fi, 'days');
         if (dif <= 0) {
@@ -122,10 +122,10 @@ export class ChequesAmPage {
   }
 
   chkFechaCobro(): boolean {
-    if (this.newCheque.FechaCobro) {
-      let fi = moment(this.newCheque.FechaIngreso, FECHA, true);
-      let fe = moment(this.newCheque.FechaEmision, FECHA, true);
-      let fc = moment(this.newCheque.FechaCobro, FECHA, true);
+    if (this.newCheque.fechaCobro) {
+      let fi = moment(this.newCheque.fechaIngreso, FECHA, true);
+      let fe = moment(this.newCheque.fechaEmision, FECHA, true);
+      let fc = moment(this.newCheque.fechaCobro, FECHA, true);
       if (fc.isValid()) {
         if (fc.diff(fe, 'days') > -1) {
           if (fc.diff(fe, 'years') < 1) {
@@ -148,8 +148,8 @@ export class ChequesAmPage {
   }
 
   chkMonto(): boolean {
-    if (this.newCheque && this.newCheque.Monto) {
-      if (this.newCheque.Monto > 0) {
+    if (this.newCheque && this.newCheque.monto) {
+      if (this.newCheque.monto > 0) {
         return true;
       }
     }

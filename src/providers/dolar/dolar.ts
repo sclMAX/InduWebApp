@@ -15,8 +15,8 @@ export class DolarProvider {
     return new Observable((obs) => {
       this.db.object(COMUN_DOLAR)
           .subscribe((data: Dolar) => {
-            if (data.Valor > 0) {
-              obs.next(data.Valor);
+            if (data.valor > 0) {
+              obs.next(data.valor);
             } else {
               obs.error();
             }
@@ -38,11 +38,11 @@ export class DolarProvider {
     return new Observable((obs) => {
       let updData = {};
       let dolar: Dolar = new Dolar();
-      dolar.Fecha = moment().format(FECHA);
-      dolar.Valor = valor;
+      dolar.fecha = moment().format(FECHA);
+      dolar.valor = valor;
       dolar.id = 'Dolar';
       updData[`${COMUN_DOLAR}`] = dolar;
-      let now = moment(dolar.Fecha, FECHA);
+      let now = moment(dolar.fecha, FECHA);
       let id = `${now.year()}-${now.month()}-${now.day()}`;
       updData[`${ROOT}Comun/DolarHistorico/${id}`] = dolar;
       let log = this.sucP.genLog(dolar);

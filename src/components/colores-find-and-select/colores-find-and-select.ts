@@ -21,7 +21,7 @@ export class ColoresFindAndSelectComponent {
     if (val && val.trim().length > 0) {
       this.colores = this.colores.filter((color) => {
         return ((color) &&
-                (color.Nombre.toLowerCase().indexOf(val.toLowerCase()) > -1));
+                (color.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
   }

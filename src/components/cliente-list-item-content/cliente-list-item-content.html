@@ -3,8 +3,8 @@
     <h1>{{cliente?.id | number:'3.0-0'}} </h1>
   </div>
   <div  (click)="goCliente()" style="pointer-events:auto;cursor: pointer;">
-    <h2 item-start>{{cliente?.Nombre}} <span *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos[0].Numero != null))"> - Tel: {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</span></h2>
-    <p>{{cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Direccion?.Provincia}}</p>
+    <h2 item-start>{{cliente?.nombre}} <span *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos[0].numero != null))"> - Tel: {{cliente?.Telefonos[0]?.numero}} ({{cliente?.Telefonos[0]?.contacto}})</span></h2>
+    <p>{{cliente?.Direccion?.calle}} - {{cliente?.Direccion?.localidad}} - {{cliente?.Direccion?.provincia}}</p>
   </div>
   <div item-end *ngIf="isShowActions">
     <cliente-action-tool-bar [color]="color" (onVer)="goCliente()" [cliente]="cliente"></cliente-action-tool-bar>

@@ -7,14 +7,17 @@ export class UserLogin {
 
 export class Usuario {
   id: string;
-  Sucursal: string;
-  Nombre: string;
+  sucursal: string;
+  nombre: string;
+  email:string;
+  localidad:string;
+  provincia:string;
   isEmbalaje: boolean = true;
-  MaxDescuentoItem: number = 0.00;
-  MaxDescuentoGeneral: number = 0.00;
+  maxDescuentoItem: number = 0.00;
+  maxDescuentoGeneral: number = 0.00;
 }
 
 export class UserDoc {
   Usuario: Usuario = new Usuario();
-  Fecha: string = moment().format(FECHA_FULL);
+  fecha: string = moment().format(FECHA_FULL);
 }

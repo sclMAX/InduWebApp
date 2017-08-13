@@ -28,17 +28,17 @@ export class BancosProvider {
                       .update(updData)
                       .then(() => {
                         obs.next(
-                            `Se guardo correctamente el Banco ${banco.Nombre}`);
+                            `Se guardo correctamente el Banco ${banco.nombre}`);
                         obs.complete();
                       })
                       .catch((error) => {
                         obs.error(
-                            `No se pudo guardar el Banco ${banco.Nombre}!... Error: ${error}`);
+                            `No se pudo guardar el Banco ${banco.nombre}!... Error: ${error}`);
                         obs.complete();
                       });
                 } else {
                   obs.error(
-                      `Ya existe el Banco Nro:${banco.id} y/o ${banco.Nombre}!`);
+                      `Ya existe el Banco Nro:${banco.id} y/o ${banco.nombre}!`);
                   obs.complete();
                 }
               },
@@ -64,17 +64,17 @@ export class BancosProvider {
                       .update(updData)
                       .then(() => {
                         obs.next(
-                            `Se guardo correctamente el Banco ${banco.Nombre}`);
+                            `Se guardo correctamente el Banco ${banco.nombre}`);
                         obs.complete();
                       })
                       .catch((error) => {
                         obs.error(
-                            `No se pudo guardar el Banco ${banco.Nombre}!... Error: ${error}`);
+                            `No se pudo guardar el Banco ${banco.nombre}!... Error: ${error}`);
                         obs.complete();
                       });
                 } else {
                   obs.error(
-                      `No se puede guardar! Ya existe un Banco ${banco.Nombre}!`);
+                      `No se puede guardar! Ya existe un Banco ${banco.nombre}!`);
                   obs.complete();
                 }
               },
@@ -119,12 +119,12 @@ export class BancosProvider {
                   let otro = bancos.find((b) => {
                     if (isNew) {
                       return ((b.id == banco.id) ||
-                              (b.Nombre.trim().toLowerCase() ==
-                               banco.Nombre.trim().toLowerCase()));
+                              (b.nombre.trim().toLowerCase() ==
+                               banco.nombre.trim().toLowerCase()));
                     } else {
                       return ((b.id != banco.id) &&
-                              (b.Nombre.trim().toLowerCase() ==
-                               banco.Nombre.trim().toLowerCase()));
+                              (b.nombre.trim().toLowerCase() ==
+                               banco.nombre.trim().toLowerCase()));
                     }
                   });
                   obs.next((otro) ? false : true);

@@ -26,10 +26,10 @@ export class StockIngresoAddItemComponent {
       title: 'Cantidad',
       inputs: [
         {
-          name: 'Cantidad',
+          name: 'cantidad',
           placeholder: 'Ingrese la cantida',
           type: 'number',
-          value: `${this.newItem.Cantidad || 1}`
+          value: `${this.newItem.cantidad || 1}`
         }
       ],
       buttons: [
@@ -37,8 +37,8 @@ export class StockIngresoAddItemComponent {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
-            if (data.Cantidad > 0) {
-              this.newItem.Cantidad = data.Cantidad;
+            if (data.cantidad > 0) {
+              this.newItem.cantidad = data.cantidad;
               if (!this.newItem.Perfil) {
                 this.goSelectPerfil();
               }

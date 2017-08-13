@@ -35,12 +35,12 @@ export class ClientesHomePage {
       if (val && val.trim() != '') {
         val = val.toLowerCase();
         this.filterClientes = this.clientes.filter((cliente) => {
-          return (cliente.id.toString().toLowerCase().indexOf(val) > -1) ||
-                 (cliente.Nombre.toLowerCase().indexOf(val) > -1) ||
-                 (cliente.Email.toLowerCase().indexOf(val) > -1) ||
+          return (cliente.id && cliente.id.toString().toLowerCase().indexOf(val) > -1) ||
+                 (cliente.nombre && cliente.nombre.toLowerCase().indexOf(val) > -1) ||
+                 (cliente.email && cliente.email.toLowerCase().indexOf(val) > -1) ||
                  ((cliente.Direccion != null) &&
-                  ((cliente.Direccion.Calle.toLowerCase().indexOf(val) > -1) ||
-                   (cliente.Direccion.Localidad.toLowerCase().indexOf(val) >
+                  (( cliente.Direccion.calle && cliente.Direccion.calle.toLowerCase().indexOf(val) > -1) ||
+                   (cliente.Direccion.localidad && cliente.Direccion.localidad.toLowerCase().indexOf(val) >
                     -1)));
         });
       }
@@ -55,7 +55,7 @@ export class ClientesHomePage {
         val = val.toLowerCase();
         this.filterClientes = this.clientes.filter((cliente) => {
           return (cliente.Telefonos.filter((tel) => {
-                   return tel.Numero.toLowerCase().indexOf(val) > -1;
+                   return tel.numero.toLowerCase().indexOf(val) > -1;
                  })).length > 0;
         });
       }

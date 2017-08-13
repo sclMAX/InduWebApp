@@ -1,21 +1,16 @@
-import {ContadoresProvider} from './../contadores/contadores';
-import {
-  SUC_DOCUMENTOS_PAGOS_ROOT,
-  SUC_FONDOS_CHEQUES_CARTERA,
-  SUC_CONTADORES_ROOT,
-  SUC_DOCUMENTOS_CTASCTES_ROOT,
-  SUC_LOG_ROOT,
-  SucursalProvider
-} from './../sucursal/sucursal';
-import {Observable} from 'rxjs/Observable';
-import {ClientePago, CtaCte} from './../../models/clientes.clases';
-import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+
+import {ClientePago, CtaCte} from './../../models/clientes.clases';
+import {ContadoresProvider} from './../contadores/contadores';
+import {SUC_DOCUMENTOS_CTASCTES_ROOT, SUC_DOCUMENTOS_PAGOS_ROOT, SUC_FONDOS_CHEQUES_CARTERA, SUC_LOG_ROOT, SucursalProvider} from './../sucursal/sucursal';
 
 @Injectable()
 export class PagosProvider {
-  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
-              private contadoresP: ContadoresProvider) {}
+  constructor(
+      private db: AngularFireDatabase, private sucP: SucursalProvider,
+      private contadoresP: ContadoresProvider) {}
 
   add(pago: ClientePago): Observable<string> {
     return new Observable((obs) => {
@@ -28,21 +23,22 @@ export class PagosProvider {
       // Cheques
       pago.Cheques.forEach((cheque) => {
         cheque.Cheque.id =
-            `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal}-${cheque.Cheque.Numero}`;
+            `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
+            }-${cheque.Cheque.numero}`;
         cheque.Cheque.Creador = this.sucP.genUserDoc();
         updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.Cheque.id}/`] =
             cheque.Cheque;
       });
       // Cta Cte
       let cta = new CtaCte();
-      cta.TipoDocumento = 'Pago';
+      cta.tipoDocumento = 'Pago';
       cta.Creador = this.sucP.genUserDoc();
-      cta.Numero = Nro;
-      cta.Fecha = pago.Fecha;
-      cta.Debe = 0.00;
-      cta.Haber = pago.TotalUs;
-      cta.Saldo = cta.Debe - cta.Haber;
-      cta.id = `${cta.TipoDocumento}${cta.Numero}`;
+      cta.numero = Nro;
+      cta.fecha = pago.fecha;
+      cta.debe = 0.00;
+      cta.haber = pago.totalUs;
+      cta.saldo = cta.debe - cta.haber;
+      cta.id = `${cta.tipoDocumento}${cta.numero}`;
       updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pago.idCliente}/${cta.id}/`] =
           cta;
       // Contador

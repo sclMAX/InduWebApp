@@ -1,4 +1,3 @@
-import {Contadores} from './../../models/comunes.clases';
 import {SUC_CONTADORES_ROOT} from './../sucursal/sucursal';
 import {COMUN_CONTADORES_ROOT} from './../../models/db-base-paths';
 import {SucursalContadores} from './../../models/sucursal.clases';
@@ -13,7 +12,7 @@ export class ContadoresProvider {
   getPagosCurrentNro(realtime: boolean = true): Observable<number> {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
-      this.db.database.ref(`${SUC_CONTADORES_ROOT}Pago/`)
+      this.db.database.ref(`${SUC_CONTADORES_ROOT}pago/`)
           .on('value',
               (snap) => {
                 obs.next(snap.val() + 1 || 1);
@@ -27,13 +26,13 @@ export class ContadoresProvider {
   }
 
   genPagosUpdateData(updData, valor) {
-    updData[`${SUC_CONTADORES_ROOT}Pago/`] = valor;
+    updData[`${SUC_CONTADORES_ROOT}pago/`] = valor;
   }
 
   getClientesCurrentId(realtime: boolean = true): Observable<number> {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
-      this.db.database.ref(`${COMUN_CONTADORES_ROOT}Cliente/`)
+      this.db.database.ref(`${COMUN_CONTADORES_ROOT}cliente/`)
           .on('value',
               (snap) => {
                 obs.next(snap.val() + 1 || 1);
@@ -46,14 +45,14 @@ export class ContadoresProvider {
     });
   }
   genClientesUpdateData(updData, valor) {
-    updData[`${COMUN_CONTADORES_ROOT}Cliente/`] = valor;
+    updData[`${COMUN_CONTADORES_ROOT}cliente/`] = valor;
   }
 
-  getPedidosCurrentNro(tipo: string = 'Pedido',
+  getPedidosCurrentNro(tipo: string ,
                        realtime: boolean = true): Observable<number> {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
-      this.db.database.ref(`${SUC_CONTADORES_ROOT}${tipo}/`)
+      this.db.database.ref(`${SUC_CONTADORES_ROOT}${tipo.toLowerCase()}/`)
           .on('value',
               (snap) => {
                 obs.next(snap.val() + 1 || 1);
@@ -66,15 +65,15 @@ export class ContadoresProvider {
     });
   }
 
-  genPedidosUpdateData(updData, valor, tipo) {
-    updData[`${SUC_CONTADORES_ROOT}${tipo}/`] = valor;
+  genPedidosUpdateData(updData, valor, tipo:string) {
+    updData[`${SUC_CONTADORES_ROOT}${tipo.toLowerCase()}/`] = valor;
   }
 
   getStockIngresoCurrentNro(): Observable<number> {
     return new Observable((obs) => {
       this.db.object(SUC_CONTADORES_ROOT)
           .subscribe((contadores: SucursalContadores) => {
-            obs.next(contadores.DocStockIngreso * 1 + 1 || 1);
+            obs.next(contadores.docStockIngreso * 1 + 1 || 1);
           }, (error) => { obs.error(error); });
     });
   }

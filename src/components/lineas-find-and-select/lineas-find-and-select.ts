@@ -21,7 +21,7 @@ export class LineasFindAndSelectComponent {
     if (val && val.trim().length > 0) {
       this.lineas = this.lineas.filter((linea) => {
         return ((linea) &&
-                (linea.Nombre.toLowerCase().indexOf(val.toLowerCase()) > -1));
+                (linea.nombre.toLowerCase().indexOf(val.toLowerCase()) > -1));
       });
     }
   }

@@ -1,47 +1,76 @@
 <ion-content>
   <ion-item color="scroll-content" no-lines>
-    <pedido-header-edit [tipo]="tipo" [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
+    <pedido-header-edit [tipo]="pedido.tipo" [validDireccion]="isDireccionValid()" [cliente]="cliente" [(pedido)]="pedido"></pedido-header-edit>
   </ion-item>
   <ion-list padding color="scroll-content">
     <pedido-items-item [(pedido)]="pedido"></pedido-items-item>
   </ion-list>
 </ion-content>
-<ion-footer>
-  <ion-grid no-padding>
-    <ion-row ion-item color="footer">
-      <ion-col item-start>
-        <small>U$1 = ${{dolarValor |number:'1.3-3'}}</small>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row> <small>Barras</small></ion-row>
-        <ion-row>{{calTotalBarras()|number}}</ion-row>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row> <small>Kilos</small></ion-row>
-        <ion-row>{{calTotalUnidades()|number:'1.2-2'}}kg.</ion-row>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row> <small>Total SD</small></ion-row>
-        <ion-row>U${{calTotalU$() |number:'1.2-2'}}</ion-row>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row> <small>Des. Kilos</small></ion-row>
-        <ion-row>{{calDescuentoKilos()|number:'1.2-2'}}%</ion-row>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row> <small>Total CD</small></ion-row>
-        <ion-row>U${{calTotalU$ConDescuento() |number:'1.2-2'}}</ion-row>
-      </ion-col>
-      <ion-col item-start>
-        <ion-row> <small>T. Pesos</small></ion-row>
-        <ion-row>${{calTotal$() | async |number:'1.2-2'}}</ion-row>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-footer no-padding no-border>
+  <ion-row ion-item no-lines no-padding color="subToolBar">
+    <!-- Total Barras -->
+    <ion-col item-start>
+      <ion-row> <small>Barras</small></ion-row>
+      <ion-row><small>{{calTotalBarras()|number}}</small></ion-row>
+    </ion-col>
+    <!-- Total Kilos -->
+    <ion-col item-start>
+      <ion-row><small>T.Kilos</small></ion-row>
+      <ion-row><small>{{calTotalUnidades()|number:'1.2-2'}}kg.</small></ion-row>
+    </ion-col>
+    <!-- SubTotal U$ -->
+    <ion-col item-start>
+      <ion-row><small>SubTotal</small></ion-row>
+      <ion-row>U${{calTotalU$() |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <!-- Descuento Kilos -->
+    <ion-col item-start>
+      <ion-row><small>DK(%)</small></ion-row>
+      <ion-row><small>{{calDescuentoKilos() |number:'1.2-2'}}%</small></ion-row>
+    </ion-col>
+    <!-- Descuento General -->
+    <ion-col item-start>
+      <ion-row><small>DG.(%)</small></ion-row>
+      <ion-badge ion-button small color="scroll-content" (click)="setDescuentoGeneral()">
+        {{pedido?.descuentoGeneral |number:'1.2-2'}}
+      </ion-badge>
+    </ion-col>
+    <!-- Total Neto U$ -->
+    <ion-col item-start>
+      <ion-row><small>Total Neto</small></ion-row>
+      <ion-row>U${{calTotalNeto() |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <!-- CV -->
+    <ion-col item-start>
+      <ion-row><small>CV</small></ion-row>
+      <ion-badge ion-button small [color]="(pedido.CV)?'scroll-content':'danger'" (click)="setCV()">
+        {{pedido?.CV?.tipo || '?'}}
+      </ion-badge>
+    </ion-col>
+    <!-- Total Final U$ -->
+    <ion-col item-start>
+      <ion-row><small>T.Final(U$)</small></ion-row>
+      <ion-row>U${{calTotalFinal() |number:'1.2-2'}}</ion-row>
+    </ion-col>
+    <!-- Referencia Dolar -->
+    <ion-col item-start>
+      <ion-row><small>Dolar</small></ion-row>
+      <ion-row><small>${{dolarValor |number:'1.2-2'}}</small></ion-row>
+    </ion-col>
+    <!-- Total Final $ -->
+    <ion-col item-start>
+      <ion-row><small>T.Final($)</small></ion-row>
+      <ion-row>${{calTotalFinal() * dolarValor |number:'1.2-2'}}</ion-row>
+    </ion-col>
+  </ion-row>
 </ion-footer>
+
 <ion-fab top right>
-  <button ion-fab  color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button><br>
-  <button ion-fab  color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
   <br>
-  <button ion-fab  color="primary" [disabled]="!isValid()" (click)="confirmar()"><ion-icon name="done-all"></ion-icon></button>
+  <button ion-fab color="danger" [disabled]="!isEdit || chkExistEmbalados()" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
+  <br>
+  <button ion-fab color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <br>
+  <button ion-fab color="primary" [disabled]="!isValid()" (click)="confirmar()"><ion-icon name="done-all"></ion-icon></button>
 </ion-fab>

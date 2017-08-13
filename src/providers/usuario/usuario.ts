@@ -19,7 +19,7 @@ export class UsuarioProvider {
               this.db.object(`${USUARIOS}${user.uid}`)
                   .subscribe(
                       (usuario: Usuario) => {
-                        if (usuario.id && usuario.Sucursal) {
+                        if (usuario.id && usuario.sucursal) {
                           obs.next(usuario);
                         } else {
                           obs.error();
@@ -75,6 +75,6 @@ export class UsuarioProvider {
 }
 
 export class CV {
-  Tipo: string;
-  Monto: number = 0.00;
+  tipo: string;
+  monto: number = 0.00;
 }

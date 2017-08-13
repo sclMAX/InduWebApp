@@ -8,8 +8,8 @@
   <ion-list>
     <button ion-item (click)="onSelectLinea(linea)" *ngFor="let linea of lineas;let p=even" color="{{(p)?'listPar':'listImpar'}}"
       no-lines>
-      <h2>{{linea?.Nombre}}</h2>
-      <p>{{linea?.Descripcion}}</p>
+      <h2>{{linea?.nombre}}</h2>
+      <p>{{linea?.descripcion}}</p>
     </button>
   </ion-list>
 </ion-content>

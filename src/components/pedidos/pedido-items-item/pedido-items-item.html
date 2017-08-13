@@ -9,14 +9,14 @@
     <ion-col item-start>SubTotal (U$)</ion-col>
   </ion-row>
   <ion-row ion-item color="{{(p)?'listPar':'listImpar'}}" *ngFor="let item of pedido.Items;let idx=index; let p=even" no-lines>
-    <ion-col item-start>{{item?.Cantidad}}</ion-col>
-    <ion-col item-start>{{item?.Perfil?.Codigo}}</ion-col>
-    <ion-col item-start>{{item?.Color.Nombre}}</ion-col>
-    <ion-col item-start>{{item?.Perfil?.Largo}}</ion-col>
+    <ion-col item-start>{{item?.cantidad}}</ion-col>
+    <ion-col item-start>{{item?.Perfil?.codigo}}</ion-col>
+    <ion-col item-start>{{item?.Color.nombre}}</ion-col>
+    <ion-col item-start>{{item?.Perfil?.largo}}</ion-col>
     <ion-col item-start>{{calUnidades(item)|number:'1.2-2'}}Kg</ion-col>
-    <ion-col item-start *ngIf="(calPrecioU$(item) < item?.Color?.PrecioUs)" no-padding>
+    <ion-col item-start *ngIf="(calPrecioU$(item) < item?.Color?.precioUs)" no-padding>
       <ion-row no-padding>
-        <ion-badge color="toolBar"><small>U${{item?.Color?.PrecioUs |number:'1.2-2'}}</small></ion-badge>
+        <ion-badge color="toolBar"><small>U${{item?.Color?.precioUs |number:'1.2-2'}}</small></ion-badge>
       </ion-row>
       <ion-row no-padding>
         <ion-badge color="danger">
@@ -24,10 +24,11 @@
         </ion-badge>
       </ion-row>
     </ion-col>
-    <ion-col item-start *ngIf="!(calPrecioU$(item) < item?.Color?.PrecioUs)">
+    <ion-col item-start *ngIf="!(calPrecioU$(item) < item?.Color?.precioUs)">
       U$ {{calPrecioU$(item)|number:'1.2-2'}}
     </ion-col>
     <ion-col item-start>U$ {{calSubTotalU$(item)|number:'1.2-2'}}</ion-col>
-    <button *ngIf="showRemove" ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
+    <button *ngIf="showRemove && !item?.isEmbalado" ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
+    <button *ngIf="item?.isEmbalado" ion-button clear item-end color="secondary"><ion-icon name="checkmark"></ion-icon></button>
   </ion-row>
 </ion-grid>

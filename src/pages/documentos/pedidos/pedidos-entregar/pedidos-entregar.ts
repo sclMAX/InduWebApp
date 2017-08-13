@@ -45,7 +45,7 @@ export class PedidosEntregarPage {
     if (!this.pedido || !this.cliente) {
       this.navCtrl.pop();
     } else {
-      this.pedido.FechaEntrega = moment().format(FECHA);
+      this.pedido.fechaEntrega = moment().format(FECHA);
       this.usuarioP.getCurrentUser().subscribe(
           (user) => { this.usuario = user; });
       this.usuarioP.getCV().subscribe((cvs) => { this.CVs = cvs; });
@@ -88,15 +88,15 @@ export class PedidosEntregarPage {
   setDescuentoGeneral() {
     let alert = this.alertCtrl.create({
       title: 'Descuento General (%)',
-      subTitle: `maximo autorizado ${this.usuario.MaxDescuentoGeneral}%`,
+      subTitle: `maximo autorizado ${this.usuario.maxDescuentoGeneral}%`,
       inputs: [
         {
           type: 'number',
           name: 'descuento',
           placeholder: 'Ingrese el descuento...',
           min: 0,
-          max: this.usuario.MaxDescuentoGeneral,
-          value: `${this.pedido.DescuentoGeneral}`
+          max: this.usuario.maxDescuentoGeneral,
+          value: `${this.pedido.descuentoGeneral}`
         }
       ],
       buttons: [
@@ -107,8 +107,8 @@ export class PedidosEntregarPage {
           handler: (data) => {
             if (data) {
               let d: number = data.descuento * 1;
-              if (d >= 0 && d <= this.usuario.MaxDescuentoGeneral) {
-                this.pedido.DescuentoGeneral = d;
+              if (d >= 0 && d <= this.usuario.maxDescuentoGeneral) {
+                this.pedido.descuentoGeneral = d;
               }
             }
           }
@@ -140,7 +140,7 @@ export class PedidosEntregarPage {
         name: `${idx}`,
         type: 'radio',
         value: `${idx}`,
-        label: cv.Tipo,
+        label: cv.tipo,
         checked: cv == this.pedido.CV
       });
     });

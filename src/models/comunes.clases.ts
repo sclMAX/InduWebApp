@@ -5,7 +5,7 @@ export class Contadores { Clientes: number; }
 
 export class Log {
   id: number;
-  Fecha: string;
+  fecha: string;
   Data: any;
   Usuario: Usuario;
 }

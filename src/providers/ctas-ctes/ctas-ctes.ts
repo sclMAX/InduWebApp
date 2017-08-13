@@ -13,8 +13,8 @@ export class CtasCtesProvider {
           (cta) => {
             let saldo: number = 0.00;
             cta.forEach((i) => {
-              saldo += i.Debe || 0 - i.Haber || 0;
-              i.Saldo = saldo;
+              saldo += i.debe || 0 - i.haber || 0;
+              i.saldo = saldo;
             });
             obs.next(saldo);
             obs.complete();

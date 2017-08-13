@@ -3,7 +3,7 @@
     <!-- Header -->
     <ion-row ion-item text-center no-lines>
       <h2>Detalle Cta. Cte.</h2>
-      <h3><strong>{{cliente?.id}} - {{cliente?.Nombre}}</strong></h3>
+      <h3><strong>{{cliente?.id}} - {{cliente?.nombre}}</strong></h3>
       <h5 item-end>Fecha: {{fecha|date:'dd/MM/yyyy'}}</h5>
     </ion-row>
     <!-- Body -->
@@ -17,11 +17,11 @@
           <th>Saldo</th>
         </tr>
         <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of ctaCte; let p=even" text-right>
-          <td>{{item?.Fecha}}</td>
-          <td>{{item?.TipoDocumento}}-{{item?.Numero |number:'3.0-0'}}</td>
-          <td>U$ {{item?.Debe |number:'1.2-2'}}</td>
-          <td>U$ {{item?.Haber |number:'1.2-2'}}</td>
-          <td>U$ {{item?.Saldo |number:'1.2-2'}}</td>
+          <td>{{item?.fecha}}</td>
+          <td>{{item?.tipoDocumento}}-{{item?.numero |number:'3.0-0'}}</td>
+          <td>U$ {{item?.debe |number:'1.2-2'}}</td>
+          <td>U$ {{item?.haber |number:'1.2-2'}}</td>
+          <td>U$ {{item?.saldo |number:'1.2-2'}}</td>
         </tr>
       </table>
     </ion-row>

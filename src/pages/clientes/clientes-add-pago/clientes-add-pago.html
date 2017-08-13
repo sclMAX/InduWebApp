@@ -16,7 +16,7 @@
       </form-badge-item>
       <!-- Ref Dolar -->
       <form-badge-input-item label="Ref. Dolar" padding-left>
-        <ion-input type="number" name="dolarValor" readonly=false [value]="dolar?.Valor"></ion-input>
+        <ion-input type="number" name="dolarValor" readonly=false [value]="dolar?.valor"></ion-input>
       </form-badge-input-item>
       <!-- Total Pago -->
       <form-badge-item label="Total Pago (U$)" padding-left>
@@ -52,21 +52,21 @@
       <button item-end ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button>
       <!-- Nro Cheque -->
       <form-badge-item item-start label="Nro. Cheque">
-        <h2>{{cheque?.Cheque?.idBanco |number:'3.0-0'}}-{{cheque?.Cheque?.idSucursal |number:'3.0-0'}}-{{cheque?.Cheque?.Numero
+        <h2>{{cheque?.Cheque?.idBanco |number:'3.0-0'}}-{{cheque?.Cheque?.idSucursal |number:'3.0-0'}}-{{cheque?.Cheque?.numero
           |number:'8.0-0'}}
         </h2>
       </form-badge-item>
       <!-- Monto -->
       <form-badge-item item-start label="Monto($)">
-        <h2>$ {{cheque?.Cheque?.Monto |number:'1.2-2'}}</h2>
+        <h2>$ {{cheque?.Cheque?.monto |number:'1.2-2'}}</h2>
       </form-badge-item>
       <!-- Dolar Cheque -->
       <form-badge-input-item item-start label="Ref Dolar Cheque">
-        <ion-input type="number" name="dolar" [(ngModel)]="cheque?.Dolar.Valor"></ion-input>
+        <ion-input type="number" name="dolar" [(ngModel)]="cheque?.Dolar.valor"></ion-input>
       </form-badge-input-item>
       <!-- Monto en Dolares -->
       <form-badge-item item-start label="Monto(U$)">
-        <h2>U$ {{(cheque?.Cheque?.Monto / cheque?.Dolar?.Valor) |number:'1.2-2'}}</h2>
+        <h2>U$ {{(cheque?.Cheque?.monto / cheque?.Dolar?.valor) |number:'1.2-2'}}</h2>
       </form-badge-item>
     </ion-row>
   </ion-grid>

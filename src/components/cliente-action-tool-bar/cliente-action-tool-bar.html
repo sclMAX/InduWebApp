@@ -4,13 +4,13 @@
     <button ion-button icon-only (click)="newPedido(cliente)"><ion-icon name="icon-ind_new-document" ></ion-icon></button>
     <button ion-button icon-only (click)="newPago(cliente)"><ion-icon name="logo-usd" ></ion-icon></button>
     <button ion-button icon-only *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos.length > 1))" (click)="showTelefonos(cliente)"><ion-icon name="call" ></ion-icon></button>
-    <a *ngIf="cliente.Email" ion-button icon-only href="http://www.indumatics.com.ar/webmail/src/compose.php?mailbox=INBOX&startMessage=1&send_to={{cliente?.Email}}"
+    <a *ngIf="cliente.email" ion-button icon-only href="http://www.indumatics.com.ar/webmail/src/compose.php?mailbox=INBOX&startMessage=1&send_to={{cliente?.Email}}"
       target="_blank">
       <ion-icon name="at"></ion-icon>
     </a>
     <div ion-button icon-only style="width: 10px; pointer-events: none;"></div>
     <button *ngIf="showDetalle" ion-button icon-only (click)="goCliente()"><ion-icon name="icon-ind_user" ></ion-icon></button>
     <button ion-button icon-only (click)="goClienteUpdate(cliente)"><ion-icon name="icon-ind_user-check" ></ion-icon></button>
-    <button *ngIf="showRemove" ion-button icon-only (click)="removeCliente(cliente)"><ion-icon name="icon-ind_user-remove" ></ion-icon></button>
+    <button *ngIf="showRemove" ion-button icon-only color="danger" (click)="removeCliente(cliente)"><ion-icon name="icon-ind_user-remove" ></ion-icon></button>
   </ion-buttons>
 </ion-navbar>

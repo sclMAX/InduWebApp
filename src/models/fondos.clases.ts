@@ -5,52 +5,52 @@ export class Fondos {}
 
 export class Dolar {
   id: string = "Dolar";
-  Fecha: string = moment().format(FECHA);
-  Valor: number;
+  fecha: string = moment().format(FECHA);
+  valor: number;
 }
 
 export class Cheque extends ClaseControlada {
   id: string;  // "idBanco"-"idSucursal"-"Numero"
   idBanco: number;
   idSucursal: number;
-  Numero: number;
-  FechaIngreso: string = moment().format(FECHA);
-  FechaEmision: string;
-  FechaCobro: string;
-  Monto: number;
-  Cuenta: string;
+  numero: number;
+  fechaIngreso: string = moment().format(FECHA);
+  fechaEmision: string;
+  fechaCobro: string;
+  monto: number;
+  cuenta: string;
   Firmantes: ChequeFirmante[] = [];
   EntregadoPor: ChequeEntregadoPor;
   EntregadoA: ChequeEntregadoA;
-  Comentarios: string;
+  comentarios: string;
 }
 
 export class ChequeEntregadoPor {
-  Sucursal: string;
+  sucursal: string;
   idCliente: number;
 }
 
 export class ChequeEntregadoA {
-  Nombre: string;
-  Fecha: string = moment().format(FECHA);
+  nombre: string;
+  fecha: string = moment().format(FECHA);
 }
 
 export class ChequeFirmante {
   CUIT: number;
-  Nombre: string;
+  nombre: string;
 }
 
 export class Banco extends ClaseControlada {
   id: number;
-  Nombre: string;
+  nombre: string;
   Sucursales: BancoSucursal[] = [];
 }
 
 export class BancoSucursal {
   id: number;
-  Nombre: string;
-  Direccion: Direccion = new Direccion();
-  Telefono: string;
+  nombre: string;
+  direccion: Direccion = new Direccion();
+  telefono: string;
 }
 
 export function validaCuit(cuit: string) {

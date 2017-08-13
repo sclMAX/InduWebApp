@@ -90,22 +90,22 @@ export class ProductosProvider {
       return Math.round(value * multiplier) / multiplier;
     };
     p.id = wp[idx].idPerfil;
-    p.Codigo = p.id;
-    p.Descripcion = wp[idx].descripcion;
-    p.Largo = wp[idx].largo;
-    p.BarrasPaquete = wp[idx].bxp;
-    p.PesoBase = wp[idx].pxm;
-    p.PesoNatural = round(p.PesoBase * 1.03, 3);
-    p.PesoPintado = round(p.PesoBase * 1.08, 3);
+    p.codigo = p.id;
+    p.descripcion = wp[idx].descripcion;
+    p.largo = wp[idx].largo;
+    p.barrasPaquete = wp[idx].bxp;
+    p.pesoBase = wp[idx].pxm;
+    p.pesoNatural = round(p.pesoBase * 1.03, 3);
+    p.pesoPintado = round(p.pesoBase * 1.08, 3);
     p.Linea = new Linea();
     if (wp[idx].idLinea == 1) {
       p.Linea.id = "Tradicional";
-      p.Linea.Nombre = "Tradicional";
-      p.Linea.Descripcion = "Linea Tradicional (Herrero)";
+      p.Linea.nombre = "Tradicional";
+      p.Linea.descripcion = "Linea Tradicional (Herrero)";
     } else {
       p.Linea.id = "6000";
-      p.Linea.Nombre = "6000";
-      p.Linea.Descripcion = "Linea 6000 (Modena)";
+      p.Linea.nombre = "6000";
+      p.Linea.descripcion = "Linea 6000 (Modena)";
     }
     console.log('Guardando...', p.id, " Item ", idx + 1, ' de ', wp.length);
     this.db.database.ref(`${PRODUCTOS_PERFILES}${p.id}/`)

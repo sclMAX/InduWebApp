@@ -1,4 +1,3 @@
-import {PRESUPUESTO} from './../../../providers/pedidos/pedidos';
 import {Cliente} from './../../../models/clientes.clases';
 import {Pedido, PedidoItem} from './../../../models/pedidos.clases';
 import {Component, Input} from '@angular/core';

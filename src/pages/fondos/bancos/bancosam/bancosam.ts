@@ -30,7 +30,7 @@ export class BancosamPage {
     this.oldBanco = this.navParams.get('Banco');
     if (this.oldBanco) {
       this.isEdit = true;
-      this.title = `Editando ${ this.oldBanco.Nombre}`;
+      this.title = `Editando ${ this.oldBanco.nombre}`;
       this.newBanco = JSON.parse(JSON.stringify(this.oldBanco));
     } else {
       this.getData();
@@ -106,13 +106,13 @@ export class BancosamPage {
       let existente = this.bancos.find((b) => {
         if (this.isEdit) {
           return ((b.id * 1 != this.newBanco.id * 1 ) &&
-                  (b.Nombre && this.newBanco.Nombre &&
-                   (b.Nombre.trim().toLowerCase() ==
-                    this.newBanco.Nombre.trim().toLowerCase())));
+                  (b.nombre && this.newBanco.nombre &&
+                   (b.nombre.trim().toLowerCase() ==
+                    this.newBanco.nombre.trim().toLowerCase())));
         } else {
-          return (b.Nombre && this.newBanco.Nombre &&
-                  (b.Nombre.trim().toLowerCase() ==
-                   this.newBanco.Nombre.trim().toLowerCase()));
+          return (b.nombre && this.newBanco.nombre &&
+                  (b.nombre.trim().toLowerCase() ==
+                   this.newBanco.nombre.trim().toLowerCase()));
         }
       });
       this.isNombreValid = (existente) ? false : true;

@@ -34,12 +34,12 @@ export class StockIngresoPage {
 
   private async getNro() {
     this.contadoresP.getStockIngresoCurrentNro().subscribe((nro) => {
-      this.docIngreso.Numero = nro;
+      this.docIngreso.numero = nro;
     }, (error) => { console.log(error); });
   }
 
   addItem(item: DocStockItem) {
-    if (item && item.Cantidad && item.Color && item.Perfil) {
+    if (item && item.cantidad && item.Color && item.Perfil) {
       if (this.docIngreso) {
         if (!this.docIngreso.Items) {
           this.docIngreso.Items = [];
@@ -59,8 +59,8 @@ export class StockIngresoPage {
     let tB: number = 0;
     if (this.docIngreso && this.docIngreso.Items) {
       this.docIngreso.Items.forEach((item) => {
-        if (item && item.Cantidad) {
-          tB += item.Cantidad * 1;
+        if (item && item.cantidad) {
+          tB += item.cantidad * 1;
         }
       });
     }

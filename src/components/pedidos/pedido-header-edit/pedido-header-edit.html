@@ -1,12 +1,12 @@
 <ion-grid no-padding>
   <ion-row ion-item color="footer" no-lines>
     <h5 item-start>
-      {{tipo}} Nro: {{pedido?.Numero || 0 | number:'3.0-0'}}<br>
-      Fecha: {{pedido?.Fecha |date:'dd/MM/yyyy'}}
+      {{tipo}} Nro: {{pedido?.numero || 0 | number:'3.0-0'}}<br>
+      Fecha: {{pedido?.fecha |date:'dd/MM/yyyy'}}
     </h5>
     <div text-center>
-      <h2>{{cliente?.Nombre}}</h2>
-      <h4>{{ cliente?.Direccion?.Calle}} - {{cliente?.Direccion?.Localidad}} - {{cliente?.Telefonos[0]?.Numero}} ({{cliente?.Telefonos[0]?.Contacto}})</h4>
+      <h2>{{cliente?.nombre}}</h2>
+      <h4>{{ cliente?.Direccion?.calle}} - {{cliente?.Direccion?.localidad}} - {{cliente?.Telefonos[0]?.numero}} ({{cliente?.Telefonos[0]?.contacto}})</h4>
     </div>
   </ion-row>
   <ion-row no-padding>
@@ -20,16 +20,16 @@
     <ion-row ion-item no-lines color="scroll-content" no-padding>
       <!-- Fecha Entrega -->
       <form-badge-input-item item-start padding-left label="Fecha de Entrega">
-        <ion-input type="date" [(ngModel)]="pedido.FechaEntrega" name="FechaEntrega" required></ion-input>
+        <ion-input type="date" [(ngModel)]="pedido.fechaEntrega" name="FechaEntrega" required></ion-input>
       </form-badge-input-item>
       <!-- Direccion de Entrega -->
       <!-- Calle-->
       <form-badge-input-item item-start padding-left label="Calle">
-        <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Calle" name="Calle" required></ion-input>
+        <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.calle" name="calle" required></ion-input>
       </form-badge-input-item>
       <!-- Localidad -->
       <form-badge-input-item item-start padding-left label="Localidad">
-        <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.Localidad" name="Localidad" required></ion-input>
+        <ion-input type="text" [(ngModel)]="pedido.DireccionEntrega.localidad" name="localidad" required></ion-input>
       </form-badge-input-item>
     </ion-row>
     <!-- Comentarios -->
@@ -38,7 +38,7 @@
         <ion-badge color="formLabel">Comentarios</ion-badge>
       </ion-row>
       <ion-badge ion-item color="formInput">
-        <ion-textarea [(ngModel)]="pedido.Comentario" name="Comentarios"></ion-textarea>
+        <ion-textarea [(ngModel)]="pedido.comentario" name="comentarios"></ion-textarea>
       </ion-badge>
     </ion-row>
   </ion-grid>

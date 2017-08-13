@@ -19,7 +19,7 @@ export class ClientesDetallePage {
               private pedidosP: PedidosProvider) {
     this.cliente = this.navParams.get('Cliente');
     if (this.cliente) {
-      this.title = this.cliente.Nombre;
+      this.title = this.cliente.nombre;
       this.getPedidos();
     } else {
       this.navCtrl.pop();

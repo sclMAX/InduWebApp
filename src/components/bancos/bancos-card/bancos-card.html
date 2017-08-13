@@ -10,7 +10,7 @@
     </ion-item>
     <button ion-item no-lines (click)="edit(banco)" [color]="(p)? colorItemPar : colorItemImpar" *ngFor="let banco of filterBancos;let p=even">
       <h3 item-start>{{banco?.id |number:'3.0-0'}}</h3>
-      <span>{{banco?.Nombre}}</span>
+      <span>{{banco?.nombre}}</span>
       <h5 item-end>({{banco?.Sucursales?.length}})</h5>
     </button>
   </ion-list>

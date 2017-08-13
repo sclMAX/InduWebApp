@@ -1,12 +1,16 @@
-import {FECHA_FULL, Log} from './../../models/comunes.clases';
-import {Usuario, UserDoc} from './../../models/user.class';
 import {Injectable} from '@angular/core';
+import * as moment from 'moment';
 import {Observable} from 'rxjs/Observable';
+
 import {ROOT} from '../../models/db-base-paths';
 import {UsuarioProvider} from '../usuario/usuario';
-import * as moment from 'moment';
+
+import {FECHA_FULL, Log} from './../../models/comunes.clases';
+import {UserDoc, Usuario} from './../../models/user.class';
 
 export let SUCURSAL: string = '';
+export let LOCALIDAD: string = '';
+export let PROVINCIA: string = '';
 export let SUCURSAL_ROOT: string = '';
 export let SUC_CLIENTES_ROOT: string = '';
 export let SUC_COLORES_ROOT: string = '';
@@ -34,7 +38,7 @@ export class SucursalProvider {
       this.usuarioP.getCurrentUser().subscribe(
           (usuario) => {
             this.usuario = usuario;
-            this.setPaths(usuario.Sucursal);
+            this.setPaths(usuario.sucursal);
             obs.next(SUCURSAL);
             obs.complete();
           },
@@ -48,19 +52,19 @@ export class SucursalProvider {
 
   genUserDoc(): UserDoc {
     let ud: UserDoc = new UserDoc();
-    ud.Fecha = moment().format(FECHA_FULL);
+    ud.fecha = moment().format(FECHA_FULL);
     ud.Usuario = this.usuario;
     return ud;
   }
 
-  getUsuario():Usuario{
+  getUsuario(): Usuario {
     return this.usuario;
   }
 
   genLog(data: any): Log {
     let log: Log = new Log();
     log.id = Date.now();
-    log.Fecha = moment().format(FECHA_FULL);
+    log.fecha = moment().format(FECHA_FULL);
     log.Data = data;
     log.Usuario = this.usuario;
     return log;
@@ -72,6 +76,10 @@ export class SucursalProvider {
   */
   private setPaths(sucursal: string) {
     SUCURSAL = sucursal;
+    if (this.usuario) {
+      LOCALIDAD = this.usuario.localidad || 'Paraná';
+      PROVINCIA = this.usuario.provincia || 'Entre Ríos';
+    }
     SUCURSAL_ROOT = `${ROOT}Sucursales/${SUCURSAL}/`;
     SUC_CLIENTES_ROOT = `${SUCURSAL_ROOT}Clientes/`;
     SUC_COLORES_ROOT = `${SUCURSAL_ROOT}Colores/`;

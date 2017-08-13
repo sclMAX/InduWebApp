@@ -19,7 +19,7 @@ export class BancosSearchBarComponent {
       val = val.trim().toLowerCase();
       this.data.emit(this.bancos.filter((b) => {
         return (b.id && (b.id.toString().indexOf(val) > -1)) ||
-               (b.Nombre && (b.Nombre.trim().toLowerCase().indexOf(val) > -1));
+               (b.nombre && (b.nombre.trim().toLowerCase().indexOf(val) > -1));
       }));
     }
   }

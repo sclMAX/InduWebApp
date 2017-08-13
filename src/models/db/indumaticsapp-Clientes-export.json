@@ -1,0 +1,504 @@
+{
+  "1" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:00:54.756Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Maipu 3256",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "no",
+    "Modificador" : {
+      "fecha" : "2017-07-28T20:59:00.543Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "O + M Vidrios & Arquitectura de M.M. Malvido",
+    "Telefonos" : [ {
+      "contacto" : "fijo",
+      "numero" : "03794-429227"
+    }, {
+      "contacto" : "Ortis Marcelo (cel)",
+      "numero" : "03794-924070"
+    } ],
+    "id" : 1
+  },
+  "2" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:02:52.669Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Maipu 3256",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "alvimet@yahoo.com.ar",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:01:23.962Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Alvimet S.A.",
+    "Telefonos" : [ {
+      "contacto" : "Aldo Javier Ferreyra",
+      "numero" : "0379-4414544"
+    } ],
+    "id" : 2
+  },
+  "3" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:04:47.407Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Cazadores Correntinos 3198",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "cimet27@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:16:21.442Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "nombre" : "Cimet",
+    "Telefonos" : [ {
+      "contacto" : "Oscar Acosta ",
+      "numero" : "03794-451379"
+    }, {
+      "contacto" : "Oscar Acosta (cel)",
+      "numero" : "0379-4073549"
+    } ],
+    "id" : 3
+  },
+  "4" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:06:14.211Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Libertad 5869",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "alumaxsrl@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:04:52.987Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Alumax S.R.L.",
+    "Telefonos" : [ {
+      "contacto" : "Sergio Montanaro",
+      "numero" : "0379-154845749"
+    } ],
+    "id" : 4
+  },
+  "5" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:09:11.382Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Armenia 4614",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "chist_fv@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:06:44.320Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Aluant Carpinteria",
+    "Telefonos" : [ {
+      "contacto" : "Ceballos Fernando",
+      "numero" : "0379-154555555"
+    }, {
+      "contacto" : "otro",
+      "numero" : "0379-154331433"
+    } ],
+    "id" : 5
+  },
+  "6" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:11:02.371Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Independencia 3405",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "vidriosindependencia@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:09:19.164Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Vidrios Independecia",
+    "Telefonos" : [ {
+      "contacto" : "fijo",
+      "numero" : "0379-4464732"
+    }, {
+      "contacto" : "Hugo Ignacio Enriquez",
+      "numero" : "0379-154663155"
+    } ],
+    "id" : 6
+  },
+  "7" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:14:04.978Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Maipu 607  (Esq. Tte. Ibañez)",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "jm-vidrios@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:11:09.418Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "JM Vidrios Carpinteria de Aluminio",
+    "Telefonos" : [ {
+      "contacto" : "fijo",
+      "numero" : "03794-428753"
+    }, {
+      "contacto" : "cel",
+      "numero" : "03794-15579690"
+    }, {
+      "contacto" : "cel",
+      "numero" : "03783-15579359"
+    } ],
+    "id" : 7
+  },
+  "8" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T20:57:32.533Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Jacaranda 4220",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "ricardocanteroc@yahoo.com.ar",
+    "Modificador" : {
+      "fecha" : "2017-07-28T20:54:40.103Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Facalum S.R.L. de Ricardo Cantero",
+    "Telefonos" : [ {
+      "contacto" : "Ricardo (fijo)",
+      "numero" : "03794-458978"
+    }, {
+      "contacto" : "Juan Pedro (cel)",
+      "numero" : "03794-15357977"
+    } ],
+    "id" : 8
+  },
+  "9" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:20:47.526Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Uruguay 1441",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "aberturasnordeste@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:18:43.842Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Averturas Nordeste",
+    "Telefonos" : [ {
+      "contacto" : "fijo",
+      "numero" : "03794-4230269"
+    }, {
+      "contacto" : "cel",
+      "numero" : "03794-154779898"
+    } ],
+    "id" : 9
+  },
+  "10" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:25:29.261Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Av. Independecia 4530",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "no",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:27:32.481Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "nombre" : "Barrios Luis",
+    "Telefonos" : [ {
+      "contacto" : "cel",
+      "numero" : "03794-154329031"
+    }, {
+      "contacto" : "Luis",
+      "numero" : "03794-1544756437"
+    }, {
+      "contacto" : "cel",
+      "numero" : "03794-154782823"
+    }, {
+      "contacto" : "fijo",
+      "numero" : "03794-453745"
+    } ],
+    "id" : 10
+  },
+  "11" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-28T21:27:14.232Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Direccion" : {
+      "calle" : "Rio Lujan 5030 - Bº San Jeronimo",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "felixbajo@hotmail.com",
+    "Modificador" : {
+      "fecha" : "2017-07-28T21:25:34.862Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "isEmbalaje" : true
+      }
+    },
+    "nombre" : "Vidrios Torres S.R.L.",
+    "Telefonos" : [ {
+      "contacto" : "fijo",
+      "numero" : "03794-453745"
+    }, {
+      "contacto" : "Felix Leonardo",
+      "numero" : "03794-154886705"
+    } ],
+    "id" : 11
+  },
+  "12" : {
+    "comentarios" : "Este es un cliente para pruebas",
+    "Creador" : {
+      "fecha" : "2017-08-12 11:54:02",
+      "Usuario" : {
+        "email" : "suc_corrientes@indumatics.com.ar",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false,
+        "localidad" : "corrientes",
+        "maxDescuentoGeneral" : 4,
+        "maxDescuentoItem" : 4,
+        "nombre" : "Encargado Corrientes",
+        "provincia" : "Corrientes",
+        "sucursal" : "Corrientes"
+      }
+    },
+    "Direccion" : {
+      "calle" : "calle cliente de prueba 123",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "cliente_de_prueba@prueba.com",
+    "nombre" : "Cliente de Prueba",
+    "Telefonos" : [ {
+      "contacto" : "contacto de prueba",
+      "numero" : "123456789"
+    }, {
+      "contacto" : "prueba 1",
+      "numero" : "987654321"
+    } ],
+    "id" : 12
+  },
+  "999" : {
+    "comentarios" : "",
+    "Creador" : {
+      "fecha" : "2017-07-31T20:20:18.773Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "Descuentos" : [ {
+      "Descuento" : "2",
+      "id" : "Blanco Brillante"
+    } ],
+    "Direccion" : {
+      "calle" : "calle CLIENTE PRUEBA",
+      "localidad" : "Corrientes",
+      "pais" : "Argentina",
+      "provincia" : "Corrientes"
+    },
+    "email" : "pruebas@gmail.com",
+    "Modificador" : {
+      "fecha" : "2017-08-02T16:11:58.690Z",
+      "Usuario" : {
+        "maxDescuentoGeneral" : 10.5,
+        "maxDescuentoItem" : 5,
+        "nombre" : "Encargado Corrientes",
+        "sucursal" : "Corrientes",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isEmbalaje" : false
+      }
+    },
+    "nombre" : "CLIENTE",
+    "Telefonos" : [ {
+      "contacto" : "PRUEBA",
+      "numero" : "123"
+    } ],
+    "id" : 999
+  }
+}

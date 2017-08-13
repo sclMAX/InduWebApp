@@ -2,16 +2,21 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
-import {DocStockIngreso, DocStockItem} from './../../models/documentos.class';
+import {DocStockIngreso} from './../../models/documentos.class';
 import {Pedido, PedidoItem} from './../../models/pedidos.clases';
 import {Stock, StockEstado, StockEstadoPedidosDetalle, StockItem, StockPerfil} from './../../models/stock.clases';
-import {SucursalContadores} from './../../models/sucursal.clases';
-import {SUC_CONTADORES_ROOT, SUC_DOCUMENTOS_PEDIDOS, SUC_DOCUMENTOS_STOCKINGRESOS_ROOT, SUC_STOCK_ROOT, SucursalProvider} from './../sucursal/sucursal';
+import {PEDIDO} from './../pedidos/pedidos';
+import {SUC_CONTADORES_ROOT, SUC_DOCUMENTOS_ROOT, SUC_DOCUMENTOS_STOCKINGRESOS_ROOT, SUC_STOCK_ROOT, SucursalProvider} from './../sucursal/sucursal';
 
 @Injectable()
 export class StockProvider {
   constructor(
       private db: AngularFireDatabase, private sucP: SucursalProvider){};
+
+  genUpdateData(updData, idProducto, idItem, valor){
+    updData[`${SUC_STOCK_ROOT}${idProducto}/Stocks/${idItem}/stock`] = valor
+    updData[`${SUC_STOCK_ROOT}${idProducto}/Stocks/${idItem}/Modificador`] = this.sucP.genUserDoc();
+  }
 
   getAll(realtime: boolean = false): Observable<Stock[]> {
     return new Observable((obs) => {
@@ -56,10 +61,10 @@ export class StockProvider {
   getStock(idProducto, idItem): Observable<number> {
     return new Observable((obs) => {
       this.db.database
-          .ref(`${SUC_STOCK_ROOT}${idProducto}/Stokcs/${idItem}/stock`)
+          .ref(`${SUC_STOCK_ROOT}${idProducto}/Stokcs/${idItem}/stock/`)
           .once('value')
-          .then((stock: number) => {
-            obs.next(stock || 0);
+          .then((snap) => {
+            obs.next(snap.val() || 0);
             obs.complete();
           })
           .catch((error) => {
@@ -92,30 +97,25 @@ export class StockProvider {
   getEstado(idProducto, idItem): Observable<StockEstado> {
     return new Observable((obs) => {
       let res: StockEstado = new StockEstado();
-      if (!res.pedidos) {
-        res.pedidos = [];
-      }
       this.getStock(idProducto, idItem)
           .subscribe(
               (stock) => {
                 res.stock = stock;
-                this.db
-                    .list(SUC_DOCUMENTOS_PEDIDOS, {
-                      query:
-                          {orderByChild: 'isStockActualizado', equalTo: false}
-                    })
+                this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`)
                     .subscribe(
-                        (data: Pedido[]) => {
-                          for (let i = 0; i < data.length; i++) {
-                            for (let x = 0; x < data[i].Items.length; x++) {
-                              if (data[i].Items[x].Perfil.id == idProducto &&
-                                  data[i].Items[x].Color.id == idItem) {
-                                res.pedidos.push(new StockEstadoPedidosDetalle(
-                                    data[i].Items[x].Cantidad, data[i].id,
-                                    data[i].idCliente));
+                        (snap: Pedido[]) => {
+                          snap.forEach((p) => {
+                            p.Items.forEach((i) => {
+                              if (i.Perfil.id == idProducto &&
+                                  i.Color.id == idItem) {
+                                res.Pedidos.push(new StockEstadoPedidosDetalle(
+                                    i.cantidad, p.id, p.idCliente));
+                                res.cantidadEnPedidos += i.cantidad * 1;
                               }
-                            }
-                          }
+                            });
+                          });
+                          res.disponible =
+                              res.stock * 1 - res.cantidadEnPedidos * 1;
                           obs.next(res);
                           obs.complete();
                         },
@@ -145,7 +145,7 @@ export class StockProvider {
             (stk) => {
               if (!items[idx].isStockActualizado) {
                 updateData[`${items[idx].Perfil.id}/${items[idx].Color.id
-                           }/Stock`] = ((stk) ? stk : 0) - items[idx].Cantidad;
+                           }/Stock`] = ((stk) ? stk : 0) - items[idx].cantidad;
               }
               idx++;
               if (idx < items.length) {
@@ -174,13 +174,13 @@ export class StockProvider {
     return new Observable((obs) => {
       if (doc && SUC_DOCUMENTOS_STOCKINGRESOS_ROOT) {
         let updData = {};
-        doc.id = doc.Numero;
+        doc.id = doc.numero;
         doc.Creador = this.sucP.genUserDoc();
         doc.Items.forEach((i) => {
           i.isStockActualizado = true;
         });
         updData[`${SUC_DOCUMENTOS_STOCKINGRESOS_ROOT}${doc.id}`] = doc;
-        updData[`${SUC_CONTADORES_ROOT}DocStockIngreso/`] = doc.id;
+        updData[`${SUC_CONTADORES_ROOT}docStockIngreso/`] = doc.id;
         let loop = (idx: number) => {
           this.getOne(doc.Items[idx].Perfil.id)
               .subscribe(
@@ -192,8 +192,8 @@ export class StockProvider {
                       let newItem: StockItem = new StockItem();
                       newItem.Creador = stk.Creador;
                       newItem.id = doc.Items[idx].Color.id;
-                      newItem.stock = doc.Items[idx].Cantidad * 1;
-                      stk.Stocks = [newItem];
+                      newItem.stock = doc.Items[idx].cantidad * 1;
+                      stk.Stocks[newItem.id] = newItem;
                     } else {  // si Existe se modifica
                       stk.Modificador = this.sucP.genUserDoc();
                       let itemIndex = -1;
@@ -209,14 +209,14 @@ export class StockProvider {
                         stk.Stocks[itemIndex].Modificador =
                             this.sucP.genUserDoc();
                         stk.Stocks[itemIndex].stock +=
-                            doc.Items[idx].Cantidad * 1;
+                            doc.Items[idx].cantidad * 1;
                       } else {  // si no se encuentra de crea y agrega
                         let newItem: StockItem = new StockItem();
                         newItem = new StockItem();
                         newItem.Creador = this.sucP.genUserDoc();
                         newItem.id = doc.Items[idx].Color.id;
-                        newItem.stock = doc.Items[idx].Cantidad * 1;
-                        stk.Stocks.push(newItem);
+                        newItem.stock = doc.Items[idx].cantidad * 1;
+                        stk.Stocks[newItem.id]=newItem;
                       }
                     }
 

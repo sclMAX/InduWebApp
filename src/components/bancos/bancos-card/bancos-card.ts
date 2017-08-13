@@ -33,7 +33,7 @@ export class BancosCardComponent {
       val = val.trim().toLowerCase();
       this.filterBancos = this.bancos.filter((b) => {
         return (b.id.toString().indexOf(val) > -1) ||
-               (b.Nombre.toLocaleLowerCase().indexOf(val) > -1);
+               (b.nombre.toLocaleLowerCase().indexOf(val) > -1);
       });
     }
   }

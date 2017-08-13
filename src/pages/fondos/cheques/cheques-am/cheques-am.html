@@ -21,7 +21,7 @@
               <button *ngIf="!selBanco && !isEdit && nroBanco.value" ion-button item-end color="primary" (click)="addBanco()"><ion-icon name="add"></ion-icon></button>
             </ion-badge>
             <ion-badge *ngIf="!selBanco && !isEdit && nroBanco.value" color="danger"><small>Banco no encontrado!</small></ion-badge>
-            <ion-badge *ngIf="selBanco" color="secondary"><small>{{selBanco?.Nombre}}</small></ion-badge>
+            <ion-badge *ngIf="selBanco" color="secondary"><small>{{selBanco?.nombre}}</small></ion-badge>
           </ion-row>
         </ion-col>
         <!-- Sucursal -->
@@ -36,7 +36,7 @@
               <button *ngIf="selBanco && !selSucursal && !isEdit && nroSucursal.value" ion-button item-end color="primary" (click)="addSucursal()"><ion-icon name="add"></ion-icon></button>
             </ion-badge>
             <ion-badge *ngIf="selBanco && !selSucursal && !isEdit && nroSucursal.value" color="danger"><small>Sucursal no encontrada!</small></ion-badge>
-            <ion-badge *ngIf="selBanco && selSucursal" color="secondary"><small>{{selSucursal?.Nombre}}</small></ion-badge>
+            <ion-badge *ngIf="selBanco && selSucursal" color="secondary"><small>{{selSucursal?.nombre}}</small></ion-badge>
           </ion-row>
         </ion-col>
         <!-- Numero -->
@@ -46,7 +46,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #nroCheque type="number" name="NroCheque" [disabled]="!selBanco || !selSucursal" [(ngModel)]="newCheque.Numero"
+              <ion-input #nroCheque type="number" name="NroCheque" [disabled]="!selBanco || !selSucursal" [(ngModel)]="newCheque.numero"
                 [readonly]="isEdit" required></ion-input>
             </ion-badge>
           </ion-row>
@@ -61,7 +61,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="date" disabled=true [(ngModel)]="newCheque.FechaIngreso" name="FechaIngreso" required></ion-input>
+              <ion-input type="date" disabled=true [(ngModel)]="newCheque.fechaIngreso" name="FechaIngreso" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>
@@ -72,7 +72,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fe type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.FechaEmision" name="FechaEmision"
+              <ion-input #fe type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.fechaEmision" name="FechaEmision"
                 required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>{{errorMsgFechaEmision}}</small></ion-badge>
@@ -85,7 +85,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fc type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.FechaCobro" required></ion-input>
+              <ion-input #fc type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.fechaCobro" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaCobro() && fc.value" color="danger"><small>{{errorMsgFechaCobro}}</small></ion-badge>
           </ion-row>
@@ -111,7 +111,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #monto type="number" name="Monto" [(ngModel)]="newCheque.Monto" required></ion-input>
+              <ion-input #monto type="number" name="Monto" [(ngModel)]="newCheque.monto" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkMonto() && monto.value" color="danger"><small>El monto debe ser mayor que 0!</small></ion-badge>
           </ion-row>
@@ -147,7 +147,7 @@
                     </ion-row>
                     <ion-row>
                       <ion-badge ion-item no-lines color="formInput">
-                        <ion-input type="text" name="Nombre{{idx}}" [(ngModel)]="firmante.Nombre" required></ion-input>
+                        <ion-input type="text" name="Nombre{{idx}}" [(ngModel)]="firmante.nombre" required></ion-input>
                       </ion-badge>
                     </ion-row>
                   </ion-col>

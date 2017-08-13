@@ -24,7 +24,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input (ionBlur)="isUniqueNombre()" type="text" [readonly]="isEdit" name="Nombre" [(ngModel)]="newBanco.Nombre" required></ion-input>
+              <ion-input (ionBlur)="isUniqueNombre()" type="text" [readonly]="isEdit" name="Nombre" [(ngModel)]="newBanco.nombre" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!isNombreValid" color="danger"><small>Banco existente!</small></ion-badge>
           </ion-row>

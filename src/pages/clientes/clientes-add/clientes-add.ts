@@ -116,26 +116,26 @@ export class ClientesAddPage {
   }
 
   public chkDireccionForm(): boolean {
-    return ((this.newCliente.Direccion.Calle != null) &&
-            (this.newCliente.Direccion.Calle.trim().length > 0)) &&
-           ((this.newCliente.Direccion.Localidad != null) &&
-            (this.newCliente.Direccion.Localidad.trim().length > 0)) &&
-           ((this.newCliente.Direccion.Provincia != null) &&
-            (this.newCliente.Direccion.Provincia.trim().length > 0)) &&
-           ((this.newCliente.Direccion.Pais != null) &&
-            (this.newCliente.Direccion.Pais.trim().length > 0));
+    return ((this.newCliente.Direccion.calle != null) &&
+            (this.newCliente.Direccion.calle.trim().length > 0)) &&
+           ((this.newCliente.Direccion.localidad != null) &&
+            (this.newCliente.Direccion.localidad.trim().length > 0)) &&
+           ((this.newCliente.Direccion.provincia != null) &&
+            (this.newCliente.Direccion.provincia.trim().length > 0)) &&
+           ((this.newCliente.Direccion.pais != null) &&
+            (this.newCliente.Direccion.pais.trim().length > 0));
   }
 
   public chkEmpresaForm(): boolean {
-    return (((this.newCliente.Nombre != null) &&
-             (this.newCliente.Nombre.trim().length > 0)) &&
-            ((this.newCliente.Email != null) &&
-             (this.newCliente.Email.trim().length > 0)));
+    return (((this.newCliente.nombre != null) &&
+             (this.newCliente.nombre.trim().length > 0)) &&
+            ((this.newCliente.email != null) &&
+             (this.newCliente.email.trim().length > 0)));
   }
 
   public chkTelefonosForm(): boolean {
     return ((this.newCliente.Telefonos != null) &&
-            (this.newCliente.Telefonos[0].Numero != null));
+            (this.newCliente.Telefonos[0].numero != null));
   }
 
   public addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }
@@ -146,7 +146,7 @@ export class ClientesAddPage {
     let desT: number = 0.00;
     if (this.newCliente && this.newCliente.Descuentos) {
       this.newCliente.Descuentos.forEach(
-          (des) => { desT += des.Descuento * 1; });
+          (des) => { desT += des.descuento * 1; });
     }
     return desT;
   }
@@ -161,11 +161,11 @@ export class ClientesAddPage {
     let desInsert = this.modalCtrl.create(ClientesAddDescuentoPage, {},
                                           {enableBackdropDismiss: false});
     desInsert.onDidDismiss((data: Descuento) => {
-      if (this.usuario && this.usuario.MaxDescuentoItem && data &&
-          data.Descuento) {
-        let desRestante: number = (this.usuario.MaxDescuentoItem * 1) -
+      if (this.usuario && this.usuario.maxDescuentoItem && data &&
+          data.descuento) {
+        let desRestante: number = (this.usuario.maxDescuentoItem * 1) -
                                   (this.getDescuentoAcumulado() * 1);
-        if ((data.Descuento * 1) <= desRestante) {
+        if ((data.descuento * 1) <= desRestante) {
           if (!this.newCliente.Descuentos) {
             this.newCliente.Descuentos = [];
             this.newCliente.Descuentos.push(data);
@@ -173,9 +173,9 @@ export class ClientesAddPage {
             let idx: number = this.newCliente.Descuentos.findIndex(
                 (des) => { return des.id == data.id; });
             if (idx != -1) {
-              this.newCliente.Descuentos[idx].Descuento =
-                  this.newCliente.Descuentos[idx].Descuento * 1 +
-                  data.Descuento * 1;
+              this.newCliente.Descuentos[idx].descuento =
+                  this.newCliente.Descuentos[idx].descuento * 1 +
+                  data.descuento * 1;
             } else {
               this.newCliente.Descuentos.push(data);
             }
