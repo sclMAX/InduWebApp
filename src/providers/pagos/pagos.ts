@@ -36,7 +36,7 @@ export class PagosProvider {
       cta.numero = Nro;
       cta.fecha = pago.fecha;
       cta.debe = 0.00;
-      cta.haber = pago.totalUs;
+      cta.haber = pago.totalFinalUs;
       cta.saldo = cta.debe - cta.haber;
       cta.id = `${cta.tipoDocumento}${cta.numero}`;
       updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pago.idCliente}/${cta.id}/`] =

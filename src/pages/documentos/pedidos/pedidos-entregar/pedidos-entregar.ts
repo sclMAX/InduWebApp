@@ -59,11 +59,12 @@ export class PedidosEntregarPage {
     let toast =
         this.toastCtrl.create({position: 'middle', closeButtonText: 'OK'});
     load.present().then(() => {
-      this.pedidosP.entregarPedido(this.pedido)
+      this.pedidosP.setEntregado(this.pedido)
           .subscribe(
               (ok) => {
-                this.navCtrl.pop();
                 load.dismiss();
+                this.print();
+                this.navCtrl.pop();
                 toast.setMessage(ok);
                 toast.setDuration(1000);
                 toast.present();

@@ -1,6 +1,5 @@
 import {SUC_CONTADORES_ROOT} from './../sucursal/sucursal';
 import {COMUN_CONTADORES_ROOT} from './../../models/db-base-paths';
-import {SucursalContadores} from './../../models/sucursal.clases';
 import {Observable} from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
@@ -48,7 +47,7 @@ export class ContadoresProvider {
     updData[`${COMUN_CONTADORES_ROOT}cliente/`] = valor;
   }
 
-  getPedidosCurrentNro(tipo: string ,
+  getPedidosCurrentNro(tipo: string,
                        realtime: boolean = true): Observable<number> {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
@@ -65,16 +64,27 @@ export class ContadoresProvider {
     });
   }
 
-  genPedidosUpdateData(updData, valor, tipo:string) {
+  genPedidosUpdateData(updData, valor, tipo: string) {
     updData[`${SUC_CONTADORES_ROOT}${tipo.toLowerCase()}/`] = valor;
   }
 
-  getStockIngresoCurrentNro(): Observable<number> {
+  getStockIngresoCurrentNro(realtime: boolean = true): Observable<number> {
     return new Observable((obs) => {
-      this.db.object(SUC_CONTADORES_ROOT)
-          .subscribe((contadores: SucursalContadores) => {
-            obs.next(contadores.docStockIngreso * 1 + 1 || 1);
-          }, (error) => { obs.error(error); });
+      let fin = () => { (realtime) ? null : obs.complete(); };
+      this.db.database.ref(`${SUC_CONTADORES_ROOT}stockIngreso/`)
+          .on('value',
+              (snap) => {
+                obs.next(snap.val() + 1 || 1);
+                fin();
+              },
+              (error) => {
+                obs.error(error);
+                fin();
+              });
     });
+  }
+
+  genStockIngresoUpdateData(updData, valor: number) {
+    updData[`${SUC_CONTADORES_ROOT}stockIngreso/`] = valor;
   }
 }

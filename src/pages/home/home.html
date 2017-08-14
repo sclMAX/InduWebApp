@@ -34,10 +34,9 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isLogin && usuario && !usuario.isEmbalaje">
-      <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card>
+      <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card> 
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
-
     </ion-row>
   </ion-grid>
 </ion-content>

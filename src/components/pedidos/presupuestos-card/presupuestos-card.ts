@@ -1,9 +1,6 @@
-import {
-  PedidosProvider,
-  PRESUPUESTO
-} from './../../../providers/pedidos/pedidos';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {Pedido} from './../../../models/pedidos.clases';
+import {Pedido, PRESUPUESTO} from './../../../models/pedidos.clases';
 import {Cliente} from './../../../models/clientes.clases';
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 

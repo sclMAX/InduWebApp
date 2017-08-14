@@ -2,45 +2,53 @@ import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import * as moment from 'moment';
 import {Observable} from 'rxjs/Observable';
-import {Cliente, CtaCte} from './../../models/clientes.clases';
+import {Cliente} from './../../models/clientes.clases';
 import {FECHA} from './../../models/comunes.clases';
-import {calcularTotalFinal, Pedido, PedidoItem} from './../../models/pedidos.clases';
+import {
+  Pedido,
+  PedidoItem,
+  PEDIDO,
+  PRESUPUESTO,
+  EMBALADO,
+  ENREPARTO,
+  ENTREGADO
+} from './../../models/pedidos.clases';
 import {Usuario} from './../../models/user.class';
 import {Adicional, AdicionalesProvider} from './../adicionales/adicionales';
 import {ContadoresProvider} from './../contadores/contadores';
 import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
-import {DescuentoKilos, DescuentosGlobales, DescuentosProvider} from './../descuentos/descuentos';
+import {
+  DescuentoKilos,
+  DescuentosGlobales,
+  DescuentosProvider
+} from './../descuentos/descuentos';
 import {DolarProvider} from './../dolar/dolar';
 import {StockProvider} from './../stock/stock';
-import {SUC_DOCUMENTOS_CTASCTES_ROOT, SUC_DOCUMENTOS_PEDIDOS, SUC_DOCUMENTOS_ROOT, SUC_LOG_ROOT, SucursalProvider} from './../sucursal/sucursal';
-import {UsuarioProvider} from './../usuario/usuario';
+import {
+  SUC_DOCUMENTOS_PEDIDOS,
+  SUC_DOCUMENTOS_ROOT,
+  SUC_LOG_ROOT,
+  SucursalProvider
+} from './../sucursal/sucursal';
 
-export const PRESUPUESTO: string = 'Presupuesto';
-export const PEDIDO: string = 'Pedido';
-export const EMBALADO: string = 'Embalado';
-export const ENREPARTO: string = 'En Reparto';
-export const ENTREGADOS: string = 'Entregado';
+
 
 @Injectable()
 export class PedidosProvider {
   private adicionales: Adicional[];
   private descuentos: DescuentosGlobales;
   private usuario: Usuario;
-  constructor(
-      private db: AngularFireDatabase, private contadoresP: ContadoresProvider,
-      private dolarP: DolarProvider, private adicionalesP: AdicionalesProvider,
-      private descuentosP: DescuentosProvider, private sucP: SucursalProvider,
-      private usuarioP: UsuarioProvider, private ctacteP: CtasCtesProvider,
-      private stockP: StockProvider) {
-    this.adicionalesP.getAdicionales().subscribe((data) => {
-      this.adicionales = data;
-    });
-    this.descuentosP.getDescuentos().subscribe((ok) => {
-      this.descuentos = ok;
-    });
-    this.usuarioP.getCurrentUser().subscribe((user) => {
-      this.usuario = user;
-    });
+  constructor(private db: AngularFireDatabase,
+              private contadoresP: ContadoresProvider,
+              private ctacteP: CtasCtesProvider, private dolarP: DolarProvider,
+              private adicionalesP: AdicionalesProvider,
+              private descuentosP: DescuentosProvider,
+              private sucP: SucursalProvider, private stockP: StockProvider) {
+    this.adicionalesP.getAdicionales().subscribe(
+        (data) => { this.adicionales = data; });
+    this.descuentosP.getDescuentos().subscribe(
+        (ok) => { this.descuentos = ok; });
+    this.usuario = this.sucP.getUsuario();
   }
 
   genUpdateData(updData, pedido: Pedido, tipo, valor?) {
@@ -159,108 +167,71 @@ export class PedidosProvider {
       // Eliminar el Pedido
       this.genUpdateData(updData, pedido, PEDIDO, {});
       // Set Item stkActualizado a true
-      pedido.Items.forEach((i) => {
-        i.isStockActualizado = true;
-      });
+      pedido.Items.forEach((i) => { i.isStockActualizado = true; });
       // Add Pedido a Embalados
       this.genUpdateData(updData, pedido, EMBALADO);
-      // Actualizar Stock y Ejecutar peticion
-      let loop = (idx) => {
-        // Busca el stock actual
-        this.stockP
-            .getStock(pedido.Items[idx].Perfil.id, pedido.Items[idx].Color.id)
-            .subscribe(
-                (stk) => {
-                  // Calcula nuevo stock
-                  let newStk: number = stk * 1 - pedido.Items[idx].cantidad * 1;
-                  // Generar UpdateData
-                  this.stockP.genUpdateData(
-                      updData, pedido.Items[idx].Perfil.id,
-                      pedido.Items[idx].Color.id, newStk);
-                  idx++;
-                  // Si quedan items busca el siguiente
-                  if (idx < pedido.Items.length) {
-                    loop(idx);
-                  } else {  // si no
-                    // Ejecutar peticion
-                    this.db.database.ref()
-                        .update(updData)
-                        .then(() => {
-                          obs.next('Stock Actualizado correctamete!');
-                          obs.complete();
-                        })
-                        .catch((error) => {
-                          obs.error(
-                              `No se pudo Actualizar el Stock! Error: ${error
-                              }`);
-                          obs.complete()
-                        });
-                  }
-                },
-                (error) => {
-                  obs.error(`No se pudo Actualizar el Stock! Error: ${error}`);
-                  obs.complete();
-                });
-      };
-      loop(0);
-    });
-  }
-
-  entregarPedido(pedido: Pedido): Observable<string> {
-    return new Observable((obs) => {
-      pedido.fechaEntrega = moment().format(FECHA);
-      // Editor
-      pedido.Modificador = this.sucP.genUserDoc();
-      let updData = {};
-      updData[`${SUC_DOCUMENTOS_PEDIDOS}${pedido.id}/`] = pedido;
-      // log pedidos
-      let log = this.sucP.genLog(pedido);
-      updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${log.id}/`] = log;
-      this.ctacteP.getSaldoCliente(pedido.idCliente)
+      // Generar Actualizacion Multiple de Stock
+      this.stockP.genMultiUpdadeData(updData, pedido.Items, false)
           .subscribe(
-              (saldo) => {
-                let cta: CtaCte = new CtaCte();
-                cta.fecha = moment().format(FECHA);
-                cta.Creador = this.sucP.genUserDoc();
-                cta.tipoDocumento = 'Pedido';
-                cta.numero = pedido.id;
-                cta.debe = calcularTotalFinal(pedido);
-                cta.haber = 0;
-                cta.saldo = saldo + cta.debe - cta.haber;
-                updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pedido
-                            .idCliente}/${cta.tipoDocumento}${cta.numero}/`] =
-                    cta;
+              (data) => {
+                updData = data;
+                // Ejecutar peticion
                 this.db.database.ref()
                     .update(updData)
                     .then(() => {
-                      obs.next(
-                          'Pedido cerrado y Cta. Cte. Acualizada correctamente!');
+                      obs.next('Stock Actualizado Correctamente!');
                       obs.complete();
                     })
                     .catch((error) => {
-                      obs.error(`No se pudo cerrar el Pedido! Error:${error}`);
+                      obs.error(
+                          `No se pudo actualizar el Stock! Error:${error}`);
                       obs.complete();
                     });
-
-
-
               },
               (error) => {
                 obs.error(error);
                 obs.complete();
               });
+
     });
   }
 
-  getAll(tipo: string = PEDIDO, realtime: boolean = true):
-      Observable<Pedido[]> {
+  setEntregado(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
-      let fin = () => {
-        (realtime) ? null : obs.complete();
-      };
+      let updData = {};
+      // Set Fecha de Entrega
+      pedido.fechaEntrega = moment().format(FECHA);
+      // Set Modificador
+      pedido.Modificador = this.sucP.genUserDoc();
+      // Set Cta. Cte. si no esta
+      if (!pedido.isInCtaCte) {
+        this.ctacteP.genDocUpdateData(updData, pedido, true);
+      }
+      // Eliminar de Embalados
+      this.genUpdateData(updData, pedido, pedido.tipo, {});
+      // Set Entregado
+      pedido.tipo = ENTREGADO;
+      this.genUpdateData(updData, pedido, ENTREGADO);
+      // Ejecutar peticion
+      this.db.database.ref()
+          .update(updData)
+          .then(() => {
+            obs.next('Entrega Confirmada!');
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(`No se pudo Confirmar la Entrega! Error:${error}`);
+            obs.complete();
+          });
+    });
+  }
+  getAll(tipo: string = PEDIDO,
+         realtime: boolean = true): Observable<Pedido[]> {
+    return new Observable((obs) => {
+      let fin = () => { (realtime) ? null : obs.complete(); };
       this.db.list(`${SUC_DOCUMENTOS_ROOT}${tipo}/`)
           .subscribe(
-              (snap) => {
+              (snap: Pedido[]) => {
                 obs.next(snap || []);
                 fin();
               },
@@ -271,18 +242,15 @@ export class PedidosProvider {
     });
   }
 
-  getAllCliente(idCliente: number, tipo: string, realtime: boolean = true):
-      Observable<Pedido[]> {
+  getAllCliente(idCliente: number, tipo: string,
+                realtime: boolean = true): Observable<Pedido[]> {
     return new Observable((obs) => {
-      let fin = () => {
-        (realtime) ? null : obs.complete();
-      };
-      this.db
-          .list(
-              `${SUC_DOCUMENTOS_ROOT}${tipo}/`,
-              {query: {orderByChild: 'idCliente', equalTo: idCliente}})
+      let fin = () => { (realtime) ? null : obs.complete(); };
+      this.db.list(`${SUC_DOCUMENTOS_ROOT}${tipo}/`,
+                   {query: {orderByChild: 'idCliente', equalTo: idCliente}})
           .subscribe(
-              (snap) => {
+              (snap: Pedido[]) => {
+                console.log('pedidos.getAllCliente.snap:', snap);
                 obs.next(snap || []);
                 fin();
               },
@@ -305,148 +273,67 @@ export class PedidosProvider {
         obs.complete();
       };
       this.db.list(`${SUC_DOCUMENTOS_ROOT}${PRESUPUESTO}/`, {query: q})
-          .subscribe(
-              (snap) => {
-                if (snap && snap.length > 0) {
-                  ok();
-                } else {
-                  this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`, {query: q})
-                      .subscribe(
-                          (snap) => {
+          .subscribe((snap) => {
+            if (snap && snap.length > 0) {
+              ok();
+            } else {
+              this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`, {query: q})
+                  .subscribe((snap) => {
+                    if (snap && snap.length > 0) {
+                      ok();
+                    } else {
+                      this.db.list(`${SUC_DOCUMENTOS_ROOT}${EMBALADO}/`,
+                                   {query: q})
+                          .subscribe((snap) => {
                             if (snap && snap.length > 0) {
                               ok();
                             } else {
-                              this.db
-                                  .list(
-                                      `${SUC_DOCUMENTOS_ROOT}${EMBALADO}/`,
-                                      {query: q})
-                                  .subscribe(
-                                      (snap) => {
-                                        if (snap && snap.length > 0) {
-                                          ok();
-                                        } else {
-                                          this.db
-                                              .list(
-                                                  `${SUC_DOCUMENTOS_ROOT
+                              this.db.list(`${SUC_DOCUMENTOS_ROOT
                                                   }${ENREPARTO}/`,
-                                                  {query: q})
-                                              .subscribe(
-                                                  (snap) => {
-                                                    if (snap &&
-                                                        snap.length > 0) {
-                                                      ok();
-                                                    } else {
-                                                      this.db
-                                                          .list(
-                                                              `${SUC_DOCUMENTOS_ROOT
-                                                              }${ENTREGADOS}/`,
-                                                              {query: q})
-                                                          .subscribe(
-                                                              (snap) => {
-                                                                if (snap &&
-                                                                    snap.length >
-                                                                        0) {
-                                                                  ok();
-                                                                } else {
-                                                                  obs.next(
-                                                                      false);
-                                                                  obs.complete();
-                                                                }
-                                                              },
-                                                              (error) => {
-                                                                er(error);
-                                                              });
-                                                    }
-                                                  },
-                                                  (error) => {
-                                                    er(error);
-                                                  });
-                                        }
-                                      },
-                                      (error) => {
-                                        er(error);
-                                      });
+                                           {query: q})
+                                  .subscribe((snap) => {
+                                    if (snap && snap.length > 0) {
+                                      ok();
+                                    } else {
+                                      this.db.list(`${SUC_DOCUMENTOS_ROOT
+                                                              }${ENTREGADO}/`,
+                                                   {query: q})
+                                          .subscribe((snap) => {
+                                            if (snap && snap.length > 0) {
+                                              ok();
+                                            } else {
+                                              obs.next(false);
+                                              obs.complete();
+                                            }
+                                          }, (error) => { er(error); });
+                                    }
+                                  }, (error) => { er(error); });
                             }
-                          },
-                          (error) => {
-                            er(error);
-                          });
-                }
-              },
-              (error) => {
-                er(error);
-              });
-    });
-  }
-
-  getPendientesEmbalar(emablados: boolean): Observable<Pedido[]> {
-    return new Observable((obs) => {
-      if (SUC_DOCUMENTOS_PEDIDOS) {
-        this.db
-            .list(
-                SUC_DOCUMENTOS_PEDIDOS,
-                {query: {orderByChild: 'isPreparado', equalTo: emablados}})
-            .subscribe(
-                (data: Pedido[]) => {
-                  if (data) {
-                    obs.next(data);
-                  } else {
-                    '**/db/**'
-                    obs.next([]);
-                  }
-                },
-                (error) => {
-                  obs.error(error);
-                  console.error(error);
-                });
-      } else {
-        obs.error('Sin Sucursal');
-        console.error('No Logeado!');
-      }
-    });
-  }
-
-  getPendientesEntregar(): Observable<Pedido[]> {
-    return new Observable((obs) => {
-      this.getPendientesEmbalar(true).subscribe(
-          (pedidos: Pedido[]) => {
-            if (pedidos) {
-              obs.next(pedidos);
-            } else {
-              obs.next([]);
+                          }, (error) => { er(error); });
+                    }
+                  }, (error) => { er(error); });
             }
-          },
-          (error) => {
-            obs.error(error);
-          });
+          }, (error) => { er(error); });
     });
   }
 
   getOne(tipo: string = PEDIDO, Nro: number): Observable<Pedido> {
     return new Observable((obs) => {
       this.db.object(`${SUC_DOCUMENTOS_ROOT}${tipo}/${Nro}`)
-          .subscribe(
-              (data: Pedido) => {
-                obs.next(data);
-              },
-              (error) => {
-                obs.error(error);
-                console.error(error);
-              });
+          .subscribe((data: Pedido) => { obs.next(data); }, (error) => {
+            obs.error(error);
+            console.error(error);
+          });
     });
   }
 
   getItemsPedido(Nro: number): Observable<PedidoItem[]> {
     return new Observable((obs) => {
       this.db.list(`${SUC_DOCUMENTOS_PEDIDOS}${Nro}/Items`)
-          .subscribe(
-              (data: PedidoItem[]) => {
-                obs.next(data);
-              },
-              (error) => {
-                obs.error(error);
-                console.error(error);
-              });
+          .subscribe((data: PedidoItem[]) => { obs.next(data); }, (error) => {
+            obs.error(error);
+            console.error(error);
+          });
     });
   }
 
@@ -473,24 +360,19 @@ export class PedidosProvider {
       pUs = i.precioUs;
     } else {
       pUs = i.Color.precioUs * 1;
-      let adLinea = this.adicionales.find((ad) => {
-        return ad.id == i.Perfil.Linea.id;
-      });
-      let adPerfil = this.adicionales.find((ad) => {
-        return ad.id == i.Perfil.id;
-      });
+      let adLinea =
+          this.adicionales.find((ad) => { return ad.id == i.Perfil.Linea.id; });
+      let adPerfil =
+          this.adicionales.find((ad) => { return ad.id == i.Perfil.id; });
       pUs = pUs + ((adLinea) ? adLinea.adicional * 1 : 0) +
-          ((adPerfil) ? adPerfil.adicional * 1 : 0);
+            ((adPerfil) ? adPerfil.adicional * 1 : 0);
       if (cliente && cliente.Descuentos && cliente.Descuentos.length > 0) {
-        let deLinea = cliente.Descuentos.find((de) => {
-          return de.id == i.Perfil.Linea.id;
-        });
-        let dePerfil = cliente.Descuentos.find((de) => {
-          return de.id == i.Perfil.id;
-        });
-        let deColor = cliente.Descuentos.find((de) => {
-          return de.id == i.Color.id;
-        });
+        let deLinea = cliente.Descuentos.find(
+            (de) => { return de.id == i.Perfil.Linea.id; });
+        let dePerfil =
+            cliente.Descuentos.find((de) => { return de.id == i.Perfil.id; });
+        let deColor =
+            cliente.Descuentos.find((de) => { return de.id == i.Color.id; });
         let des: number = 0.00;
         des += (deLinea && deLinea.descuento) ? (deLinea.descuento / 100) : 0;
         des +=
@@ -522,10 +404,9 @@ export class PedidosProvider {
   calTotalU$(pedido: Pedido, cliente?: Cliente): number {
     let tUs: number = 0.00;
     if (pedido && pedido.Items) {
-      pedido.Items.forEach((i) => {
-        tUs += this.calSubTotalU$(i, cliente) * 1;
-      });
-      }
+      pedido.Items.forEach(
+          (i) => { tUs += this.calSubTotalU$(i, cliente) * 1; });
+    }
     return tUs * 1;
   }
 
@@ -561,22 +442,17 @@ export class PedidosProvider {
   calTotalUnidades(items: PedidoItem[]): number {
     let tU: number = 0.00;
     if (items) {
-      items.forEach((i) => {
-        tU += this.calUnidades(i);
-      });
+      items.forEach((i) => { tU += this.calUnidades(i); });
     }
-    '**/db/**'
     return tU;
   }
 
   calTotalBarras(items: PedidoItem[]): number {
     let tB: number = 0.00;
     if (items) {
-      items.forEach((i) => {
-        tB += (i.cantidad * 1);
-      });
-      }
-    return <number>tB;
+      items.forEach((i) => { tB += (i.cantidad * 1); });
+    }
+    return tB;
   }
 
   calDescuentoKilos(pedido: Pedido): number {
@@ -587,7 +463,7 @@ export class PedidosProvider {
           des += dk.descuento * 1;
         }
       });
-      }
+    }
     return des;
   }
 }

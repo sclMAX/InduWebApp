@@ -1,22 +1,26 @@
 import {CV} from './../providers/usuario/usuario';
 import {Dolar} from './fondos.clases';
 import {Direccion} from './clientes.clases';
-import {Documento} from './documentos.class';
-import {Color, Perfil} from './productos.clases';
+import {Documento, DocStockItem} from './documentos.class';
 import * as moment from 'moment';
 import {FECHA} from './comunes.clases';
 
+export const PRESUPUESTO: string = 'Presupuesto';
+export const PEDIDO: string = 'Pedido';
+export const EMBALADO: string = 'Embalado';
+export const ENREPARTO: string = 'En Reparto';
+export const ENTREGADO: string = 'Entregado';
+
 export class Pedido extends Documento {
-  idCliente: number;
   fechaEntrega: string;
   DireccionEntrega: Direccion;
   Items: PedidoItem[] = [];
   Dolar: Dolar;
   totalUnidades: number = 0.00;
-  totalUs: number = 0.00;
   descuentoKilos: number = 0.00;
   descuentoGeneral: number = 0.00;
   cantidadPaquetes: number = 0;
+  totalUs:number = 0.00;
   CV: CV;
   constructor() {
     super();
@@ -24,15 +28,11 @@ export class Pedido extends Documento {
   }
 }
 
-export class PedidoItem {
-  cantidad: number;
-  Perfil: Perfil;
-  Color: Color;
+export class PedidoItem extends DocStockItem {
   unidades: number;
   precioUs: number;
   descuento: number;
   isEmbalado: boolean = false;
-  isStockActualizado: boolean = false;
 }
 
 
@@ -55,8 +55,10 @@ export function calSubTotalCDs(pedido: Pedido): number {
 // Calcula Total final con todos los descuentos y CV
 export function calcularTotalFinal(pedido: Pedido): number {
   if (pedido && pedido.CV) {
-    return calSubTotalCDs(pedido) *
-           ((pedido.CV.monto > 0) ? (1 + (pedido.CV.monto / 100)) : 1);
+    pedido.totalFinalUs =
+        calSubTotalCDs(pedido) *
+        ((pedido.CV.monto > 0) ? (1 + (pedido.CV.monto / 100)) : 1);
+    return pedido.totalFinalUs;
   } else {
     return 0.00;
   }

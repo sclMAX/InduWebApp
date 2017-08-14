@@ -77,7 +77,7 @@
       <table width="100%" border=1>
         <tr>
           <th>Total (U$)</th>
-          <th *ngIf="!pedido?.isEntregado">Saldo Anterior</th>
+          <th *ngIf="!pedido?.isInCtaCte">Saldo Anterior</th>
           <th>Saldo Actual</th>
           <th>R.Dolar</th>
           <th>Total ($)</th>
@@ -85,7 +85,7 @@
         <tr text-center>
           <td>U$ {{calTotalFinal() |number:'1.2-2'}}</td>
           <td>U$ {{saldo |number:'1.2-2'}}</td>
-          <td *ngIf="!pedido?.isEntregado">U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
+          <td *ngIf="!pedido?.isInCtaCte">U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
           <td>${{pedido?.Dolar?.valor |number:'1.2-2'}}</td>
           <td>$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.valor |number:'1.2-2'}}</td>
         </tr>

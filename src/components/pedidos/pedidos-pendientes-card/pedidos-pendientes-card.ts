@@ -5,9 +5,9 @@ import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
 import {Cliente} from './../../../models/clientes.clases';
-import {Pedido} from './../../../models/pedidos.clases';
+import {Pedido, PEDIDO} from './../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {PedidosProvider, PEDIDO} from './../../../providers/pedidos/pedidos';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'pedidos-pendientes-card',

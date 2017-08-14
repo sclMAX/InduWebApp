@@ -1,3 +1,4 @@
+import {PRESUPUESTO} from './../../models/pedidos.clases';
 import {
   ClientesAddPagoPage
 } from './../../pages/clientes/clientes-add-pago/clientes-add-pago';
@@ -17,7 +18,7 @@ import {
   PedidosNewPage
 } from './../../pages/documentos/pedidos/pedidos-new/pedidos-new';
 import {ClientesProvider} from './../../providers/clientes/clientes';
-import {PedidosProvider, PRESUPUESTO} from './../../providers/pedidos/pedidos';
+import {PedidosProvider} from './../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'cliente-action-tool-bar',
@@ -63,9 +64,8 @@ export class ClienteActionToolBarComponent {
   }
 
   private getShowRemove() {
-    this.pedidosP.isDocsCliente(this.cliente.id).subscribe((data)=>{
-      this.showRemove = !data;
-    });
+    this.pedidosP.isDocsCliente(this.cliente.id)
+        .subscribe((data) => { this.showRemove = !data; });
   }
 
   removeCliente(cliente: Cliente) {

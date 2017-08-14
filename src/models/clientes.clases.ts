@@ -1,3 +1,4 @@
+import { Documento } from './documentos.class';
 import { LOCALIDAD, PROVINCIA } from './../providers/sucursal/sucursal';
 import {Dolar, Cheque} from './fondos.clases';
 import {FECHA, ClaseControlada} from './comunes.clases';
@@ -32,6 +33,7 @@ export class Direccion {
 
 export class CtaCte extends ClaseControlada {
   id: string;
+  idCliente:number;
   tipoDocumento: string;
   numero: number;
   fecha: string = moment().format(FECHA);
@@ -40,16 +42,12 @@ export class CtaCte extends ClaseControlada {
   saldo: number = 0.00;
 }
 
-export class ClientePago extends ClaseControlada {
+export class ClientePago extends Documento {
   id: number;
-  idCliente: number;
-  fecha: string = moment().format(FECHA);
-  comentarios: string;
   RefDolar: Dolar;
   Cheques: ClientePagoCheque[] = [];
   dolares: number = 0.00;
   efectivo: number = 0.00;
-  totalUs: number = 0.00;
 }
 
 export class ClientePagoCheque {

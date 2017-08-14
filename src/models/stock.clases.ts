@@ -8,6 +8,12 @@ export class StockItem extends ClaseControlada {
   id: string;
   stock: number;
   mpp: number;
+  constructor(id?:string, stock?:number, mpp?:number){
+    super();
+    this.id = id;
+    this.stock = stock;
+    this.mpp = mpp;
+  }
   }
 
 export class StockPerfil {

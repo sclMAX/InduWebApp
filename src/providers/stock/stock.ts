@@ -1,21 +1,102 @@
+import {PEDIDO} from './../../models/pedidos.clases';
+import {ContadoresProvider} from './../contadores/contadores';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
-import {DocStockIngreso} from './../../models/documentos.class';
-import {Pedido, PedidoItem} from './../../models/pedidos.clases';
-import {Stock, StockEstado, StockEstadoPedidosDetalle, StockItem, StockPerfil} from './../../models/stock.clases';
-import {PEDIDO} from './../pedidos/pedidos';
-import {SUC_CONTADORES_ROOT, SUC_DOCUMENTOS_ROOT, SUC_DOCUMENTOS_STOCKINGRESOS_ROOT, SUC_STOCK_ROOT, SucursalProvider} from './../sucursal/sucursal';
+import {DocStockIngreso, DocStockItem} from './../../models/documentos.class';
+import {Pedido} from './../../models/pedidos.clases';
+import {
+  Stock,
+  StockEstado,
+  StockEstadoPedidosDetalle,
+  StockItem,
+  StockPerfil
+} from './../../models/stock.clases';
+import {
+  SUC_DOCUMENTOS_ROOT,
+  SUC_DOCUMENTOS_STOCKINGRESOS_ROOT,
+  SUC_STOCK_ROOT,
+  SucursalProvider
+} from './../sucursal/sucursal';
 
 @Injectable()
 export class StockProvider {
-  constructor(
-      private db: AngularFireDatabase, private sucP: SucursalProvider){};
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
+              private constadorsP: ContadoresProvider){};
 
-  genUpdateData(updData, idProducto, idItem, valor){
-    updData[`${SUC_STOCK_ROOT}${idProducto}/Stocks/${idItem}/stock`] = valor
-    updData[`${SUC_STOCK_ROOT}${idProducto}/Stocks/${idItem}/Modificador`] = this.sucP.genUserDoc();
+  genUpdateData(updData, idProducto, valor: Stock) {
+    valor.Modificador = this.sucP.genUserDoc();
+    valor.id = idProducto;
+    updData[`${SUC_STOCK_ROOT}${idProducto}/`] = valor;
+  }
+
+  genMultiUpdadeData(updData, Items: DocStockItem[],
+                     isIngreso: boolean): Observable<any> {
+    return new Observable((obs) => {
+      let loop = (idx: number) => {
+        // Buscar stock actual
+        this.getOne(Items[idx].Perfil.id)
+            .subscribe(
+                (stk) => {
+                  let newStk: Stock;
+                  let stkItem: StockItem;
+                  let index: number = -1;
+                  // Check Stock
+                  if (stk && stk.Stocks) {  // Existe
+                    newStk = stk;
+                    // Buscar item
+                    index = newStk.Stocks.findIndex(
+                        (i) => { return (i.id == Items[idx].Color.id); });
+                  } else {  // Si no existe
+                    // Crear Stock y StockItem
+                    newStk = new Stock();
+                    newStk.Creador = this.sucP.genUserDoc();
+                    newStk.id = Items[idx].Perfil.id;
+                    newStk.Stocks = [];
+                  }
+                  // Check StockItem
+                  if (index > -1) {  // Si existe se modifica
+                    stkItem = newStk.Stocks[index];
+                    stkItem.Modificador = this.sucP.genUserDoc();
+                    if (isIngreso) {
+                      // Agregar stock
+                      stkItem.stock =
+                          stkItem.stock * 1 + Items[idx].cantidad * 1;
+                    } else {
+                      // Restar stock
+                      stkItem.stock =
+                          stkItem.stock * 1 - Items[idx].cantidad * 1;
+                    }
+                    // Agregar el Item nuevo o modificado
+                    newStk.Stocks[index] = stkItem;
+                  } else {  // si no se crea
+                    stkItem = new StockItem(Items[idx].Color.id,
+                                            Items[idx].cantidad, 0);
+                    stkItem.Creador = newStk.Creador;
+                    // Agregar el Item nuevo o modificado
+                    newStk.Stocks.push(stkItem);
+                  }
+                  // Generar UpdateData
+                  this.genUpdateData(updData, Items[idx].Perfil.id, newStk);
+                  idx++;
+                  if (idx < Items.length) {  // Si quedan items
+                    // Siguiente item
+                    loop(idx);
+                  } else {  // si no
+                    // Retornar UpdateData
+                    obs.next(updData);
+                    obs.complete();
+                  }
+                },
+                (error) => {
+                  obs.error(`No se pudo actualizar el Stock! Error:${error}`);
+                  obs.complete();
+                });
+      };
+      // Loop para recorrer todos los Items
+      loop(0);
+    });
   }
 
   getAll(realtime: boolean = false): Observable<Stock[]> {
@@ -40,11 +121,7 @@ export class StockProvider {
 
   getOne(idProducto: string, realtime: boolean = false): Observable<Stock> {
     return new Observable((obs) => {
-      let fin = () => {
-        if (!realtime) {
-          obs.complete();
-        }
-      };
+      let fin = () => { (realtime) ? null : obs.complete(); };
       this.db.object(`${SUC_STOCK_ROOT}${idProducto}/`)
           .subscribe(
               (data: Stock) => {
@@ -60,17 +137,24 @@ export class StockProvider {
 
   getStock(idProducto, idItem): Observable<number> {
     return new Observable((obs) => {
-      this.db.database
-          .ref(`${SUC_STOCK_ROOT}${idProducto}/Stokcs/${idItem}/stock/`)
-          .once('value')
-          .then((snap) => {
-            obs.next(snap.val() || 0);
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(error);
-            obs.complete();
-          });
+      this.getOne(idProducto)
+          .subscribe(
+              (snap) => {
+                if (snap.Stocks) {
+                  let idx: number = -1;
+                  idx = snap.Stocks.findIndex(
+                      (i) => { return (i.id == idItem); });
+                  obs.next((idx > -1) ? snap.Stocks[idx].stock : 0);
+                  obs.complete();
+                } else {
+                  obs.next(0);
+                  obs.complete();
+                }
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
     });
   }
 
@@ -80,9 +164,8 @@ export class StockProvider {
           .subscribe(
               (data) => {
                 let res: StockPerfil[] = [];
-                data.forEach((i) => {
-                  res.push(new StockPerfil(i.$key, i.Stock));
-                });
+                data.forEach(
+                    (i) => { res.push(new StockPerfil(i.$key, i.Stock)); });
                 obs.next(res);
                 obs.complete();
               },
@@ -132,123 +215,42 @@ export class StockProvider {
     });
   }
 
-  private updateStockItemsSubProceso(
-      items: PedidoItem[], observable: any, updateData?: any, idx?: number) {
-    if (!idx) {
-      idx = 0;
-      }
-    if (!updateData) {
-      updateData = {};
-    }
-    this.getStock(items[idx].Perfil.id, items[idx].Color.id)
-        .subscribe(
-            (stk) => {
-              if (!items[idx].isStockActualizado) {
-                updateData[`${items[idx].Perfil.id}/${items[idx].Color.id
-                           }/Stock`] = ((stk) ? stk : 0) - items[idx].cantidad;
-              }
-              idx++;
-              if (idx < items.length) {
-                this.updateStockItemsSubProceso(
-                    items, observable, updateData, idx);
-              } else {
-                this.db.database.ref(SUC_STOCK_ROOT)
-                    .update(updateData)
-                    .then(() => {
-                      observable.next(`Se actualizaron ${idx} registros!`);
-                      observable.complete();
-                    })
-                    .catch((error) => {
-                      observable.error(`Error al Actualizar ERROR:${error}`);
-                      observable.complete();
-                    });
-              }
-            },
-            (error) => {
-              observable.error(error);
-              observable.complete();
-            });
-  }
-
   setIngreso(doc: DocStockIngreso): Observable<string> {
     return new Observable((obs) => {
-      if (doc && SUC_DOCUMENTOS_STOCKINGRESOS_ROOT) {
-        let updData = {};
-        doc.id = doc.numero;
-        doc.Creador = this.sucP.genUserDoc();
-        doc.Items.forEach((i) => {
-          i.isStockActualizado = true;
-        });
-        updData[`${SUC_DOCUMENTOS_STOCKINGRESOS_ROOT}${doc.id}`] = doc;
-        updData[`${SUC_CONTADORES_ROOT}docStockIngreso/`] = doc.id;
-        let loop = (idx: number) => {
-          this.getOne(doc.Items[idx].Perfil.id)
-              .subscribe(
-                  (stk) => {
-                    if (!stk.id) {  // Si no existe se crea
-                      stk = new Stock();
-                      stk.Creador = this.sucP.genUserDoc();
-                      stk.id = doc.Items[idx].Perfil.id;
-                      let newItem: StockItem = new StockItem();
-                      newItem.Creador = stk.Creador;
-                      newItem.id = doc.Items[idx].Color.id;
-                      newItem.stock = doc.Items[idx].cantidad * 1;
-                      stk.Stocks[newItem.id] = newItem;
-                    } else {  // si Existe se modifica
-                      stk.Modificador = this.sucP.genUserDoc();
-                      let itemIndex = -1;
-                      if (stk.Stocks) {  // si tiene items se busca
-                        itemIndex = stk.Stocks.findIndex((i) => {
-                          return i.id == doc.Items[idx].Color.id;
-                        });
-                      } else {  // si no tiene items se setea a []
-                        stk.Stocks = [];
-                        }
-                      if (itemIndex >
-                          -1) {  // si se ecuentra el item se modifica
-                        stk.Stocks[itemIndex].Modificador =
-                            this.sucP.genUserDoc();
-                        stk.Stocks[itemIndex].stock +=
-                            doc.Items[idx].cantidad * 1;
-                      } else {  // si no se encuentra de crea y agrega
-                        let newItem: StockItem = new StockItem();
-                        newItem = new StockItem();
-                        newItem.Creador = this.sucP.genUserDoc();
-                        newItem.id = doc.Items[idx].Color.id;
-                        newItem.stock = doc.Items[idx].cantidad * 1;
-                        stk.Stocks[newItem.id]=newItem;
-                      }
-                    }
-
-                    updData[`${SUC_STOCK_ROOT}${stk.id}/`] =
-                        JSON.parse(JSON.stringify(stk));
-                    idx++;
-                    if (idx < doc.Items.length) {
-                      loop(idx);
-                    } else {
-                      this.db.database.ref()
-                          .update(updData)
-                          .then(() => {
-                            obs.next('Stock actualizado Correctamente!');
-                            obs.complete();
-                          })
-                          .catch((error) => {
-                            obs.error('No se pudo actualizar el Stock!');
-                            obs.complete();
-                          });
-                    }
-                  },
-                  (error) => {
-                    obs.error('No se pudo actualizar el Stock!');
-                    obs.complete();
-                  });
-        };
-        loop(0);
-      } else {
-        obs.error('Faltan datos!');
-        obs.complete();
-      }
-
+      let updData = {};
+      // Set id
+      let nro: number = doc.numero;
+      doc.id = doc.numero;
+      // Set Creador
+      doc.Creador = this.sucP.genUserDoc();
+      // Set Items actualizados true
+      doc.Items.forEach((i) => { i.isStockActualizado = true; });
+      // Add stock ingreso
+      updData[`${SUC_DOCUMENTOS_STOCKINGRESOS_ROOT}${nro}`] = doc;
+      // Actualizar contador
+      this.constadorsP.genStockIngresoUpdateData(updData, nro);
+      // Generar UpdateData Multiple y Ejecutar peticion
+      this.genMultiUpdadeData(updData, doc.Items, true)
+          .subscribe(
+              (data) => {
+                updData = data;
+                // Ejecutar Peticion
+                this.db.database.ref()
+                    .update(updData)
+                    .then(() => {
+                      obs.next('Stock Actualizado Correctamente!');
+                      obs.complete();
+                    })
+                    .catch((error) => {
+                      obs.error(
+                          `No se pudo actualizar el Stock! Error:${error}`);
+                      obs.complete();
+                    });
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
     });
   }
 }

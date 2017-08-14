@@ -1,11 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
-
 import {Cliente} from './../../../models/clientes.clases';
-import {Pedido} from './../../../models/pedidos.clases';
-import {PedidosEntregarPage} from './../../../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
+import {Pedido, EMBALADO} from './../../../models/pedidos.clases';
+import {
+  PedidosEntregarPage
+} from './../../../pages/documentos/pedidos/pedidos-entregar/pedidos-entregar';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
-import {EMBALADO, PedidosProvider} from './../../../providers/pedidos/pedidos';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'pedidos-por-entregar-card',
@@ -18,25 +19,18 @@ export class PedidosPorEntregarCardComponent {
   pedidos: Pedido[];
   clientes: Cliente[];
 
-  constructor(
-      public navCtrl: NavController, private pedidosP: PedidosProvider,
-      private clientesP: ClientesProvider) {}
+  constructor(public navCtrl: NavController, private pedidosP: PedidosProvider,
+              private clientesP: ClientesProvider) {}
 
-  ngOnInit() {
-    this.getData();
-  }
-  ionViewWillEnter() {
-    this.getData();
-  }
+  ngOnInit() { this.getData(); }
+  ionViewWillEnter() { this.getData(); }
 
   getCliente(id): Cliente {
     if (this.cliente) {
       return this.cliente;
     } else {
       if (this.clientes) {
-        return this.clientes.find((cliente) => {
-          return (cliente.id == id);
-        });
+        return this.clientes.find((cliente) => { return (cliente.id == id); });
       } else {
         return null;
       }
@@ -46,10 +40,8 @@ export class PedidosPorEntregarCardComponent {
   getTotalUnidades(): number {
     let t: number = 0.00;
     if (this.pedidos) {
-      this.pedidos.forEach((pedido) => {
-        t += pedido.totalUnidades * 1;
-      });
-      }
+      this.pedidos.forEach((pedido) => { t += pedido.totalUnidades * 1; });
+    }
     return t;
   }
 
@@ -66,10 +58,9 @@ export class PedidosPorEntregarCardComponent {
   getTotalUs(): number {
     let t: number = 0.00;
     if (this.pedidos) {
-      this.pedidos.forEach((pedido) => {
-        t += this.getSubTotalUs(pedido) * 1;
-      });
-      }
+      this.pedidos.forEach(
+          (pedido) => { t += this.getSubTotalUs(pedido) * 1; });
+    }
     return t;
   }
 
@@ -88,12 +79,10 @@ export class PedidosPorEntregarCardComponent {
             }
           });
     } else {
-      this.pedidosP.getAll(EMBALADO).subscribe((pedidos) => {
-        this.pedidos = pedidos;
-      });
-      this.clientesP.getAll().subscribe((clientes) => {
-        this.clientes = clientes;
-      });
+      this.pedidosP.getAll(EMBALADO)
+          .subscribe((pedidos) => { this.pedidos = pedidos; });
+      this.clientesP.getAll().subscribe(
+          (clientes) => { this.clientes = clientes; });
     }
   }
 }

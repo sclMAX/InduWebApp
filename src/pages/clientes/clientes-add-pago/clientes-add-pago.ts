@@ -79,7 +79,7 @@ export class ClientesAddPagoPage {
           res += (c.Cheque.monto * 1 || 0) / (c.Dolar.valor * 1 || 1);
         });
       }
-      this.newPago.totalUs = res;
+      this.newPago.totalFinalUs = res;
       return res;
     }
     return 0.00;

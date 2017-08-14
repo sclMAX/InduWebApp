@@ -1,12 +1,26 @@
 import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {
+  AlertController,
+  LoadingController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 
 import {Cliente} from './../../../../models/clientes.clases';
-import {calcularTotalFinal, calSubTotalCDs, Pedido} from './../../../../models/pedidos.clases';
+import {
+  calcularTotalFinal,
+  calSubTotalCDs,
+  Pedido,
+  PRESUPUESTO,
+  PEDIDO
+} from './../../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../../providers/clientes/clientes';
-import {ContadoresProvider} from './../../../../providers/contadores/contadores';
+import {
+  ContadoresProvider
+} from './../../../../providers/contadores/contadores';
 import {DolarProvider} from './../../../../providers/dolar/dolar';
-import {PEDIDO, PedidosProvider, PRESUPUESTO} from './../../../../providers/pedidos/pedidos';
+import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {SucursalProvider} from './../../../../providers/sucursal/sucursal';
 import {CV, UsuarioProvider} from './../../../../providers/usuario/usuario';
 
@@ -22,19 +36,20 @@ export class PedidosNewPage {
   dolarValor: number = 0.00;
   CVs: CV[];
 
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      private pedidosP: PedidosProvider, private dolarP: DolarProvider,
-      private loadCtrl: LoadingController,
-      private contadoresP: ContadoresProvider,
-      private toastCtrl: ToastController, private alertCtrl: AlertController,
-      private clientesP: ClientesProvider, private usuarioP: UsuarioProvider,
-      private sucP: SucursalProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private pedidosP: PedidosProvider, private dolarP: DolarProvider,
+              private loadCtrl: LoadingController,
+              private contadoresP: ContadoresProvider,
+              private toastCtrl: ToastController,
+              private alertCtrl: AlertController,
+              private clientesP: ClientesProvider,
+              private usuarioP: UsuarioProvider,
+              private sucP: SucursalProvider) {
     this.cliente = this.navParams.get('Cliente');
     this.oldPedido = this.navParams.get('Pedido');
     if (!this.cliente && !this.oldPedido) {
       this.navCtrl.pop();
-      }
+    }
     if (!this.oldPedido) {
       this.pedido = new Pedido();
       this.pedido.tipo = PRESUPUESTO;
@@ -58,7 +73,7 @@ export class PedidosNewPage {
   chkExistEmbalados(): boolean {
     if (this.isEdit) {
       return this.pedido.Items.findIndex((i) => {return i.isEmbalado}) > -1;
-      }
+    }
     return false;
   }
 
@@ -109,7 +124,8 @@ export class PedidosNewPage {
       message: `Esta seguro que desea ELIMINAR el Presupuesto Nro:${this.pedido
                    .numero}?`,
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
@@ -146,7 +162,8 @@ export class PedidosNewPage {
       message:
           'Aceptar para confirmar el Presupuesto y pasarlo a Pedido para su Embalaje.',
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
@@ -183,14 +200,13 @@ export class PedidosNewPage {
               });
     });
   }
-  goBack() {
-    this.navCtrl.pop();
-  }
+  goBack() { this.navCtrl.pop(); }
   setCV() {
     let alert = this.alertCtrl.create({
       title: 'CV',
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -208,9 +224,8 @@ export class PedidosNewPage {
         type: 'radio',
         value: `${idx}`,
         label: cv.tipo,
-        checked:
-            (this.pedido && this.pedido.CV && this.pedido.CV.tipo &&
-             (cv.tipo == this.pedido.CV.tipo))
+        checked: (this.pedido && this.pedido.CV && this.pedido.CV.tipo &&
+                  (cv.tipo == this.pedido.CV.tipo))
       });
     });
     alert.present();
@@ -221,16 +236,19 @@ export class PedidosNewPage {
       title: 'Descuento General (%)',
       subTitle:
           `maximo autorizado ${this.sucP.getUsuario().maxDescuentoGeneral}%`,
-      inputs: [{
-        type: 'number',
-        name: 'descuento',
-        placeholder: 'Ingrese el descuento...',
-        min: 0,
-        max: this.sucP.getUsuario().maxDescuentoGeneral,
-        value: `${this.pedido.descuentoGeneral}`
-      }],
+      inputs: [
+        {
+          type: 'number',
+          name: 'descuento',
+          placeholder: 'Ingrese el descuento...',
+          min: 0,
+          max: this.sucP.getUsuario().maxDescuentoGeneral,
+          value: `${this.pedido.descuentoGeneral}`
+        }
+      ],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -250,11 +268,11 @@ export class PedidosNewPage {
   isDireccionValid(): boolean {
     let estado: boolean = false;
     estado = (this.pedido.DireccionEntrega.calle) &&
-        (this.pedido.DireccionEntrega.calle.trim().length > 0);
+             (this.pedido.DireccionEntrega.calle.trim().length > 0);
     estado = estado && (this.pedido.DireccionEntrega.localidad) &&
-        (this.pedido.DireccionEntrega.localidad.trim().length > 0);
+             (this.pedido.DireccionEntrega.localidad.trim().length > 0);
     estado = estado && (this.pedido.fechaEntrega) &&
-        (this.pedido.fechaEntrega.trim().length > 0);
+             (this.pedido.fechaEntrega.trim().length > 0);
     return estado;
   }
 
@@ -266,21 +284,15 @@ export class PedidosNewPage {
     estado = estado && this.pedido.CV != null;
     return estado;
   }
-  calTotalNeto(): number {
-    return calSubTotalCDs(this.pedido);
-  }
-  calTotalFinal(): number {
-    return calcularTotalFinal(this.pedido);
-  }
+  calTotalNeto(): number { return calSubTotalCDs(this.pedido); }
+  calTotalFinal(): number { return calcularTotalFinal(this.pedido); }
 
   calTotalU$() {
     this.pedido.totalUs = this.pedidosP.calTotalU$(this.pedido, this.cliente);
     return this.pedido.totalUs;
   }
 
-  calTotal$() {
-    return this.pedidosP.calTotal$(this.pedido, this.cliente);
-  }
+  calTotal$() { return this.pedidosP.calTotal$(this.pedido, this.cliente); }
 
   calTotalUnidades(): number {
     this.pedido.totalUnidades =
@@ -305,24 +317,18 @@ export class PedidosNewPage {
 
   private async getNro() {
     this.contadoresP.getPedidosCurrentNro(this.pedido.tipo)
-        .subscribe((data: number) => {
-          this.pedido.numero = data;
-        });
+        .subscribe((data: number) => { this.pedido.numero = data; });
   }
 
   private async getCliente() {
-    this.clientesP.getOne(this.oldPedido.idCliente).subscribe((data) => {
-      this.cliente = data;
-    });
-    }
+    this.clientesP.getOne(this.oldPedido.idCliente)
+        .subscribe((data) => { this.cliente = data; });
+  }
   async getDolarValor() {
-    this.dolarP.getDolarValor().subscribe((val: number) => {
-      this.dolarValor = val;
-    })
+    this.dolarP.getDolarValor().subscribe(
+        (val: number) => { this.dolarValor = val; })
   }
   private async getCVs() {
-    this.usuarioP.getCV().subscribe((cvs) => {
-      this.CVs = cvs;
-    });
+    this.usuarioP.getCV().subscribe((cvs) => { this.CVs = cvs; });
   }
 }
