@@ -1,2 +1,4 @@
 - Revisar form Clientes Add validaciones 
 - ClientesAdd => Unificar aspecto, agregar botones a titulos desplegables eliminar iconos etc.
+- Ver Stock Ingreso
+- Ver entrega de pedido
