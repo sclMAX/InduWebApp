@@ -49,7 +49,10 @@ export class ChequesAmPage {
 
   cancelar() { this.viewCtrl.dismiss(); }
 
-  aceptar() { this.viewCtrl.dismiss(this.newCheque); }
+  aceptar() {
+    this.newCheque.id = `${this.newCheque.idBanco}-${this.newCheque.idSucursal}-${this.newCheque.numero}`;
+     this.viewCtrl.dismiss(this.newCheque);
+     }
 
   chkBanco(): boolean {
     if (!this.isEdit && this.bancos) {

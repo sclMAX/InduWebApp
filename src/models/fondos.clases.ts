@@ -49,7 +49,7 @@ export class Banco extends ClaseControlada {
 export class BancoSucursal {
   id: number;
   nombre: string;
-  direccion: Direccion = new Direccion();
+  Direccion: Direccion = new Direccion();
   telefono: string;
 }
 

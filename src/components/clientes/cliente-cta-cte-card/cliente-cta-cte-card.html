@@ -14,12 +14,12 @@
       <ion-col item-end>Haber</ion-col>
       <ion-col item-end>Saldo</ion-col>
     </ion-row>
-    <ion-row ion-item *ngFor="let item of ctaCte">
+    <button ion-item *ngFor="let item of ctaCte" (click)="onClickItem(item)">
       <ion-col>{{item?.fecha |date:'dd/MM/yyyy'}}</ion-col>
       <ion-col>{{item?.tipoDocumento}}{{item?.numero |number:'3.0-0'}}</ion-col>
       <ion-col item-end>U$ {{item?.debe |number:'1.2-2'}}</ion-col>
       <ion-col item-end>U$ {{item?.haber|number:'1.2-2'}}</ion-col>
       <ion-col item-end>U$ {{item?.saldo|number:'1.2-2'}}</ion-col>
-    </ion-row>
+    </button>
   </ion-list>
 </ion-card>

@@ -7,10 +7,10 @@ path /{version}/Sucursales/{sucursal}  {
   read() { true }
   update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
 }
-path /{version}/Sucursales/{sucursal}/Documentos/{doc}/  {
+path /{version}/Sucursales/{sucursal}/Documentos/{doc}  {
   read() { true }
   update(){this == prior(root.Usuarios[auth.uid].Sucursal)}
-  index(){['isPreparado','idCliente','isStockActualizado']}
+  index(){['idCliente','isStockActualizado']}
 }
 
 type Cliente {

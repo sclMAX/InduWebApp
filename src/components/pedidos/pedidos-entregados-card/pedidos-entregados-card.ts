@@ -50,7 +50,6 @@ export class PedidosEntregadosCardComponent {
     if (this.cliente) {
       this.pedidosP.getAllCliente(this.cliente.id, ENTREGADO)
           .subscribe((data) => {
-            console.log('pedidos-entregados-card.getData():', data);
             this.pedidos = data
           });
     } else {

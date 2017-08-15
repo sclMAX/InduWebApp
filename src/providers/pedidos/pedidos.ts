@@ -1,3 +1,4 @@
+import {LogProvider} from './../log/log';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import * as moment from 'moment';
@@ -43,7 +44,8 @@ export class PedidosProvider {
               private ctacteP: CtasCtesProvider, private dolarP: DolarProvider,
               private adicionalesP: AdicionalesProvider,
               private descuentosP: DescuentosProvider,
-              private sucP: SucursalProvider, private stockP: StockProvider) {
+              private sucP: SucursalProvider, private stockP: StockProvider,
+              private logP: LogProvider) {
     this.adicionalesP.getAdicionales().subscribe(
         (data) => { this.adicionales = data; });
     this.descuentosP.getDescuentos().subscribe(
@@ -122,6 +124,38 @@ export class PedidosProvider {
           })
           .catch((error) => {
             obs.error(`No se pudo Eliminar el ${pedido.tipo}`);
+            obs.complete();
+          });
+    });
+  }
+
+  removeEmbalado(pedido: Pedido): Observable<string> {
+    return new Observable((obs) => {
+      let updData = {};
+      // Set a Null
+      this.genUpdateData(updData, pedido, pedido.tipo, {});
+      // Actualizar stock
+      this.stockP.genMultiUpdadeData(updData, pedido.Items, true)
+          .subscribe((data) => { updData = data; }, (error) => {
+            obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
+            obs.complete();
+          });
+      // Actualizar Cta.Cte.
+      if (pedido.isInCtaCte) {
+        pedido.tipo = 'PedidoCancelado';
+        this.ctacteP.genDocUpdateData(updData, pedido, false);
+      }
+      // log
+      this.logP.genPedidoUpdateData(updData, pedido, 'Cancelado');
+      // Ejecutar peticion
+      this.db.database.ref()
+          .update(updData)
+          .then(() => {
+            obs.next('Pedido Eliminado!');
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
             obs.complete();
           });
     });
@@ -225,8 +259,8 @@ export class PedidosProvider {
           });
     });
   }
-  getAll(tipo: string = PEDIDO,
-         realtime: boolean = true): Observable<Pedido[]> {
+
+  getAll(tipo: string, realtime: boolean = true): Observable<Pedido[]> {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
       this.db.list(`${SUC_DOCUMENTOS_ROOT}${tipo}/`)
@@ -250,7 +284,6 @@ export class PedidosProvider {
                    {query: {orderByChild: 'idCliente', equalTo: idCliente}})
           .subscribe(
               (snap: Pedido[]) => {
-                console.log('pedidos.getAllCliente.snap:', snap);
                 obs.next(snap || []);
                 fin();
               },
@@ -317,7 +350,7 @@ export class PedidosProvider {
     });
   }
 
-  getOne(tipo: string = PEDIDO, Nro: number): Observable<Pedido> {
+  getOne(tipo: string , Nro: number): Observable<Pedido> {
     return new Observable((obs) => {
       this.db.object(`${SUC_DOCUMENTOS_ROOT}${tipo}/${Nro}`)
           .subscribe((data: Pedido) => { obs.next(data); }, (error) => {

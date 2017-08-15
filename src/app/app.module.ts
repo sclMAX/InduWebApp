@@ -1,3 +1,4 @@
+import {PrintPagoPage} from './../pages/documentos/print/print-pago/print-pago';
 import {
   PrintCtacteCardPage
 } from './../pages/documentos/print/print-ctacte-card/print-ctacte-card';
@@ -148,7 +149,10 @@ import {
 } from '../components/form-badge-input-item/form-badge-input-item';
 import {PagosProvider} from '../providers/pagos/pagos';
 import {ContadoresProvider} from '../providers/contadores/contadores';
-import { PresupuestosCardComponent } from '../components/pedidos/presupuestos-card/presupuestos-card';
+import {
+  PresupuestosCardComponent
+} from '../components/pedidos/presupuestos-card/presupuestos-card';
+import {LogProvider} from '../providers/log/log';
 
 export const environment = {
   production: false,
@@ -212,7 +216,8 @@ export const environment = {
     FormBadgeItemComponent,
     FormBadgeInputItemComponent,
     PrintCtacteCardPage,
-    PresupuestosCardComponent
+    PresupuestosCardComponent,
+    PrintPagoPage
   ],
   imports: [
     BrowserModule,
@@ -248,7 +253,8 @@ export const environment = {
     BancosSucursalAmPage,
     ChequesAmPage,
     ClientesAddPagoPage,
-    PrintCtacteCardPage
+    PrintCtacteCardPage,
+    PrintPagoPage
   ],
   providers: [
     StatusBar,
@@ -267,7 +273,8 @@ export const environment = {
     CtasCtesProvider,
     BancosProvider,
     PagosProvider,
-    ContadoresProvider
+    ContadoresProvider,
+    LogProvider
   ]
 })
 export class AppModule {

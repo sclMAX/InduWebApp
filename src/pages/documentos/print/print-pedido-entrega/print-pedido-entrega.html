@@ -1,4 +1,4 @@
-<ion-grid fixed padding margin-auto>
+<ion-grid full padding margin-auto>
   <ion-col>
     <ion-row ion-item text-center no-lines>
       <h5 item-start>Pedido Nro:{{pedido?.numero |number:'3.0-0'}}</h5>
@@ -9,11 +9,11 @@
       <ion-row>
         <ion-col>
           <ion-row>
-            <strong>Direccion:</strong> {{cliente?.Direccion.Calle}}, {{cliente?.Direccion.Localidad}}, {{cliente?.Direccion.Localidad}}
+            <strong>Direccion:</strong> {{cliente?.Direccion.calle}}, {{cliente?.Direccion.localidad}}, {{cliente?.Direccion.provincia}}
           </ion-row>
           <ion-row>
-            <strong> Direccion de entrega:</strong> {{pedido?.DireccionEntrega?.Calle}}, {{pedido?.DireccionEntrega?.Localidad}},
-            {{pedido?.DireccionEntrega?.Localidad}}
+            <strong> Direccion de entrega:</strong> {{pedido?.DireccionEntrega?.calle}}, {{pedido?.DireccionEntrega?.localidad}},
+            {{pedido?.DireccionEntrega?.provincia}}
           </ion-row>
         </ion-col>
         <ion-col>
@@ -25,7 +25,7 @@
       <ion-row>
         <ion-row><strong>Comentarios</strong></ion-row>
         <ion-row>
-          <p>{{pedido?.Comentario}}</p>
+          <p>{{pedido?.comentario}}</p>
         </ion-row>
       </ion-row>
     </ion-row>

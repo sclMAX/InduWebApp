@@ -1,3 +1,5 @@
+import {PrintPagoPage} from './../../documentos/print/print-pago/print-pago';
+import {PAGO} from './../../../models/pedidos.clases';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {ContadoresProvider} from './../../../providers/contadores/contadores';
 import {DolarProvider} from './../../../providers/dolar/dolar';
@@ -27,8 +29,10 @@ export class ClientesAddPagoPage {
   newPago: ClientePago;
   cliente: Cliente;
   dolar: Dolar;
-  isEdit: boolean = false;
+  isViewOnly: boolean = false;
   saldoCliente: number = 0.00;
+  showEfectivo: boolean = true;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
@@ -37,10 +41,19 @@ export class ClientesAddPagoPage {
               private contadoresP: ContadoresProvider,
               private pagosP: PagosProvider) {
     this.cliente = this.navParams.get('Cliente');
+    this.newPago = this.navParams.get('Pago');
     if (this.cliente) {
-      this.newPago = new ClientePago();
-      this.newPago.idCliente = this.cliente.id;
-      this.title = `Nuevo Pago Cliente ${this.cliente.nombre}...`;
+      if (this.newPago) {
+        this.title =
+            `Pago ${this.newPago.numero} Cliente ${this.cliente.nombre}...`;
+        this.isViewOnly = true;
+      } else {
+        this.newPago = new ClientePago();
+        this.newPago.tipo = PAGO;
+        this.newPago.idCliente = this.cliente.id;
+        this.title = `Nuevo Pago Cliente ${this.cliente.nombre}...`;
+        this.isViewOnly = false;
+      }
       this.getData();
     } else {
       this.navCtrl.pop();
@@ -67,9 +80,17 @@ export class ClientesAddPagoPage {
   }
   removeCheque(idx: number) { this.newPago.Cheques.splice(idx, 1); }
 
-  calSandoActual(): number { return this.saldoCliente - this.calTotalPago(); }
+  calSandoActual(): number {
+    if (this.newPago.isInCtaCte) {
+      return this.saldoCliente;
+    }
+    return this.saldoCliente - this.calTotalPago();
+  }
 
   calTotalPago(): number {
+    if (this.isViewOnly) {
+      return this.newPago.totalFinalUs;
+    }
     if (this.newPago && this.newPago.RefDolar) {
       let res: number = 0.00;
       res = (this.newPago.efectivo * 1 || 0) / (this.dolar.valor * 1 || 1);
@@ -109,6 +130,11 @@ export class ClientesAddPagoPage {
     });
   }
 
+  print() {
+    this.navCtrl.push(PrintPagoPage,
+                      {Cliente: this.cliente, Pago: this.newPago});
+  }
+
   isValid(): boolean {
     let res: boolean = false;
     if (this.newPago) {
@@ -117,7 +143,7 @@ export class ClientesAddPagoPage {
     return res;
   }
   private async getData() {
-    if (!this.isEdit && this.newPago) {
+    if (!this.isViewOnly && this.newPago) {
       this.contadoresP.getPagosCurrentNro().subscribe(
           (nro) => { this.newPago.id = nro; });
     }

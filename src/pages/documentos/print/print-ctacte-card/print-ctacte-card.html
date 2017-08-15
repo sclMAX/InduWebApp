@@ -1,4 +1,4 @@
-<ion-grid fixed padding margin-auto>
+<ion-grid full padding margin-auto>
   <ion-col>
     <!-- Header -->
     <ion-row ion-item text-center no-lines>
@@ -17,7 +17,7 @@
           <th>Saldo</th>
         </tr>
         <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of ctaCte; let p=even" text-right>
-          <td>{{item?.fecha}}</td>
+          <td>{{item?.fecha |date:'dd/MM/yyyy'}}</td>
           <td>{{item?.tipoDocumento}}-{{item?.numero |number:'3.0-0'}}</td>
           <td>U$ {{item?.debe |number:'1.2-2'}}</td>
           <td>U$ {{item?.haber |number:'1.2-2'}}</td>

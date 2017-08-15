@@ -10,6 +10,7 @@ export const PEDIDO: string = 'Pedido';
 export const EMBALADO: string = 'Embalado';
 export const ENREPARTO: string = 'En Reparto';
 export const ENTREGADO: string = 'Entregado';
+export const PAGO: string = 'Pago';
 
 export class Pedido extends Documento {
   fechaEntrega: string;
@@ -20,7 +21,7 @@ export class Pedido extends Documento {
   descuentoKilos: number = 0.00;
   descuentoGeneral: number = 0.00;
   cantidadPaquetes: number = 0;
-  totalUs:number = 0.00;
+  totalUs: number = 0.00;
   CV: CV;
   constructor() {
     super();

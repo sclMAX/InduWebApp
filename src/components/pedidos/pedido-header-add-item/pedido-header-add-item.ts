@@ -32,14 +32,14 @@ export class PedidoHeaderAddItemComponent {
         name: 'cantidad',
         placeholder: 'Ingrese la cantida',
         type: 'number',
-        value: `${this.newItem.cantidad}`
+        value: `${this.newItem.cantidad || 1}`
       }],
       buttons: [{
         text: 'Aceptar',
         role: 'ok',
         handler: (data) => {
           if (data.cantidad > 0) {
-            this.newItem.cantidad = data.cantidad;
+            this.newItem.cantidad = data.cantidad * 1;
             if (!this.newItem.Perfil) {
               this.goSelectPerfil();
             }

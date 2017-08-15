@@ -1,8 +1,22 @@
+import {PagosProvider} from './../../../providers/pagos/pagos';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import {
+  PrintPedidoEntregaPage
+} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
+import {
+  EMBALADO,
+  ENTREGADO,
+  PAGO,
+  PEDIDO
+} from './../../../models/pedidos.clases';
+import {
+  ClientesAddPagoPage
+} from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
 import {FECHA} from './../../../models/comunes.clases';
 import {
   PrintCtacteCardPage
 } from './../../../pages/documentos/print/print-ctacte-card/print-ctacte-card';
-import {NavController} from 'ionic-angular';
+import {NavController, LoadingController, ToastController} from 'ionic-angular';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {Cliente, CtaCte} from './../../../models/clientes.clases';
 import {Component, Input} from '@angular/core';
@@ -18,12 +32,55 @@ export class ClienteCtaCteCardComponent {
   saldo: number = 0.00;
   showList: boolean = false;
 
-  constructor(public navCtrl: NavController,
-              private ctaCteP: CtasCtesProvider) {}
+  constructor(public navCtrl: NavController, private ctaCteP: CtasCtesProvider,
+              private pedidosP: PedidosProvider, private pagosP: PagosProvider,
+              private loadCtrl: LoadingController,
+              private toastCtrl: ToastController) {}
 
   ngOnInit() { this.getData(); }
 
   onClickHeader() { this.showList = !this.showList; }
+
+  onClickItem(item: CtaCte) {
+    let load = this.loadCtrl.create({content: 'Buscando datos...'});
+    let toast = this.toastCtrl.create(
+        {position: 'middle', duration: 1000, message: 'Sin Conexion!'});
+    console.log(item);
+    switch (item.tipoDocumento) {
+      case PAGO:
+      load.setContent(`Buscando Pago Nro:${item.numero}...`);
+      load.present().then(() => {
+        this.pagosP.getOne(item.numero)
+            .subscribe(
+                (data) => {
+                  load.dismiss();
+                  this.navCtrl.push(ClientesAddPagoPage,
+                    {Cliente: this.cliente, Pago: data});
+                },
+                (error) => {
+                  load.dismiss();
+                  toast.present();
+                });
+      });
+        
+        break;
+      case PEDIDO:
+        load.setContent(`Buscando Pedido Nro:${item.numero}...`);
+        load.present().then(() => {
+          this.pedidosP.getOne(ENTREGADO, item.numero)
+              .subscribe(
+                  (data) => {
+                    load.dismiss();
+                    this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: data});
+                  },
+                  (error) => {
+                    load.dismiss();
+                    toast.present();
+                  });
+        });
+        break;
+    }
+  }
 
   print() {
     this.navCtrl.push(PrintCtacteCardPage,

@@ -34,51 +34,94 @@ export class StockProvider {
   genMultiUpdadeData(updData, Items: DocStockItem[],
                      isIngreso: boolean): Observable<any> {
     return new Observable((obs) => {
+      let stks: Stock[] = [];
       let loop = (idx: number) => {
         // Buscar stock actual
         this.getOne(Items[idx].Perfil.id)
             .subscribe(
                 (stk) => {
                   let newStk: Stock;
-                  let stkItem: StockItem;
-                  let index: number = -1;
+                  let newItem: StockItem;
                   // Check Stock
-                  if (stk && stk.Stocks) {  // Existe
+                  if (stk && stk.Stocks) {
                     newStk = stk;
-                    // Buscar item
-                    index = newStk.Stocks.findIndex(
-                        (i) => { return (i.id == Items[idx].Color.id); });
-                  } else {  // Si no existe
-                    // Crear Stock y StockItem
+                  } else {
                     newStk = new Stock();
-                    newStk.Creador = this.sucP.genUserDoc();
                     newStk.id = Items[idx].Perfil.id;
-                    newStk.Stocks = [];
+                    newStk.Creador = this.sucP.genUserDoc();
+                    newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                    newItem.Creador = newStk.Creador;
+                    newStk.Stocks = [newItem];
                   }
-                  // Check StockItem
-                  if (index > -1) {  // Si existe se modifica
-                    stkItem = newStk.Stocks[index];
-                    stkItem.Modificador = this.sucP.genUserDoc();
-                    if (isIngreso) {
-                      // Agregar stock
-                      stkItem.stock =
-                          stkItem.stock * 1 + Items[idx].cantidad * 1;
-                    } else {
-                      // Restar stock
-                      stkItem.stock =
-                          stkItem.stock * 1 - Items[idx].cantidad * 1;
+                  // Buscar si existe en la lista de actualizacion
+                  let es = stks.find((s) => { return s.id == newStk.id; });
+                  let index = -1;
+                  if (es) {  // si existe en la lista
+                    //busco si existe el item
+                    let index = es.Stocks.findIndex(
+                        (i) => { return i.id == Items[idx].Color.id; });
+                    if(index > -1){ //si existe el item se actualiza
+                      if (isIngreso) {
+                        es.Stocks[index].stock += Items[idx].cantidad * 1;
+                      } else {
+                        es.Stocks[index].stock -= Items[idx].cantidad * 1;
+                      }                      
+                    }else{//si no existe
+                      //Buscar si exite en la DB
+                      index = newStk.Stocks.findIndex((i)=>{
+                        return i.id == Items[idx].Color.id;
+                      });
+                      if(index >-1){ // si ya existe en DB se actualiza
+                        newStk.Stocks[index].Modificador = this.sucP.genUserDoc();
+                        if (isIngreso) {
+                          newStk.Stocks[index].stock += Items[idx].cantidad * 1;
+                        } else {
+                          newStk.Stocks[index].stock -= Items[idx].cantidad * 1;
+                        }
+                      }else{
+                        newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                        newItem.Creador = this.sucP.genUserDoc();
+                        if (isIngreso) {
+                          newItem.stock += Items[idx].cantidad * 1;
+                        } else {
+                          newItem.stock -= Items[idx].cantidad * 1;
+                        }
+                        newStk.Stocks.push(newItem);
+                      }
+                      // se agrega item a la lista
+                      es.Stocks.push(newItem);
                     }
-                    // Agregar el Item nuevo o modificado
-                    newStk.Stocks[index] = stkItem;
-                  } else {  // si no se crea
-                    stkItem = new StockItem(Items[idx].Color.id,
-                                            Items[idx].cantidad, 0);
-                    stkItem.Creador = newStk.Creador;
-                    // Agregar el Item nuevo o modificado
-                    newStk.Stocks.push(stkItem);
+                    //Se iguala con la lista 
+                    newStk = es;
+                  } else {  // Si no esta en la lista
+                    // Buscar Item
+                    index = newStk.Stocks.findIndex(
+                        (i) => { return i.id == Items[idx].Color.id; });
+                    if (index > -1) {  // Si existe se actualiza
+                      newStk.Stocks[index].Modificador = this.sucP.genUserDoc();
+                      if (isIngreso) {
+                        newStk.Stocks[index].stock += Items[idx].cantidad * 1;
+                      } else {
+                        newStk.Stocks[index].stock -= Items[idx].cantidad * 1;
+                      }
+                    } else {  // si no existe se crea actualiza y agrega
+                      newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                      newItem.Creador = this.sucP.genUserDoc();
+                      if (isIngreso) {
+                        newItem.stock += Items[idx].cantidad * 1;
+                      } else {
+                        newItem.stock -= Items[idx].cantidad * 1;
+                      }
+                      newStk.Stocks.push(newItem);
+                    }
+                    // Agrego stok a lista de actualizacion
+                    stks.push(newStk);
                   }
                   // Generar UpdateData
                   this.genUpdateData(updData, Items[idx].Perfil.id, newStk);
+                  //Set Flag 
+                  Items[idx].isStockActualizado = true;
+                  // Incremetar Contador
                   idx++;
                   if (idx < Items.length) {  // Si quedan items
                     // Siguiente item

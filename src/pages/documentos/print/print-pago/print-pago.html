@@ -1,0 +1,84 @@
+<ion-grid full padding margin-auto>
+  <ion-col>
+    <!-- Header -->
+    <ion-row ion-item text-center no-lines>
+      <h2 item-start>Pago Nro:{{pago?.numero |number:'3.0-0'}}</h2>
+      <h3><strong>{{cliente?.id}} - {{cliente?.nombre}}</strong></h3>
+      <h5 item-end>Fecha: {{pago?.fecha|date:'dd/MM/yyyy'}}</h5>
+    </ion-row>
+    <!-- Cheques -->
+    <ion-row ion-item no-lines *ngIf="pago?.Cheques?.length >0">
+      <h2 text-center><strong>Detalle de Cheques</strong></h2>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Nro de Cheque</th>
+          <th>Fecha E.</th>
+          <th>Fecha C.</th>
+          <th>Monto ($)</th>
+          <th>Ref.Dolar</th>
+          <th>Monto (U$)</th>
+        </tr>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let cheque of pago?.Cheques; let p=even" text-right>
+          <td>{{cheque?.Cheque?.id}} </td>
+          <td>{{cheque?.Cheque?.fechaEmision |date:'dd/MM/yyyy'}} </td>
+          <td>{{cheque?.Cheque?.fechaCobro |date:'dd/MM/yyyy'}} </td>
+          <td>$ {{cheque?.Cheque?.monto |number:'1.2-2'}} </td>
+          <td>$ {{cheque?.Dolar?.valor |number:'1.2-2'}} </td>
+          <td>U$ {{(cheque?.Cheque?.monto / cheque?.Dolar?.valor) |number:'1.2-2'}} </td>
+        </tr>
+        <tr text-right>
+          <td style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
+          <td style='border-right:none;border-left:none;border-bottom:none;border-top:none'></td>
+          <td><strong>Total $: </strong></td>
+          <td>$ {{calTotalCheques$() |number:'1.2-2'}} </td>
+          <td><strong>Total U$: </strong></td>
+          <td>U$ {{calTotalChequesU$() |number:'1.2-2'}} </td>
+        </tr>
+      </table>
+    </ion-row>
+    <!-- Efectivo ($) -->
+    <ion-row ion-item no-lines *ngIf="pago?.efectivo">
+      <h2 text-center><strong>Efectivo ($)</strong></h2>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Monto ($)</th>
+          <th>Ref. Dolar</th>
+          <th>Monto (U$)</th>
+        </tr>
+        <tr [bgColor]="'white'" text-right>
+          <td>$ {{pago?.efectivo |number:'1.2-2'}} </td>
+          <td>$ {{pago?.RefDolar?.valor |number:'1.2-2'}} </td>
+          <td>U$ {{(pago?.efectivo / pago?.RefDolar?.valor) |number:'1.2-2'}} </td>
+        </tr>
+      </table>
+    </ion-row>
+    <!-- Efectivo (U$) -->
+    <ion-row ion-item no-lines *ngIf="pago?.dolares">
+      <h2 text-center><strong>Efectivo (U$)</strong></h2>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Monto (U$)</th>
+        </tr>
+        <tr [bgColor]="'white'" text-right>
+          <td>$ {{pago?.dolares |number:'1.2-2'}} </td>
+        </tr>
+      </table>
+    </ion-row>
+    <!-- Total Pago (U$) -->
+    <ion-row ion-item no-lines>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Total Pago (U$)</th>
+        </tr>
+        <tr [bgColor]="'white'" text-right>
+          <td>U$ {{pago?.totalFinalUs |number:'1.2-2'}} </td>
+        </tr>
+      </table>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+<!-- Botones -->
+<ion-fab top right>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>

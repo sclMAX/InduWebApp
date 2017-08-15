@@ -1,51 +1,49 @@
+import {LogProvider} from './../log/log';
+import {PAGO} from './../../models/pedidos.clases';
+import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 
 import {ClientePago, CtaCte} from './../../models/clientes.clases';
 import {ContadoresProvider} from './../contadores/contadores';
-import {SUC_DOCUMENTOS_CTASCTES_ROOT, SUC_DOCUMENTOS_PAGOS_ROOT, SUC_FONDOS_CHEQUES_CARTERA, SUC_LOG_ROOT, SucursalProvider} from './../sucursal/sucursal';
+import {
+  SUC_DOCUMENTOS_CTASCTES_ROOT,
+  SUC_DOCUMENTOS_PAGOS_ROOT,
+  SUC_FONDOS_CHEQUES_CARTERA,
+  SUC_LOG_ROOT,
+  SucursalProvider
+} from './../sucursal/sucursal';
 
 @Injectable()
 export class PagosProvider {
-  constructor(
-      private db: AngularFireDatabase, private sucP: SucursalProvider,
-      private contadoresP: ContadoresProvider) {}
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
+              private contadoresP: ContadoresProvider,
+              private ctacteP: CtasCtesProvider, private logP: LogProvider) {}
 
   add(pago: ClientePago): Observable<string> {
     return new Observable((obs) => {
       let updData = {};
       let Nro: number = pago.id;
+      pago.numero = pago.id;
       // Set Usuario
       pago.Creador = this.sucP.genUserDoc();
       // Preparar DB Rutas
       updData[`${SUC_DOCUMENTOS_PAGOS_ROOT}${Nro}`] = pago;
       // Cheques
       pago.Cheques.forEach((cheque) => {
-        cheque.Cheque.id =
-            `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
+        cheque.Cheque.id = `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
             }-${cheque.Cheque.numero}`;
         cheque.Cheque.Creador = this.sucP.genUserDoc();
         updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.Cheque.id}/`] =
             cheque.Cheque;
       });
       // Cta Cte
-      let cta = new CtaCte();
-      cta.tipoDocumento = 'Pago';
-      cta.Creador = this.sucP.genUserDoc();
-      cta.numero = Nro;
-      cta.fecha = pago.fecha;
-      cta.debe = 0.00;
-      cta.haber = pago.totalFinalUs;
-      cta.saldo = cta.debe - cta.haber;
-      cta.id = `${cta.tipoDocumento}${cta.numero}`;
-      updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${pago.idCliente}/${cta.id}/`] =
-          cta;
+      this.ctacteP.genDocUpdateData(updData, pago, false);
       // Contador
       this.contadoresP.genPagosUpdateData(updData, Nro);
       // Log
-      let log = this.sucP.genLog(pago);
-      updData[`${SUC_LOG_ROOT}Pagos/Creados/${log.id}`] = log;
+      this.logP.genPagoUpdateData(updData, pago, 'Creado');
       this.db.database.ref()
           .update(updData)
           .then(() => {
@@ -56,6 +54,21 @@ export class PagosProvider {
             obs.error(`No se guardo el Pago! Error:${error}`);
             obs.complete();
           });
+    });
+  }
+
+  getOne(idPago: number): Observable<ClientePago> {
+    return new Observable((obs) => {
+      this.db.database.ref(`${SUC_DOCUMENTOS_PAGOS_ROOT}${idPago}/`)
+          .once('value',
+                (snap) => {
+                  obs.next(snap.val() || null);
+                  obs.complete();
+                },
+                (error) => {
+                  obs.error(error);
+                  obs.complete();
+                });
     });
   }
 }

@@ -78,6 +78,46 @@ export class PedidosEntregarPage {
     });
   }
 
+  borrar() {
+    let alert = this.alertCtrl.create({
+      title: 'Eliminar...',
+      subTitle: 'Esta seguro que desea Eliminar el pedido?',
+      message:
+          'Se eliminara definitivamente el pedido, se actualizara el stock y la Cta.Cte.',
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {
+          text: 'Aceptar',
+          role: 'ok',
+          handler: () => { this.borrarProcess(); }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  private borrarProcess() {
+    let load = this.loadCtrl.create({content: 'Eliminando Pedido...'});
+    load.present().then(() => {
+      let toast = this.toastCtrl.create({position: 'middle'});
+      this.pedidosP.removeEmbalado(this.pedido)
+          .subscribe(
+              (ok) => {
+                this.navCtrl.pop();
+                load.dismiss();
+                toast.setMessage(ok);
+                toast.setDuration(1000);
+                toast.present();
+              },
+              (error) => {
+                load.dismiss();
+                toast.setMessage(error);
+                toast.setShowCloseButton(true);
+                toast.present();
+              });
+    });
+  }
+
   isValid(): boolean {
     let res: boolean = false;
     res = this.pedido.CV != null;
@@ -108,7 +148,7 @@ export class PedidosEntregarPage {
           handler: (data) => {
             if (data) {
               let d: number = data.descuento * 1;
-              if (d >= 0 && d <= this.usuario.maxDescuentoGeneral) {
+              if (d <= this.usuario.maxDescuentoGeneral) {
                 this.pedido.descuentoGeneral = d;
               }
             }
