@@ -1,25 +1,18 @@
-import {LogProvider} from './../log/log';
-import {PAGO} from './../../models/pedidos.clases';
-import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-
-import {ClientePago, CtaCte} from './../../models/clientes.clases';
+import {ClientePago} from './../../models/clientes.clases';
 import {ContadoresProvider} from './../contadores/contadores';
-import {
-  SUC_DOCUMENTOS_CTASCTES_ROOT,
-  SUC_DOCUMENTOS_PAGOS_ROOT,
-  SUC_FONDOS_CHEQUES_CARTERA,
-  SUC_LOG_ROOT,
-  SucursalProvider
-} from './../sucursal/sucursal';
+import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
+import {LogProvider} from './../log/log';
+import {SUC_DOCUMENTOS_PAGOS_ROOT, SUC_FONDOS_CHEQUES_CARTERA, SucursalProvider} from './../sucursal/sucursal';
 
 @Injectable()
 export class PagosProvider {
-  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
-              private contadoresP: ContadoresProvider,
-              private ctacteP: CtasCtesProvider, private logP: LogProvider) {}
+  constructor(
+      private db: AngularFireDatabase, private sucP: SucursalProvider,
+      private contadoresP: ContadoresProvider,
+      private ctacteP: CtasCtesProvider, private logP: LogProvider) {}
 
   add(pago: ClientePago): Observable<string> {
     return new Observable((obs) => {
@@ -32,7 +25,8 @@ export class PagosProvider {
       updData[`${SUC_DOCUMENTOS_PAGOS_ROOT}${Nro}`] = pago;
       // Cheques
       pago.Cheques.forEach((cheque) => {
-        cheque.Cheque.id = `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
+        cheque.Cheque.id =
+            `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
             }-${cheque.Cheque.numero}`;
         cheque.Cheque.Creador = this.sucP.genUserDoc();
         updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.Cheque.id}/`] =
@@ -60,15 +54,16 @@ export class PagosProvider {
   getOne(idPago: number): Observable<ClientePago> {
     return new Observable((obs) => {
       this.db.database.ref(`${SUC_DOCUMENTOS_PAGOS_ROOT}${idPago}/`)
-          .once('value',
-                (snap) => {
-                  obs.next(snap.val() || null);
-                  obs.complete();
-                },
-                (error) => {
-                  obs.error(error);
-                  obs.complete();
-                });
+          .once(
+              'value',
+              (snap) => {
+                obs.next(snap.val() || null);
+                obs.complete();
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
     });
   }
 }
