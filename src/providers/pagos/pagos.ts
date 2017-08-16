@@ -51,15 +51,16 @@ export class PagosProvider {
   getOne(idPago: number): Observable<ClientePago> {
     return new Observable((obs) => {
       this.db.database.ref(`${SUC_DOCUMENTOS_PAGOS_ROOT}${idPago}/`)
-          .once('value',
-                (snap) => {
-                  obs.next(snap.val() || null);
-                  obs.complete();
-                },
-                (error) => {
-                  obs.error(error);
-                  obs.complete();
-                });
+          .once(
+              'value',
+              (snap) => {
+                obs.next(snap.val() || null);
+                obs.complete();
+              },
+              (error) => {
+                obs.error(error);
+                obs.complete();
+              });
     });
   }
 }
