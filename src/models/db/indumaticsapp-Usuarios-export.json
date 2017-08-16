@@ -40,5 +40,16 @@
     "provincia": "Entre Ríos",
     "id": "BQUkQVsMfVN47uTNSMozOSMbMlF3",
     "isEmbalaje": false
+  },
+  "TEvhDIbtvKfTaV9RYcjE3IHk8tq1": {
+    "maxDescuentoGeneral": 4,
+    "maxDescuentoItem": 4,
+    "nombre": "Encargado Rio Cuarto",
+    "email": "suc_riocuarto@indumatics.com.ar",
+    "sucursal": "Rio Cuarto",
+    "localidad": "Rio Cuarto",
+    "provincia": "Córdoba",
+    "id": "TEvhDIbtvKfTaV9RYcjE3IHk8tq1",
+    "isEmbalaje": false
   }
 }

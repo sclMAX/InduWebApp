@@ -10,8 +10,7 @@ import {
   Stock,
   StockEstado,
   StockEstadoPedidosDetalle,
-  StockItem,
-  StockPerfil
+  StockItem
 } from './../../models/stock.clases';
 import {
   SUC_DOCUMENTOS_ROOT,
@@ -198,25 +197,6 @@ export class StockProvider {
                 obs.error(error);
                 obs.complete();
               });
-    });
-  }
-
-  getStockPerfil(idProducto): Observable<StockPerfil[]> {
-    return new Observable((obs) => {
-      this.db.list(`${SUC_STOCK_ROOT}${idProducto}/`)
-          .subscribe(
-              (data) => {
-                let res: StockPerfil[] = [];
-                data.forEach(
-                    (i) => { res.push(new StockPerfil(i.$key, i.Stock)); });
-                obs.next(res);
-                obs.complete();
-              },
-              (error) => {
-                obs.error(error);
-                obs.complete();
-              });
-
     });
   }
 

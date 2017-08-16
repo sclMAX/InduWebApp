@@ -1,17 +1,13 @@
+import {FondosProvider} from './../fondos/fondos';
 import {LogProvider} from './../log/log';
-import {PAGO} from './../../models/pedidos.clases';
 import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
-
-import {ClientePago, CtaCte} from './../../models/clientes.clases';
+import {ClientePago} from './../../models/clientes.clases';
 import {ContadoresProvider} from './../contadores/contadores';
 import {
-  SUC_DOCUMENTOS_CTASCTES_ROOT,
   SUC_DOCUMENTOS_PAGOS_ROOT,
-  SUC_FONDOS_CHEQUES_CARTERA,
-  SUC_LOG_ROOT,
   SucursalProvider
 } from './../sucursal/sucursal';
 
@@ -19,25 +15,20 @@ import {
 export class PagosProvider {
   constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
               private contadoresP: ContadoresProvider,
-              private ctacteP: CtasCtesProvider, private logP: LogProvider) {}
+              private ctacteP: CtasCtesProvider, private logP: LogProvider,
+              private fondosP: FondosProvider) {}
 
   add(pago: ClientePago): Observable<string> {
     return new Observable((obs) => {
       let updData = {};
-      let Nro: number = pago.id;
-      pago.numero = pago.id;
+      let Nro: number = Number(pago.id);
+      pago.numero = Nro;
       // Set Usuario
       pago.Creador = this.sucP.genUserDoc();
       // Preparar DB Rutas
       updData[`${SUC_DOCUMENTOS_PAGOS_ROOT}${Nro}`] = pago;
-      // Cheques
-      pago.Cheques.forEach((cheque) => {
-        cheque.Cheque.id = `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
-            }-${cheque.Cheque.numero}`;
-        cheque.Cheque.Creador = this.sucP.genUserDoc();
-        updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.Cheque.id}/`] =
-            cheque.Cheque;
-      });
+      // Set Ingresp Fondos 
+      this.fondosP.genIngresoPagoUpdateData(updData,pago);
       // Cta Cte
       this.ctacteP.genDocUpdateData(updData, pago, false);
       // Contador

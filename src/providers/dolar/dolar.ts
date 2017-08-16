@@ -39,7 +39,7 @@ export class DolarProvider {
       let updData = {};
       let dolar: Dolar = new Dolar();
       dolar.fecha = moment().format(FECHA);
-      dolar.valor = valor;
+      dolar.valor =Number(valor);
       dolar.id = 'Dolar';
       updData[`${COMUN_DOLAR}`] = dolar;
       let now = moment(dolar.fecha, FECHA);

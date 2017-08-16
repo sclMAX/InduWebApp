@@ -153,6 +153,7 @@ import {
   PresupuestosCardComponent
 } from '../components/pedidos/presupuestos-card/presupuestos-card';
 import {LogProvider} from '../providers/log/log';
+import { FondosProvider } from '../providers/fondos/fondos';
 
 export const environment = {
   production: false,
@@ -274,7 +275,8 @@ export const environment = {
     BancosProvider,
     PagosProvider,
     ContadoresProvider,
-    LogProvider
+    LogProvider,
+    FondosProvider
   ]
 })
 export class AppModule {

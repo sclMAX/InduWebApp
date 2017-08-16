@@ -9,6 +9,18 @@ export class Dolar {
   valor: number;
 }
 
+export class CajaItem extends ClaseControlada{
+  id:string;
+  tipoDocumento:string;
+  numeroDoc:number;
+  fecha:string = moment().format(FECHA)
+  efectivo:number = 0.00;
+  dolares:number = 0.00;
+  cheques:number = 0.00;
+  comentarios:string;
+  isIngreso:boolean = false;
+}
+
 export class Cheque extends ClaseControlada {
   id: string;  // "idBanco"-"idSucursal"-"Numero"
   idBanco: number;

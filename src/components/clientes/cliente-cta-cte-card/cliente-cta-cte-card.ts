@@ -3,12 +3,7 @@ import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {
   PrintPedidoEntregaPage
 } from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
-import {
-  EMBALADO,
-  ENTREGADO,
-  PAGO,
-  PEDIDO
-} from './../../../models/pedidos.clases';
+import {ENTREGADO, PAGO, PEDIDO} from './../../../models/pedidos.clases';
 import {
   ClientesAddPagoPage
 } from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
@@ -48,21 +43,21 @@ export class ClienteCtaCteCardComponent {
     console.log(item);
     switch (item.tipoDocumento) {
       case PAGO:
-      load.setContent(`Buscando Pago Nro:${item.numero}...`);
-      load.present().then(() => {
-        this.pagosP.getOne(item.numero)
-            .subscribe(
-                (data) => {
-                  load.dismiss();
-                  this.navCtrl.push(ClientesAddPagoPage,
-                    {Cliente: this.cliente, Pago: data});
-                },
-                (error) => {
-                  load.dismiss();
-                  toast.present();
-                });
-      });
-        
+        load.setContent(`Buscando Pago Nro:${item.numero}...`);
+        load.present().then(() => {
+          this.pagosP.getOne(item.numero)
+              .subscribe(
+                  (data) => {
+                    load.dismiss();
+                    this.navCtrl.push(ClientesAddPagoPage,
+                                      {Cliente: this.cliente, Pago: data});
+                  },
+                  (error) => {
+                    load.dismiss();
+                    toast.present();
+                  });
+        });
+
         break;
       case PEDIDO:
         load.setContent(`Buscando Pedido Nro:${item.numero}...`);

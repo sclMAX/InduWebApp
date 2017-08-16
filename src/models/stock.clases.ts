@@ -2,28 +2,19 @@ import {ClaseControlada} from './comunes.clases';
 export class Stock extends ClaseControlada {
   id: string;
   Stocks: StockItem[] = [];
-  }
+}
 
 export class StockItem extends ClaseControlada {
   id: string;
   stock: number;
   mpp: number;
-  constructor(id?:string, stock?:number, mpp?:number){
+  constructor(id?: string, stock?: number, mpp?: number) {
     super();
     this.id = id;
     this.stock = stock;
     this.mpp = mpp;
   }
-  }
-
-export class StockPerfil {
-  color: string;
-  stock: number;
-  constructor(color: string, stock: number) {
-    this.color = color;
-    this.stock = stock;
-  }
-  }
+}
 
 export class StockEstado {
   stock: number = 0;
@@ -34,7 +25,7 @@ export class StockEstado {
     this.stock = stock;
     this.Pedidos = [];
   }
-  }
+}
 
 export class StockEstadoPedidosDetalle {
   cantidad: number;

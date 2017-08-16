@@ -1,0 +1,75 @@
+{
+  "Adicionales": {
+    "192T": {
+      "adicional": 0.3,
+      "id": "192T"
+    },
+    "3000A": {
+      "adicional": 0.5,
+      "id": "3000A"
+    }
+  },
+  "Colores": {
+    "Blanco Brillante": {
+      "descripcion": "Pintado Blanco Brillante",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Natural": {
+      "descripcion": "Perfil Natural",
+      "id": "Natural",
+      "idColorPlanta": "Natural",
+      "isPintura": false,
+      "nombre": "Natural",
+      "precioUs": 6
+    }
+  },
+  "Descuentos": {
+    "Kilos": [
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 100
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 200
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 300
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 400
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 500
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 600
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 700
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 800
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 900
+      },
+      {
+        "descuento": 0.5,
+        "minimoUnidades": 1000
+      }
+    ]
+  },
+  "id": "Rio Cuarto"
+}

@@ -63,8 +63,8 @@ export class PedidosEntregarPage {
           .subscribe(
               (ok) => {
                 load.dismiss();
-                this.print();
                 this.navCtrl.pop();
+                this.print();                
                 toast.setMessage(ok);
                 toast.setDuration(1000);
                 toast.present();

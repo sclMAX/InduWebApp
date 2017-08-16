@@ -34,16 +34,15 @@ export class ProductosPerfilesListPage {
       showCloseButton: true
     });
     load.present().then(() => {
-      this.stockP.getStockPerfil(perfil.id).subscribe(
+      this.stockP.getOne(perfil.id).subscribe(
           (stk) => {
             load.dismiss();
-            if (stk && stk.length > 0) {
+            if (stk && stk.Stocks && stk.Stocks.length > 0) {  // Si Existe
               let msg: string = '';
               let st: number = 0;
-              stk.forEach((i) => {
-                msg +=
-                    `<strong>${i.color} :</strong><span> ${i.stock}</span><br>`;
-                st += i.stock * 1;
+              stk.Stocks.forEach((i) => {
+                msg += `<strong>${i.id} :</strong><span> ${i.stock}</span><br>`;
+                st += Number(i.stock);
               });
               msg += `<strong>Total: </strong><strong> ${st}</strong><br>`;
               let showStock = this.alertCtrl.create({
@@ -52,7 +51,7 @@ export class ProductosPerfilesListPage {
                 buttons: [{text: 'Aceptar', role: 'ok'}]
               });
               showStock.present();
-            } else {
+            } else {  // Si no, No hay stock
               toast.present();
             }
           },

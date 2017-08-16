@@ -11,10 +11,10 @@
       <form-badge-item label="Nro. Pago" padding-left>
         <h2>{{newPago?.id |number:'3.0-0'}}</h2>
       </form-badge-item>
-       <!-- Fecha Pago -->
-       <form-badge-input-item label="Fecha" padding-left>
-          <ion-input type="date" name="fecha" [readonly]="isViewOnly" [(ngModel)]="newPago.fecha"></ion-input>
-        </form-badge-input-item>
+      <!-- Fecha Pago -->
+      <form-badge-input-item label="Fecha" padding-left>
+        <ion-input type="date" name="fecha" [readonly]="isViewOnly" [(ngModel)]="newPago.fecha"></ion-input>
+      </form-badge-input-item>
       <!-- Saldo Cta Cte -->
       <form-badge-item label="Saldo Cta. Cte." padding-left>
         <h2>U$ {{saldoCliente |number:'1.2-2'}}</h2>
@@ -36,7 +36,7 @@
     <button ion-item no-lines color="listDivider1" text-center (click)="showEfectivo = !showEfectivo">
       Efectivo
     </button>
-    <ion-row *ngIf="showEfectivo" >
+    <ion-row *ngIf="showEfectivo">
       <!-- PESOS -->
       <form-badge-input-item label="Monto Efectivo ($)">
         <ion-input type="number" [readonly]="isViewOnly" name="Efectivo" [(ngModel)]="newPago.efectivo"></ion-input>
@@ -49,12 +49,12 @@
     <!-- Cheques Header-->
     <ion-row ion-item no-lines color="listDivider1" text-center>
       Cheques
-      <button *ngIf="!isViewOnly"  item-end ion-button mini small color="primary" (click)="addCheque()"><ion-icon name="add"></ion-icon></button>
+      <button *ngIf="!isViewOnly" item-end ion-button mini small color="primary" (click)="addCheque()"><ion-icon name="add"></ion-icon></button>
     </ion-row>
     <!-- Cheques List-->
     <ion-row ion-item no-lines [color]="(p)?'listPar':'listImpar'" *ngFor="let cheque of newPago?.Cheques; let idx=index;let p=even">
       <!-- Remover Item -->
-      <button *ngIf="!isViewOnly"  item-end ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button>
+      <button *ngIf="!isViewOnly" item-end ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button>
       <!-- Nro Cheque -->
       <form-badge-item item-start label="Nro. Cheque">
         <h2>{{cheque?.Cheque?.idBanco |number:'3.0-0'}}-{{cheque?.Cheque?.idSucursal |number:'3.0-0'}}-{{cheque?.Cheque?.numero
@@ -78,10 +78,9 @@
 </ion-content>
 <footer-comun></footer-comun>
 
-<ion-fab top left>
-  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
-</ion-fab>
 <ion-fab top right>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <br>
   <button ion-fab color="primary" [disabled]="!isValid() || isViewOnly" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
   <br>
   <button ion-fab color="dark" [disabled]="!isValid()" (click)="print()"><ion-icon name="print"></ion-icon></button>
