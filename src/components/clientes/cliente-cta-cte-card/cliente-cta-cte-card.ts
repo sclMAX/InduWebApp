@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-import {PagosProvider} from './../../../providers/pagos/pagos';
-import {PedidosProvider} from './../../../providers/pedidos/pedidos';
-import {
-  PrintPedidoEntregaPage
-} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
-import {ENTREGADO, PAGO, PEDIDO} from './../../../models/pedidos.clases';
-import {
-  ClientesAddPagoPage
-} from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
-import {FECHA} from './../../../models/comunes.clases';
-import {
-  PrintCtacteCardPage
-} from './../../../pages/documentos/print/print-ctacte-card/print-ctacte-card';
-import {NavController, LoadingController, ToastController} from 'ionic-angular';
-import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
-import {Cliente, CtaCte} from './../../../models/clientes.clases';
-=======
->>>>>>> 61d6c144c7dffa41f1002b37fd05bc147734acdf
 import {Component, Input} from '@angular/core';
 import {LoadingController, NavController, ToastController} from 'ionic-angular';
 import * as moment from 'moment';
@@ -69,14 +50,9 @@ export class ClienteCtaCteCardComponent {
               .subscribe(
                   (data) => {
                     load.dismiss();
-<<<<<<< HEAD
-                    this.navCtrl.push(ClientesAddPagoPage,
-                                      {Cliente: this.cliente, Pago: data});
-=======
                     this.navCtrl.push(
                         ClientesAddPagoPage,
                         {Cliente: this.cliente, Pago: data});
->>>>>>> 61d6c144c7dffa41f1002b37fd05bc147734acdf
                   },
                   (error) => {
                     load.dismiss();
