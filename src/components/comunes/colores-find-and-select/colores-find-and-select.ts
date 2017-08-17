@@ -1,5 +1,5 @@
-import {ColoresProvider} from './../../providers/colores/colores';
-import {Color} from './../../models/productos.clases';
+import {ColoresProvider} from './../../../providers/colores/colores';
+import {Color} from './../../../models/productos.clases';
 import {ViewController} from 'ionic-angular';
 import {Component} from '@angular/core';
 @Component({

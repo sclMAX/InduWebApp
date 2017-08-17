@@ -1,6 +1,6 @@
 import {
   ColoresFindAndSelectComponent
-} from './../../colores-find-and-select/colores-find-and-select';
+} from './../../comunes/colores-find-and-select/colores-find-and-select';
 import {
   PerfilesFindAndSelectComponent
 } from './../../perfiles/perfiles-find-and-select/perfiles-find-and-select';

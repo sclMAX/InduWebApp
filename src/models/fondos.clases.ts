@@ -3,7 +3,7 @@ import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
 export class Fondos {}
 
-export class Dolar {
+export class Dolar extends ClaseControlada {
   id: string = "Dolar";
   fecha: string = moment().format(FECHA);
   valor: number;

@@ -36,5 +36,13 @@ export class MyApp {
         });
       });
     });
+
+    /* --prod
+    platform.pause.subscribe(()=>{
+      up.logOut();
+    });
+    window.addEventListener('beforeunload', () => {
+      up.logOut();
+    }); */
   }
 }

@@ -36,11 +36,11 @@ import {
 } from '../components/clientes/cliente-cta-cte-card/cliente-cta-cte-card';
 import {
   ColoresFindAndSelectComponent
-} from '../components/colores-find-and-select/colores-find-and-select';
+} from '../components/comunes/colores-find-and-select/colores-find-and-select';
 import {
   DireccionEditItemComponent
 } from '../components/comunes/direccion-edit-item/direccion-edit-item';
-import {FooterComunComponent} from '../components/footer-comun/footer-comun';
+import {FooterComunComponent} from '../components/comunes/footer-comun/footer-comun';
 import {
   LineasFindAndSelectComponent
 } from '../components/lineas-find-and-select/lineas-find-and-select';
@@ -143,10 +143,10 @@ import {
 } from '../components/bancos/bancos-card/bancos-card';
 import {
   FormBadgeItemComponent
-} from '../components/form-badge-item/form-badge-item';
+} from '../components/comunes/form-badge-item/form-badge-item';
 import {
   FormBadgeInputItemComponent
-} from '../components/form-badge-input-item/form-badge-input-item';
+} from '../components/comunes/form-badge-input-item/form-badge-input-item';
 import {PagosProvider} from '../providers/pagos/pagos';
 import {ContadoresProvider} from '../providers/contadores/contadores';
 import {
@@ -154,6 +154,7 @@ import {
 } from '../components/pedidos/presupuestos-card/presupuestos-card';
 import {LogProvider} from '../providers/log/log';
 import { FondosProvider } from '../providers/fondos/fondos';
+import { DolarCardComponent } from '../components/fondos/dolar-card/dolar-card';
 
 export const environment = {
   production: false,
@@ -218,7 +219,8 @@ export const environment = {
     FormBadgeInputItemComponent,
     PrintCtacteCardPage,
     PresupuestosCardComponent,
-    PrintPagoPage
+    PrintPagoPage,
+    DolarCardComponent
   ],
   imports: [
     BrowserModule,

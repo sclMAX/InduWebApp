@@ -4,7 +4,7 @@ import {
 import {Perfil, Color, Linea} from './../../../models/productos.clases';
 import {
   ColoresFindAndSelectComponent
-} from './../../../components/colores-find-and-select/colores-find-and-select';
+} from './../../../components/comunes/colores-find-and-select/colores-find-and-select';
 import {
   PerfilesFindAndSelectComponent
 } from './../../../components/perfiles/perfiles-find-and-select/perfiles-find-and-select';

@@ -5,7 +5,7 @@ import {PedidoItem} from './../../../models/pedidos.clases';
 import {Color, Perfil} from './../../../models/productos.clases';
 import {StockEstado} from './../../../models/stock.clases';
 import {StockProvider} from './../../../providers/stock/stock';
-import {ColoresFindAndSelectComponent} from './../../colores-find-and-select/colores-find-and-select';
+import {ColoresFindAndSelectComponent} from './../../comunes/colores-find-and-select/colores-find-and-select';
 import {PerfilesFindAndSelectComponent} from './../../perfiles/perfiles-find-and-select/perfiles-find-and-select';
 
 @Component({

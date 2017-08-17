@@ -6,6 +6,7 @@ export const USUARIOS: string = `${ROOT}Usuarios/`;
 export const COMUN_CONTADORES_CLIENTES: string =
     `${COMUN_CONTADORES_ROOT}Clientes/`;
 export const COMUN_DOLAR: string = `${ROOT}Comun/Dolar/`;
+export const COMUN_DOLAR_HISTORICO: string = `${ROOT}Comun/DolarHistorico/`;
 export const PRODUCTOS_ROOT: string = `${ROOT}Productos/`;
 export const PRODUCTOS_PERFILES: string = `${PRODUCTOS_ROOT}Perfiles/`;
 export const PRODUCTOS_LINEAS: string = `${PRODUCTOS_ROOT}Lineas/`;
