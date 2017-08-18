@@ -64,9 +64,7 @@ export class DolarProvider {
       dolar.valor = Number(valor);
       dolar.id = 'Dolar';
       updData[`${COMUN_DOLAR}`] = dolar;
-      let now = moment(dolar.fecha, FECHA);
-      let id = `${now.year()}-${now.month()}-${now.day()}`;
-      updData[`${COMUN_DOLAR_HISTORICO}${id}`] = dolar;
+      updData[`${COMUN_DOLAR_HISTORICO}${dolar.fecha}`] = dolar;
       let log = this.sucP.genLog(dolar);
       updData[`${LOG_ROOT}Dolar/Modificado/${log.id}`] = log;
       this.db.database.ref()

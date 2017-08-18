@@ -13,19 +13,6 @@
       <ion-col>
         <bancos-card colorHeader="bancosHeader"></bancos-card>
       </ion-col>
-
-    </ion-row>
-    <ion-row>
-      <form #formDolar="ngForm">
-        <ion-item>
-          <ion-label>Valor Dolar</ion-label>
-          <ion-input type="number" [(ngModel)]="dolar" name="valor" #valor required></ion-input>
-        </ion-item>
-        <ion-item>
-          <button ion-button [disabled]="!formDolar.valid" (click)="setDolar(valor.value)">Actualizar</button>
-        </ion-item>
-      </form>
-      <a href="http://www.bna.com.ar/Cotizador/MonedasHistorico" target="_blank">DOLAR</a>
     </ion-row>
   </ion-grid>
 </ion-content>

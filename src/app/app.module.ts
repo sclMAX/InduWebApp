@@ -27,10 +27,10 @@ import {
 } from '../components/bancos/bancos-sucursales-list/bancos-sucursales-list';
 import {
   ClienteActionToolBarComponent
-} from '../components/cliente-action-tool-bar/cliente-action-tool-bar';
+} from '../components/clientes/cliente-action-tool-bar/cliente-action-tool-bar';
 import {
   ClienteListItemContentComponent
-} from '../components/cliente-list-item-content/cliente-list-item-content';
+} from '../components/clientes/cliente-list-item-content/cliente-list-item-content';
 import {
   ClienteCtaCteCardComponent
 } from '../components/clientes/cliente-cta-cte-card/cliente-cta-cte-card';

@@ -4,11 +4,15 @@
       Dolar = $ {{dolar?.valor |number:'1.3-3'}}
     </button>
   <ion-list *ngIf="showList">
-    <ion-item no-lines [color]="toolBarColor">
+    <ion-item no-lines [color]="toolBarColor" *ngIf="isEditor">
+      <button item-start ion-button clear color="secondary" (click)="editDolar()">Editar Valor</button>
       <a ion-button small item-end clear href="http://www.bna.com.ar/Cotizador/MonedasHistorico" target="_blank"><img src="http://www.bna.com.ar/favicon.ico"></a>
     </ion-item>
-    <button ion-item [color]="(p)?'itemColor':(itemImparColor)?'itemImparColor':'itemColor'" *ngFor="let item of dolarHistorico;let p=even;">
+    <button ion-item [color]="(p)?'itemColor':(itemImparColor)?'itemImparColor':'itemColor'" *ngFor="let item of dolarHistorico;let p=even;let idx=index;">
         <span item-start>{{item?.fecha | date:'dd/MM/yyyy'}}</span>
+        <ion-icon *ngIf="(dolarHistorico.length > 1 && dolarHistorico[((idx + 1) < dolarHistorico.length)?idx + 1:idx].valor < item.valor )"  item-end name="arrow-up" color="danger"></ion-icon>
+        <ion-icon *ngIf="(dolarHistorico.length > 1 && dolarHistorico[((idx + 1) < dolarHistorico.length)?idx + 1:idx].valor == item.valor )" item-end name="remove" color="primary"></ion-icon>
+        <ion-icon *ngIf="(dolarHistorico.length > 1 && dolarHistorico[((idx + 1) < dolarHistorico.length)?idx + 1:idx].valor > item.valor )" item-end name="arrow-down" color="secondary"></ion-icon>
         <span item-end><strong>$ {{item?.valor |number:'1.3-3'}}</strong></span>
     </button>
   </ion-list>

@@ -1,7 +1,7 @@
-import {PRESUPUESTO} from './../../models/pedidos.clases';
+import {PRESUPUESTO} from './../../../models/pedidos.clases';
 import {
   ClientesAddPagoPage
-} from './../../pages/clientes/clientes-add-pago/clientes-add-pago';
+} from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {
   AlertController,
@@ -10,15 +10,15 @@ import {
   ToastController
 } from 'ionic-angular';
 
-import {Cliente} from './../../models/clientes.clases';
+import {Cliente} from './../../../models/clientes.clases';
 import {
   ClientesAddPage
-} from './../../pages/clientes/clientes-add/clientes-add';
+} from './../../../pages/clientes/clientes-add/clientes-add';
 import {
   PedidosNewPage
-} from './../../pages/documentos/pedidos/pedidos-new/pedidos-new';
-import {ClientesProvider} from './../../providers/clientes/clientes';
-import {PedidosProvider} from './../../providers/pedidos/pedidos';
+} from './../../../pages/documentos/pedidos/pedidos-new/pedidos-new';
+import {ClientesProvider} from './../../../providers/clientes/clientes';
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 
 @Component({
   selector: 'cliente-action-tool-bar',

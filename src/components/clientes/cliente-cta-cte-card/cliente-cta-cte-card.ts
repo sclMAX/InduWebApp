@@ -1,13 +1,16 @@
 import {Component, Input} from '@angular/core';
 import {LoadingController, NavController, ToastController} from 'ionic-angular';
-import * as moment from 'moment';
-
 import {Cliente, CtaCte} from './../../../models/clientes.clases';
-import {FECHA} from './../../../models/comunes.clases';
 import {ENTREGADO, PAGO, PEDIDO} from './../../../models/pedidos.clases';
-import {ClientesAddPagoPage} from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
-import {PrintCtacteCardPage} from './../../../pages/documentos/print/print-ctacte-card/print-ctacte-card';
-import {PrintPedidoEntregaPage} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
+import {
+  ClientesAddPagoPage
+} from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
+import {
+  PrintCtacteCardPage
+} from './../../../pages/documentos/print/print-ctacte-card/print-ctacte-card';
+import {
+  PrintPedidoEntregaPage
+} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
@@ -22,20 +25,16 @@ export class ClienteCtaCteCardComponent {
   ctaCte: CtaCte[] = [];
   saldo: number = 0.00;
   showList: boolean = false;
+  isFiltrando: boolean = false;
 
-  constructor(
-      public navCtrl: NavController, private ctaCteP: CtasCtesProvider,
-      private pedidosP: PedidosProvider, private pagosP: PagosProvider,
-      private loadCtrl: LoadingController, private toastCtrl: ToastController) {
-  }
+  constructor(public navCtrl: NavController, private ctaCteP: CtasCtesProvider,
+              private pedidosP: PedidosProvider, private pagosP: PagosProvider,
+              private loadCtrl: LoadingController,
+              private toastCtrl: ToastController) {}
 
-  ngOnInit() {
-    this.getData();
-  }
+  ngOnInit() { this.getData(); }
 
-  onClickHeader() {
-    this.showList = !this.showList;
-  }
+  onClickHeader() { this.showList = !this.showList; }
 
   onClickItem(item: CtaCte) {
     let load = this.loadCtrl.create({content: 'Buscando datos...'});
@@ -50,9 +49,8 @@ export class ClienteCtaCteCardComponent {
               .subscribe(
                   (data) => {
                     load.dismiss();
-                    this.navCtrl.push(
-                        ClientesAddPagoPage,
-                        {Cliente: this.cliente, Pago: data});
+                    this.navCtrl.push(ClientesAddPagoPage,
+                                      {Cliente: this.cliente, Pago: data});
                   },
                   (error) => {
                     load.dismiss();
@@ -80,22 +78,38 @@ export class ClienteCtaCteCardComponent {
   }
 
   print() {
-    this.navCtrl.push(
-        PrintCtacteCardPage, {CtaCte: this.ctaCte, Cliente: this.cliente});
-    }
+    this.navCtrl.push(PrintCtacteCardPage,
+                      {CtaCte: this.ctaCte, Cliente: this.cliente});
+  }
 
-  async getData() {
-    if (this.cliente) {
-      this.ctaCteP.getCtaCteCliente(this.cliente.id).subscribe((ctacte) => {
-        this.ctaCte = ctacte.sort((a, b) => {
-          return moment(a.fecha, FECHA).diff(moment(b.fecha, FECHA), 'days');
-        });
-        this.saldo = 0.00;
-        this.ctaCte.forEach((c) => {
-          this.saldo += c.debe - c.haber;
-          c.saldo = this.saldo;
-        });
+  onCancelFilter() {
+    this.isFiltrando = false;
+    this.getData();
+  }
+
+  onFilter(ev) {
+    this.onCancelFilter();
+    let val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.isFiltrando = true;
+      val = val.toLowerCase();
+      this.ctaCte = this.ctaCte.filter((i) => {
+        return (i.tipoDocumento &&
+                i.tipoDocumento.toLowerCase().indexOf(val) > -1) ||
+               (i.numero && i.numero.toString().indexOf(val) > -1);
       });
+    }
+  }
+
+  private async getData() {
+    if (this.cliente) {
+      this.ctaCteP.getCtaCteCliente(this.cliente.id)
+          .subscribe((ctacte) => {
+            this.ctaCte = ctacte;
+            this.saldo = 0.00;
+            this.ctaCte.forEach(
+                (i) => { this.saldo += Number(i.debe) - Number(i.haber); });
+          });
     }
   }
 }

@@ -3,9 +3,10 @@
     <ion-icon item-start name="logo-usd"></ion-icon>
     Cta. Cte. (U$ {{saldo |number:'1.2-2'}})
   </button>
-  <ion-list *ngIf="showList && ctaCte && ctaCte.length > 0">
+  <ion-list *ngIf="showList && ctaCte && (ctaCte.length > 0 || isFiltrando )">
     <ion-row ion-item no-lines mo-padding color="toolBar">
-      <button ion-fab mini color="light" (click)="print()"><ion-icon name="print"></ion-icon></button>
+      <ion-searchbar #buscar (ionInput)="onFilter($event)" (ionCancel)="onCancelFilter()" placeholder="Buscar comprobante..." ></ion-searchbar>
+      <button ion-fab item-end mini color="light" (click)="print()"><ion-icon name="print"></ion-icon></button>
     </ion-row>
     <ion-row ion-item>
       <ion-col>Fecha</ion-col>

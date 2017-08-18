@@ -1,6 +1,6 @@
-import { ClientesDetallePage } from './../../pages/clientes/clientes-detalle/clientes-detalle';
+import { ClientesDetallePage } from './../../../pages/clientes/clientes-detalle/clientes-detalle';
 import { NavController } from 'ionic-angular';
-import {Cliente} from './../../models/clientes.clases';
+import {Cliente} from './../../../models/clientes.clases';
 import {Component, Input} from '@angular/core';
 
 @Component({

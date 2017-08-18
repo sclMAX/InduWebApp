@@ -15,6 +15,7 @@ export class Usuario {
   isEmbalaje: boolean = true;
   maxDescuentoItem: number = 0.00;
   maxDescuentoGeneral: number = 0.00;
+  isDolarEdit:boolean = false;
 }
 
 export class UserDoc {
