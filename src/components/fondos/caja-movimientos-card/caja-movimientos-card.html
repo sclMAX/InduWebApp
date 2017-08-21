@@ -1,0 +1,44 @@
+<ion-card [color]="color">
+  <!-- Header -->
+  <button ion-item [color]="headerColor" (click)="showList = !showList">
+      <ion-icon item-start name="logo-usd"></ion-icon>
+        <ion-icon item-start name="cash"></ion-icon>
+        {{title}}
+      </button>
+  <!-- Detalle -->
+  <ion-list *ngIf="showList">
+    <!-- ToolBar -->
+    <ion-item no-lines [color]="toolBarColor">
+      <button item-end ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
+    </ion-item>
+    <ion-item>
+      <table border=1 width="100%">
+        <tr>
+          <th><strong>Fecha Movi.</strong></th>
+          <th><strong>Tipo</strong></th>
+          <th><strong>Comprobante</strong></th>
+          <th><strong>Efectivo ($)</strong></th>
+          <th><strong>Saldo Efectivo ($)</strong></th>
+          <th><strong>Dolares (U$)</strong></th>
+          <th> <strong>Saldo Dolares (U$)</strong></th>
+          <th><strong>Cheques ($)</strong></th>
+          <th> <strong>Saldo Cheques ($)</strong></th>
+        </tr>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of movimientos;let p=even;let idx=index;">
+          <td><span>{{item?.fecha |date:'dd/MM/yyyy'}}</span></td>
+          <td text-center>
+            <ion-icon *ngIf="item.isIngreso" color="primary" name="add-circle"></ion-icon>
+            <ion-icon *ngIf="!item.isIngreso" color="danger" name="remove-circle"></ion-icon>
+          </td>
+          <td><button ion-button clear>{{item?.id}}</button></td>
+          <td text-right>$ {{(item?.efectivo * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
+          <td text-right>$ {{saldos[idx]?.saldoEfectivo |number:'1.2-2'}}</td>
+          <td text-right>U$ {{(item?.dolares * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
+          <td text-right>U$ {{saldos[idx]?.saldoDolares |number:'1.2-2'}}</td>
+          <td text-right>$ {{(item?.cheques * ((item?.isIngreso)?1:-1))|number:'1.2-2'}}</td>
+          <td text-right>$ {{saldos[idx]?.saldoCheques |number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-item>
+  </ion-list>
+</ion-card>

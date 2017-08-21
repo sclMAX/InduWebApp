@@ -17,6 +17,7 @@ export class HomePage {
   title: string = SUCURSAL;
   usuario: Usuario = new Usuario();
   isLogin: boolean = true;
+  isChequesPorVencer:boolean ;
 
   constructor(public navCtrl: NavController,
               private usuarioP: UsuarioProvider) {}

@@ -1,0 +1,32 @@
+<ion-card [color]="color" *ngIf="cheques.length > 0" >
+  <!-- Header -->
+  <button ion-item [color]="headerColor" (click)="showList = !showList">
+      <ion-icon item-start name="cash"></ion-icon>
+      <ion-icon *ngIf="isExistChequesPorVencer"  item-start name="warning" color="danger"></ion-icon>
+      {{title}} ({{cheques?.length |number:'1.0-0'}})
+      <span item-end>$ {{calTotal() |number:'1.2-2'}} </span>
+    </button>
+  <!-- Detalle -->
+  <ion-list *ngIf="showList">
+    <!-- ToolBar -->
+    <ion-item no-lines [color]="toolBarColor">
+      <button item-end ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
+    </ion-item>
+    <!-- Encabezado -->
+    <ion-item no-lines color="toolBar">
+      <strong item-start>Numero de Cheque</strong>
+      <strong item-start>{{'Fecha Cobro'}}</strong>
+      <strong item-start>Monto</strong>
+      <strong item-end>Dias</strong>
+    </ion-item>
+    <!-- Items -->
+    <button ion-item [color]="getColor(item,p)" *ngFor="let item of cheques;let p=even;let idx=index;" (click)="goCheque(item)">
+        <span item-start>{{item?.id}}</span>
+        <span item-start>{{item?.fechaCobro |date:'dd/MM/yyyy'}}</span>
+        <span item-start>$ {{item?.monto |number:'1.2-2'}}</span>
+        <span item-end color="danger">
+          <strong>{{calDias(item) |number:'1.0-0'}}</strong>
+        </span>
+    </button>
+  </ion-list>
+</ion-card>

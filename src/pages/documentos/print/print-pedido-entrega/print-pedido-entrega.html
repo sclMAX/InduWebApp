@@ -86,8 +86,9 @@
           <td>U$ {{calTotalFinal() |number:'1.2-2'}}</td>
           <td>U$ {{saldo |number:'1.2-2'}}</td>
           <td *ngIf="!pedido?.isInCtaCte">U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
-          <td>${{pedido?.Dolar?.valor |number:'1.2-2'}}</td>
-          <td>$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.valor |number:'1.2-2'}}</td>
+          <td>$ {{pedido?.Dolar?.valor |number:'1.2-2'}}</td>
+          <td *ngIf="!pedido?.isInCtaCte">$ {{(saldo + calTotalFinal()) * pedido?.Dolar?.valor |number:'1.2-2'}}</td>
+          <td *ngIf="pedido?.isInCtaCte">$ {{(saldo) * pedido?.Dolar?.valor |number:'1.2-2'}}</td>
         </tr>
       </table>
     </ion-row>

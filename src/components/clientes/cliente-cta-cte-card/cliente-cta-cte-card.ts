@@ -40,7 +40,6 @@ export class ClienteCtaCteCardComponent {
     let load = this.loadCtrl.create({content: 'Buscando datos...'});
     let toast = this.toastCtrl.create(
         {position: 'middle', duration: 1000, message: 'Sin Conexion!'});
-    console.log(item);
     switch (item.tipoDocumento) {
       case PAGO:
         load.setContent(`Buscando Pago Nro:${item.numero}...`);

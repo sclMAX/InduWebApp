@@ -1,15 +1,14 @@
-import {ChequeEntregadoPor, CajaItem} from './../../models/fondos.clases';
-import {ClientePago} from './../../models/clientes.clases';
-import {
-  SUC_FONDOS_CHEQUES_CARTERA,
-  SucursalProvider,
-  SUC_FONDOS_ROOT
-} from './../sucursal/sucursal';
 import {Injectable} from '@angular/core';
+import {AngularFireDatabase} from 'angularfire2/database';
+import {Observable} from 'rxjs/Observable';
+
+import {ClientePago} from './../../models/clientes.clases';
+import {CajaItem, Cheque, ChequeEntregadoPor} from './../../models/fondos.clases';
+import {SUC_FONDOS_CHEQUES_CARTERA, SUC_FONDOS_ROOT, SucursalProvider} from './../sucursal/sucursal';
 
 @Injectable()
 export class FondosProvider {
-  constructor(private sucP: SucursalProvider) {
+  constructor(private db: AngularFireDatabase, private sucP: SucursalProvider) {
   }
 
   genIngresoPagoUpdateData(updData, pago: ClientePago) {
@@ -17,8 +16,8 @@ export class FondosProvider {
     // Ingresar Cheques a Cartera
     pago.Cheques.forEach((cheque) => {
       // Set Id
-      cheque.Cheque.id = `${cheque.Cheque.idBanco}-${cheque.Cheque.idSucursal
-          }-${cheque.Cheque.numero}`;
+      cheque.Cheque.id = `${cheque.Cheque.idBanco
+                         }-${cheque.Cheque.idSucursal}-${cheque.Cheque.numero}`;
       // Set Creador
       cheque.Cheque.Creador = this.sucP.genUserDoc();
       // Set EntregadoPor
@@ -38,7 +37,7 @@ export class FondosProvider {
     caja.efectivo = Number(pago.efectivo);
     caja.dolares = Number(pago.dolares);
     caja.cheques = Number(totalCheques);
-    this.genCajaAddIngresoUpdateData(updData,caja);
+    this.genCajaAddIngresoUpdateData(updData, caja);
   }
 
   genCajaAddIngresoUpdateData(updData, item: CajaItem) {
@@ -46,5 +45,38 @@ export class FondosProvider {
     item.Creador = this.sucP.genUserDoc();
     item.isIngreso = true;
     updData[`${SUC_FONDOS_ROOT}Caja/${item.id}`] = item;
+  }
+
+  getChequesEnCartera(realtime: boolean = true): Observable<Cheque[]> {
+    return new Observable((obs) => {
+      let fin = () => {
+        (realtime) ? null : obs.complete();
+      };
+      this.db
+          .list(
+              SUC_FONDOS_CHEQUES_CARTERA, {query: {orderByChild: 'fechaCobro'}})
+          .subscribe(
+              (snap: Cheque[]) => {
+                obs.next(snap || []);
+                fin();
+              },
+              (error) => {
+                obs.error(error);
+                fin();
+              });
+    });
+  }
+
+  getMovimientosCaja(): Observable<CajaItem[]> {
+    return new Observable((obs) => {
+      this.db.list(`${SUC_FONDOS_ROOT}Caja/`, {query: {orderByChild: 'fecha'}})
+          .subscribe(
+              (snap) => {
+                obs.next(snap || []);
+              },
+              (error) => {
+                obs.error(error);
+              });
+    });
   }
 }

@@ -21,6 +21,12 @@ export class CajaItem extends ClaseControlada{
   isIngreso:boolean = false;
 }
 
+export interface Saldos {
+  saldoEfectivo: number;
+  saldoDolares: number;
+  saldoCheques: number;
+}
+
 export class Cheque extends ClaseControlada {
   id: string;  // "idBanco"-"idSucursal"-"Numero"
   idBanco: number;

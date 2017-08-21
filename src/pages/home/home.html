@@ -8,10 +8,10 @@
       <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goProductos()">
         <ion-icon name="cube"></ion-icon>
       </button>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left color="danger" (click)="goRespartos()">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goRespartos()">
         <ion-icon name="icon-ind_camion"></ion-icon>
       </button>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goFondos()">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left [color]="(isChequesPorVencer)?'danger':''" (click)="goFondos()">
         <ion-icon name="logo-usd"></ion-icon>
       </button>
       <div ion-button icon-only style="width: 20px;pointer-events: none;"></div>
@@ -34,7 +34,8 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isLogin && usuario && !usuario.isEmbalaje">
-      <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card> 
+      <cheques-en-cartera-card title="Cheques por Vencer" (isChequesPorVencer)="isChequesPorVencer = $event" onlyPorVencer=true ></cheques-en-cartera-card>
+      <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card>
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
     </ion-row>

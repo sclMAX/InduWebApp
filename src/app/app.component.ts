@@ -37,12 +37,12 @@ export class MyApp {
       });
     });
 
-    /* --prod
+    /* --prod*/
     platform.pause.subscribe(()=>{
       up.logOut();
     });
     window.addEventListener('beforeunload', () => {
       up.logOut();
-    }); */
+    }); /**/
   }
 }

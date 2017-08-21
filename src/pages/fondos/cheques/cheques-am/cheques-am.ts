@@ -1,15 +1,12 @@
 import {Component} from '@angular/core';
 import {ModalController, NavParams, ViewController} from 'ionic-angular';
 import * as moment from 'moment';
+
+import {Cliente} from './../../../../models/clientes.clases';
 import {FECHA} from './../../../../models/comunes.clases';
-import {
-  Banco,
-  BancoSucursal,
-  Cheque,
-  ChequeFirmante,
-  validaCuit
-} from './../../../../models/fondos.clases';
+import {Banco, BancoSucursal, Cheque, ChequeFirmante, validaCuit} from './../../../../models/fondos.clases';
 import {BancosProvider} from './../../../../providers/bancos/bancos';
+import {ClientesProvider} from './../../../../providers/clientes/clientes';
 import {BancosamPage} from './../../bancos/bancosam/bancosam';
 
 @Component({
@@ -20,20 +17,25 @@ export class ChequesAmPage {
   title: string;
   newCheque: Cheque;
   oldCheque: Cheque;
+  cliente: Cliente;
   isEdit: boolean = false;
   bancos: Banco[] = [];
   selBanco: Banco;
   selSucursal: BancoSucursal;
   errorMsgFechaEmision: string = '';
   errorMsgFechaCobro: string = '';
-  constructor(public viewCtrl: ViewController, public navParams: NavParams,
-              private bancosP: BancosProvider,
-              private modalCtrl: ModalController) {
+  constructor(
+      public viewCtrl: ViewController, public navParams: NavParams,
+      private bancosP: BancosProvider, private modalCtrl: ModalController,
+      private clientesP: ClientesProvider) {
     this.oldCheque = this.navParams.get('Cheque');
     if (this.oldCheque) {
       this.newCheque = JSON.parse(JSON.stringify(this.oldCheque));
       this.isEdit = true;
-      this.title = `Editar Cheque [${this.newCheque.id}]...`;
+      this.title = `Cheque ${this.newCheque.id}`;
+      this.clientesP.getOne(this.newCheque.EntregadoPor.idCliente).subscribe((data)=>{
+        this.cliente = data;
+      });
     } else {
       this.getData();
       this.newCheque = new Cheque();
@@ -44,31 +46,39 @@ export class ChequesAmPage {
   }
 
   private async getData() {
-    this.bancosP.getAll().subscribe((bancos) => { this.bancos = bancos; });
+    this.bancosP.getAll().subscribe((bancos) => {
+      this.bancos = bancos;
+    });
   }
 
-  cancelar() { this.viewCtrl.dismiss(); }
+  cancelar() {
+    this.viewCtrl.dismiss();
+  }
 
   aceptar() {
-    this.newCheque.id = `${this.newCheque.idBanco}-${this.newCheque.idSucursal}-${this.newCheque.numero}`;
-     this.viewCtrl.dismiss(this.newCheque);
-     }
+    this.newCheque.id =
+        `${this.newCheque.idBanco}-${this.newCheque.idSucursal
+        }-${this.newCheque.numero}`;
+    this.viewCtrl.dismiss(this.newCheque);
+  }
 
   chkBanco(): boolean {
     if (!this.isEdit && this.bancos) {
-      this.selBanco = this.bancos.find(
-          (b) => { return (b.id * 1 == this.newCheque.idBanco * 1); });
+      this.selBanco = this.bancos.find((b) => {
+        return (b.id * 1 == this.newCheque.idBanco * 1);
+      });
       return this.selBanco != null;
-    }
+      }
     return false;
   }
 
   chkSucursal(): boolean {
     if (!this.isEdit && this.selBanco && this.selBanco.Sucursales) {
-      this.selSucursal = this.selBanco.Sucursales.find(
-          (s) => { return (s.id * 1 == this.newCheque.idSucursal * 1); });
+      this.selSucursal = this.selBanco.Sucursales.find((s) => {
+        return (s.id * 1 == this.newCheque.idSucursal * 1);
+      });
       return this.selSucursal != null;
-    }
+      }
     return false;
   }
 
@@ -86,8 +96,8 @@ export class ChequesAmPage {
 
   addSucursal() {
     if (this.selBanco) {
-      let addModal = this.modalCtrl.create(BancosamPage, {Banco: this.selBanco},
-                                           {enableBackdropDismiss: false});
+      let addModal = this.modalCtrl.create(
+          BancosamPage, {Banco: this.selBanco}, {enableBackdropDismiss: false});
       addModal.onDidDismiss((data) => {
         if (data) {
           this.selBanco = data;
@@ -103,7 +113,9 @@ export class ChequesAmPage {
       this.newCheque.Firmantes.push(new ChequeFirmante());
     }
   }
-  removeFirmante(idx) { this.newCheque.Firmantes.splice(idx, 1); }
+  removeFirmante(idx) {
+    this.newCheque.Firmantes.splice(idx, 1);
+  }
 
   chkFechaEmision(): boolean {
     if (this.newCheque.fechaEmision) {
@@ -120,7 +132,7 @@ export class ChequesAmPage {
         this.errorMsgFechaEmision = 'Fecha incorrecta! ej.(dd/mm/yyyy)';
         return false;
       }
-    }
+      }
     return false;
   }
 
@@ -146,7 +158,7 @@ export class ChequesAmPage {
       } else {
         this.errorMsgFechaCobro = 'Fecha incorrecta! ej.(dd/mm/yyyy)';
       }
-    }
+      }
     return false;
   }
 
@@ -155,14 +167,14 @@ export class ChequesAmPage {
       if (this.newCheque.monto > 0) {
         return true;
       }
-    }
+      }
     return false;
   }
 
   chkCuit(cuit: number): boolean {
     if (cuit) {
       return validaCuit(cuit.toString());
-    }
+      }
     return false;
   }
 
@@ -174,8 +186,9 @@ export class ChequesAmPage {
     res = res && this.chkFechaEmision();
     res = res && this.chkFechaCobro();
     res = res && this.chkMonto();
-    this.newCheque.Firmantes.forEach(
-        (f) => { res = res && this.chkCuit(f.CUIT); });
+    this.newCheque.Firmantes.forEach((f) => {
+      res = res && this.chkCuit(f.CUIT);
+    });
     return res;
   }
 }

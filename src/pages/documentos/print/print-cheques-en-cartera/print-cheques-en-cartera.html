@@ -1,0 +1,36 @@
+<ion-grid full padding margin-auto>
+  <ion-col>
+    <!-- Header -->
+    <ion-row ion-item text-center no-lines>
+      <h1>Listado de Cheques en Cartera</h1>
+      <h5 item-end>Fecha: {{fecha|date:'dd/MM/yyyy'}}</h5>
+    </ion-row>
+    <!-- Body -->
+    <ion-row ion-item no-lines>
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Fecha Ingeso</th>
+          <th>Nro. Cheque</th>
+          <th>Fecha Cobro</th>
+          <th>Monto</th>
+          <th>Cliente</th>
+          <th>Dias</th>
+        </tr>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let cheque of cheques; let p=even" text-right>
+          <td>{{cheque?.fechaIngreso |date:'dd/MM/yyyy'}}</td>
+          <td>{{cheque?.id}}</td>
+          <td>{{cheque?.fechaCobro |date:'dd/MM/yyyy'}}</td>
+          <td>$ {{cheque?.monto |number:'1.2-2'}}</td>
+          <td>{{getCliente(cheque)?.nombre}}</td>
+          <td>{{calDias(cheque) |number:'1.0-0'}}</td>
+        </tr>
+      </table>
+      <h2 text-right>TOTAL ({{cheques?.length |number:'1.0-0'}}): $ {{calTotal() | number:'1.2-2'}}</h2>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+<!-- Botones -->
+<ion-fab top right>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>

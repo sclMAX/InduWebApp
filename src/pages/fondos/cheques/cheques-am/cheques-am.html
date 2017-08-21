@@ -72,7 +72,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fe type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.fechaEmision" name="FechaEmision"
+              <ion-input #fe type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.fechaEmision" name="FechaEmision" [readonly]="isEdit"
                 required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>{{errorMsgFechaEmision}}</small></ion-badge>
@@ -85,7 +85,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fc type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.fechaCobro" required></ion-input>
+              <ion-input #fc type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.fechaCobro" [readonly]="isEdit" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaCobro() && fc.value" color="danger"><small>{{errorMsgFechaCobro}}</small></ion-badge>
           </ion-row>
@@ -100,7 +100,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="text" name="Cuenta" [(ngModel)]="newCheque.Cuenta" required></ion-input>
+              <ion-input type="text" name="Cuenta" [(ngModel)]="newCheque.cuenta" [readonly]="isEdit" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>
@@ -111,7 +111,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #monto type="number" name="Monto" [(ngModel)]="newCheque.monto" required></ion-input>
+              <ion-input #monto type="number" name="Monto" [(ngModel)]="newCheque.monto" [readonly]="isEdit" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkMonto() && monto.value" color="danger"><small>El monto debe ser mayor que 0!</small></ion-badge>
           </ion-row>
@@ -135,7 +135,7 @@
                     </ion-row>
                     <ion-row>
                       <ion-badge ion-item no-lines color="formInput">
-                        <ion-input #cuit type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" required></ion-input>
+                        <ion-input #cuit type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" [readonly]="isEdit" required></ion-input>
                       </ion-badge>
                       <ion-badge *ngIf="!chkCuit(firmante.CUIT) && cuit.value" color="danger"><small>CUIT incorrecto!</small></ion-badge>
                     </ion-row>
@@ -147,7 +147,7 @@
                     </ion-row>
                     <ion-row>
                       <ion-badge ion-item no-lines color="formInput">
-                        <ion-input type="text" name="Nombre{{idx}}" [(ngModel)]="firmante.nombre" required></ion-input>
+                        <ion-input type="text" name="Nombre{{idx}}" [(ngModel)]="firmante.nombre" [readonly]="isEdit" required></ion-input>
                       </ion-badge>
                     </ion-row>
                   </ion-col>
@@ -166,9 +166,17 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-textarea name="comentarios" [(ngModel)]="newCheque.Comentarios"></ion-textarea>
+              <ion-textarea name="comentarios" [(ngModel)]="newCheque.comentarios" [readonly]="isEdit"></ion-textarea>
             </ion-badge>
           </ion-row>
+        </ion-col>
+      </ion-row>
+      <!--Cliente -->
+      <ion-row *ngIf="isEdit" >
+        <ion-col>
+          <form-badge-input-item label="Cliente">
+            <ion-input [(ngModel)]="cliente.nombre" name="cliente" readonly></ion-input>
+          </form-badge-input-item>
         </ion-col>
       </ion-row>
     </form>
