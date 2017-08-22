@@ -56,6 +56,10 @@ export class ChequeEntregadoA {
 export class ChequeFirmante {
   CUIT: number;
   nombre: string;
+  constructor(cuit?:number, nombre?:string){
+    this.CUIT = cuit;
+    this.nombre = nombre;
+  }
 }
 
 export class Banco extends ClaseControlada {
@@ -71,6 +75,17 @@ export class BancoSucursal {
   telefono: string;
 }
 
+export class CajaEgreso extends ClaseControlada{
+  id:number;
+  fecha:string = moment().format(FECHA);
+  tipo:string;
+  efectivo:number = 0.00;
+  dolares:number = 0.00;
+  Cheques: Cheque[] = [];
+  comentarios:string;
+}
+
+//FUNCIONES
 export function validaCuit(cuit: string) {
   const sec = '5432765432';
   let aMult = sec.split('').map(Number);

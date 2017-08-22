@@ -1,0 +1,126 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar" text-center hideBackButton>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid full>
+    <form #egresoForm="ngForm" novalidate>
+      <!-- Nro. Fecha y Tipo -->
+      <ion-row no-padding>
+        <!-- Nro -->
+        <ion-col col-auto>
+          <ion-row>
+            <ion-badge color="formLabel">Numero</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-spinner *ngIf="!egreso.id" name="dots" color="dark"></ion-spinner>
+              <h2 *ngIf="egreso.id">{{egreso?.id |number:'3.0-0'}}</h2>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Fecha -->
+        <ion-col col-auto>
+          <ion-row>
+            <ion-badge color="formLabel">Fecha</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="date" name="fecha" [(ngModel)]="egreso.fecha" [readonly]="isReadOnly" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Tipo -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Tipo</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="text" name="tipo" [(ngModel)]="egreso.tipo" [readonly]="isReadOnly" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Total $ -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Total Egreso ($)</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <h2>$ {{calTotal() |number:'1.2-2'}}</h2>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Total U$ -->
+        <ion-col col-auto>
+          <ion-row>
+            <ion-badge color="formLabel">Total Egreso (U$)</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <h2>U$ {{egreso?.dolares || 0 |number:'1.2-2'}}</h2>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- Efectivo, Dolares y Total -->
+      <ion-item-divider no-lines color="listDivider1" text-center>Efectivo</ion-item-divider>
+      <ion-row>
+        <!-- Efectivo -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Efectivo ($)</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="number" name="efectivo" [(ngModel)]="egreso.efectivo" min=0 [readonly]="isReadOnly" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- Dolares -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Dolares (U$)</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-input type="number" name="dolares" [(ngModel)]="egreso.dolares" min=0 [readonly]="isReadOnly" required></ion-input>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <!-- Cheques -->
+      <ion-item-divider no-lines color="listDivider1" text-center>
+        Cheques ({{egreso?.Cheques?.length || 0}} - $ {{calTotalCheques() |number:'1.2-2'}})
+        <button item-end ion-button small color="primary" (click)="addCheque()"><ion-icon name="add"></ion-icon></button>
+      </ion-item-divider>
+      <ion-row ion-item no-lines *ngIf="egreso.Cheques && egreso.Cheques.length > 0">
+        <table border=1 width="100%">
+          <tr>
+            <th><strong>Fecha Ingreso</strong></th>
+            <th><strong>Numero de Cheque</strong></th>
+            <th><strong>Fecha Cobro</strong></th>
+            <th><strong>Monto ($)</strong></th>
+            <th><strong>Quitar</strong></th>
+          </tr>
+          <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of egreso.Cheques;let p=even;let idx=index;">
+            <td>{{item?.fechaIngreso |date:'dd/MM/yyyy'}}</td>
+            <td>{{item?.id}}</td>
+            <td>{{item?.fechaCobro |date:'dd/MM/yyyy'}}</td>
+            <td text-right>$ {{item?.monto |number:'1.2-2'}}</td>
+            <td><button ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button></td>
+          </tr>
+        </table>
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+<footer-comun></footer-comun>
+<ion-fab top left>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab top right>
+    <button ion-fab color="primary" [disabled]="!isValid(egresoForm)" (click)="goBack()"><ion-icon name="checkmark"></ion-icon></button>
+  </ion-fab>

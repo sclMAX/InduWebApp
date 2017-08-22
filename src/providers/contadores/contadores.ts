@@ -43,6 +43,7 @@ export class ContadoresProvider {
               });
     });
   }
+
   genClientesUpdateData(updData, valor) {
     updData[`${COMUN_CONTADORES_ROOT}cliente/`] = valor;
   }
@@ -86,5 +87,25 @@ export class ContadoresProvider {
 
   genStockIngresoUpdateData(updData, valor: number) {
     updData[`${SUC_CONTADORES_ROOT}stockIngreso/`] = valor;
+  }
+
+  getCajaEgresoCurrentNro(realtime: boolean = true): Observable<number> {
+    return new Observable((obs) => {
+      let fin = () => { (realtime) ? null : obs.complete(); };
+      this.db.database.ref(`${SUC_CONTADORES_ROOT}cajaEgreso/`)
+          .on('value',
+              (snap) => {
+                obs.next(snap.val() + 1 || 1);
+                fin();
+              },
+              (error) => {
+                obs.error(error);
+                fin();
+              });
+    });
+  }
+
+  genCajaEgresoUpdateData(updData, valor: number) {
+    updData[`${SUC_CONTADORES_ROOT}cajaEgreso/`] = valor;
   }
 }

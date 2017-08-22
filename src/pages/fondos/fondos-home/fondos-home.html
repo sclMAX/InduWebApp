@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar color="toolBar">
     <ion-title>Fondos</ion-title>
+    <ion-buttons end>
+      <button ion-button clear (click)="goEgreso()">Egreso</button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -11,7 +14,7 @@
         <dolar-card></dolar-card>
       </ion-col>
       <ion-col>
-        <cheques-en-cartera-card></cheques-en-cartera-card>
+        <cheques-en-cartera-card (onSelectCheque)="onSelectCheque($event)"></cheques-en-cartera-card>
       </ion-col>
       <ion-col>
         <bancos-card colorHeader="bancosHeader"></bancos-card>

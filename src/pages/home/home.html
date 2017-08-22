@@ -2,24 +2,23 @@
   <ion-navbar color="toolBar">
     <ion-title start left>Suc: {{title}}<span *ngIf="usuario.isEmbalaje"> - Embalaje</span></ion-title>
     <ion-buttons start rigth>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goClientes()">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goClientes()" tooltip="CLIENTES: Listado y operaciones sobre clientes...">
         <ion-icon name="icon-ind_users-list"></ion-icon>
       </button>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goProductos()">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goProductos()" tooltip="PRODUCTOS: Listado y operaciones sobre productos...">
         <ion-icon name="cube"></ion-icon>
       </button>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goRespartos()">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goRespartos()" tooltip="REPARTOS: Crear, listar y/o modificar repartos...">
         <ion-icon name="icon-ind_camion"></ion-icon>
       </button>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left [color]="(isChequesPorVencer)?'danger':''" (click)="goFondos()">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left [color]="(isChequesPorVencer)?'danger':''" (click)="goFondos()" tooltip="FONDOS: Cheques, Bancos, Caja y movimientos...">
         <ion-icon name="logo-usd"></ion-icon>
       </button>
-      <div ion-button icon-only style="width: 20px;pointer-events: none;"></div>
-      <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank">
+      <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank" tooltip="EMAIL: Gestion de correos electronicos web...">
         <ion-icon name="mail"></ion-icon>
       </a>
       <div ion-button icon-only style="width: 30px;pointer-events: none;"></div>
-      <button ion-button icon-only (click)="logOut()">
+      <button ion-button icon-only (click)="logOut()" tooltip="SALIR: Cerrar sesion...">
         <ion-icon name="icon-ind_logout"></ion-icon>
       </button>
     </ion-buttons>
@@ -34,12 +33,13 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isLogin && usuario && !usuario.isEmbalaje">
-      <cheques-en-cartera-card title="Cheques por Vencer" (isChequesPorVencer)="isChequesPorVencer = $event" onlyPorVencer=true ></cheques-en-cartera-card>
+      <cheques-en-cartera-card title="Cheques por Vencer" (onSelectCheque)="onSelectCheque($event)" (isChequesPorVencer)="isChequesPorVencer = $event" onlyPorVencer=true ></cheques-en-cartera-card>
       <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card>
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
     </ion-row>
   </ion-grid>
 </ion-content>
-
 <footer-comun></footer-comun>
+
+

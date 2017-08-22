@@ -1,11 +1,12 @@
-import { PRESUPUESTO } from './../../models/pedidos.clases';
-import { PedidosNewPage } from './../documentos/pedidos/pedidos-new/pedidos-new';
+import {ChequesAmPage} from './../fondos/cheques/cheques-am/cheques-am';
+import {PRESUPUESTO} from './../../models/pedidos.clases';
+import {PedidosNewPage} from './../documentos/pedidos/pedidos-new/pedidos-new';
 import {Usuario} from './../../models/user.class';
 import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
 import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
 import {ProductosHomePage} from './../productos/productos-home/productos-home';
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, ToastController, Toast} from 'ionic-angular';
 import {SUCURSAL} from './../../providers/sucursal/sucursal';
 import {UsuarioProvider} from './../../providers/usuario/usuario';
 import {ClientesHomePage} from './../clientes/clientes-home/clientes-home';
@@ -17,9 +18,10 @@ export class HomePage {
   title: string = SUCURSAL;
   usuario: Usuario = new Usuario();
   isLogin: boolean = true;
-  isChequesPorVencer:boolean ;
+  isChequesPorVencer: boolean;
+  help: Toast;
 
-  constructor(public navCtrl: NavController,
+  constructor(public navCtrl: NavController, private toatCtrl: ToastController,
               private usuarioP: UsuarioProvider) {}
 
   public logOut() {
@@ -28,19 +30,27 @@ export class HomePage {
     this.usuarioP.logOut();
   }
 
-  public goClientes() { this.navCtrl.push(ClientesHomePage); }
+  goClientes() { this.navCtrl.push(ClientesHomePage); }
 
-  public goProductos() { this.navCtrl.push(ProductosHomePage); }
+  goProductos() { this.navCtrl.push(ProductosHomePage); }
 
-  public goRespartos() { this.navCtrl.push(RepartosHomePage); }
+  goRespartos() { this.navCtrl.push(RepartosHomePage); }
 
-  public goFondos() { this.navCtrl.push(FondosHomePage); }
+  goFondos() { this.navCtrl.push(FondosHomePage); }
 
-  onClickPresupuestosItem(item){
+  onClickPresupuestosItem(item) {
     this.navCtrl.push(PedidosNewPage, {Pedido: item, tipo: PRESUPUESTO});
   }
+  onSelectCheque(cheque) { this.navCtrl.push(ChequesAmPage, {Cheque: cheque}); }
 
   ngOnInit() { this.getUser(); }
+
+  showHelp(txt: string) {
+    this.help = this.toatCtrl.create({position:'bottom', message:txt});
+    this.help.present();
+  }
+
+  downHelp(){this.help.dismiss();}
 
   private async getUser() {
     this.usuarioP.getCurrentUser().subscribe(

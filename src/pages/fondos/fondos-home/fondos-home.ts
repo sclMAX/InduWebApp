@@ -1,7 +1,7 @@
-import { ChequesAmPage } from './../cheques/cheques-am/cheques-am';
-import {DolarProvider} from './../../../providers/dolar/dolar';
+import {ChequesAmPage} from './../cheques/cheques-am/cheques-am';
+import {CajaEgresoPage} from './../caja-egreso/caja-egreso';
 import {Component} from '@angular/core';
-import {NavController, NavParams, ModalController} from 'ionic-angular';
+import {NavController, NavParams} from 'ionic-angular';
 
 @Component({
   selector: 'page-fondos-home',
@@ -9,18 +9,9 @@ import {NavController, NavParams, ModalController} from 'ionic-angular';
 })
 export class FondosHomePage {
   dolar: number;
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private dolarP: DolarProvider,
-              private modalCtrl: ModalController) {
-    this.dolarP.getDolarValor().subscribe((val) => { this.dolar = val; });
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, ) {}
 
-  ionViewDidLoad() {}
+  goEgreso() { this.navCtrl.push(CajaEgresoPage); }
 
-  add() {
-    let newCheque = this.modalCtrl.create(ChequesAmPage,{},{enableBackdropDismiss:false});
-    newCheque.present();
-   }
-
-  setDolar(valor: number) { this.dolarP.setDolar(valor).subscribe(); }
+  onSelectCheque(cheque) { this.navCtrl.push(ChequesAmPage, {Cheque: cheque}); }
 }

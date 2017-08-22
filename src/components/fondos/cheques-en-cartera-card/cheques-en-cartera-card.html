@@ -1,4 +1,4 @@
-<ion-card [color]="color" *ngIf="cheques.length > 0" >
+<ion-card [color]="color" *ngIf="cheques.length > 0">
   <!-- Header -->
   <button ion-item [color]="headerColor" (click)="showList = !showList">
       <ion-icon item-start name="cash"></ion-icon>
@@ -10,7 +10,8 @@
   <ion-list *ngIf="showList">
     <!-- ToolBar -->
     <ion-item no-lines [color]="toolBarColor">
-      <button item-end ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
+      <ion-searchbar item-start (ionCancel)="onCancelFilter()" (ionInput)="onFilter($event)" placeholder="Buscar cheque..."></ion-searchbar>
+      <button item-start ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
     </ion-item>
     <!-- Encabezado -->
     <ion-item no-lines color="toolBar">
@@ -20,7 +21,7 @@
       <strong item-end>Dias</strong>
     </ion-item>
     <!-- Items -->
-    <button ion-item [color]="getColor(item,p)" *ngFor="let item of cheques;let p=even;let idx=index;" (click)="goCheque(item)">
+    <button ion-item [color]="getColor(item,p)" *ngFor="let item of filterCheques;let p=even;let idx=index;" (click)="goCheque(item)">
         <span item-start>{{item?.id}}</span>
         <span item-start>{{item?.fechaCobro |date:'dd/MM/yyyy'}}</span>
         <span item-start>$ {{item?.monto |number:'1.2-2'}}</span>

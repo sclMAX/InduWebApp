@@ -6,7 +6,7 @@
         {{title}}
       </button>
   <!-- Detalle -->
-  <ion-list *ngIf="showList">
+  <ion-list *ngIf="showList && movimientos.length > 0">
     <!-- ToolBar -->
     <ion-item no-lines [color]="toolBarColor">
       <button item-end ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
@@ -30,7 +30,7 @@
             <ion-icon *ngIf="item.isIngreso" color="primary" name="add-circle"></ion-icon>
             <ion-icon *ngIf="!item.isIngreso" color="danger" name="remove-circle"></ion-icon>
           </td>
-          <td><button ion-button clear>{{item?.id}}</button></td>
+          <td><button ion-button clear (click)="goDocumento(item)">{{item?.id}}</button></td>
           <td text-right>$ {{(item?.efectivo * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
           <td text-right>$ {{saldos[idx]?.saldoEfectivo |number:'1.2-2'}}</td>
           <td text-right>U$ {{(item?.dolares * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>

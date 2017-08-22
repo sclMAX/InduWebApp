@@ -1,3 +1,4 @@
+import { CajaEgresoPage } from './../pages/fondos/caja-egreso/caja-egreso';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -79,6 +80,7 @@ import {ProductosHomePage} from './../pages/productos/productos-home/productos-h
 import {ProductosPerfilesListPage} from './../pages/productos/productos-perfiles-list/productos-perfiles-list';
 import {RepartosHomePage} from './../pages/repartos/repartos-home/repartos-home';
 import {MyApp} from './app.component';
+import { ToolTipDirective } from '../directives/tool-tip/tool-tip';
 
 export const environment = {
   production: false,
@@ -148,7 +150,8 @@ export const environment = {
     ChequesEnCarteraCardComponent,
     PrintChequesEnCarteraPage,
     CajaMovimientosCardComponent,
-    PrintMovimientoCajaPage
+    PrintMovimientoCajaPage,CajaEgresoPage,
+    ToolTipDirective
   ],
   imports: [
     BrowserModule, IonicModule.forRoot(MyApp),
@@ -184,7 +187,7 @@ export const environment = {
     PrintCtacteCardPage,
     PrintPagoPage,
     PrintChequesEnCarteraPage,
-    PrintMovimientoCajaPage
+    PrintMovimientoCajaPage,CajaEgresoPage
   ],
   providers: [
     StatusBar, SplashScreen,

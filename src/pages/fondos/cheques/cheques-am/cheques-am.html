@@ -137,7 +137,7 @@
                       <ion-badge ion-item no-lines color="formInput">
                         <ion-input #cuit type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" [readonly]="isEdit" required></ion-input>
                       </ion-badge>
-                      <ion-badge *ngIf="!chkCuit(firmante.CUIT) && cuit.value" color="danger"><small>CUIT incorrecto!</small></ion-badge>
+                      <ion-badge *ngIf="!chkCuit(firmante) && cuit.value" color="danger"><small>CUIT incorrecto!</small></ion-badge>
                     </ion-row>
                   </ion-col>
                   <!-- TITULAR -->
