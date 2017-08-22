@@ -8,7 +8,7 @@
       <ion-icon name="logo-usd" ></ion-icon>
     </button>
     <button ion-button icon-only *ngIf="((cliente.Telefonos != null)&&(cliente.Telefonos.length > 1))" (click)="showTelefonos(cliente)" tooltip="Listar telefonos..."><ion-icon name="call" ></ion-icon></button>
-    <a *ngIf="cliente.email" tooltip="Enviar Email..." ion-button icon-only href="http://www.indumatics.com.ar/webmail/src/compose.php?mailbox=INBOX&startMessage=1&send_to={{cliente?.Email}}"
+    <a *ngIf="cliente.email" tooltip="Enviar Email..." ion-button icon-only href="http://www.indumatics.com.ar/webmail/src/compose.php?mailbox=INBOX&startMessage=1&send_to={{cliente?.email}}"
       target="_blank">
       <ion-icon name="at"></ion-icon>
     </a>
