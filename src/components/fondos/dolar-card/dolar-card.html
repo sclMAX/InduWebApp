@@ -6,7 +6,6 @@
   <ion-list *ngIf="showList">
     <ion-item no-lines [color]="toolBarColor" *ngIf="isEditor">
       <button item-start ion-button clear color="secondary" (click)="editDolar()">Editar Valor</button>
-      <a ion-button small item-end clear href="http://www.bna.com.ar/Cotizador/MonedasHistorico" target="_blank"><img src="http://www.bna.com.ar/favicon.ico"></a>
     </ion-item>
     <button ion-item [color]="(p)?'itemColor':(itemImparColor)?'itemImparColor':'itemColor'" *ngFor="let item of dolarHistorico;let p=even;let idx=index;">
         <span item-start>{{item?.fecha | date:'dd/MM/yyyy'}}</span>

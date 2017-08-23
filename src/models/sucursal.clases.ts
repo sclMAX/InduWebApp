@@ -1,4 +1,3 @@
-import {Fondos} from './fondos.clases';
 import {Color} from './productos.clases';
 import {Cliente} from './clientes.clases';
 
@@ -8,7 +7,6 @@ export class Sucursal {
   Colores: Color[];
   documentos: number;
   Contadores: SucursalContadores;
-  Fondos: Fondos;
 }
 
 export class SucursalContadores {

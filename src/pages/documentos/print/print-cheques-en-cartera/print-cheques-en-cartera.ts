@@ -14,14 +14,17 @@ import {FondosProvider} from './../../../../providers/fondos/fondos';
   templateUrl: 'print-cheques-en-cartera.html',
 })
 export class PrintChequesEnCarteraPage {
+  title: string = 'Listado de Cheques en Cartera';
   isPrint: boolean = false;
   fecha: string = moment().format(FECHA);
   cheques: Cheque[] = [];
   private clientes: Cliente[] = [];
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      private fondosP: FondosProvider, private clientesP: ClientesProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private fondosP: FondosProvider,
+              private clientesP: ClientesProvider) {
     this.cheques = this.navParams.get('Cheques');
+    this.title = (this.navParams.get('Title')) ? this.navParams.get('Title') :
+                                                 this.title;
     if (!this.cheques || !(this.cheques.length > 0)) {
       this.getData();
     } else {
@@ -31,26 +34,23 @@ export class PrintChequesEnCarteraPage {
 
   getCliente(cheque: Cheque): Cliente {
     if (cheque) {
-      return this.clientes.find((c) => {
-        return c.id == cheque.EntregadoPor.idCliente;
-      });
+      return this.clientes.find(
+          (c) => { return c.id == cheque.EntregadoPor.idCliente; });
     }
   }
 
   calDias(cheque: Cheque): number {
     if (cheque) {
       return moment(cheque.fechaCobro, FECHA).diff(moment(), 'days');
-      }
+    }
     return 0;
   }
 
   calTotal(): number {
     let total: number = 0.00;
     if (this.cheques) {
-      this.cheques.forEach((c) => {
-        total += Number(c.monto);
-      });
-      }
+      this.cheques.forEach((c) => { total += Number(c.monto); });
+    }
     return total;
   }
 
@@ -62,16 +62,13 @@ export class PrintChequesEnCarteraPage {
     }, 10);
   }
 
-  goBack() {
-    this.navCtrl.pop();
-  }
+  goBack() { this.navCtrl.pop(); }
 
   private async getClientes(data) {
     this.clientes = [];
     data.forEach((d) => {
-      this.clientesP.getOne(d.EntregadoPor.idCliente).subscribe((cliente) => {
-        this.clientes.push(cliente);
-      });
+      this.clientesP.getOne(d.EntregadoPor.idCliente)
+          .subscribe((cliente) => { this.clientes.push(cliente); });
     });
   }
 

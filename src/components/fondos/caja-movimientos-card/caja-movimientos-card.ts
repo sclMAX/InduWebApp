@@ -1,3 +1,4 @@
+import {CajaEgresoPage} from './../../../pages/fondos/caja-egreso/caja-egreso';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {
@@ -7,7 +8,12 @@ import {PAGO} from './../../../models/pedidos.clases';
 import {Component, Input} from '@angular/core';
 import {NavController, LoadingController} from 'ionic-angular';
 
-import {CajaItem, Saldos} from './../../../models/fondos.clases';
+import {
+  CajaItem,
+  Saldos,
+  EGRESO,
+  CajaEgreso
+} from './../../../models/fondos.clases';
 import {
   PrintMovimientoCajaPage
 } from './../../../pages/documentos/print/print-movimiento-caja/print-movimiento-caja';
@@ -53,22 +59,32 @@ export class CajaMovimientosCardComponent {
   ngOnInit() { this.getData(); }
   ionViewWillEnter() { this.getData(); }
 
-  goDocumento(doc:CajaItem) {
-    let load  = this.loadCtrl.create({content:`Buscando ${doc.tipoDocumento}...`});
+  goDocumento(doc: CajaItem) {
+    let load =
+        this.loadCtrl.create({content: `Buscando ${doc.tipoDocumento}...`});
     switch (doc.tipoDocumento) {
       case PAGO:
-        load.present().then(()=>{
+        load.present().then(() => {
           this.pagosP.getOne(doc.numeroDoc)
-          .subscribe((pago)=>{
-            this.clienteP.getOne(pago.idCliente).subscribe((cliente)=>{
-              load.dismiss();
-              this.navCtrl.push(ClientesAddPagoPage,{Cliente:cliente, Pago:pago});
-            },(error)=>{
-              load.dismiss();
-            });
-          },(error)=>{
-            load.dismiss();
-          }); 
+              .subscribe((pago) => {
+                this.clienteP.getOne(pago.idCliente)
+                    .subscribe((cliente) => {
+                      load.dismiss();
+                      this.navCtrl.push(ClientesAddPagoPage,
+                                        {Cliente: cliente, Pago: pago});
+                    }, (error) => { load.dismiss(); });
+              }, (error) => { load.dismiss(); });
+        });
+        break;
+      case EGRESO:
+        load.present().then(() => {
+          this.fondosP.getCajaEgreso(doc.numeroDoc)
+              .subscribe((data) => {
+                load.dismiss();
+                if (data && data.id) {
+                  this.navCtrl.push(CajaEgresoPage, {Egreso: data});
+                }
+              }, (error) => { load.dismiss(); });
         });
         break;
     }
@@ -79,9 +95,9 @@ export class CajaMovimientosCardComponent {
     let sD: number = 0.00;
     let sC: number = 0.00;
     data.forEach((i) => {
-      sE += (i.isIngreso) ? (i.efectivo * 1) : (i.efectivo * -1);
-      sD += (i.isIngreso) ? (i.dolares * 1) : (i.dolares * -1);
-      sC += (i.isIngreso) ? (i.cheques * 1) : (i.cheques * -1);
+      sE += Number(i.efectivo || 0) * ((i.isIngreso) ? 1 : -1);
+      sD += Number(i.dolares || 0) * ((i.isIngreso) ? 1 : -1);
+      sC += Number(i.cheques || 0) * ((i.isIngreso) ? 1 : -1);
       this.saldos.push({saldoEfectivo: sE, saldoDolares: sD, saldoCheques: sC});
     });
   }

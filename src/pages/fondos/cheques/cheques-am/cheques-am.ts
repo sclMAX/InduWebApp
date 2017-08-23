@@ -181,7 +181,9 @@ export class ChequesAmPage {
   chkCuit(firmante: ChequeFirmante): boolean {
     if (firmante && firmante.CUIT) {
       if (validaCuit(firmante.CUIT.toString())) {
-        this.getFirmante(firmante);
+        if (!firmante.nombre || firmante.nombre == '') {
+          this.getFirmante(firmante);
+        }
         return true;
       }
     }

@@ -22,6 +22,7 @@ export class ChequesEnCarteraCardComponent {
   @Input() itemImparColor: string;
   @Input() showList: boolean = false;
   @Input() onlyPorVencer: boolean = false;
+  @Input() excluir: Cheque[];
   @Output()
   isChequesPorVencer: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onSelectCheque: EventEmitter<Cheque> = new EventEmitter<Cheque>();
@@ -41,8 +42,8 @@ export class ChequesEnCarteraCardComponent {
 
   calTotal(): number {
     let total: number = 0.00;
-    if (this.cheques) {
-      this.cheques.forEach((c) => { total += Number(c.monto); });
+    if (this.filterCheques) {
+      this.filterCheques.forEach((c) => { total += Number(c.monto); });
     }
     return total;
   }
@@ -78,6 +79,11 @@ export class ChequesEnCarteraCardComponent {
   goCheque(cheque: Cheque) { this.onSelectCheque.emit(cheque); }
 
   onCancelFilter() {
+    if (this.excluir) {
+      this.excluir.forEach((e) => {
+        this.cheques = this.cheques.filter((c) => {return c.id != e.id});
+      });
+    }
     this.filterCheques = JSON.parse(JSON.stringify(this.cheques));
   }
 

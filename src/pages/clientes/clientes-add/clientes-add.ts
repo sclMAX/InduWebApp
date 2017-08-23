@@ -63,7 +63,7 @@ export class ClientesAddPage {
         (user) => { this.usuario = user; });
   }
 
-  public onAceptar() {
+  onAceptar() {
     if (JSON.stringify(this.oldCliente) != JSON.stringify(this.newCliente)) {
       let load = this.loadCtrl.create({content: 'Guardando...'});
       let toast = this.toastCtrl.create({position: 'middle'});
@@ -108,14 +108,14 @@ export class ClientesAddPage {
     }
   }
 
-  public onCancelar() {
+  onCancelar() {
     if (this.isEdit) {
       this.newCliente = this.oldCliente;
     }
     this.navCtrl.pop();
   }
 
-  public chkDireccionForm(): boolean {
+  chkDireccionForm(): boolean {
     return ((this.newCliente.Direccion.calle != null) &&
             (this.newCliente.Direccion.calle.trim().length > 0)) &&
            ((this.newCliente.Direccion.localidad != null) &&
@@ -126,21 +126,19 @@ export class ClientesAddPage {
             (this.newCliente.Direccion.pais.trim().length > 0));
   }
 
-  public chkEmpresaForm(): boolean {
-    return (((this.newCliente.nombre != null) &&
-             (this.newCliente.nombre.trim().length > 0)) &&
-            ((this.newCliente.email != null) &&
-             (this.newCliente.email.trim().length > 0)));
+  chkEmpresaForm(): boolean {
+    return ((this.newCliente.nombre != null) &&
+            (this.newCliente.nombre.trim().length > 0));
   }
 
-  public chkTelefonosForm(): boolean {
+  chkTelefonosForm(): boolean {
     return ((this.newCliente.Telefonos != null) &&
             (this.newCliente.Telefonos[0].numero != null));
   }
 
-  public addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }
+  addTelefono() { this.newCliente.Telefonos.push(new Telefono()); }
 
-  public removeTelefono(i) { this.newCliente.Telefonos.splice(i, 1); }
+  removeTelefono(i) { this.newCliente.Telefonos.splice(i, 1); }
 
   getDescuentoAcumulado(): number {
     let desT: number = 0.00;

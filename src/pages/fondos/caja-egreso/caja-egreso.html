@@ -34,7 +34,7 @@
         <!-- Tipo -->
         <ion-col>
           <ion-row>
-            <ion-badge color="formLabel">Tipo</ion-badge>
+            <ion-badge color="formLabel">Egreso Para</ion-badge>
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
@@ -65,6 +65,19 @@
           </ion-row>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <!-- Comentarios -->
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Comentarios</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-textarea name="comentarios" [(ngModel)]="egreso.comentarios" [readonly]="isReadOnly"></ion-textarea>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
       <!-- Efectivo, Dolares y Total -->
       <ion-item-divider no-lines color="listDivider1" text-center>Efectivo</ion-item-divider>
       <ion-row>
@@ -75,8 +88,9 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="number" name="efectivo" [(ngModel)]="egreso.efectivo" min=0 [readonly]="isReadOnly" required></ion-input>
+              <ion-input #efectivo type="number" name="efectivo" [(ngModel)]="egreso.efectivo" min=0 [readonly]="isReadOnly" required></ion-input>
             </ion-badge>
+            <ion-badge *ngIf="!chkEfectivo() || !efectivo.hasValue()" color="danger">mayor que 0 y no mayor que Saldo (${{saldoEfectivo|number: '1.2-2'}})</ion-badge>
           </ion-row>
         </ion-col>
         <!-- Dolares -->
@@ -86,15 +100,16 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="number" name="dolares" [(ngModel)]="egreso.dolares" min=0 [readonly]="isReadOnly" required></ion-input>
+              <ion-input #dolares type="number" name="dolares" [(ngModel)]="egreso.dolares" min=0 [readonly]="isReadOnly" required></ion-input>
             </ion-badge>
+            <ion-badge *ngIf="!chkDolares() || !dolares.hasValue()" color="danger">mayor que 0 y no mayor que Saldo (U${{saldoDolares|number: '1.2-2'}})</ion-badge>
           </ion-row>
         </ion-col>
       </ion-row>
       <!-- Cheques -->
       <ion-item-divider no-lines color="listDivider1" text-center>
         Cheques ({{egreso?.Cheques?.length || 0}} - $ {{calTotalCheques() |number:'1.2-2'}})
-        <button item-end ion-button small color="primary" (click)="addCheque()"><ion-icon name="add"></ion-icon></button>
+        <button *ngIf="!isReadOnly" item-end ion-button small color="primary" (click)="addCheque()"><ion-icon name="add"></ion-icon></button>
       </ion-item-divider>
       <ion-row ion-item no-lines *ngIf="egreso.Cheques && egreso.Cheques.length > 0">
         <table border=1 width="100%">
@@ -103,14 +118,14 @@
             <th><strong>Numero de Cheque</strong></th>
             <th><strong>Fecha Cobro</strong></th>
             <th><strong>Monto ($)</strong></th>
-            <th><strong>Quitar</strong></th>
+            <th *ngIf="!isReadOnly"><strong>Quitar</strong></th>
           </tr>
           <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of egreso.Cheques;let p=even;let idx=index;">
             <td>{{item?.fechaIngreso |date:'dd/MM/yyyy'}}</td>
             <td>{{item?.id}}</td>
             <td>{{item?.fechaCobro |date:'dd/MM/yyyy'}}</td>
             <td text-right>$ {{item?.monto |number:'1.2-2'}}</td>
-            <td><button ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button></td>
+            <td text-center *ngIf="!isReadOnly"><button ion-button small color="danger" (click)="removeCheque(idx)"><ion-icon name="remove"></ion-icon></button></td>
           </tr>
         </table>
       </ion-row>
@@ -122,5 +137,12 @@
   <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
 <ion-fab top right>
-    <button ion-fab color="primary" [disabled]="!isValid(egresoForm)" (click)="goBack()"><ion-icon name="checkmark"></ion-icon></button>
-  </ion-fab>
+  <ion-row>
+    <ion-col>
+      <button ion-fab color="dark" [disabled]="!isReadOnly" (click)="print()"><ion-icon name="print"></ion-icon></button>
+    </ion-col>
+    <ion-col>
+      <button ion-fab color="primary" [disabled]="!isValid(egresoForm) || isReadOnly" (click)="aceptar()"><ion-icon name="checkmark"></ion-icon></button>
+    </ion-col>
+  </ion-row>
+</ion-fab>

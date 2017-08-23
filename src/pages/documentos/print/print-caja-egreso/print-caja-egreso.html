@@ -1,0 +1,77 @@
+<ion-grid full padding margin-auto>
+  <ion-col>
+    <!-- Header -->
+    <ion-row ion-item text-center no-lines>
+      <h2 item-start>Numero: {{egreso?.id |number:'3.0-0'}}</h2>
+      <h1>Egreso Caja</h1>
+      <h2 item-end>Fecha: {{egreso?.fecha|date:'dd/MM/yyyy'}}</h2>
+    </ion-row>
+    <!-- Detalle-->
+    <ion-row ion-item no-lines>
+      <span><strong>Para: </strong> {{egreso?.tipo}}</span>
+      <br>
+      <div *ngIf="egreso.comentarios">
+        <span><strong>Comentarios</strong> </span>
+        <br>
+        <p>{{egreso?.comentarios}}</p>
+      </div>
+    </ion-row>
+    <!-- Cheques -->
+    <ion-row ion-item no-lines *ngIf="egreso.Cheques && egreso.Cheques.length > 0">
+      <table border=1 width="100%" cellPadding="3px">
+        <tr>
+          <th>Nro. Cheque</th>
+          <th>Fehca Emision</th>
+          <th>Fecha Cobro</th>
+          <th>Monto</th>
+        </tr>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let cheque of egreso.Cheques; let p=even;" text-right>
+          <td>{{cheque?.id}}</td>
+          <td>{{cheque?.fechaEmision |date:'dd/MM/yyyy'}}</td>
+          <td>{{cheque?.fechaCobro |date:'dd/MM/yyyy'}}</td>
+          <td>$ {{cheque?.monto |number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td text-right>Cantidad:</td>
+          <td text-center>{{egreso.Cheques.length}}</td>
+          <td text-right>Total($):</td>
+          <td text-right>{{calTotalCheques() |number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-row>
+    <ion-row ion-item no-lines>
+      <table>
+        <tr *ngIf="egreso.Cheques && egreso.Cheques.length > 0">
+          <td text-right><strong>Total Cheques:</strong></td>
+          <td text-right>$ {{calTotalCheques() |number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td text-right><strong>Total Pesos:</strong></td>
+          <td text-right>$ {{egreso?.efectivo |number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td text-right><strong>Total Dolares:</strong></td>
+          <td text-right>U$ {{egreso?.dolares |number:'1.2-2'}}</td>
+        </tr>
+        <tr>
+          <td text-right><strong>Total Egreso (U$):</strong></td>
+          <td text-right>
+            <h2><strong>$ {{egreso?.dolares |number:'1.2-2'}}</strong></h2>
+          </td>
+        </tr>
+        <tr>
+          <td text-right><strong>Total Egreso ($):</strong></td>
+          <td text-right>
+            <h2><strong>$ {{calTotalEgreso() |number:'1.2-2'}}</strong></h2>
+          </td>
+        </tr>
+      </table>
+    </ion-row>
+  </ion-col>
+</ion-grid>
+
+<!-- Botones -->
+<ion-fab top right>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>

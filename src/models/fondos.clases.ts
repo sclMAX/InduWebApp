@@ -1,7 +1,8 @@
 import {FECHA, ClaseControlada} from './comunes.clases';
 import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
-export class Fondos {}
+
+export const EGRESO:string = 'Egreso';
 
 export class Dolar extends ClaseControlada {
   id: string = "Dolar";

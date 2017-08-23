@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header no-border>
   <ion-navbar color="toolBar">
     <ion-title>Fondos</ion-title>
     <ion-buttons end>
@@ -9,20 +9,31 @@
 
 <ion-content padding>
   <ion-grid>
+    <!-- Dolar, Cheques En Cartera y Bancos -->
     <ion-row>
+      <!-- Dolar -->
       <ion-col>
         <dolar-card></dolar-card>
       </ion-col>
+      <!--Cheques en Cartera -->
       <ion-col>
         <cheques-en-cartera-card (onSelectCheque)="onSelectCheque($event)"></cheques-en-cartera-card>
       </ion-col>
+      <!-- Bancos -->
       <ion-col>
         <bancos-card colorHeader="bancosHeader"></bancos-card>
       </ion-col>
     </ion-row>
+    <!-- Movimientos de Caja -->
     <ion-row>
       <ion-col>
         <caja-movimientos-card></caja-movimientos-card>
+      </ion-col>
+    </ion-row>
+    <!-- Cheques Entregados -->
+    <ion-row>
+      <ion-col>
+        <cheques-entregados-card (onSelectCheque)="onSelectCheque($event)"></cheques-entregados-card>
       </ion-col>
     </ion-row>
   </ion-grid>

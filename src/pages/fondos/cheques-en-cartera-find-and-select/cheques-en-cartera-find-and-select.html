@@ -1,0 +1,11 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar" text-center>
+    <ion-title>Cheques en Cartera</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <cheques-en-cartera-card showList=true (onSelectCheque)="onSelectCheque($event)" [excluir]="cheques"></cheques-en-cartera-card>
+</ion-content>
+<ion-fab top right>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
