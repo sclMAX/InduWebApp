@@ -2,7 +2,7 @@
   <ion-navbar color="toolBar">
     <ion-title>Clientes</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only icon-left (click)="goClienteAdd()"><ion-icon name="icon-ind_user-add" ></ion-icon></button>
+      <button ion-button icon-only icon-left (click)="goClienteAdd()" tooltip="Nuevo Cliente..."><ion-icon name="icon-ind_user-add" ></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
@@ -22,7 +22,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <button ion-fab mini color="dark" item-end (click)="showComandos = !showComandos"> <ion-icon *ngIf="showComandos" name="list"></ion-icon> <ion-icon *ngIf="!showComandos" name="construct"></ion-icon></button>
+    <button ion-fab mini color="dark" item-end (click)="showComandos = !showComandos" tooltip="Mostrar/Ocultar comandos en la lista"> <ion-icon *ngIf="showComandos" name="list"></ion-icon> <ion-icon *ngIf="!showComandos" name="construct"></ion-icon></button>
 
   </ion-item>
   <ion-list color="scroll-content" no-lines>

@@ -3,7 +3,7 @@
   <button ion-item [color]="headerColor" (click)="showList = !showList">
       <ion-icon item-start name="cash"></ion-icon>
       <ion-icon *ngIf="isExistChequesPorVencer"  item-start name="warning" color="danger"></ion-icon>
-      {{title}} ({{cheques?.length |number:'1.0-0'}})
+      {{title}} (<ion-spinner color="dark" name="dots" *ngIf="!cheques.length" ></ion-spinner><span *ngIf="cheques.length" >{{cheques?.length |number:'1.0-0'}}</span>)
       <span item-end>$ {{calTotal() |number:'1.2-2'}} </span>
     </button>
   <!-- Detalle -->
