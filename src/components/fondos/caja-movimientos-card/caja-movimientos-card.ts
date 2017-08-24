@@ -1,23 +1,22 @@
-import {CajaEgresoPage} from './../../../pages/fondos/caja-egreso/caja-egreso';
-import {PagosProvider} from './../../../providers/pagos/pagos';
-import {ClientesProvider} from './../../../providers/clientes/clientes';
+import { CajaEgresoPage } from './../../../pages/fondos/caja-egreso/caja-egreso';
+import { PagosProvider } from './../../../providers/pagos/pagos';
+import { ClientesProvider } from './../../../providers/clientes/clientes';
 import {
   ClientesAddPagoPage
 } from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
-import {PAGO} from './../../../models/pedidos.clases';
-import {Component, Input} from '@angular/core';
-import {NavController, LoadingController} from 'ionic-angular';
+import { PAGO } from './../../../models/pedidos.clases';
+import { Component, Input } from '@angular/core';
+import { NavController, LoadingController } from 'ionic-angular';
 
 import {
   CajaItem,
   Saldos,
-  EGRESO,
-  CajaEgreso
+  EGRESO
 } from './../../../models/fondos.clases';
 import {
   PrintMovimientoCajaPage
 } from './../../../pages/documentos/print/print-movimiento-caja/print-movimiento-caja';
-import {FondosProvider} from './../../../providers/fondos/fondos';
+import { FondosProvider } from './../../../providers/fondos/fondos';
 
 @Component({
   selector: 'caja-movimientos-card',
@@ -35,10 +34,10 @@ export class CajaMovimientosCardComponent {
   movimientos: CajaItem[] = [];
   saldos: Saldos[] = [];
   constructor(public navCtrl: NavController,
-              private loadCtrl: LoadingController,
-              private fondosP: FondosProvider,
-              private clienteP: ClientesProvider,
-              private pagosP: PagosProvider) {}
+    private loadCtrl: LoadingController,
+    private fondosP: FondosProvider,
+    private clienteP: ClientesProvider,
+    private pagosP: PagosProvider) { }
 
   calTotal(): number {
     let total: number = 0.00;
@@ -48,12 +47,12 @@ export class CajaMovimientosCardComponent {
   getColor(item, par): string {
     let color: string = 'light';
     color = (!par && this.itemImparColor) ? (this.itemImparColor) :
-                                            (this.itemColor);
+      (this.itemColor);
     return color;
   }
 
   printList() {
-    this.navCtrl.push(PrintMovimientoCajaPage, {Movimientos: this.movimientos})
+    this.navCtrl.push(PrintMovimientoCajaPage, { Movimientos: this.movimientos })
   }
 
   ngOnInit() { this.getData(); }
@@ -61,30 +60,30 @@ export class CajaMovimientosCardComponent {
 
   goDocumento(doc: CajaItem) {
     let load =
-        this.loadCtrl.create({content: `Buscando ${doc.tipoDocumento}...`});
+      this.loadCtrl.create({ content: `Buscando ${doc.tipoDocumento}...` });
     switch (doc.tipoDocumento) {
       case PAGO:
         load.present().then(() => {
           this.pagosP.getOne(doc.numeroDoc)
-              .subscribe((pago) => {
-                this.clienteP.getOne(pago.idCliente)
-                    .subscribe((cliente) => {
-                      load.dismiss();
-                      this.navCtrl.push(ClientesAddPagoPage,
-                                        {Cliente: cliente, Pago: pago});
-                    }, (error) => { load.dismiss(); });
-              }, (error) => { load.dismiss(); });
+            .subscribe((pago) => {
+              this.clienteP.getOne(pago.idCliente)
+                .subscribe((cliente) => {
+                  load.dismiss();
+                  this.navCtrl.push(ClientesAddPagoPage,
+                    { Cliente: cliente, Pago: pago });
+                }, (error) => { load.dismiss(); });
+            }, (error) => { load.dismiss(); });
         });
         break;
       case EGRESO:
         load.present().then(() => {
           this.fondosP.getCajaEgreso(doc.numeroDoc)
-              .subscribe((data) => {
-                load.dismiss();
-                if (data && data.id) {
-                  this.navCtrl.push(CajaEgresoPage, {Egreso: data});
-                }
-              }, (error) => { load.dismiss(); });
+            .subscribe((data) => {
+              load.dismiss();
+              if (data && data.id) {
+                this.navCtrl.push(CajaEgresoPage, { Egreso: data });
+              }
+            }, (error) => { load.dismiss(); });
         });
         break;
     }
@@ -98,7 +97,7 @@ export class CajaMovimientosCardComponent {
       sE += Number(i.efectivo || 0) * ((i.isIngreso) ? 1 : -1);
       sD += Number(i.dolares || 0) * ((i.isIngreso) ? 1 : -1);
       sC += Number(i.cheques || 0) * ((i.isIngreso) ? 1 : -1);
-      this.saldos.push({saldoEfectivo: sE, saldoDolares: sD, saldoCheques: sC});
+      this.saldos.push({ saldoEfectivo: sE, saldoDolares: sD, saldoCheques: sC });
     });
   }
   private async getData() {

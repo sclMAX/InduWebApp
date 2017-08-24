@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   LoadingController,
   NavController,
   NavParams,
   ToastController
 } from 'ionic-angular';
-import {UsuarioProvider} from '../../providers/usuario/usuario';
-import {HomePage} from '../home/home';
-import {UserLogin} from './../../models/user.class';
+import { UsuarioProvider } from '../../providers/usuario/usuario';
+import { HomePage } from '../home/home';
+import { UserLogin } from './../../models/user.class';
 
 @Component({
   selector: 'page-login',
@@ -16,9 +16,9 @@ import {UserLogin} from './../../models/user.class';
 export class LoginPage {
   user: UserLogin = new UserLogin();
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private toastCtrl: ToastController,
-              private loadCtrl: LoadingController,
-              private usuarioP: UsuarioProvider) {}
+    private toastCtrl: ToastController,
+    private loadCtrl: LoadingController,
+    private usuarioP: UsuarioProvider) { }
 
   login() {
     let load = this.loadCtrl.create({
@@ -26,15 +26,15 @@ export class LoginPage {
     });
     load.present().then(() => {
       this.usuarioP.login(this.user).subscribe(
-          (usuario) => {
-            load.dismiss().then(() => { this.navCtrl.setRoot(HomePage); });
-          },
-          (error) => {
-            load.dismiss();
-            let toast = this.toastCtrl.create(
-                {position: 'middle', showCloseButton: true, message: error});
-            toast.present();
-          });
+        (usuario) => {
+          load.dismiss().then(() => { this.navCtrl.setRoot(HomePage); });
+        },
+        (error) => {
+          load.dismiss();
+          let toast = this.toastCtrl.create(
+            { position: 'middle', duration: 2000, dismissOnPageChange: true, message: error });
+          toast.present();
+        });
     });
   }
 }

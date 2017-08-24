@@ -1,3 +1,6 @@
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from 'angularfire2';
 import {
   PrintCajaEgresoPage
 } from './../pages/documentos/print/print-caja-egreso/print-caja-egreso';
@@ -8,11 +11,6 @@ import {CajaEgresoPage} from './../pages/fondos/caja-egreso/caja-egreso';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {SplashScreen} from '@ionic-native/splash-screen';
-import {StatusBar} from '@ionic-native/status-bar';
-import {AngularFireModule} from 'angularfire2';
-import {AngularFireAuthModule} from 'angularfire2/auth';
-import {AngularFireDatabaseModule} from 'angularfire2/database';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
 import {
@@ -178,6 +176,7 @@ import {
 import {MyApp} from './app.component';
 import {ToolTipDirective} from '../directives/tool-tip/tool-tip';
 import { ChequesEntregadosCardComponent } from '../components/fondos/cheques-entregados-card/cheques-entregados-card';
+import { RepartosProvider } from '../providers/repartos/repartos';
 
 export const environment = {
   production: false,
@@ -297,8 +296,6 @@ export const environment = {
     PrintCajaEgresoPage
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ClientesProvider,
     SucursalProvider,
@@ -315,7 +312,8 @@ export const environment = {
     PagosProvider,
     ContadoresProvider,
     LogProvider,
-    FondosProvider
+    FondosProvider,
+    RepartosProvider
   ]
 })
 export class AppModule {

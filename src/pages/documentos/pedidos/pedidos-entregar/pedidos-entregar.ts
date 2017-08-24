@@ -54,7 +54,7 @@ export class PedidosEntregarPage {
     }
   }
 
-  guardar() {
+  entregar() {
     let load = this.loadCtrl.create({content: 'Guardando...'});
     let toast =
         this.toastCtrl.create({position: 'middle', closeButtonText: 'OK'});
