@@ -1,0 +1,116 @@
+<ion-header no-border>
+  <ion-navbar color="toolBar" text-center>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <!-- Encabezado -->
+    <form #formReparto="ngForm" novalidate>
+      <button ion-item color="listDivider1" no-lines (click)="showDatos= !showDatos">
+        <ion-icon *ngIf="!isValid(formReparto)"  color="danger" name="warning"></ion-icon>
+        Datos del Reparto
+      </button>
+      <ion-row [hidden]="!showDatos">
+        <ion-col>
+          <!-- id, fecha, nombre y chofer -->
+          <ion-row>
+            <!-- id -->
+            <ion-col col-auto>
+              <ion-row>
+                <ion-badge color="formLabel">Numero</ion-badge>
+              </ion-row>
+              <ion-row>
+                <ion-badge ion-item no-lines color="formInput">
+                  <ion-spinner *ngIf="!reparto.id" color="dark" name="dots"></ion-spinner>
+                  <h2 *ngIf="reparto.id">{{reparto.id |number:'3.0-0'}}</h2>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+            <!-- fecha -->
+            <ion-col col-auto>
+              <ion-row>
+                <ion-badge color="formLabel">Fecha</ion-badge>
+              </ion-row>
+              <ion-row>
+                <ion-badge ion-item no-lines color="formInput">
+                  <ion-input type="date" name="fecha" [(ngModel)]="reparto.fecha" required [readonly]="isReadOnly"></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+            <!-- nombre -->
+            <ion-col>
+              <ion-row>
+                <ion-badge color="formLabel">Etiqueta Reparto</ion-badge>
+              </ion-row>
+              <ion-row>
+                <ion-badge ion-item no-lines color="formInput">
+                  <ion-input type="text" name="nombre" [(ngModel)]="reparto.nombre" required [readonly]="isReadOnly"></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+            <!-- chofer -->
+            <ion-col col-auto>
+              <ion-row>
+                <ion-badge color="formLabel">Chofer</ion-badge>
+              </ion-row>
+              <ion-row>
+                <ion-badge ion-item no-lines color="formInput">
+                  <ion-input type="text" name="chofer" [(ngModel)]="reparto.chofer" required [readonly]="isReadOnly"></ion-input>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          <!-- Comentarios -->
+          <ion-row>
+            <ion-col>
+              <ion-row>
+                <ion-badge color="formLabel">Comentarios</ion-badge>
+              </ion-row>
+              <ion-row>
+                <ion-badge ion-item no-lines color="formInput">
+                  <ion-textarea name="comentarios" [(ngModel)]="reparto.comentarios"></ion-textarea>
+                </ion-badge>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    <!--Pedidos Disponibles -->
+    <button ion-item no-lines color="listDivider2" (click)="showPedidosDisponibles= !showPedidosDisponibles">Pedidos Preparados</button>
+    <ion-row [hidden]="!showPedidosDisponibles" ion-item no-lines>
+      <table border="1" width="100%">
+        <tr>
+          <th>Numero</th>
+          <th>Fecha</th>
+          <th>Agregar</th>
+        </tr>
+        <tr *ngFor="let pedido of pedidosEmbalados;let p=even;">
+          <td text-right>{{pedido?.numero |number:'3.0-0'}}</td>
+          <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
+          <td text-center><button ion-button small><ion-icon name="add"></ion-icon></button></td>
+        </tr>
+      </table>
+    </ion-row>
+    <!-- Pedidos Agregados -->
+    <button ion-item no-lines color="listDivider1">Pedidos Agregados</button>
+    <ion-row>
+      <ion-col>
+
+      </ion-col>
+    </ion-row>
+    <!-- Totales -->
+    <ion-row>
+      <ion-col>
+
+      </ion-col>
+    </ion-row>
+  </form>
+  </ion-grid>
+</ion-content>
+<ion-fab top left>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab top right>
+  <button ion-fab color="primary" (click)="goBack()" [disabled]="!isValid(formReparto)"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>
