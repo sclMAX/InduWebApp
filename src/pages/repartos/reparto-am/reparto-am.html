@@ -76,36 +76,50 @@
           </ion-row>
         </ion-col>
       </ion-row>
-    <!--Pedidos Disponibles -->
-    <button ion-item no-lines color="listDivider2" (click)="showPedidosDisponibles= !showPedidosDisponibles">Pedidos Preparados</button>
-    <ion-row [hidden]="!showPedidosDisponibles" ion-item no-lines>
-      <table border="1" width="100%">
-        <tr>
-          <th>Numero</th>
-          <th>Fecha</th>
-          <th>Agregar</th>
-        </tr>
-        <tr *ngFor="let pedido of pedidosEmbalados;let p=even;">
-          <td text-right>{{pedido?.numero |number:'3.0-0'}}</td>
-          <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
-          <td text-center><button ion-button small><ion-icon name="add"></ion-icon></button></td>
-        </tr>
-      </table>
-    </ion-row>
-    <!-- Pedidos Agregados -->
-    <button ion-item no-lines color="listDivider1">Pedidos Agregados</button>
-    <ion-row>
-      <ion-col>
+      <!--Pedidos Disponibles -->
+      <button ion-item no-lines color="listDivider2" (click)="showPedidosDisponibles= !showPedidosDisponibles">Pedidos Preparados</button>
+      <ion-row [hidden]="!showPedidosDisponibles" ion-item no-lines>
+        <table border="1" width="100%">
+          <tr>
+            <th>Numero</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
 
-      </ion-col>
-    </ion-row>
-    <!-- Totales -->
-    <ion-row>
-      <ion-col>
+            <th>Agregar</th>
+          </tr>
+          <tr *ngFor="let pedido of pedidosEmbalados;let p=even;">
+            <td text-right>{{pedido?.numero |number:'3.0-0'}}</td>
+            <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
+            <td text-center>{{getCliente(pedido?.idCliente)?.nombre}}</td>
+            <td text-center><button ion-button small (click)="addPedido(pedido)"><ion-icon name="add"></ion-icon></button></td>
+          </tr>
+        </table>
+      </ion-row>
+      <!-- Pedidos Agregados -->
+      <button ion-item no-lines color="listDivider1">Pedidos Agregados</button>
+      <ion-row>
+        <ion-col>
+          <table border="1" width="100%">
+            <tr>
+              <th>Numero</th>
+              <th>Fecha</th>
+              <th>Cliente</th>
 
-      </ion-col>
-    </ion-row>
-  </form>
+              <th>Agregar</th>
+            </tr>
+            <tr *ngFor="let rp of reparto.Pedidos;let p=even;">
+              <td text-right>{{rp?.idCliente |number:'3.0-0'}}</td>
+            </tr>
+          </table>
+        </ion-col>
+      </ion-row>
+      <!-- Totales -->
+      <ion-row>
+        <ion-col>
+
+        </ion-col>
+      </ion-row>
+    </form>
   </ion-grid>
 </ion-content>
 <ion-fab top left>
