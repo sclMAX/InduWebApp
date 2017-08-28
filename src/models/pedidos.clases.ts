@@ -56,11 +56,31 @@ export function calSubTotalCDs(pedido: Pedido): number {
 // Calcula Total final con todos los descuentos y CV
 export function calcularTotalFinal(pedido: Pedido): number {
   if (pedido && pedido.CV) {
-    pedido.totalFinalUs =
-        calSubTotalCDs(pedido) *
-        ((pedido.CV.monto > 0) ? (1 + (pedido.CV.monto / 100)) : 1);
+    pedido.totalFinalUs = calcularTotalCF(pedido) + calcularTotalSF(pedido);
+    ;
     return pedido.totalFinalUs;
   } else {
     return 0.00;
   }
+}
+
+export function calcularTotalCF(pedido: Pedido): number {
+  let res: number = 0.00;
+  let subtotal: number = 0.00;
+  if (pedido && pedido.CV) {
+    subtotal = calSubTotalCDs(pedido);
+    res = subtotal * ((pedido.CV.cf > 0) ? (pedido.CV.cf / 100) : 0);
+    res = res * ((pedido.CV.iva > 0) ? (1 + (pedido.CV.iva / 100)) : 1);
+  }
+  return res;
+}
+
+export function calcularTotalSF(pedido: Pedido): number {
+  let res: number = 0.00;
+  let subtotal: number = 0.00;
+  if (pedido && pedido.CV) {
+    subtotal = calSubTotalCDs(pedido);
+    res = subtotal * ((pedido.CV.sf > 0) ? (pedido.CV.sf / 100) : 0);
+  }
+  return res;
 }

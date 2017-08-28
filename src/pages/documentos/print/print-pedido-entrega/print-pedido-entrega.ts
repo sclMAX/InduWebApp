@@ -4,7 +4,9 @@ import {Cliente} from './../../../../models/clientes.clases';
 import {
   Pedido,
   calSubTotalCDs,
-  calcularTotalFinal
+  calcularTotalFinal,
+  calcularTotalCF,
+  calcularTotalSF
 } from './../../../../models/pedidos.clases';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
@@ -58,5 +60,10 @@ export class PrintPedidoEntregaPage {
   getTotalConDescuentos(): number { return calSubTotalCDs(this.pedido); }
 
   calTotalFinal(): number { return calcularTotalFinal(this.pedido); }
+
+  calTotalCF(): number { return calcularTotalCF(this.pedido); }
+
+  calTotalSF(): number { return calcularTotalSF(this.pedido); }
+
   ionViewDidLoad() {}
 }

@@ -29,6 +29,7 @@
         </ion-row>
       </ion-row>
     </ion-row>
+    <!-- Items -->
     <ion-row ion-item no-lines>
       <table border=1 width="100%" cellPadding="3px">
         <tr>
@@ -51,6 +52,7 @@
         </tr>
       </table>
     </ion-row>
+    <!-- Totales Pedido -->
     <ion-row padding>
       <table width="100%" border=1>
         <tr>
@@ -60,7 +62,6 @@
           <th>D.Cant.</th>
           <th>D.Esp.</th>
           <th>Subtotal</th>
-          <th>CV</th>
         </tr>
         <tr text-center>
           <td>{{pedido?.cantidadPaquetes}}</td>
@@ -69,21 +70,42 @@
           <td>{{pedido?.descuentoKilos |number:'1.2-2'}}%</td>
           <td>{{pedido?.descuentoGeneral |number:'1.2-2'}}%</td>
           <td>U$ {{getTotalConDescuentos() |number:'1.2-2'}}</td>
-          <td>{{pedido?.CV?.tipo}}</td>
         </tr>
       </table>
     </ion-row>
+    <!-- CV -->
     <ion-row padding>
       <table width="100%" border=1>
         <tr>
+          <th>CV</th>
+          <th>SF (U$)</th>
+          <th>SF ($)</th>
+          <th>CF (U$)</th>
+          <th>CF ($)</th>
           <th>Total (U$)</th>
-          <th *ngIf="!pedido?.isInCtaCte">Saldo Anterior</th>
-          <th>Saldo Actual</th>
-          <th>R.Dolar</th>
           <th>Total ($)</th>
         </tr>
         <tr text-center>
+          <td>{{pedido?.CV?.tipo}}</td>
+          <td>U$ {{calTotalSF() |number:'1.2-2'}}</td>
+          <td>$ {{(calTotalSF() * pedido?.Dolar?.valor) |number:'1.2-2'}}</td>
+          <td>U$ {{calTotalCF() |number:'1.2-2'}}</td>
+          <td>$ {{(calTotalCF() * pedido?.Dolar?.valor) |number:'1.2-2'}}</td>
           <td>U$ {{calTotalFinal() |number:'1.2-2'}}</td>
+          <td>$ {{(calTotalFinal() * pedido?.Dolar?.valor) |number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-row>
+    <!-- Totales Y Cta. Cte. -->
+    <ion-row padding>
+      <table width="100%" border=1>
+        <tr>
+          <th *ngIf="!pedido?.isInCtaCte">Saldo Anterior</th>
+          <th>Saldo Actual</th>
+          <th>R.Dolar</th>
+          <th>Total A Pagar ($)</th>
+        </tr>
+        <tr text-center>
           <td>U$ {{saldo |number:'1.2-2'}}</td>
           <td *ngIf="!pedido?.isInCtaCte">U$ {{saldo + calTotalFinal() |number:'1.2-2'}}</td>
           <td>$ {{pedido?.Dolar?.valor |number:'1.2-2'}}</td>

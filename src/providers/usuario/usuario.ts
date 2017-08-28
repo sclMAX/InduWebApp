@@ -76,4 +76,7 @@ export class UsuarioProvider {
 export class CV {
   tipo: string;
   monto: number = 0.00;
+  iva: number = 21;
+  cf: number = 0.00;
+  sf: number = 0.00;
 }

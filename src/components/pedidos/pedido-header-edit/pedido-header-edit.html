@@ -52,6 +52,6 @@
       Agregar Item
     </button>
   </ion-row>
-  <pedido-header-add-item *ngIf="isShowAddItem" (onNewItem)="pedido.Items.push($event)"></pedido-header-add-item>
+  <pedido-header-add-item [hidden]="!isShowAddItem" (onNewItem)="pedido.Items.push($event)"></pedido-header-add-item>
 
 </ion-grid>
