@@ -101,14 +101,14 @@
         <ion-col>
           <table border="1" width="100%">
             <tr>
-              <th>Numero</th>
-              <th>Fecha</th>
               <th>Cliente</th>
-
-              <th>Agregar</th>
             </tr>
-            <tr *ngFor="let rp of reparto.Pedidos;let p=even;">
-              <td text-right>{{rp?.idCliente |number:'3.0-0'}}</td>
+            <tr *ngFor="let rp of reparto.Items;let p=even;">
+              <td text-right>{{getCliente(rp?.idCliente)?.nombre}}</td>
+              <td text-rigth *ngFor="let p of rp.Pedidos" >
+                {{p?.id|number:'3.0-0'}}
+              </td>
+
             </tr>
           </table>
         </ion-col>

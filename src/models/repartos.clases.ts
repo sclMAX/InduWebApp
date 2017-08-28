@@ -8,7 +8,7 @@ export class Reparto extends ClaseControlada {
     nombre:string;
     chofer:string;
     comentarios:string;
-    Pedidos: RepartoPedido[] = [];
+    Items: RepartoPedido[] = [];
     totalKilos:number = 0.00;
     totalDolares:number = 0.00;    
     saldoTotal:number = 0.00;

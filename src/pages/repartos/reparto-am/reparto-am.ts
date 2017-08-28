@@ -57,28 +57,28 @@ export class RepartoAmPage {
     this.reparto.totalDolares = 0.00;
     this.reparto.totalKilos = 0.00;
     this.reparto.saldoTotal = 0.00;
-    this.reparto.Pedidos.forEach((pedidos) => {
+    this.reparto.Items.forEach((pedidos) => {
       this.reparto.totalDolares += Number(pedidos.totalPedidos || 0);
       this.reparto.totalKilos += Number(pedidos.totalKilos || 0);
       this.reparto.saldoTotal += Number(pedidos.saldoActual || 0);
     });
   }
 
-  private calTotalesPedido(){
+  private calTotalesPedidos(){
 
   }
 
   addPedido(pedido: Pedido) {
-    let existP: number = this.reparto.Pedidos.findIndex((p) => {
+    let existP: number = this.reparto.Items.findIndex((p) => {
       return p.idCliente === pedido.idCliente;
     });
     if (existP > -1) {
-      this.reparto.Pedidos[existP].Pedidos.push(pedido);
+      this.reparto.Items[existP].Pedidos.push(pedido);
     } else {
       let np:RepartoPedido = new RepartoPedido();
       np.idCliente = pedido.idCliente;
       np.Pedidos.push(pedido);
-      this.reparto.Pedidos.push(np);
+      this.reparto.Items.push(np);
       this.calTotalesReparto();
     }
   }
