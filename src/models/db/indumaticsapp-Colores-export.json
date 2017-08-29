@@ -1,0 +1,26 @@
+{
+  "Blanco Brillante" : {
+    "descripcion" : "Pintado Blanco Brillante",
+    "id" : "Blanco Brillante",
+    "idColorPlanta" : "Blanco Brillante",
+    "isPintura" : true,
+    "nombre" : "Blanco Brillante",
+    "precioUs" : 7
+  },
+  "Negro SM" : {
+    "descripcion" : "Pintado Negro Satinado",
+    "id" : "Negro SM",
+    "idColorPlanta" : "Negro SM",
+    "isPintura" : true,
+    "nombre" : "Negro SM",
+    "precioUs" : 8
+  },
+  "Natural" : {
+    "descripcion" : "Perfil Natural",
+    "id" : "Natural",
+    "idColorPlanta" : "Natural",
+    "isPintura" : false,
+    "nombre" : "Natural",
+    "precioUs" : 6
+  }
+}

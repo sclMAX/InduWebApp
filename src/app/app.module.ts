@@ -178,6 +178,9 @@ import { MyApp } from './app.component';
 import { ToolTipDirective } from '../directives/tool-tip/tool-tip';
 import { ChequesEntregadosCardComponent } from '../components/fondos/cheques-entregados-card/cheques-entregados-card';
 import { RepartosProvider } from '../providers/repartos/repartos';
+import { HelpProvider } from '../providers/help/help';
+import { HelpPanelComponent } from '../components/comunes/help-panel/help-panel';
+import { RepartosPreparadosCardComponent } from '../components/repartos/repartos-preparados-card/repartos-preparados-card';
 
 export const environment = {
   production: false,
@@ -252,7 +255,9 @@ export const environment = {
     ToolTipDirective,
     ChequesEnCarteraFindAndSelectPage,
     PrintCajaEgresoPage,
-    ChequesEntregadosCardComponent, RepartoAmPage
+    ChequesEntregadosCardComponent, RepartoAmPage,
+    HelpPanelComponent,
+    RepartosPreparadosCardComponent
   ],
   imports: [
     BrowserModule,
@@ -314,7 +319,8 @@ export const environment = {
     ContadoresProvider,
     LogProvider,
     FondosProvider,
-    RepartosProvider
+    RepartosProvider,
+    HelpProvider
   ]
 })
 export class AppModule {

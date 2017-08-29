@@ -5,12 +5,13 @@ import * as moment from 'moment';
 export class Documento extends ClaseControlada {
   id: number;
   idCliente: number;
-  tipo:string;
+  tipo: string;
   numero: number;
   fecha: string = moment().format(FECHA);
   comentario: string;
-  isInCtaCte:boolean = false;
+  isInCtaCte: boolean = false;
   totalFinalUs: number = 0.00;
+  isImpreso: boolean = false;
 }
 
 export class DocStockIngreso extends Documento {

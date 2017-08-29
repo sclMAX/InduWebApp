@@ -8,7 +8,7 @@
     <!-- Encabezado -->
     <form #formReparto="ngForm" novalidate>
       <button ion-item color="listDivider1" no-lines (click)="showDatos= !showDatos">
-        <ion-icon *ngIf="!isValid(formReparto)"  color="danger" name="warning"></ion-icon>
+        <ion-icon *ngIf="!isDatosValid(formReparto)"  color="danger" name="warning"></ion-icon>
         Datos del Reparto
       </button>
       <ion-row [hidden]="!showDatos">
@@ -94,26 +94,30 @@
             <td text-center>{{getCliente(pedido?.idCliente)?.Direccion?.localidad}}</td>
             <td text-right>{{pedido?.numero |number:'3.0-0'}}</td>
             <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
-            <td text-center><button ion-button small (click)="addPedido(pedido)"><ion-icon name="add"></ion-icon></button></td>
+            <td text-center><button ion-button small tooltip="Agregar pedido al reparto actual" (click)="addPedido(pedido)"><ion-icon name="add"></ion-icon></button></td>
           </tr>
         </table>
       </ion-row>
       <!-- Clientes Agregados -->
       <button ion-item no-lines color="listDivider1" (click)="showPedidosAgregados = !showPedidosAgregados">
+        <ion-icon *ngIf="!chkItems() || !(reparto.Items.length > 0)"  color="danger" name="warning"></ion-icon>
        Clientes en el Reparto ({{reparto?.Items?.length}})
       </button>
       <ion-row [hidden]="!showPedidosAgregados" *ngFor="let item of reparto.Items ;let itemIdx=index;let p=even;">
         <!-- Cliente -->
         <ion-item no-lines [color]="(p)?'listPar':'listImpar'">
-          <button item-start ion-button small color="dark" (click)="showPedidos[itemIdx] = !showPedidos[itemIdx]">
+          <button item-start ion-button small color="dark" tooltip="Ver Detalle" (click)="showPedidos[itemIdx] = !showPedidos[itemIdx]">
             <ion-icon *ngIf="showPedidos[itemIdx]" name="arrow-up"></ion-icon>
             <ion-icon *ngIf="!showPedidos[itemIdx]" name="arrow-down"></ion-icon>
           </button>
-          <h3 item-start>{{item?.idCliente |number:'3.0-0'}} - {{getCliente(item?.idCliente)?.nombre}} ({{item?.Pedidos?.length}} pedido<span *ngIf="item?.Pedidos?.length > 1" >s</span>)</h3>
+          <h3 item-start>
+            {{item?.idCliente |number:'3.0-0'}} - {{getCliente(item?.idCliente)?.nombre}} ({{item?.Pedidos?.length}} pedido
+            <span
+              *ngIf="item?.Pedidos?.length > 1">s</span>)</h3>
           <h2 item-end><small> TK = {{item?.totalKilos|number:'1.2-2'}}kg. </small></h2>
           <h2 item-end><small> TP = U$ {{item?.totalPedidos|number:'1.2-2'}} </small></h2>
           <h2 item-end><span> SA = U$ {{item?.saldoActual |number:'1.2-2'}}</span></h2>
-          <button ion-button item-end color="danger" small (click)="removeCliente(itemIdx)"><ion-icon name="remove"></ion-icon></button>
+          <button ion-button item-end color="danger" tooltip="Quitar pedido del reparto" small (click)="removeCliente(itemIdx)"><ion-icon name="remove"></ion-icon></button>
         </ion-item>
         <!-- Pedidos -->
         <ion-row ion-item no-lines [hidden]="!showPedidos[itemIdx]">
@@ -128,7 +132,10 @@
                 <th *ngIf="item.Pedidos.length > 1">Quitar</th>
               </tr>
               <tr *ngFor="let pedido of item.Pedidos;let pedidoIdx = index ;let p=even;">
-                <td text-right>{{pedido?.id|number:'3.0-0'}}</td>
+                <td text-right>
+                    <ion-icon *ngIf="!isExistPedido(pedido)"  color="danger" name="warning" tooltip="Pedido modificado por otro Usuario!"></ion-icon>
+                  {{pedido?.id|number:'3.0-0'}}
+                </td>
                 <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
                 <td text-right>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</td>
                 <td text-right>{{pedido?.cantidadPaquetes}}</td>
@@ -141,7 +148,7 @@
       </ion-row>
       <!-- Totales -->
       <button ion-item no-lines color="listDivider2" (click)="showTotales = !showTotales">Totales</button>
-      <ion-row [hidden]="!showTotales" ion-item no-lines>
+      <ion-row [hidden]="!showTotales || !(reparto?.Items?.length >0)" ion-item no-lines>
         <ion-col>
           <table border="1" width="100%">
             <tr>
@@ -166,9 +173,10 @@
     </form>
   </ion-grid>
 </ion-content>
+<help-panel></help-panel>
 <ion-fab top left>
-  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <button ion-fab color="light" tooltip="Cancelar cambios y Cerrar" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
 <ion-fab top right>
-  <button ion-fab color="primary" (click)="goBack()" [disabled]="!isValid(formReparto)"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="primary" tooltip="Guardar Reparto..." (click)="guardar()" [disabled]="!isValid(formReparto)"><ion-icon name="checkmark"></ion-icon></button>
 </ion-fab>

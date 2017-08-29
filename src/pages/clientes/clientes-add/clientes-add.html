@@ -84,17 +84,17 @@
               <ion-col>
                 <ion-item color="scroll-content">
                   <ion-label floating>Numero</ion-label>
-                  <ion-input type="tel" [(ngModel)]="newCliente.Telefonos[i].numero" name="Numero{{i}}" required></ion-input>
+                  <ion-input type="tel" [(ngModel)]="newCliente.Telefonos[i].numero" name="numero{{i}}" required></ion-input>
                   <button ion-fab mini icon-only color="danger"><ion-icon name="remove"></ion-icon></button>
                 </ion-item>
               </ion-col>
               <ion-col col-auto *ngIf="i > 0">
-                <button ion-fab mini color="danger" (click)="removeTelefono(i)"><ion-icon name="remove"></ion-icon></button>
+                <button ion-fab mini color="danger" tooltip="Quitar telefono" (click)="removeTelefono(i)"><ion-icon name="remove"></ion-icon></button>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-item-group>
-        <button ion-fab mini color="secondary" (click)="addTelefono()"><ion-icon name="add" ></ion-icon></button>
+        <button ion-fab mini color="secondary" tooltip="Agregar telefono" (click)="addTelefono()"><ion-icon name="add" ></ion-icon></button>
       </ion-item-group>
       <!-- Descuentos -->
       <button ion-item  text-center color="toolBar" (click)="isShowDescuentos = !isShowDescuentos">
@@ -104,9 +104,9 @@
         <ion-item color="scroll-content" no-lines>
           <ion-item color="scroll-content" *ngFor="let des of newCliente.Descuentos; let desIdx = index" no-lines>
             <span item-start>{{des?.id}} = {{des?.descuento |number:'1.2-2'}}%</span>
-            <button item-start ion-fab mini color="danger" (click)="descuentoRemoveItem(desIdx)"><ion-icon name="remove"></ion-icon></button>
+            <button item-start ion-fab mini color="danger" tooltip="Quitar descuento" (click)="descuentoRemoveItem(desIdx)"><ion-icon name="remove"></ion-icon></button>
           </ion-item>
-          <button item-end ion-fab mini color="primary" [disabled]="!(getDescuentoAcumulado() < usuario.maxDescuentoItem)" (click)="descuentoAddItem()"><ion-icon name="add"></ion-icon></button>
+          <button item-end ion-fab mini color="primary" tooltip="Agregar descuento" [disabled]="!(getDescuentoAcumulado() < usuario.maxDescuentoItem)" (click)="descuentoAddItem()"><ion-icon name="add"></ion-icon></button>
         </ion-item>
       </ion-item-group>
       <!-- Comentarios -->
@@ -124,13 +124,13 @@
     <br>
   </form>
 </ion-content>
-<ion-fab top left>
 
-</ion-fab>
 <ion-fab top right>
-  <button ion-fab color="light" (click)="onCancelar()"><ion-icon name="close"></ion-icon></button><br>
-  <button ion-fab color="primary" (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
+  <button ion-fab color="light" tooltip="Cancelar y cerrar" (click)="onCancelar()"><ion-icon name="close"></ion-icon></button><br>
+  <button ion-fab color="primary" tooltip="Guardar Cliente..." (click)="onAceptar()" [disabled]="!addForm.valid || !chkDireccionForm() || !chkEmpresaForm()">
         <ion-icon *ngIf="!isEdit" name="icon-ind_user-add"></ion-icon>
         <ion-icon *ngIf="isEdit" name="icon-ind_user-check" ></ion-icon>
       </button>
 </ion-fab>
+
+<help-panel></help-panel>

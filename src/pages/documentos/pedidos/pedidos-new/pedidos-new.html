@@ -66,11 +66,12 @@
 </ion-footer>
 
 <ion-fab top right>
-  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
+  <button ion-fab color="light" tooltip="Cancelar cambios y Cerrar" (click)="goBack()"><ion-icon name="close"></ion-icon> </button>
   <br>
-  <button ion-fab color="danger" [disabled]="!isEdit || chkExistEmbalados()" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
+  <button ion-fab color="danger" tooltip="Eliminar" [disabled]="!isEdit || chkExistEmbalados()" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
   <br>
-  <button ion-fab color="secondary" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="secondary" tooltip="Guardar Presupuesto" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
   <br>
-  <button ion-fab color="primary" [disabled]="!isValid()" (click)="confirmar()"><ion-icon name="done-all"></ion-icon></button>
+  <button ion-fab color="primary" tooltip="Confirmar Presupuesto y pasarlo a Pedido..." [disabled]="!isValid()" (click)="confirmar()"><ion-icon name="done-all"></ion-icon></button>
 </ion-fab>
+<help-panel></help-panel>

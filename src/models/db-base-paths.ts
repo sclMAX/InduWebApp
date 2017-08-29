@@ -1,3 +1,4 @@
+export const VERSION:string = '1.0.1';
 export const ROOT: string = /*'V1/';//*/ 'V-TEST/'; //En produccion V1
 export const COMUN_ROOT: string = `${ROOT}Comun/`;
 export const COMUN_CONTADORES_ROOT: string = `${COMUN_ROOT}Contadores/`;

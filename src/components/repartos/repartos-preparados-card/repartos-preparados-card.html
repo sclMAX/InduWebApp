@@ -1,0 +1,13 @@
+<ion-card [color]="color">
+    <button ion-item [color]="headerColor" (click)="showList = !showList">
+      <ion-icon item-start name="icon-ind_new-document"></ion-icon>
+       {{tipo}}s ({{Docs?.length}})
+    </button>
+    <ion-list *ngIf="showList">
+      <button ion-item *ngFor="let pedido of Docs;let p=even" [color]="(itemImparColor)?((p)? itemColor: itemImparColor):itemColor"
+        (click)="onClick(pedido)">
+        <span *ngIf="!cliente" >{{pedido.numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.nombre}}</span>
+        <span *ngIf="cliente" >{{pedido.numero | number:'3.0-0'}} - {{pedido.fechaEntrega | date:'dd/MM/yyyy'}}</span>
+      </button>
+    </ion-list>
+  </ion-card>
