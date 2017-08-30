@@ -32,6 +32,7 @@ export class ClientesAddPagoPage {
   isViewOnly: boolean = false;
   saldoCliente: number = 0.00;
   showEfectivo: boolean = true;
+  showDatos:boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private loadCtrl: LoadingController,

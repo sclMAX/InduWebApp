@@ -24,6 +24,8 @@ export class RepartosPreparadosCardComponent {
   ionViewWillEnter() { this.getData(); }
 
   private async getData() {
-  
+    this.repartosP.getPreparados().subscribe((data)=>{
+      this.repartos = data;
+    });
   }
 }

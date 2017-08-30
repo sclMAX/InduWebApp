@@ -1,4 +1,5 @@
-import { RepartoAmPage } from './../reparto-am/reparto-am';
+import {Reparto} from './../../../models/repartos.clases';
+import {RepartoAmPage} from './../reparto-am/reparto-am';
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 
@@ -9,7 +10,8 @@ import {NavController, NavParams} from 'ionic-angular';
 export class RepartosHomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
-  nuevoReparto(){
-    this.navCtrl.push(RepartoAmPage);
+  onSelectPreparado(item: Reparto) {
+    this.navCtrl.push(RepartoAmPage, {Reparto: item});
   }
+  nuevoReparto() { this.navCtrl.push(RepartoAmPage); }
 }

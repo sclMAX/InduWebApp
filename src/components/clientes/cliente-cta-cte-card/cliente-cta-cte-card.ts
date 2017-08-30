@@ -106,8 +106,10 @@ export class ClienteCtaCteCardComponent {
           .subscribe((ctacte) => {
             this.ctaCte = ctacte;
             this.saldo = 0.00;
-            this.ctaCte.forEach(
-                (i) => { this.saldo += Number(i.debe) - Number(i.haber); });
+            this.ctaCte.forEach((i) => {
+              this.saldo += Number(i.debe) - Number(i.haber);
+              i.saldo = this.saldo;
+            });
           });
     }
   }

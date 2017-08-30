@@ -6,37 +6,54 @@
 <ion-content padding>
   <ion-grid>
     <!-- Saldos,Ref Dolar y Total Pago -->
-    <ion-row>
-      <!-- Nro de Pago -->
-      <form-badge-item label="Nro. Pago" padding-left>
-        <h2>{{newPago?.id |number:'3.0-0'}}</h2>
-      </form-badge-item>
-      <!-- Fecha Pago -->
-      <form-badge-input-item label="Fecha" padding-left>
-        <ion-input type="date" name="fecha" [readonly]="isViewOnly" [(ngModel)]="newPago.fecha"></ion-input>
-      </form-badge-input-item>
-      <!-- Saldo Cta Cte -->
-      <form-badge-item label="Saldo Cta. Cte." padding-left>
-        <h2>U$ {{saldoCliente |number:'1.2-2'}}</h2>
-      </form-badge-item>
-      <!-- Ref Dolar -->
-      <form-badge-input-item label="Ref. Dolar" padding-left>
-        <ion-input type="number" name="dolarValor" [readonly]="isViewOnly" [value]="dolar?.valor"></ion-input>
-      </form-badge-input-item>
-      <!-- Total Pago -->
-      <form-badge-item label="Total Pago (U$)" padding-left>
-        <h2>U$ {{calTotalPago() |number:'1.2-2'}}</h2>
-      </form-badge-item>
-      <!-- Saldo Actual -->
-      <form-badge-item label="Saldo Actual" padding-left>
-        <h2>U$ {{calSandoActual() |number:'1.2-2'}}</h2>
-      </form-badge-item>
+    <button ion-item no-lines color="listDivider1" (click)="showDatos = !showDatos">
+          Datos del Pago
+        </button>
+    <ion-row [hidden]="!showDatos">
+      <ion-row>
+        <!-- Nro de Pago -->
+        <form-badge-item label="Nro. Pago" padding-left>
+          <h2>{{newPago?.id |number:'3.0-0'}}</h2>
+        </form-badge-item>
+        <!-- Fecha Pago -->
+        <form-badge-input-item label="Fecha" padding-left>
+          <ion-input type="date" name="fecha" [readonly]="isViewOnly" [(ngModel)]="newPago.fecha"></ion-input>
+        </form-badge-input-item>
+        <!-- Saldo Cta Cte -->
+        <form-badge-item label="Saldo Cta. Cte." padding-left>
+          <h2>U$ {{saldoCliente |number:'1.2-2'}}</h2>
+        </form-badge-item>
+        <!-- Ref Dolar -->
+        <form-badge-input-item label="Ref. Dolar" padding-left>
+          <ion-input type="number" name="dolarValor" [readonly]="isViewOnly" [value]="dolar?.valor"></ion-input>
+        </form-badge-input-item>
+        <!-- Total Pago -->
+        <form-badge-item label="Total Pago (U$)" padding-left>
+          <h2>U$ {{calTotalPago() |number:'1.2-2'}}</h2>
+        </form-badge-item>
+        <!-- Saldo Actual -->
+        <form-badge-item label="Saldo Actual" padding-left>
+          <h2>U$ {{calSandoActual() |number:'1.2-2'}}</h2>
+        </form-badge-item>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-row>
+            <ion-badge color="formLabel">Comentarios</ion-badge>
+          </ion-row>
+          <ion-row>
+            <ion-badge ion-item no-lines color="formInput">
+              <ion-textarea name="comentarios" [(ngModel)]="newPago.comentarios"></ion-textarea>
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+      </ion-row>
     </ion-row>
     <!-- Efectivo-->
-    <button ion-item no-lines color="listDivider1" text-center (click)="showEfectivo = !showEfectivo">
+    <button ion-item no-lines color="listDivider1" (click)="showEfectivo = !showEfectivo">
       Efectivo
     </button>
-    <ion-row *ngIf="showEfectivo">
+    <ion-row [hidden]="!showEfectivo">
       <!-- PESOS -->
       <form-badge-input-item label="Monto Efectivo ($)">
         <ion-input type="number" [readonly]="isViewOnly" name="Efectivo" [(ngModel)]="newPago.efectivo"></ion-input>

@@ -1,11 +1,15 @@
 <ion-card [color]="color">
-    <button ion-item [color]="headerColor" (click)="showList = !showList">
-      <ion-icon item-start name="icon-ind_new-document"></ion-icon>
-        ({{repartos?.length}})
+  <button ion-item [color]="headerColor" (click)="showList = !showList">
+      <ion-icon item-start name="icon-ind_camion"></ion-icon>
+        Preparados ({{repartos?.length}})
     </button>
-    <ion-list *ngIf="showList">
-      <button ion-item *ngFor="let reparto of repartos;let p=even" [color]="(itemImparColor)?((p)? itemColor: itemImparColor):itemColor"
-        (click)="onClick(reparto)">
+  <ion-list *ngIf="showList">
+    <button ion-item *ngFor="let reparto of repartos;let p=even" [color]="(itemImparColor)?((p)? itemColor: itemImparColor):itemColor"
+      (click)="onClick(reparto)">
+        <span item-start>{{reparto?.id |number:'3.0-0'}}</span>
+        <span>{{reparto?.fecha |date:'dd/MM/yyyy'}} - {{reparto?.nombre}}  </span>
+        <span item-end>U$ {{reparto?.totalDolares |number:'1.2-2'}}</span>   
+        <span item-end> - U$ {{reparto?.saldoTotal |number:'1.2-2'}}</span>   
       </button>
-    </ion-list>
-  </ion-card>
+  </ion-list>
+</ion-card>

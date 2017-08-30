@@ -63,6 +63,17 @@ export class RepartoAmPage {
     if (this.pedidosEmbalados) {
       res = this.pedidosEmbalados.findIndex(
                 (p) => { return p.id == pedido.id; }) > -1;
+      if (res) {
+        return res;
+      }
+    }
+    if (this.isEdit && this.oldReparto) {
+      this.oldReparto.Items.forEach((i) => {
+        res = i.Pedidos.findIndex((p) => { return p.id == pedido.id; }) > -1;
+        if (!res) {
+          return res;
+        }
+      });
     }
     return res;
   }

@@ -16,6 +16,10 @@ export class RepartosProvider {
               private pedidosP: PedidosProvider,
               private contadoresP: ContadoresProvider) {}
 
+  private getPath(tipo: string): string {
+    return `${SUC_DOCUMENTOS_ROOT}Reparto/${tipo}/`;
+  }
+
   add(reparto: Reparto): Observable<string> {
     return new Observable((obs) => {
       let updData = {};
@@ -88,7 +92,15 @@ export class RepartosProvider {
     });
   }
 
+  getPreparados(): Observable<Reparto[]> {
+    return new Observable((obs) => {
+      this.db.list(this.getPath(REPARTO_PREPARADO))
+          .subscribe((snap: Reparto[]) => { obs.next(snap || []); },
+                     (error) => { obs.error(error); });
+    });
+  }
+
   genUpdateData(updData, id: number, tipo: string, valor: Reparto) {
-    updData[`${SUC_DOCUMENTOS_ROOT}Reparto/${tipo}/${id}/`] = valor;
+    updData[`${this.getPath(tipo)}${id}/`] = valor;
   }
 }

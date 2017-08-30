@@ -48,6 +48,7 @@ export class ClientePago extends Documento {
   Cheques: ClientePagoCheque[] = [];
   dolares: number = 0.00;
   efectivo: number = 0.00;
+  comentarios:string;
 }
 
 export class ClientePagoCheque {

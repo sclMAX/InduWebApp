@@ -7,8 +7,13 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  
-  
-
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <repartos-preparados-card (onClickItem)="onSelectPreparado($event)" itemColor="listPar" itemImparColor="listImpar"></repartos-preparados-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<help-panel></help-panel>
 <footer-comun></footer-comun>
