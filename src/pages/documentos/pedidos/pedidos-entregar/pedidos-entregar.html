@@ -18,7 +18,7 @@
     </ion-col>
     <ion-col item-start>
       <ion-row><small>DG.(%)</small></ion-row>
-      <ion-badge ion-button small color="scroll-content" (click)="setDescuentoGeneral()">
+      <ion-badge ion-button small tooltip="Descuento especial..." color="scroll-content" (click)="setDescuentoGeneral()">
         {{pedido?.descuentoGeneral |number:'1.2-2'}}
       </ion-badge>
     </ion-col>
@@ -28,7 +28,7 @@
     </ion-col>
     <ion-col item-start>
       <ion-row><small>CV</small></ion-row>
-      <ion-badge ion-button small [color]="(pedido.CV)?'scroll-content':'danger'" (click)="setCV()">
+      <ion-badge ion-button small tooltip="Condicion de venta..." [color]="(pedido.CV)?'scroll-content':'danger'" (click)="setCV()">
         {{pedido?.CV?.tipo || '?'}}
       </ion-badge>
     </ion-col>
@@ -47,11 +47,11 @@
   </ion-row>
 </ion-footer>
 <ion-fab top right>
-  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <button ion-fab tooltip="Cancelar cambios y cerrar" color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
   <br>
-  <button ion-fab color="danger" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
+  <button ion-fab tooltip="Eliminar pedido..." color="danger" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
   <br>
-  <button ion-fab color="primary" [disabled]="!isValid()" (click)="entregar()"><ion-icon name="icon-ind_camion"></ion-icon></button>
+  <button ion-fab tooltip="Entregar pedido..." color="primary" [disabled]="!isValid()" (click)="entregar()"><ion-icon name="icon-ind_camion"></ion-icon></button>
   <br>
   <button *ngIf="false" ion-fab color="secondary" [disabled]="!isValid()" (click)="entregar()"><ion-icon name="icon-ind_camion"></ion-icon></button>
   <br>

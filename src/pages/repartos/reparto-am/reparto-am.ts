@@ -6,7 +6,8 @@ import {
   NavController,
   NavParams,
   LoadingController,
-  ToastController
+  ToastController,
+  AlertController
 } from 'ionic-angular';
 
 import {Cliente} from './../../../models/clientes.clases';
@@ -32,28 +33,26 @@ export class RepartoAmPage {
   clientes: Array<{saldo: number, cliente: Cliente}> = [];
   showPedidos: Array<boolean> = [];
   showPedidosAgregados: boolean = true;
-  showTotales: boolean = false;
+  showTotales: boolean = true;
   valorDolar: number = 0.00;
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private loadCtrl: LoadingController,
-              private toastCtrl: ToastController,
-              private repartosP: RepartosProvider,
-              private contadoresP: ContadoresProvider,
-              private pedidosP: PedidosProvider,
-              private clientesP: ClientesProvider,
-              private ctacteP: CtasCtesProvider,
-              private dolarP: DolarProvider) {
-    this.reparto = this.navParams.get('Reparto');
+  constructor(
+      public navCtrl: NavController, public navParams: NavParams,
+      private loadCtrl: LoadingController, private toastCtrl: ToastController,
+      private alertCtrl: AlertController, private repartosP: RepartosProvider,
+      private contadoresP: ContadoresProvider,
+      private pedidosP: PedidosProvider, private clientesP: ClientesProvider,
+      private ctacteP: CtasCtesProvider, private dolarP: DolarProvider) {
+    this.oldReparto = this.navParams.get('Reparto');
     this.getDolar();
     this.getPedidos();
-    if (this.reparto) {
-      this.title = `Reparto ${this.reparto.id}`;
-      this.oldReparto = JSON.parse(JSON.stringify(this.reparto));
+    if (this.oldReparto) {
+      this.title = `Reparto`;
+      this.reparto = JSON.parse(JSON.stringify(this.oldReparto));
       this.isEdit = true;
     } else {
-      this.title = 'Nuevo Reparto...';
-      this.isEdit = false;
       this.reparto = new Reparto();
+      this.title = 'Nuevo Reparto';
+      this.isEdit = false;
       this.getNumero();
     }
   }
@@ -135,6 +134,42 @@ export class RepartoAmPage {
             .subscribe((ok) => { okMsg(ok); }, (error) => { errorMsg(error); });
       }
     });
+  }
+
+  remove() {
+    if (this.oldReparto) {
+      let alert = this.alertCtrl.create({
+        title: 'Eliminar!',
+        subTitle:
+            `Esta seguro que desea eliminar definitivamente el Reparto Nro:${this.oldReparto.id}?`,
+        buttons: [
+          {text: 'Cancelar', role: 'cancel'},
+          {text: 'Aceptar', role: 'ok', handler: () => { this.remover(); }}
+        ]
+      });
+      alert.present();
+    }
+  }
+
+  private remover() {
+    let load = this.loadCtrl.create({content: 'Eliminando Reparto...'});
+    let toast = this.toastCtrl.create({position: 'middle'});
+    this.repartosP.remove(this.oldReparto)
+        .subscribe(
+            (ok) => {
+              this.navCtrl.pop();
+              load.dismiss();
+              toast.setMessage(ok);
+              toast.setDuration(1000);
+              toast.present();
+            },
+            (error) => {
+              load.dismiss();
+              toast.setMessage(error);
+              toast.setBackButtonText('OK');
+              toast.showBackButton(true);
+              toast.present();
+            });
   }
 
   getCliente(idCliente: number): Cliente {

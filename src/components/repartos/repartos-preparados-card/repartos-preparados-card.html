@@ -1,4 +1,4 @@
-<ion-card [color]="color">
+<ion-card [color]="color" *ngIf="repartos && repartos.length > 0" >
   <button ion-item [color]="headerColor" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_camion"></ion-icon>
         Preparados ({{repartos?.length}})

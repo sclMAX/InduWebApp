@@ -1,3 +1,4 @@
+import {RepartoAmPage} from './../repartos/reparto-am/reparto-am';
 import {ChequesAmPage} from './../fondos/cheques/cheques-am/cheques-am';
 import {PRESUPUESTO} from './../../models/pedidos.clases';
 import {PedidosNewPage} from './../documentos/pedidos/pedidos-new/pedidos-new';
@@ -6,7 +7,7 @@ import {FondosHomePage} from './../fondos/fondos-home/fondos-home';
 import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
 import {ProductosHomePage} from './../productos/productos-home/productos-home';
 import {Component} from '@angular/core';
-import {NavController, ToastController, Toast} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {SUCURSAL} from './../../providers/sucursal/sucursal';
 import {UsuarioProvider} from './../../providers/usuario/usuario';
 import {ClientesHomePage} from './../clientes/clientes-home/clientes-home';
@@ -19,9 +20,8 @@ export class HomePage {
   usuario: Usuario = new Usuario();
   isLogin: boolean = true;
   isChequesPorVencer: boolean;
-  help: Toast;
 
-  constructor(public navCtrl: NavController, private toatCtrl: ToastController,
+  constructor(public navCtrl: NavController,
               private usuarioP: UsuarioProvider) {}
 
   public logOut() {
@@ -43,14 +43,11 @@ export class HomePage {
   }
   onSelectCheque(cheque) { this.navCtrl.push(ChequesAmPage, {Cheque: cheque}); }
 
-  ngOnInit() { this.getUser(); }
-
-  showHelp(txt: string) {
-    this.help = this.toatCtrl.create({position:'bottom', message:txt});
-    this.help.present();
+  onSelectReparto(reparto) {
+    this.navCtrl.push(RepartoAmPage, {Reparto: reparto});
   }
 
-  downHelp(){this.help.dismiss();}
+  ngOnInit() { this.getUser(); }
 
   private async getUser() {
     this.usuarioP.getCurrentUser().subscribe(

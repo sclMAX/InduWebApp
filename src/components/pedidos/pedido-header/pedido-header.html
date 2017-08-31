@@ -2,7 +2,7 @@
   <ion-row>
     <button ion-item no-lines color="docHeader" text-center (click)="showClienteDetalle = !showClienteDetalle">
       <h6 item-start>{{pedido?.numero |number:'3.0-0'}} - {{pedido?.fecha |date:'dd/MM/yyyy'}}</h6>
-      <h5>{{cliente?.nombre}}</h5>
+      <h5>{{cliente?.id |number:'3.0-0'}} - {{cliente?.nombre}}</h5>
     </button>
   </ion-row>
   <ion-row *ngIf="showClienteDetalle" padding >

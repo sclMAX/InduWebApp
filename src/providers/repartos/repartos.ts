@@ -92,6 +92,34 @@ export class RepartosProvider {
     });
   }
 
+  remove(reparto: Reparto): Observable<string> {
+    return new Observable((obs) => {
+      let updData = {};
+      // Mover Pedidos de ENREPARTO >>> EMBALADOS
+      reparto.Items.forEach((i) => {
+        i.Pedidos.forEach((p) => {
+          // Quitar de ENREPARTO
+          this.pedidosP.genUpdateData(updData, p, ENREPARTO, {});
+          // Agregar a EMBALADO
+          this.pedidosP.genUpdateData(updData, p, EMBALADO);
+        });
+      });
+      // Eliminar reparto
+      this.genUpdateData(updData, reparto.id, REPARTO_PREPARADO, {});
+      // Ejecutar Peticion
+      this.db.database.ref()
+          .update(updData)
+          .then(() => {
+            obs.next('Reparto Eliminado!');
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(`No se pudo Eliminar el Reparto! Error:${error}`);
+            obs.complete();
+          });
+    });
+  }
+
   getPreparados(): Observable<Reparto[]> {
     return new Observable((obs) => {
       this.db.list(this.getPath(REPARTO_PREPARADO))
@@ -100,7 +128,7 @@ export class RepartosProvider {
     });
   }
 
-  genUpdateData(updData, id: number, tipo: string, valor: Reparto) {
+  genUpdateData(updData, id: number, tipo: string, valor) {
     updData[`${this.getPath(tipo)}${id}/`] = valor;
   }
 }
