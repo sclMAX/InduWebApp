@@ -1,12 +1,12 @@
-import {ContadoresProvider} from './../contadores/contadores';
-import {FECHA} from './../../models/comunes.clases';
-import {COMUN_FIRMANTES_ROOT} from './../../models/db-base-paths';
-import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
+import { ContadoresProvider } from './../contadores/contadores';
+import { FECHA } from './../../models/comunes.clases';
+import { COMUN_FIRMANTES_ROOT } from './../../models/db-base-paths';
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/Observable';
 import * as moment from 'moment';
 
-import {ClientePago} from './../../models/clientes.clases';
+import { ClientePago } from './../../models/clientes.clases';
 import {
   CajaItem,
   Cheque,
@@ -27,7 +27,7 @@ import {
 @Injectable()
 export class FondosProvider {
   constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
-              private contadoresP: ContadoresProvider) {}
+    private contadoresP: ContadoresProvider) { }
 
   addCajaEgreso(egreso: CajaEgreso): Observable<string> {
     return new Observable((obs) => {
@@ -64,15 +64,15 @@ export class FondosProvider {
       this.contadoresP.genCajaEgresoUpdateData(updData, nro);
       // Ejecutar peticion
       this.db.database.ref()
-          .update(updData)
-          .then(() => {
-            obs.next('Caja Actualziada Correctamente!');
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(`Actualizar la Caja...! Error:${error}`);
-            obs.complete();
-          });
+        .update(updData)
+        .then(() => {
+          obs.next('Caja Actualziada Correctamente!');
+          obs.complete();
+        })
+        .catch((error) => {
+          obs.error(`Actualizar la Caja...! Error:${error}`);
+          obs.complete();
+        });
 
     });
   }
@@ -80,15 +80,15 @@ export class FondosProvider {
   getCajaEgreso(id: number): Observable<CajaEgreso> {
     return new Observable((obs) => {
       this.db.database.ref(`${SUC_DOCUMENTOS_ROOT}${EGRESO}/${id}/`)
-          .once('value',
-                (snap) => {
-                  obs.next(snap.val() || null);
-                  obs.complete();
-                },
-                (error) => {
-                  obs.error(error);
-                  obs.complete();
-                });
+        .once('value',
+        (snap) => {
+          obs.next(snap.val() || null);
+          obs.complete();
+        },
+        (error) => {
+          obs.error(error);
+          obs.complete();
+        });
     });
   }
 
@@ -105,7 +105,7 @@ export class FondosProvider {
     pago.Cheques.forEach((cheque) => {
       // Set Id
       cheque.Cheque.id = `${cheque.Cheque.idBanco
-                         }-${cheque.Cheque.idSucursal}-${cheque.Cheque.numero}`;
+        }-${cheque.Cheque.idSucursal}-${cheque.Cheque.numero}`;
       // Set Creador
       cheque.Cheque.Creador = this.sucP.genUserDoc();
       // Set EntregadoPor
@@ -115,11 +115,11 @@ export class FondosProvider {
       // Crear Firmantes UpdateData
       cheque.Cheque.Firmantes.forEach((f) => {
         this.genFirmanteUpdateData(updData,
-                                   new ChequeFirmante(f.CUIT, f.nombre));
+          new ChequeFirmante(f.CUIT, f.nombre));
       });
       // Crear Cheque UpdateData
       updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.Cheque.id}/`] =
-          cheque.Cheque;
+        cheque.Cheque;
       // Calcular monto acumulado de cheques
       totalCheques += Number(cheque.Cheque.monto);
     });
@@ -147,15 +147,15 @@ export class FondosProvider {
   getFirmante(cuit: number): Observable<ChequeFirmante> {
     return new Observable((obs) => {
       this.db.database.ref(`${COMUN_FIRMANTES_ROOT}${cuit}/`)
-          .once('value',
-                (snap) => {
-                  obs.next(snap.val() || null);
-                  obs.complete();
-                },
-                (error) => {
-                  obs.error(error);
-                  obs.complete();
-                });
+        .once('value',
+        (snap) => {
+          obs.next(snap.val() || null);
+          obs.complete();
+        },
+        (error) => {
+          obs.error(error);
+          obs.complete();
+        });
     });
   }
 
@@ -163,16 +163,16 @@ export class FondosProvider {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
       this.db.list(SUC_FONDOS_CHEQUES_CARTERA,
-                   {query: {orderByChild: 'fechaCobro'}})
-          .subscribe(
-              (snap: Cheque[]) => {
-                obs.next(snap || []);
-                fin();
-              },
-              (error) => {
-                obs.error(error);
-                fin();
-              });
+        { query: { orderByChild: 'fechaCobro' } })
+        .subscribe(
+        (snap: Cheque[]) => {
+          obs.next(snap || []);
+          fin();
+        },
+        (error) => {
+          obs.error(error);
+          fin();
+        });
     });
   }
 
@@ -180,29 +180,36 @@ export class FondosProvider {
     return new Observable((obs) => {
       let fin = () => { (realtime) ? null : obs.complete(); };
       this.db.list(`${SUC_FONDOS_CHEQUES_ROOT}Entregados/`,
-                   {query: {orderByChild: 'fechaCobro'}})
-          .subscribe(
-              (snap) => {
-                obs.next(snap || []);
-                fin();
-              },
-              (error) => {
-                obs.error(error);
-                fin();
-              });
+        { query: { orderByChild: 'fechaCobro' } })
+        .subscribe(
+        (snap) => {
+          obs.next(snap || []);
+          fin();
+        },
+        (error) => {
+          obs.error(error);
+          fin();
+        });
     });
   }
 
   getMovimientosCaja(): Observable<CajaItem[]> {
     return new Observable((obs) => {
-      this.db.list(`${SUC_FONDOS_ROOT}Caja/`, {query: {orderByChild: 'fecha'}})
-          .subscribe((snap) => { obs.next(snap || []); },
-                     (error) => { obs.error(error); });
+      this.db.list(`${SUC_FONDOS_ROOT}Caja/`, { query: { orderByChild: 'fecha' } })
+        .subscribe((snap) => {
+          let m: CajaItem[] = snap || [];
+          m = m.sort((a, b) => {
+            return moment(a.fecha, FECHA).diff(moment(b.fecha, FECHA), 'days');
+          });
+          obs.next(m);
+        },
+        (error) => { obs.error(error); });
+
     });
   }
 
   getSaldosEfectivo():
-      Observable<{saldoEfectivo: number, saldoDolares: number}> {
+    Observable<{ saldoEfectivo: number, saldoDolares: number }> {
     return new Observable((obs) => {
       this.getMovimientosCaja().subscribe((data) => {
         let saldoEfectivo: number = 0.00;
@@ -211,7 +218,7 @@ export class FondosProvider {
           saldoEfectivo += (Number(i.efectivo || 0) * ((i.isIngreso) ? 1 : -1));
           saldoDolares += (Number(i.dolares || 0) * ((i.isIngreso) ? 1 : -1));
         });
-        obs.next({saldoEfectivo, saldoDolares});
+        obs.next({ saldoEfectivo, saldoDolares });
       }, (error) => { obs.error(error); });
     });
   }

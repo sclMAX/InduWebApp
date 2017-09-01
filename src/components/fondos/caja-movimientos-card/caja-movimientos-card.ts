@@ -103,6 +103,7 @@ export class CajaMovimientosCardComponent {
   private async getData() {
     this.fondosP.getMovimientosCaja().subscribe((data) => {
       this.movimientos = data;
+      
       this.calSaldos(data);
     });
   }

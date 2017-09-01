@@ -181,6 +181,7 @@ import { RepartosProvider } from '../providers/repartos/repartos';
 import { HelpProvider } from '../providers/help/help';
 import { HelpPanelComponent } from '../components/comunes/help-panel/help-panel';
 import { RepartosPreparadosCardComponent } from '../components/repartos/repartos-preparados-card/repartos-preparados-card';
+import { ClientesConSaldoCardComponent } from '../components/clientes/clientes-con-saldo-card/clientes-con-saldo-card';
 
 export const environment = {
   production: false,
@@ -257,7 +258,8 @@ export const environment = {
     PrintCajaEgresoPage,
     ChequesEntregadosCardComponent, RepartoAmPage,
     HelpPanelComponent,
-    RepartosPreparadosCardComponent
+    RepartosPreparadosCardComponent,
+    ClientesConSaldoCardComponent
   ],
   imports: [
     BrowserModule,

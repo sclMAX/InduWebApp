@@ -44,7 +44,28 @@ export class PedidosEntregadosCardComponent {
     this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
   }
 
-  calTotalUs(pedido): number { return calcularTotalFinal(pedido); }
+  calTotalPedidoUs(pedido): number { return calcularTotalFinal(pedido); }
+
+  calTotalUs():number{
+    let t:number = 0;
+    if(this.pedidos){
+    this.pedidos.forEach((p)=>{
+      t += Number(p.totalFinalUs || 0);
+    });
+    }
+    return t;
+  }
+
+
+  calTotalKilos():number{
+    let t:number = 0.00;
+    if(this.pedidos){
+      this.pedidos.forEach((p)=>{
+        t += Number(p.totalUnidades || 0);
+      });
+    }
+    return t;
+  }
 
   private async getData() {
     if (this.cliente) {

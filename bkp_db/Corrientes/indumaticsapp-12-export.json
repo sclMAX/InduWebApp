@@ -1,0 +1,167 @@
+{
+  "CV" : {
+    "cf" : 80,
+    "iva" : 21,
+    "monto" : 16.8,
+    "sf" : 20,
+    "tipo" : "80-20"
+  },
+  "Creador" : {
+    "Usuario" : {
+      "email" : "suc_corrientes@indumatics.com.ar",
+      "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+      "isDolarEdit" : true,
+      "isEmbalaje" : false,
+      "localidad" : "Corrientes",
+      "maxDescuentoGeneral" : 0,
+      "maxDescuentoItem" : 0,
+      "nombre" : "Encargado Corrientes",
+      "provincia" : "Corrientes",
+      "sucursal" : "Corrientes"
+    },
+    "fecha" : "2017-09-01 06:52:30"
+  },
+  "DireccionEntrega" : {
+    "calle" : "Resoagli y Cartagena",
+    "localidad" : "Corrientes",
+    "pais" : "Argentina",
+    "provincia" : "Corrientes"
+  },
+  "Dolar" : {
+    "Modificador" : {
+      "Usuario" : {
+        "email" : "suc_corrientes@indumatics.com.ar",
+        "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+        "isDolarEdit" : true,
+        "isEmbalaje" : false,
+        "localidad" : "Corrientes",
+        "maxDescuentoGeneral" : 0,
+        "maxDescuentoItem" : 0,
+        "nombre" : "Encargado Corrientes",
+        "provincia" : "Corrientes",
+        "sucursal" : "Corrientes"
+      },
+      "fecha" : "2017-09-01 05:59:38"
+    },
+    "fecha" : "2017-09-01",
+    "id" : "Dolar",
+    "valor" : 17.5
+  },
+  "Items" : [ {
+    "Color" : {
+      "descripcion" : "Pintado Blanco Brillante",
+      "id" : "Blanco Brillante",
+      "idColorPlanta" : "Blanco Brillante",
+      "isPintura" : true,
+      "nombre" : "Blanco Brillante",
+      "precioUs" : 7
+    },
+    "Perfil" : {
+      "Linea" : {
+        "descripcion" : "Linea Tradicional (Herrero)",
+        "id" : "Tradicional",
+        "nombre" : "Tradicional"
+      },
+      "barrasPaquete" : "6",
+      "codigo" : "690",
+      "descripcion" : "Guia Ventana Corrediza",
+      "id" : "690",
+      "largo" : "6200",
+      "pesoBase" : "0.48",
+      "pesoNatural" : 0.494,
+      "pesoPintado" : 0.518
+    },
+    "cantidad" : 1,
+    "isEmbalado" : true,
+    "isStockActualizado" : true,
+    "precioUs" : 7,
+    "unidades" : 3.2116000000000002
+  }, {
+    "Color" : {
+      "descripcion" : "Pintado Blanco Brillante",
+      "id" : "Blanco Brillante",
+      "idColorPlanta" : "Blanco Brillante",
+      "isPintura" : true,
+      "nombre" : "Blanco Brillante",
+      "precioUs" : 7
+    },
+    "Perfil" : {
+      "Linea" : {
+        "descripcion" : "Linea Tradicional (Herrero)",
+        "id" : "Tradicional",
+        "nombre" : "Tradicional"
+      },
+      "barrasPaquete" : "8",
+      "codigo" : "462",
+      "descripcion" : "Postigon  Parante 37mm",
+      "id" : "462",
+      "largo" : "6200",
+      "pesoBase" : "0.5",
+      "pesoNatural" : 0.515,
+      "pesoPintado" : 0.54
+    },
+    "cantidad" : 1,
+    "isEmbalado" : true,
+    "isStockActualizado" : true,
+    "precioUs" : 7,
+    "unidades" : 3.3480000000000003
+  }, {
+    "Color" : {
+      "descripcion" : "Pintado Blanco Brillante",
+      "id" : "Blanco Brillante",
+      "idColorPlanta" : "Blanco Brillante",
+      "isPintura" : true,
+      "nombre" : "Blanco Brillante",
+      "precioUs" : 7
+    },
+    "Perfil" : {
+      "Linea" : {
+        "descripcion" : "Linea Tradicional (Herrero)",
+        "id" : "Tradicional",
+        "nombre" : "Tradicional"
+      },
+      "barrasPaquete" : "8",
+      "codigo" : "291",
+      "descripcion" : "Marco Postigo  25 chico",
+      "id" : "291",
+      "largo" : "6200",
+      "pesoBase" : "0.47",
+      "pesoNatural" : 0.484,
+      "pesoPintado" : 0.508
+    },
+    "cantidad" : 1,
+    "isEmbalado" : true,
+    "isStockActualizado" : true,
+    "precioUs" : 7,
+    "unidades" : 3.1496
+  } ],
+  "Modificador" : {
+    "Usuario" : {
+      "email" : "suc_corrientes@indumatics.com.ar",
+      "id" : "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+      "isDolarEdit" : true,
+      "isEmbalaje" : false,
+      "localidad" : "Corrientes",
+      "maxDescuentoGeneral" : 0,
+      "maxDescuentoItem" : 0,
+      "nombre" : "Encargado Corrientes",
+      "provincia" : "Corrientes",
+      "sucursal" : "Corrientes"
+    },
+    "fecha" : "2017-09-01 06:53:00"
+  },
+  "cantidadPaquetes" : 1,
+  "descuentoGeneral" : 0,
+  "descuentoKilos" : 0,
+  "fecha" : "2017-09-01",
+  "fechaEntrega" : "2017-09-01",
+  "id" : 12,
+  "idCliente" : 32,
+  "isImpreso" : false,
+  "isInCtaCte" : true,
+  "numero" : 12,
+  "tipo" : "Entregado",
+  "totalFinalUs" : 79.38241920000002,
+  "totalUnidades" : 9.709200000000001,
+  "totalUs" : 67.96440000000001
+}

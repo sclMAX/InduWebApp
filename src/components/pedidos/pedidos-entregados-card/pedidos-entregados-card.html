@@ -5,12 +5,16 @@
       Pedidos Entregados ({{pedidos?.length}})
     </button>
     <ion-list *ngIf="showList">
+      <ion-item color="subToolBar" no-lines>
+        <span item-start>{{calTotalKilos() |number:'1.2-2'}}kg.</span>
+        <span item-end>U$ {{calTotalUs() |number:'1.2-2'}}</span>
+      </ion-item>
       <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
         <ion-col item-start>{{pedido.numero | number:'3.0-0'}}</ion-col>
-        <ion-col item-start *ngIf="!cliente">{{getCliente(pedido.idCliente)?.nombre}}</ion-col>
-        <ion-col item-start *ngIf="cliente">{{pedido.fechaEntrega |date:'dd/MM/yyyy'}}</ion-col>
+        <ion-col item-start>{{pedido.fechaEntrega |date:'dd/MM/yyyy'}}</ion-col>
+        <ion-col item-start *ngIf="!cliente">{{getCliente(pedido.idCliente)?.nombre}}</ion-col>        
         <ion-col item-start>{{pedido?.totalUnidades|number:'1.2-2'}}kg</ion-col>
-        <ion-col item-start>U$ {{calTotalUs(pedido) |number:'1.2-2'}}</ion-col>
+        <ion-col item-start>U$ {{calTotalPedidoUs(pedido) |number:'1.2-2'}}</ion-col>
       </button>
     </ion-list>
   </ion-card>

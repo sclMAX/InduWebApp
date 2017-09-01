@@ -11,7 +11,8 @@
       <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goRespartos()" tooltip="REPARTOS: Crear, listar y/o modificar repartos...">
         <ion-icon name="icon-ind_camion"></ion-icon>
       </button>
-      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left [color]="(isChequesPorVencer)?'danger':''" (click)="goFondos()" tooltip="FONDOS: Cheques, Bancos, Caja y movimientos...">
+      <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left [color]="(isChequesPorVencer)?'danger':''" (click)="goFondos()"
+        tooltip="FONDOS: Cheques, Bancos, Caja y movimientos...">
         <ion-icon name="logo-usd"></ion-icon>
       </button>
       <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank" tooltip="EMAIL: Gestion de correos electronicos web...">
@@ -33,16 +34,17 @@
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isLogin && usuario && !usuario.isEmbalaje">
-      <cheques-en-cartera-card title="Cheques por Vencer" (onSelectCheque)="onSelectCheque($event)" (isChequesPorVencer)="isChequesPorVencer = $event" onlyPorVencer=true ></cheques-en-cartera-card>
+      <cheques-en-cartera-card title="Cheques por Vencer" (onSelectCheque)="onSelectCheque($event)" (isChequesPorVencer)="isChequesPorVencer = $event"
+        onlyPorVencer=true></cheques-en-cartera-card>
       <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card>
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
       <repartos-preparados-card (onClickItem)="onSelectReparto($event)"></repartos-preparados-card>
     </ion-row>
+    <ion-row>
+      <clientes-con-saldo-card></clientes-con-saldo-card>
+    </ion-row>
   </ion-grid>
 </ion-content>
 <footer-comun></footer-comun>
 <help-panel></help-panel>
-
-
-

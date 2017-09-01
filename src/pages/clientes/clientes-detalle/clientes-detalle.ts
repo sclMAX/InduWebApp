@@ -12,7 +12,6 @@ import {PedidosProvider} from './../../../providers/pedidos/pedidos';
   templateUrl: 'clientes-detalle.html',
 })
 export class ClientesDetallePage {
-  title: string;
   cliente: Cliente;
   pedidos: Pedido[];
   pedidosEntregados: Pedido[];
@@ -21,7 +20,6 @@ export class ClientesDetallePage {
               private pedidosP: PedidosProvider) {
     this.cliente = this.navParams.get('Cliente');
     if (this.cliente) {
-      this.title = this.cliente.nombre;
       this.getPedidos();
     } else {
       this.navCtrl.pop();

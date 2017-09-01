@@ -1,8 +1,7 @@
-<ion-header>
+<ion-header no-border>
   <cliente-action-tool-bar color="toolBar" [cliente]="cliente" [showDetalle]=false>
-    <ion-title>{{title}}</ion-title>
+    <ion-title>{{cliente?.id |number:'3.0-0'}} - {{cliente?.nombre}}</ion-title>
   </cliente-action-tool-bar>
-
 </ion-header>
 
 <ion-content padding>

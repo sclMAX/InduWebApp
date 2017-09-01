@@ -7,6 +7,14 @@
     "nombre" : "Blanco Brillante",
     "precioUs" : 7
   },
+  "Blanco Aluar" : {
+    "descripcion" : "Pintado Blanco Aluar Semi Mate",
+    "id" : "Blanco Brillante",
+    "idColorPlanta" : "Blanco Aluar",
+    "isPintura" : true,
+    "nombre" : "Blanco Aluar",
+    "precioUs" : 7
+  },
   "Negro SM" : {
     "descripcion" : "Pintado Negro Satinado",
     "id" : "Negro SM",
