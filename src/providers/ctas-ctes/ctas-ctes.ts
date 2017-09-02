@@ -33,7 +33,7 @@ export class CtasCtesProvider {
 
   getAll(): Observable<CtaCte[]> {
     return new Observable((obs) => {
-      this.db.list(SUC_DOCUMENTOS_CTASCTES_ROOT).subscribe((snap) => {
+      this.db.list(SUC_DOCUMENTOS_CTASCTES_ROOT).subscribe((snap:CtaCte[]) => {
         obs.next(snap || []);
       }, (error) => {
         obs.error(error);

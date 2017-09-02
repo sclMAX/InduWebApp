@@ -1,11 +1,14 @@
-<ion-card [color]="colorHeader" *ngIf="clientes && clientes.length > 0" >
-  <button ion-item [color]="colorHeader" (click)="onClickHeader()">
-      <ion-icon item-start name="icon-ind_user"></ion-icon>
-      <ion-icon item-start name="logo-usd"></ion-icon>
-      Saldo Clientes ({{clientes?.length || 0}})
-      <span item-end>U$ {{calTotal() |number:'1.2-2'}}</span>
-    </button>
+<ion-card [color]="colorHeader" *ngIf="clientes && clientes.length > 0">
+  <button ion-item no-lines [color]="colorHeader" (click)="onClickHeader()">
+    <ion-icon item-start name="icon-ind_user"></ion-icon>
+    <ion-icon item-start name="logo-usd"></ion-icon>
+    <span >Saldo Clientes ({{clientes?.length || 0}})</span>
+    <span item-end>U$ {{calTotal() |number:'1.2-2'}}</span>
+  </button>
   <ion-list *ngIf="showList">
+    <ion-item no-lines color="subToolBar">
+        <button item-end ion-fab mini (click)="actualizar()"><ion-icon name="refresh"></ion-icon></button>
+    </ion-item>
     <button ion-item no-lines *ngFor="let cs of clientes" (click)="onClickItem(cs.Cliente)">
       <span item-start>{{cs?.Cliente?.id |number:'3.0-0'}}-{{cs?.Cliente?.nombre}}</span>
       <span item-end><strong>U$ {{cs?.saldo |number:'1.2-2'}}</strong></span>

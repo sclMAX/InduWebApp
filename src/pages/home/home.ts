@@ -53,5 +53,4 @@ export class HomePage {
     this.usuarioP.getCurrentUser().subscribe(
         (user) => { this.usuario = user; });
   }
-
 }
