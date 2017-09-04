@@ -1,3 +1,4 @@
+import {RepartoEnProcesoPage} from './../reparto-en-proceso/reparto-en-proceso';
 import {RepartosProvider} from './../../../providers/repartos/repartos';
 import {DolarProvider} from './../../../providers/dolar/dolar';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
@@ -134,6 +135,89 @@ export class RepartoAmPage {
             .subscribe((ok) => { okMsg(ok); }, (error) => { errorMsg(error); });
       }
     });
+  }
+
+  confirmar() {
+    // Si confirman
+    let okConfirmar = () => {
+      let load = this.loadCtrl.create({content: 'Guardando Reparto...'});
+      // Si se guardaron loa cambios
+      let ok = (msg) => {
+        load.dismiss().then(() => {
+          // Presentar nuevo Loading...
+          load = this.loadCtrl.create({content: 'Confirmando Reparto...'});
+          load.present().then(() => {
+            // Intentar confirmar el reparto
+            this.repartosP.setEnProceso(this.reparto)
+                .subscribe(
+                    // Si todo va bien
+                    (reparto) => {
+                      this.navCtrl.pop();
+                      load.dismiss();
+                      this.navCtrl.push(RepartoEnProcesoPage,
+                                        {Reparto: reparto});
+                    },
+                    // Si hay error
+                    (err) => {
+                      // Lamar al manejador comun de errores
+                      error(err);
+                    });
+          });
+        });
+      };
+      // Manejador comun de errores
+      let error = (msg) => {
+        load.dismiss();
+        let toast = this.toastCtrl.create({
+          message: msg,
+          showCloseButton: true,
+          dismissOnPageChange: true,
+          closeButtonText: 'OK'
+        });
+        toast.present();
+      };
+      // Show Loading...
+      load.present().then(() => {
+        // Actualizar Totales
+        this.calTotalesPedidos();
+        // Guardar Cambios en el reparto
+        if (this.isEdit && this.oldReparto) {  // Editado
+          this.repartosP.update(this.oldReparto, this.reparto)
+              .subscribe(
+                  (okUpdate) => {
+                    // Cambios guardados
+                    ok(okUpdate);
+                  },
+                  (err) => {
+                    // error al guardar cambios
+                    error(err);
+                  });
+        } else {  // Nuevo
+          this.repartosP.add(this.reparto)
+              .subscribe(
+                  (okAdd) => {
+                    // Nuevo guardado
+                    ok(okAdd);
+                  },
+                  (err) => {
+                    // error al guardar nuevo
+                    error(err);
+                  });
+        }
+      });
+    };
+    // Confirmar Accion
+    let alert = this.alertCtrl.create({
+      title: 'Confirmar Reparto',
+      subTitle: 'Confirmar reparto para su salida?',
+      message:
+          'Se confirmara el reparto para imprimir las ordenes y detalles, luego de esto no se podra editar.',
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {text: 'Aceptar', role: 'ok', handler: () => { okConfirmar(); }}
+      ]
+    });
+    alert.present();
   }
 
   remove() {

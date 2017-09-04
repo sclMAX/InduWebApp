@@ -1,0 +1,62 @@
+<ion-header no-border>
+  <ion-navbar text-center color="toolBar" hideBackButton>
+    <ion-title>Reparto {{reparto?.id |number:'3.0-0'}} - {{reparto?.nombre}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <!-- Datos del Reparto -->
+  <button ion-item no-lines color="listDivider1" (click)="showDatos = !showDatos">Datos del Reparto</button>
+  <ion-grid [hidden]="!showDatos">
+    <ion-row>
+      <ion-col>
+        <!-- Datos -->
+        <ion-row>
+          <ion-col>
+            <!-- Nro -->
+            <form-badge-item label="Nro.">{{reparto?.id |number:'3.0-0'}}</form-badge-item>
+            <!-- Fecha -->
+            <form-badge-item label="Fecha">{{reparto?.fecha |date:'dd/MM/yyyy'}}</form-badge-item>
+            <!-- Nombre -->
+            <form-badge-item label="Etiqueta">{{reparto?.nombre}}</form-badge-item>
+            <!-- Chofer -->
+            <form-badge-item label="Chofer">{{reparto?.chofer}}</form-badge-item>
+          </ion-col>
+        </ion-row>
+        <!-- Comentarios -->
+        <ion-row>
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Comentarios</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput">
+                <ion-textarea [(ngModel)]="reparto.comentarios"></ion-textarea>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Pedidos sin Imprimir -->
+  <button ion-item no-lines color="listDivider2" (click)="showPedidosSI = !showPedidosSI">Pedidos Sin Imprimir</button>
+  <ion-grid [hidden]="!showPedidosSI">
+
+  </ion-grid>
+
+  <!-- Pedidos Impresos -->
+  <button ion-item no-lines color="listDivider1" (click)="showPedidosI = !showPedidosI">Pedidos Impresos</button>
+  <ion-grid [hidden]="!showPedidosI">
+
+  </ion-grid>
+
+  <!-- Totales -->
+  <button ion-item no-lines color="listDivider2" (click)="showTotales = !showTotales">Totales</button>
+  <ion-grid [hidden]="!showTotales">
+
+  </ion-grid>
+
+  <!-- Ayuda -->
+  <help-panel></help-panel>
+</ion-content>

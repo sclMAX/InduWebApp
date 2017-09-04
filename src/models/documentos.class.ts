@@ -8,6 +8,7 @@ export class Documento extends ClaseControlada {
   tipo: string;
   numero: number;
   fecha: string = moment().format(FECHA);
+  fechaEntrega: string = moment().format(FECHA);
   comentario: string;
   isInCtaCte: boolean = false;
   totalFinalUs: number = 0.00;

@@ -9,6 +9,7 @@
   <ion-list *ngIf="showList && movimientos.length > 0">
     <!-- ToolBar -->
     <ion-item no-lines [color]="toolBarColor">
+      <button item-end ion-fab mini color="subToolBar" (click)="actualizar()"><ion-icon name="refresh"></ion-icon></button>
       <button item-end ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
     </ion-item>
     <ion-item>

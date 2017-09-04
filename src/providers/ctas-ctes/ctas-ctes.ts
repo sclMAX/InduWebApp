@@ -20,7 +20,7 @@ export class CtasCtesProvider {
     let cta: CtaCte = new CtaCte();
     doc.isInCtaCte = true;
     cta.idCliente = doc.idCliente;
-    cta.fecha = doc.fecha;
+    cta.fecha = doc.fechaEntrega;
     cta.Creador = this.sucP.genUserDoc();
     cta.tipoDocumento = (doc.tipo == EMBALADO) ? PEDIDO : doc.tipo;
     cta.numero = doc.numero;

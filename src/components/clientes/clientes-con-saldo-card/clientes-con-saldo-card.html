@@ -7,7 +7,8 @@
   </button>
   <ion-list *ngIf="showList">
     <ion-item no-lines color="subToolBar">
-        <button item-end ion-fab mini (click)="actualizar()"><ion-icon name="refresh"></ion-icon></button>
+      <ion-spinner [hidden]="!inGetData" color="dark" name="circles"></ion-spinner>
+        <button [hidden]="inGetData" item-end ion-fab mini color="subToolBar" (click)="actualizar()"><ion-icon name="refresh"></ion-icon></button>
     </ion-item>
     <button ion-item no-lines *ngFor="let cs of clientes" (click)="onClickItem(cs.Cliente)">
       <span item-start>{{cs?.Cliente?.id |number:'3.0-0'}}-{{cs?.Cliente?.nombre}}</span>

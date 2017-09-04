@@ -77,7 +77,7 @@
         </ion-col>
       </ion-row>
       <!--Pedidos Disponibles -->
-      <button ion-item no-lines color="listDivider2" (click)="showPedidosDisponibles= !showPedidosDisponibles">
+      <button ion-item no-lines [hidden]="!(filtrarPedidos(pedidosEmbalados).length > 0)" color="listDivider2" (click)="showPedidosDisponibles= !showPedidosDisponibles">
         Pedidos Preparados ({{(filtrarPedidos(pedidosEmbalados).length)}})
       </button>
       <ion-row [hidden]="!showPedidosDisponibles || !(filtrarPedidos(pedidosEmbalados).length > 0)" ion-item no-lines>
@@ -111,8 +111,7 @@
             <ion-icon *ngIf="!showPedidos[itemIdx]" name="arrow-down"></ion-icon>
           </button>
           <h3 item-start>
-            {{item?.idCliente |number:'3.0-0'}} - {{getCliente(item?.idCliente)?.nombre}} ({{item?.Pedidos?.length}} pedido
-            <span *ngIf="item?.Pedidos?.length > 1">s</span>)</h3>
+            {{item?.idCliente |number:'3.0-0'}} - {{getCliente(item?.idCliente)?.nombre}} ({{item?.Pedidos?.length}} pedido<span *ngIf="item?.Pedidos?.length > 1">s</span>)</h3>
           <h2 item-end><small> TK = {{item?.totalKilos|number:'1.2-2'}}kg. </small></h2>
           <h2 item-end><small> TP = U$ {{item?.totalPedidos|number:'1.2-2'}} </small></h2>
           <h2 item-end><span> SA = U$ {{item?.saldoActual |number:'1.2-2'}}</span></h2>
@@ -182,7 +181,7 @@
       <button ion-fab color="primary" tooltip="Guardar Reparto..." (click)="guardar()" [disabled]="!isValid(formReparto)"><ion-icon name="checkmark"></ion-icon></button>
     </ion-col>
     <ion-col>
-      <button ion-fab color="secondary" tooltip="Confirmar Reparto..." [disabled]="!isValid(formReparto)"><ion-icon name="icon-ind_camion"></ion-icon></button>
+      <button ion-fab color="secondary" tooltip="Confirmar Reparto..." (click)="confirmar()" [disabled]="!isValid(formReparto)"><ion-icon name="icon-ind_camion"></ion-icon></button>
     </ion-col>
     <ion-col>
       <button ion-fab color="danger" tooltip="Eliminar Reparto..." [disabled]="!isEdit" (click)="remove()"><ion-icon name="trash"></ion-icon></button>

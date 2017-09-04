@@ -89,10 +89,15 @@ export class CajaMovimientosCardComponent {
     }
   }
 
+  actualizar(){
+    this.calSaldos(this.movimientos);
+  }
+
   private calSaldos(data: CajaItem[]) {
     let sE: number = 0.00;
     let sD: number = 0.00;
     let sC: number = 0.00;
+    this.saldos = [];
     data.forEach((i) => {
       sE += Number(i.efectivo || 0) * ((i.isIngreso) ? 1 : -1);
       sD += Number(i.dolares || 0) * ((i.isIngreso) ? 1 : -1);
@@ -102,9 +107,8 @@ export class CajaMovimientosCardComponent {
   }
   private async getData() {
     this.fondosP.getMovimientosCaja().subscribe((data) => {
-      this.movimientos = data;
-      
       this.calSaldos(data);
+      this.movimientos = data;            
     });
   }
 }

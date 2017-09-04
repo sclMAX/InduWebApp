@@ -13,7 +13,6 @@ export const ENTREGADO: string = 'Entregado';
 export const PAGO: string = 'Pago';
 
 export class Pedido extends Documento {
-  fechaEntrega: string;
   DireccionEntrega: Direccion;
   Items: PedidoItem[] = [];
   Dolar: Dolar;

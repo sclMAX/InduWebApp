@@ -1,3 +1,5 @@
+import {FECHA} from './../../models/comunes.clases';
+import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {ContadoresProvider} from './../contadores/contadores';
 import {EMBALADO, ENREPARTO} from './../../models/pedidos.clases';
@@ -6,6 +8,8 @@ import {SucursalProvider, SUC_DOCUMENTOS_ROOT} from './../sucursal/sucursal';
 import {Observable} from 'rxjs/Observable';
 import {Reparto} from './../../models/repartos.clases';
 import {Injectable} from '@angular/core';
+import * as moment from 'moment';
+
 export const REPARTO_PREPARADO: string = 'Preparado';
 export const REPARTO_PROCESO: string = 'EnProceso';
 export const REPARTO_CERRADO: string = 'Cerrado';
@@ -14,7 +18,8 @@ export const REPARTO_CERRADO: string = 'Cerrado';
 export class RepartosProvider {
   constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
               private pedidosP: PedidosProvider,
-              private contadoresP: ContadoresProvider) {}
+              private contadoresP: ContadoresProvider,
+              private ctacteP: CtasCtesProvider) {}
 
   private getPath(tipo: string): string {
     return `${SUC_DOCUMENTOS_ROOT}Reparto/${tipo}/`;
@@ -115,6 +120,48 @@ export class RepartosProvider {
           })
           .catch((error) => {
             obs.error(`No se pudo Eliminar el Reparto! Error:${error}`);
+            obs.complete();
+          });
+    });
+  }
+
+  setEnProceso(reparto: Reparto): Observable<Reparto> {
+    return new Observable((obs) => {
+      let updData = {};
+      // Bkp
+      let old: Reparto = JSON.parse(JSON.stringify(reparto));
+      // Actualizar Modificador
+      reparto.Modificador = this.sucP.genUserDoc();
+      // Actualizar fecha si es anterior
+      if (moment(reparto.fecha, FECHA).diff(moment(), 'days') < 0) {
+        reparto.fecha = moment().format(FECHA);
+      }
+      // Cargar pedidos en Cta Cte
+      reparto.Items.forEach((i) => {
+        i.Pedidos.forEach((p) => {
+          //Acutalizar Fecha entrega
+          p.fechaEntrega = moment().format(FECHA);
+          p.tipo = ENREPARTO;
+          if (!p.isInCtaCte) {
+            this.ctacteP.genDocUpdateData(updData, p, true);
+          }
+          //Actualizar Pedido
+          this.pedidosP.genUpdateData(updData,p,ENREPARTO);         
+        });
+      });
+      // Mover Reparto de REPARTO_PREPARADO >>> REPARTO_PROCESO
+      this.genUpdateData(updData, reparto.id, REPARTO_PREPARADO, {});
+      this.genUpdateData(updData, reparto.id, REPARTO_PROCESO, reparto);
+      // Ejecutar Peticion
+      this.db.database.ref()
+          .update(updData)
+          .then((ok) => {
+            obs.next(reparto);
+            obs.complete();
+          })
+          .catch((error) => {
+            reparto = old;
+            obs.error(`No se pudo confirmar el Reparto! Error:${error}`);
             obs.complete();
           });
     });

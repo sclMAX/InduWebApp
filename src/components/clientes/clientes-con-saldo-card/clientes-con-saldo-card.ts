@@ -13,6 +13,7 @@ export class ClientesConSaldoCardComponent {
   @Input() colorHeader: string = 'warning';
   showList: boolean = false;
   clientes: ClienteConSaldo[] = [];
+  inGetData:boolean = true;
 
   constructor(
       public navCtrl: NavController, private ctaCteP: CtasCtesProvider) {}
@@ -42,10 +43,12 @@ export class ClientesConSaldoCardComponent {
   }
 
   private async getData() {
+    this.inGetData = true;
     this.ctaCteP.getAllConSaldoMayorQue(1).subscribe((data) => {
       this.clientes = data.sort((a, b) => {
         return a.saldo - b.saldo;
       });
+      this.inGetData = false;
     })
   }
 }

@@ -1,18 +1,21 @@
-import { RepartoAmPage } from './../pages/repartos/reparto-am/reparto-am';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireModule } from 'angularfire2';
+import {
+  RepartoEnProcesoPage
+} from './../pages/repartos/reparto-en-proceso/reparto-en-proceso';
+import {RepartoAmPage} from './../pages/repartos/reparto-am/reparto-am';
+import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {AngularFireModule} from 'angularfire2';
 import {
   PrintCajaEgresoPage
 } from './../pages/documentos/print/print-caja-egreso/print-caja-egreso';
 import {
   ChequesEnCarteraFindAndSelectPage
 } from './../pages/fondos/cheques-en-cartera-find-and-select/cheques-en-cartera-find-and-select';
-import { CajaEgresoPage } from './../pages/fondos/caja-egreso/caja-egreso';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import {CajaEgresoPage} from './../pages/fondos/caja-egreso/caja-egreso';
+import {ErrorHandler, NgModule} from '@angular/core';
+import {HttpModule} from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
 import {
   BancosCardComponent
@@ -56,7 +59,7 @@ import {
 import {
   ChequesEnCarteraCardComponent
 } from '../components/fondos/cheques-en-cartera-card/cheques-en-cartera-card';
-import { DolarCardComponent } from '../components/fondos/dolar-card/dolar-card';
+import {DolarCardComponent} from '../components/fondos/dolar-card/dolar-card';
 import {
   LineasFindAndSelectComponent
 } from '../components/lineas-find-and-select/lineas-find-and-select';
@@ -99,23 +102,23 @@ import {
 import {
   StockIngresoAddItemComponent
 } from '../components/stock/stock-ingreso-add-item/stock-ingreso-add-item';
-import { HomePage } from '../pages/home/home';
-import { AdicionalesProvider } from '../providers/adicionales/adicionales';
-import { BancosProvider } from '../providers/bancos/bancos';
-import { ClientesProvider } from '../providers/clientes/clientes';
-import { ColoresProvider } from '../providers/colores/colores';
-import { ContadoresProvider } from '../providers/contadores/contadores';
-import { CtasCtesProvider } from '../providers/ctas-ctes/ctas-ctes';
-import { DescuentosProvider } from '../providers/descuentos/descuentos';
-import { DolarProvider } from '../providers/dolar/dolar';
-import { FondosProvider } from '../providers/fondos/fondos';
-import { LogProvider } from '../providers/log/log';
-import { PagosProvider } from '../providers/pagos/pagos';
-import { PedidosProvider } from '../providers/pedidos/pedidos';
-import { ProductosProvider } from '../providers/productos/productos';
-import { StockProvider } from '../providers/stock/stock';
-import { SucursalProvider } from '../providers/sucursal/sucursal';
-import { UsuarioProvider } from '../providers/usuario/usuario';
+import {HomePage} from '../pages/home/home';
+import {AdicionalesProvider} from '../providers/adicionales/adicionales';
+import {BancosProvider} from '../providers/bancos/bancos';
+import {ClientesProvider} from '../providers/clientes/clientes';
+import {ColoresProvider} from '../providers/colores/colores';
+import {ContadoresProvider} from '../providers/contadores/contadores';
+import {CtasCtesProvider} from '../providers/ctas-ctes/ctas-ctes';
+import {DescuentosProvider} from '../providers/descuentos/descuentos';
+import {DolarProvider} from '../providers/dolar/dolar';
+import {FondosProvider} from '../providers/fondos/fondos';
+import {LogProvider} from '../providers/log/log';
+import {PagosProvider} from '../providers/pagos/pagos';
+import {PedidosProvider} from '../providers/pedidos/pedidos';
+import {ProductosProvider} from '../providers/productos/productos';
+import {StockProvider} from '../providers/stock/stock';
+import {SucursalProvider} from '../providers/sucursal/sucursal';
+import {UsuarioProvider} from '../providers/usuario/usuario';
 
 import {
   ClientesAddDescuentoPage
@@ -123,7 +126,7 @@ import {
 import {
   ClientesAddPagoPage
 } from './../pages/clientes/clientes-add-pago/clientes-add-pago';
-import { ClientesAddPage } from './../pages/clientes/clientes-add/clientes-add';
+import {ClientesAddPage} from './../pages/clientes/clientes-add/clientes-add';
 import {
   ClientesDetallePage
 } from './../pages/clientes/clientes-detalle/clientes-detalle';
@@ -148,7 +151,7 @@ import {
 import {
   PrintMovimientoCajaPage
 } from './../pages/documentos/print/print-movimiento-caja/print-movimiento-caja';
-import { PrintPagoPage } from './../pages/documentos/print/print-pago/print-pago';
+import {PrintPagoPage} from './../pages/documentos/print/print-pago/print-pago';
 import {
   PrintPedidoEntregaPage
 } from './../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
@@ -161,10 +164,10 @@ import {
 import {
   BancosSucursalAmPage
 } from './../pages/fondos/bancos/bancos-sucursal-am/bancos-sucursal-am';
-import { BancosamPage } from './../pages/fondos/bancos/bancosam/bancosam';
-import { ChequesAmPage } from './../pages/fondos/cheques/cheques-am/cheques-am';
-import { FondosHomePage } from './../pages/fondos/fondos-home/fondos-home';
-import { LoginPage } from './../pages/login/login';
+import {BancosamPage} from './../pages/fondos/bancos/bancosam/bancosam';
+import {ChequesAmPage} from './../pages/fondos/cheques/cheques-am/cheques-am';
+import {FondosHomePage} from './../pages/fondos/fondos-home/fondos-home';
+import {LoginPage} from './../pages/login/login';
 import {
   ProductosHomePage
 } from './../pages/productos/productos-home/productos-home';
@@ -174,14 +177,20 @@ import {
 import {
   RepartosHomePage
 } from './../pages/repartos/repartos-home/repartos-home';
-import { MyApp } from './app.component';
-import { ToolTipDirective } from '../directives/tool-tip/tool-tip';
-import { ChequesEntregadosCardComponent } from '../components/fondos/cheques-entregados-card/cheques-entregados-card';
-import { RepartosProvider } from '../providers/repartos/repartos';
-import { HelpProvider } from '../providers/help/help';
-import { HelpPanelComponent } from '../components/comunes/help-panel/help-panel';
-import { RepartosPreparadosCardComponent } from '../components/repartos/repartos-preparados-card/repartos-preparados-card';
-import { ClientesConSaldoCardComponent } from '../components/clientes/clientes-con-saldo-card/clientes-con-saldo-card';
+import {MyApp} from './app.component';
+import {ToolTipDirective} from '../directives/tool-tip/tool-tip';
+import {
+  ChequesEntregadosCardComponent
+} from '../components/fondos/cheques-entregados-card/cheques-entregados-card';
+import {RepartosProvider} from '../providers/repartos/repartos';
+import {HelpProvider} from '../providers/help/help';
+import {HelpPanelComponent} from '../components/comunes/help-panel/help-panel';
+import {
+  RepartosPreparadosCardComponent
+} from '../components/repartos/repartos-preparados-card/repartos-preparados-card';
+import {
+  ClientesConSaldoCardComponent
+} from '../components/clientes/clientes-con-saldo-card/clientes-con-saldo-card';
 
 export const environment = {
   production: false,
@@ -256,10 +265,12 @@ export const environment = {
     ToolTipDirective,
     ChequesEnCarteraFindAndSelectPage,
     PrintCajaEgresoPage,
-    ChequesEntregadosCardComponent, RepartoAmPage,
+    ChequesEntregadosCardComponent,
+    RepartoAmPage,
     HelpPanelComponent,
     RepartosPreparadosCardComponent,
-    ClientesConSaldoCardComponent
+    ClientesConSaldoCardComponent,
+    RepartoEnProcesoPage
   ],
   imports: [
     BrowserModule,
@@ -301,10 +312,12 @@ export const environment = {
     PrintMovimientoCajaPage,
     CajaEgresoPage,
     ChequesEnCarteraFindAndSelectPage,
-    PrintCajaEgresoPage, RepartoAmPage
+    PrintCajaEgresoPage,
+    RepartoAmPage,
+    RepartoEnProcesoPage
   ],
   providers: [
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     ClientesProvider,
     SucursalProvider,
     UsuarioProvider,
