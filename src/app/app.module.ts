@@ -1,4 +1,7 @@
 import {
+  PrintRepartoPage
+} from './../pages/documentos/print/print-reparto/print-reparto';
+import {
   RepartoEnProcesoPage
 } from './../pages/repartos/reparto-en-proceso/reparto-en-proceso';
 import {RepartoAmPage} from './../pages/repartos/reparto-am/reparto-am';
@@ -270,7 +273,8 @@ export const environment = {
     HelpPanelComponent,
     RepartosPreparadosCardComponent,
     ClientesConSaldoCardComponent,
-    RepartoEnProcesoPage
+    RepartoEnProcesoPage,
+    PrintRepartoPage
   ],
   imports: [
     BrowserModule,
@@ -314,7 +318,8 @@ export const environment = {
     ChequesEnCarteraFindAndSelectPage,
     PrintCajaEgresoPage,
     RepartoAmPage,
-    RepartoEnProcesoPage
+    RepartoEnProcesoPage,
+    PrintRepartoPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

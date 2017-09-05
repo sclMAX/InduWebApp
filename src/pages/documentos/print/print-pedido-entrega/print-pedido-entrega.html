@@ -117,6 +117,7 @@
   </ion-col>
 </ion-grid>
 <ion-fab top right>
-  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
-  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <button ion-fab color="dark" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
+  <br>
+  <button ion-fab color="dark" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>

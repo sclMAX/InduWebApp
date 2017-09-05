@@ -139,14 +139,14 @@ export class RepartosProvider {
       // Cargar pedidos en Cta Cte
       reparto.Items.forEach((i) => {
         i.Pedidos.forEach((p) => {
-          //Acutalizar Fecha entrega
+          // Acutalizar Fecha entrega
           p.fechaEntrega = moment().format(FECHA);
           p.tipo = ENREPARTO;
           if (!p.isInCtaCte) {
             this.ctacteP.genDocUpdateData(updData, p, true);
           }
-          //Actualizar Pedido
-          this.pedidosP.genUpdateData(updData,p,ENREPARTO);         
+          // Actualizar Pedido
+          this.pedidosP.genUpdateData(updData, p, ENREPARTO);
         });
       });
       // Mover Reparto de REPARTO_PREPARADO >>> REPARTO_PROCESO
@@ -162,6 +162,23 @@ export class RepartosProvider {
           .catch((error) => {
             reparto = old;
             obs.error(`No se pudo confirmar el Reparto! Error:${error}`);
+            obs.complete();
+          });
+    });
+  }
+
+  saveEnProceso(reparto: Reparto): Observable<Reparto> {
+    return new Observable((obs) => {
+      let updData = {};
+      this.genUpdateData(updData, reparto.id, REPARTO_PROCESO, reparto);
+      this.db.database.ref()
+          .update(updData)
+          .then((ok) => {
+            obs.next(reparto);
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(error);
             obs.complete();
           });
     });

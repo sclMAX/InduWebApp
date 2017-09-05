@@ -1,10 +1,23 @@
+import {RepartosProvider} from './../../../providers/repartos/repartos';
+import {
+  PrintRepartoPage
+} from './../../documentos/print/print-reparto/print-reparto';
+import {DolarProvider} from './../../../providers/dolar/dolar';
+import {
+  PrintPedidoEntregaPage
+} from './../../documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {Pedido} from './../../../models/pedidos.clases';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {Cliente} from './../../../models/clientes.clases';
 import {Reparto, RepartoPedido} from './../../../models/repartos.clases';
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {
+  NavController,
+  NavParams,
+  LoadingController,
+  ToastController
+} from 'ionic-angular';
 
 @Component({
   selector: 'page-reparto-en-proceso',
@@ -15,15 +28,20 @@ export class RepartoEnProcesoPage {
   private oldReparto: Reparto;
   clientes: Cliente[] = [];
   saldos: ({idCliente: number, saldo: number})[] = [];
+  valorDolar: number = 0.00;
 
   showDatos: boolean = true;
-  showPedidosI: boolean = true;
-  showPedidosSI: boolean = true;
+  showClientes: boolean = true;
   showTotales: boolean = true;
+  showPedidosCliente: boolean[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              private loadCtrl: LoadingController,
+              private toastCtrl: ToastController,
+              private repartosP: RepartosProvider,
               private clientesP: ClientesProvider,
-              private ctacteP: CtasCtesProvider) {
+              private ctacteP: CtasCtesProvider,
+              private dolarP: DolarProvider) {
     this.reparto = this.navParams.get('Reparto');
     if (this.reparto) {
       this.oldReparto = JSON.parse(JSON.stringify(this.reparto));
@@ -44,17 +62,101 @@ export class RepartoEnProcesoPage {
     return this.clientes.find((c) => { return c.id == idCliente; });
   }
 
-  getSaldo(idCliente: number): number {
-    let i = this.saldos.find((s) => { return s.idCliente == idCliente; });
+  getSaldo(item: RepartoPedido): number {
+    let i = this.saldos.find((s) => { return s.idCliente == item.idCliente; });
     if (i) {
-      return i.saldo;
+      item.saldoActual = i.saldo;
+      return item.saldoActual;
     }
     return 0.00;
+  }
+
+  calSaldoTotal(): number {
+    if (this.reparto && this.reparto.Items) {
+      this.reparto.saldoTotal = 0.00;
+      this.reparto.Items.forEach((i) => {
+        let si: number = this.getSaldo(i);
+        this.reparto.saldoTotal += Number((si > 0) ? si : 0);
+      });
+      return this.reparto.saldoTotal;
+    }
+    return 0.00;
+  }
+
+  countTotal(items: RepartoPedido[]): number {
+    let t: number = 0;
+    items.forEach((i) => { t += i.Pedidos.length; });
+    return t;
+  }
+
+  countImpresos(items: RepartoPedido[]): number {
+    let t: number = 0;
+    items.forEach((i) => {
+      i.Pedidos.forEach((p) => { t += ((p.isImpreso) ? 1 : 0); });
+    });
+    return t;
+  }
+  countNoImpresos(items: RepartoPedido[]): number {
+    let t: number = 0;
+    items.forEach((i) => {
+      i.Pedidos.forEach((p) => { t += ((p.isImpreso) ? 0 : 1); });
+    });
+    return t;
+  }
+
+  printPedido(pedido: Pedido) {
+    pedido.Dolar = this.reparto.Dolar;
+    this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
+    pedido.isImpreso = true;
+  }
+
+  print() {
+    let load = this.loadCtrl.create({content: 'Guardando...'});
+    load.present().then(() => {
+      this.calSaldoTotal();
+      this.repartosP.saveEnProceso(this.reparto)
+          .subscribe(
+              (okReparto) => {
+                this.navCtrl.pop();
+                load.dismiss();
+                this.navCtrl.push(PrintRepartoPage, {Reparto: okReparto});
+              },
+              (error) => {
+                load.dismiss();
+                let toast = this.toastCtrl.create({
+                  position: 'middle',
+                  message: `No se pudo guardar! Error:${error}`,
+                  showCloseButton: true,
+                  closeButtonText: 'OK'
+                });
+                toast.present();
+              });
+    });
+  }
+
+  private ordenarItems() {
+    if (this.reparto && this.reparto.Items && this.clientes &&
+        this.reparto.Items.length == this.clientes.length) {
+      this.reparto.Items = this.reparto.Items.sort((a, b) => {
+        let r: number = 0;
+        let ca = this.getCliente(a.idCliente);
+        let cb = this.getCliente(b.idCliente);
+        let an: string = (ca) ? ca.nombre.toLowerCase() : '';
+        let bn: string = (cb) ? cb.nombre.toLowerCase() : '';
+        if (an > bn) r = 1;
+        if (an < bn) r = -1;
+        return r;
+      });
+    }
   }
 
   private async getData() {
     this.clientes = [];
     this.saldos = [];
+    this.dolarP.getDolar().subscribe((valor) => {
+      this.reparto.Dolar = valor;
+      this.valorDolar = this.reparto.Dolar.valor;
+    });
     this.reparto.Items.forEach((i) => {
       let idx = this.clientes.findIndex((c) => { return c.id == i.idCliente; });
       if (idx == -1) {
@@ -64,6 +166,7 @@ export class RepartoEnProcesoPage {
                   .subscribe((saldo) => {
                     this.clientes.push(cliente);
                     this.saldos.push({idCliente: cliente.id, saldo: saldo});
+                    this.ordenarItems();
                   });
             });
       }

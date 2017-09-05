@@ -60,20 +60,18 @@ export class RepartoAmPage {
 
   isExistPedido(pedido: Pedido): boolean {
     let res: boolean = false;
-    if (this.pedidosEmbalados) {
-      res = this.pedidosEmbalados.findIndex(
-                (p) => { return p.id == pedido.id; }) > -1;
+    if (this.isEdit && this.oldReparto) {
+      let pInRepato: Pedido[] = [];
+      this.oldReparto.Items.forEach(
+          (i) => { i.Pedidos.forEach((p) => { pInRepato.push(p); }); });
+      res = (pInRepato.findIndex((p) => { return p.id == pedido.id; }) > -1);
       if (res) {
         return res;
       }
     }
-    if (this.isEdit && this.oldReparto) {
-      this.oldReparto.Items.forEach((i) => {
-        res = i.Pedidos.findIndex((p) => { return p.id == pedido.id; }) > -1;
-        if (!res) {
-          return res;
-        }
-      });
+    if (this.pedidosEmbalados) {
+      res = this.pedidosEmbalados.findIndex(
+                (p) => { return p.id == pedido.id; }) > -1;
     }
     return res;
   }
@@ -81,12 +79,7 @@ export class RepartoAmPage {
   chkItems(): boolean {
     let res: boolean = true;
     this.reparto.Items.forEach((i) => {
-      i.Pedidos.forEach((p) => {
-        res = res && this.isExistPedido(p);
-        if (!res) {
-          return res;
-        }
-      });
+      i.Pedidos.forEach((p) => { res = res && this.isExistPedido(p); });
     });
     return res;
   }
@@ -375,7 +368,9 @@ export class RepartoAmPage {
   }
 
   private async getDolar() {
-    this.dolarP.getDolarValor().subscribe(
-        (data) => { this.valorDolar = data; });
+    this.dolarP.getDolar().subscribe((data) => {
+      this.reparto.Dolar = data;
+      this.valorDolar = data.valor;
+    });
   }
 }

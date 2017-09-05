@@ -8,8 +8,7 @@
       (click)="onClick(reparto)">
         <span item-start>{{reparto?.id |number:'3.0-0'}}</span>
         <span>{{reparto?.fecha |date:'dd/MM/yyyy'}} - {{reparto?.nombre}}  </span>
-        <span item-end>U$ {{reparto?.totalDolares |number:'1.2-2'}}</span>   
-        <span item-end> - U$ {{reparto?.saldoTotal |number:'1.2-2'}}</span>   
+        <span item-end> ST: U$ {{reparto?.saldoTotal |number:'1.2-2'}} / $ {{(reparto?.saldoTotal * reparto?.Dolar?.valor) |number:'1.2-2'}}</span>   
       </button>
   </ion-list>
 </ion-card>

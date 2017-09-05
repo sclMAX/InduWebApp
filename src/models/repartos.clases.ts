@@ -1,23 +1,25 @@
-import { Pedido } from './pedidos.clases';
-import { ClaseControlada, FECHA } from './comunes.clases';
+import {Dolar} from './fondos.clases';
+import {Pedido} from './pedidos.clases';
+import {ClaseControlada, FECHA} from './comunes.clases';
 import * as moment from 'moment';
 
 export class Reparto extends ClaseControlada {
-    id: number;
-    fecha: string = moment().format(FECHA);
-    nombre:string;
-    chofer:string;
-    comentarios:string;
-    Items: RepartoPedido[] = [];
-    totalKilos:number = 0.00;
-    totalDolares:number = 0.00;    
-    saldoTotal:number = 0.00;
+  id: number;
+  fecha: string = moment().format(FECHA);
+  nombre: string;
+  chofer: string;
+  comentarios: string;
+  Items: RepartoPedido[] = [];
+  Dolar: Dolar;
+  totalKilos: number = 0.00;
+  totalDolares: number = 0.00;
+  saldoTotal: number = 0.00;
 }
 
-export class RepartoPedido{
-    idCliente:number;
-    Pedidos:Pedido[] = [];
-    totalKilos:number;
-    totalPedidos:number = 0.00;
-    saldoActual:number = 0.00;
+export class RepartoPedido {
+  idCliente: number;
+  Pedidos: Pedido[] = [];
+  totalKilos: number;
+  totalPedidos: number = 0.00;
+  saldoActual: number = 0.00;
 }

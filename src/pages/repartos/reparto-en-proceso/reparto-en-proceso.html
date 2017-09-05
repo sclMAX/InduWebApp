@@ -11,15 +11,41 @@
       <ion-col>
         <!-- Datos -->
         <ion-row>
+          <!-- Nro -->
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Nro</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" color="formInput">{{reparto?.id |number:'3.0-0'}}</ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Fecha -->
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Fecha</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" color="formInput">{{reparto?.fecha |date:'dd/MM/yyyy'}}</ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Nombre -->
           <ion-col>
-            <!-- Nro -->
-            <form-badge-item label="Nro.">{{reparto?.id |number:'3.0-0'}}</form-badge-item>
-            <!-- Fecha -->
-            <form-badge-item label="Fecha">{{reparto?.fecha |date:'dd/MM/yyyy'}}</form-badge-item>
-            <!-- Nombre -->
-            <form-badge-item label="Etiqueta">{{reparto?.nombre}}</form-badge-item>
-            <!-- Chofer -->
-            <form-badge-item label="Chofer">{{reparto?.chofer}}</form-badge-item>
+            <ion-row>
+              <ion-badge color="formLabel">Etiqueta</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" color="formInput">{{reparto?.nombre}}</ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Chofer -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Chofer</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" color="formInput">{{reparto?.chofer}}</ion-badge>
+            </ion-row>
           </ion-col>
         </ion-row>
         <!-- Comentarios -->
@@ -30,7 +56,7 @@
             </ion-row>
             <ion-row>
               <ion-badge ion-item no-lines color="formInput">
-                <ion-textarea [(ngModel)]="reparto.comentarios"></ion-textarea>
+                <ion-textarea [(ngModel)]="reparto.comentarios" readonly></ion-textarea>
               </ion-badge>
             </ion-row>
           </ion-col>
@@ -40,23 +66,72 @@
   </ion-grid>
 
   <!-- Pedidos sin Imprimir -->
-  <button ion-item no-lines color="listDivider2" (click)="showPedidosSI = !showPedidosSI">Pedidos Sin Imprimir</button>
-  <ion-grid [hidden]="!showPedidosSI">
-
-  </ion-grid>
-
-  <!-- Pedidos Impresos -->
-  <button ion-item no-lines color="listDivider1" (click)="showPedidosI = !showPedidosI">Pedidos Impresos</button>
-  <ion-grid [hidden]="!showPedidosI">
-
+  <button ion-item no-lines color="listDivider2" (click)="showClientes = !showClientes">Clientes</button>
+  <ion-grid [hidden]="!showClientes">
+    <ion-row *ngFor="let item of reparto.Items;let idx=index;">
+      <button ion-item no-lines text-center color="dark" (click)="showPedidosCliente[idx]=!showPedidosCliente[idx]">
+        <span item-start>{{getCliente(item?.idCliente)?.id |number:'3.0-0'}} - {{getCliente(item?.idCliente)?.nombre}}</span>
+       <span *ngIf="countNoImpresos([item]) > 0"><ion-icon name="warning" color="warning"></ion-icon> Por Imprimir: {{countNoImpresos([item])}}</span>
+        <span item-end>Kilos: {{item?.totalKilos |number:'1.2-2'}}kg. </span>
+        <span item-end> Saldo: U$ {{getSaldo(item) |number:'1.2-2'}} / $ {{(getSaldo(item) * valorDolar) |number:'1.2-2'}}</span>
+      </button>
+      <ion-row ion-item [hidden]="!showPedidosCliente[idx]">
+        <table border=1 width="100%">
+          <tr>
+            <th>Nro</th>
+            <th>Fecha</th>
+            <th>Fecha Entrega</th>
+            <th>Total Kilos</th>
+            <th>Total Final (U$)</th>
+            <th>Estado</th>
+          </tr>
+          <tr [bgColor]="(pedido.isImpreso)?'':'warning'" *ngFor="let pedido of item.Pedidos">
+            <td text-right>{{pedido?.id |number:'3.0-0'}}</td>
+            <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
+            <td text-center>{{pedido?.fechaEntrega |date:'dd/MM/yyyy'}}</td>
+            <td text-right>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</td>
+            <td text-right>U$ {{pedido?.totalFinalUs |number:'1.2-2'}}</td>
+            <td text-center><button ion-button small clear *ngIf="pedido.isImpreso" (click)="printPedido(pedido)">IMPRESO</button>
+              <button *ngIf="!pedido.isImpreso" ion-button small color="dark" (click)="printPedido(pedido)">
+                <ion-icon name="print"></ion-icon>
+                </button>
+            </td>
+          </tr>
+        </table>
+      </ion-row>
+    </ion-row>
   </ion-grid>
 
   <!-- Totales -->
-  <button ion-item no-lines color="listDivider2" (click)="showTotales = !showTotales">Totales</button>
+  <button ion-item no-lines color="listDivider1" (click)="showTotales = !showTotales">Totales</button>
   <ion-grid [hidden]="!showTotales">
-
+    <ion-row ion-item>
+      <table border=1 width="100%">
+        <tr>
+          <th>Total Clientes</th>
+          <th>Total Pedidos</th>
+          <th>Total Kilos</th>
+          <th>Total Pedidos (U$)</th>
+          <th>Total a Cobrar (U$)</th>
+          <th>Ref. Dolar</th>
+          <th>Total a Cobrar ($)</th>
+        </tr>
+        <tr>
+          <td text-center>{{reparto?.Items?.length}}</td>
+          <td text-center>{{countTotal(reparto?.Items)}}</td>
+          <td text-right>{{reparto?.totalKilos |number:'1.2-2'}}kg.</td>
+          <td text-right>U$ {{reparto?.totalDolares |number:'1.2-2'}}</td>
+          <td text-right>U$ {{calSaldoTotal() |number:'1.2-2'}}</td>
+          <td text-right>$ {{valorDolar |number:'1.3-3'}}</td>
+          <td text-right>$ {{(calSaldoTotal() * valorDolar) |number:'1.2-2'}}</td>
+        </tr>
+      </table>
+    </ion-row>
   </ion-grid>
-
-  <!-- Ayuda -->
-  <help-panel></help-panel>
 </ion-content>
+<!-- Ayuda -->
+<help-panel></help-panel>
+<!-- Botones -->
+<ion-fab top right>
+  <button ion-fab color="dark" [disabled]="countNoImpresos(reparto.Items) > 0" (click)="print()"><ion-icon name="print"></ion-icon></button>
+</ion-fab>

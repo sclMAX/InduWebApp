@@ -1,0 +1,866 @@
+[
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "971",
+      "descripcion": "Vidrio Repartido Central",
+      "id": "971",
+      "largo": "6050",
+      "pesoBase": "0.36",
+      "pesoNatural": 0.371,
+      "pesoPintado": 0.389
+    },
+    "cantidad": "10",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "965",
+      "descripcion": "Ventana Marco Combinado",
+      "id": "965",
+      "largo": "6050",
+      "pesoBase": "1.15",
+      "pesoNatural": 1.185,
+      "pesoPintado": 1.242
+    },
+    "cantidad": "4",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "461",
+      "descripcion": "Postigo Tapajunta",
+      "id": "461",
+      "largo": "6200",
+      "pesoBase": "0.245",
+      "pesoNatural": 0.252,
+      "pesoPintado": 0.265
+    },
+    "cantidad": "15",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "905",
+      "descripcion": "Mosquitero",
+      "id": "905",
+      "largo": "6050",
+      "pesoBase": "0.32",
+      "pesoNatural": 0.33,
+      "pesoPintado": 0.346
+    },
+    "cantidad": "30",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "502",
+      "descripcion": "Ventana Hoja Travesaño Liviano",
+      "id": "502",
+      "largo": "6050",
+      "pesoBase": "0.385",
+      "pesoNatural": 0.397,
+      "pesoPintado": 0.416
+    },
+    "cantidad": "30",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "902",
+      "descripcion": "Ventana Hoja Travesaño",
+      "id": "902",
+      "largo": "6050",
+      "pesoBase": "0.49",
+      "pesoNatural": 0.505,
+      "pesoPintado": 0.529
+    },
+    "cantidad": "15",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "904",
+      "descripcion": "Ventana Hoja Parante Central",
+      "id": "904",
+      "largo": "6050",
+      "pesoBase": "0.42",
+      "pesoNatural": 0.433,
+      "pesoPintado": 0.454
+    },
+    "cantidad": "13",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "903",
+      "descripcion": "Ventana Hoja Parante Lateral",
+      "id": "903",
+      "largo": "6050",
+      "pesoBase": "0.43",
+      "pesoNatural": 0.443,
+      "pesoPintado": 0.464
+    },
+    "cantidad": "15",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "8",
+      "codigo": "462",
+      "descripcion": "Postigon  Parante 37mm",
+      "id": "462",
+      "largo": "6200",
+      "pesoBase": "0.5",
+      "pesoNatural": 0.515,
+      "pesoPintado": 0.54
+    },
+    "cantidad": "15",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "5",
+      "codigo": "464",
+      "descripcion": "Postigon Parante / Puerta Parante  70mm",
+      "id": "464",
+      "largo": "6200",
+      "pesoBase": "0.65",
+      "pesoNatural": 0.67,
+      "pesoPintado": 0.702
+    },
+    "cantidad": "26",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "405",
+      "descripcion": "Puerta Travesaño 36mm",
+      "id": "405",
+      "largo": "6050",
+      "pesoBase": "0.96",
+      "pesoNatural": 0.989,
+      "pesoPintado": 1.037
+    },
+    "cantidad": "13",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "192T",
+      "descripcion": "Postigon Tablilla (TROQUELADA)",
+      "id": "192T",
+      "largo": "6050",
+      "pesoBase": "0.275",
+      "pesoNatural": 0.283,
+      "pesoPintado": 0.297
+    },
+    "cantidad": "30",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "404",
+      "descripcion": "Puerta Parante 36mm",
+      "id": "404",
+      "largo": "6200",
+      "pesoBase": "0.95",
+      "pesoNatural": 0.978,
+      "pesoPintado": 1.026
+    },
+    "cantidad": "26",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "961",
+      "descripcion": "Ventana Corr. Marco 3 Guias",
+      "id": "961",
+      "largo": "6050",
+      "pesoBase": "1.175",
+      "pesoNatural": 1.21,
+      "pesoPintado": 1.269
+    },
+    "cantidad": "4",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "972",
+      "descripcion": "Vidrio Repartido Perimetral",
+      "id": "972",
+      "largo": "6050",
+      "pesoBase": "0.25",
+      "pesoNatural": 0.258,
+      "pesoPintado": 0.27
+    },
+    "cantidad": "20",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "501",
+      "descripcion": "Ventana Marco Liviano",
+      "id": "501",
+      "largo": "6050",
+      "pesoBase": "0.59",
+      "pesoNatural": 0.608,
+      "pesoPintado": 0.637
+    },
+    "cantidad": "8",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "406",
+      "descripcion": "Puerta Doble Contacto 36mm",
+      "id": "406",
+      "largo": "6200",
+      "pesoBase": "0.3",
+      "pesoNatural": 0.309,
+      "pesoPintado": 0.324
+    },
+    "cantidad": "15",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "690",
+      "descripcion": "Guia Ventana Corrediza",
+      "id": "690",
+      "largo": "6200",
+      "pesoBase": "0.48",
+      "pesoNatural": 0.494,
+      "pesoPintado": 0.518
+    },
+    "cantidad": "12",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "10",
+      "codigo": "049",
+      "descripcion": "Marco Union",
+      "id": "049",
+      "largo": "6050",
+      "pesoBase": "0.41",
+      "pesoNatural": 0.422,
+      "pesoPintado": 0.443
+    },
+    "cantidad": "10",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Negro Satinado",
+      "id": "Negro SM",
+      "idColorPlanta": "Negro SM",
+      "isPintura": true,
+      "nombre": "Negro SM",
+      "precioUs": 8
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea 6000 (Modena)",
+        "id": "6000",
+        "nombre": "6000"
+      },
+      "barrasPaquete": "10",
+      "codigo": "6206",
+      "descripcion": "Tapa Premarco TM",
+      "id": "6206",
+      "largo": "6200",
+      "pesoBase": "0.185",
+      "pesoNatural": 0.191,
+      "pesoPintado": 0.2
+    },
+    "cantidad": "4",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Brillante",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "907",
+      "descripcion": "Paño Fijo Marco",
+      "id": "907",
+      "largo": "6050",
+      "pesoBase": "0.53",
+      "pesoNatural": 0.546,
+      "pesoPintado": 0.572
+    },
+    "cantidad": "29",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "8",
+      "codigo": "291",
+      "descripcion": "Marco Postigo  25 chico",
+      "id": "291",
+      "largo": "6200",
+      "pesoBase": "0.47",
+      "pesoNatural": 0.484,
+      "pesoPintado": 0.508
+    },
+    "cantidad": "6",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "917",
+      "descripcion": "Ventana Corrediza Umbral",
+      "id": "917",
+      "largo": "6050",
+      "pesoBase": "0.88",
+      "pesoNatural": 0.906,
+      "pesoPintado": 0.95
+    },
+    "cantidad": "4",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "289",
+      "descripcion": "Postigon Marco / Puerta Marco",
+      "id": "289",
+      "largo": "6200",
+      "pesoBase": "0.66",
+      "pesoNatural": 0.68,
+      "pesoPintado": 0.713
+    },
+    "cantidad": "12",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "5",
+      "codigo": "044",
+      "descripcion": "Ventana Travesaño / Puerta Travesaño",
+      "id": "044",
+      "largo": "6050",
+      "pesoBase": "0.85",
+      "pesoNatural": 0.876,
+      "pesoPintado": 0.918
+    },
+    "cantidad": "5",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "503",
+      "descripcion": "Ventana Hoja Parante Lateral Liviano",
+      "id": "503",
+      "largo": "6050",
+      "pesoBase": "0.37",
+      "pesoNatural": 0.381,
+      "pesoPintado": 0.4
+    },
+    "cantidad": "14",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "504",
+      "descripcion": "Ventana Hoja Parante Central Liviano",
+      "id": "504",
+      "largo": "6050",
+      "pesoBase": "0.37",
+      "pesoNatural": 0.381,
+      "pesoPintado": 0.4
+    },
+    "cantidad": "11",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "901",
+      "descripcion": "Ventana Marco",
+      "id": "901",
+      "largo": "6050",
+      "pesoBase": "0.8",
+      "pesoNatural": 0.824,
+      "pesoPintado": 0.864
+    },
+    "cantidad": "20",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "20",
+      "codigo": "108",
+      "descripcion": "Contavidrio",
+      "id": "108",
+      "largo": "6050",
+      "pesoBase": "0.165",
+      "pesoNatural": 0.17,
+      "pesoPintado": 0.178
+    },
+    "cantidad": "10",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "6",
+      "codigo": "403",
+      "descripcion": "Puerta Marco 36mm",
+      "id": "403",
+      "largo": "6200",
+      "pesoBase": "0.55",
+      "pesoNatural": 0.567,
+      "pesoPintado": 0.594
+    },
+    "cantidad": "12",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "4",
+      "codigo": "404-45",
+      "descripcion": "Puerta Parante 36mm (4500mm largo)",
+      "id": "404-45",
+      "largo": "4500",
+      "pesoBase": "0.95",
+      "pesoNatural": 0.978,
+      "pesoPintado": 1.026
+    },
+    "cantidad": "8",
+    "isStockActualizado": true
+  },
+  {
+    "Color": {
+      "descripcion": "Pintado Blanco Aluar Semi Mate",
+      "id": "Blanco Brillante",
+      "idColorPlanta": "Blanco Brillante",
+      "isPintura": true,
+      "nombre": "Blanco Brillante",
+      "precioUs": 7
+    },
+    "Perfil": {
+      "Linea": {
+        "descripcion": "Linea Tradicional (Herrero)",
+        "id": "Tradicional",
+        "nombre": "Tradicional"
+      },
+      "barrasPaquete": "5",
+      "codigo": "992",
+      "descripcion": "Revestimiento Doble Faz",
+      "id": "992",
+      "largo": "6050",
+      "pesoBase": "0.69",
+      "pesoNatural": 0.711,
+      "pesoPintado": 0.745
+    },
+    "cantidad": "24",
+    "isStockActualizado": true
+  }
+]
