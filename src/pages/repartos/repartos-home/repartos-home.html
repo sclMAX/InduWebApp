@@ -12,6 +12,9 @@
       <ion-col>
         <repartos-preparados-card (onClickItem)="onSelectPreparado($event)" itemColor="listPar" itemImparColor="listImpar"></repartos-preparados-card>
       </ion-col>
+      <ion-col>
+        <repartos-en-proceso-card (onClickItem)="onSelectEnProceso($event)"></repartos-en-proceso-card>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>

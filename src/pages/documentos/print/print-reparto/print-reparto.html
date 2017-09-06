@@ -7,8 +7,8 @@
       <h3 item-end>Fecha: {{reparto?.fecha|date:'dd/MM/yyyy'}}</h3>
     </ion-row>
     <!-- Comentarios-->
-    <ion-row ion-item no-lines>
-      <div *ngIf="reparto.comentarios">
+    <ion-row ion-item no-lines *ngIf="reparto.comentarios">
+      <div>
         <span><strong>Comentarios</strong> </span>
         <br>
         <p>{{reparto?.comentarios}}</p>
@@ -16,7 +16,6 @@
     </ion-row>
     <!-- Clientes -->
     <ion-row ion-item no-lines text-center>
-
       <table border=1 width="100%" *ngFor="let item of reparto.Items">
         <!-- Cliente -->
         <tr>
@@ -32,26 +31,16 @@
                 <th>PAGO EN CHEQUES</th>
               </tr>
               <tr>
-                <td text-center>{{item?.idCliente |number:'3.0-0'}}-{{getCliente(item?.idCliente)?.nombre}}</td>
-                <td text-center>{{getCliente(item?.idCliente)?.Direccion?.localidad}}</td>
-                <td text-right>{{item.totalKilos |number:'1.2-2'}}kg</td>
-                <td text-right>U$ {{item.saldoActual |number:'1.2-2'}}</td>
-                <td text-right>$ {{(item.saldoActual * reparto?.Dolar?.valor) |number:'1.2-2'}}</td>
-                <td text-left>
-                  <ion-row>
-                    <ion-col col-auto>
-                      <ion-icon color="silver" name="logo-usd"></ion-icon>
-                    </ion-col>
-                    <ion-col><span style="width: 5cm;"></span></ion-col>
-                  </ion-row>
+                <td text-left>{{item?.idCliente |number:'3.0-0'}}-{{getCliente(item?.idCliente)?.nombre}}</td>
+                <td text-center style="width:4cm;">{{getCliente(item?.idCliente)?.Direccion?.localidad}}</td>
+                <td text-right style="width:2cm;">{{item.totalKilos |number:'1.2-2'}}kg</td>
+                <td text-right style="width:3cm;">U$ {{item.saldoActual |number:'1.2-2'}}</td>
+                <td text-right style="width:3cm;">$ {{(item.saldoActual * reparto?.Dolar?.valor) |number:'1.2-2'}}</td>
+                <td text-left style="width: 4cm;height:1cm;">
+                  <ion-icon color="primary" name="logo-usd"></ion-icon>
                 </td>
-                <td text-left>
-                  <ion-row>
-                    <ion-col col-auto>
-                      <ion-icon color="silver" name="cash"></ion-icon>
-                    </ion-col>
-                    <ion-col><span style="width: 5cm;"></span></ion-col>
-                  </ion-row>
+                <td text-left style="width: 4cm;height:1cm;">
+                  <ion-icon color="primary" name="cash"></ion-icon>
                 </td>
               </tr>
             </table>
@@ -61,7 +50,7 @@
         <tr>
           <td>
             <table border=1 width="100%" cellPadding="3px">
-              <tr>
+              <tr hidden>
                 <th>Pedido</th>
                 <th>Fecha</th>
                 <th>Kilos</th>
@@ -75,7 +64,7 @@
                 <td text-right>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</td>
                 <td text-right>U$ {{pedido?.totalFinalUs |number:'1.2-2'}}</td>
                 <td text-right>$ {{(pedido?.totalFinalUs * reparto?.Dolar?.valor) |number:'1.2-2'}}</td>
-                <td></td>
+                <td style="width:8cm;"></td>
               </tr>
             </table>
           </td>

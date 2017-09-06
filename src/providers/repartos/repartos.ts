@@ -192,6 +192,14 @@ export class RepartosProvider {
     });
   }
 
+  getEnProceso(): Observable<Reparto[]> {
+    return new Observable((obs) => {
+      this.db.list(this.getPath(REPARTO_PROCESO))
+          .subscribe((snap: Reparto[]) => { obs.next(snap || []); },
+                     (error) => { obs.error(error); });
+    });
+  }
+
   genUpdateData(updData, id: number, tipo: string, valor) {
     updData[`${this.getPath(tipo)}${id}/`] = valor;
   }

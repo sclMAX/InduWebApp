@@ -3,7 +3,7 @@
     <!-- Header -->
     <ion-row ion-item no-lines>
       <h3>Pedido:{{pedido?.numero |number:'3.0-0'}} del {{pedido?.fecha|date:'dd/MM/yyyy'}} para {{pedido?.fechaEntrega|date:'dd/MM/yyyy'}}</h3>
-      <h3><strong>Cliente: {{cliente?.id}} - {{cliente?.nombre}}</strong></h3>
+      <h3><strong>Cliente: {{cliente?.id |number:'3.0-0'}} - {{cliente?.nombre}} - {{cliente?.Direccion?.calle}}, {{cliente?.Direccion?.localidad}}, {{cliente?.Direccion?.provincia}}</strong></h3>
     </ion-row>
     <!-- Body -->
     <ion-row ion-item no-lines>
@@ -37,6 +37,9 @@
           </td>
         </tr>
       </table>
+    </ion-row>
+    <ion-row ion-item>
+      <span item-start><strong>Paquetes:</strong></span>
     </ion-row>
   </ion-col>
 </ion-grid>

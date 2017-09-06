@@ -12,7 +12,7 @@ import {
 } from 'ionic-angular';
 
 import {Cliente} from './../../../models/clientes.clases';
-import {EMBALADO, Pedido} from './../../../models/pedidos.clases';
+import {Pedido, EMBALADO} from './../../../models/pedidos.clases';
 import {Reparto, RepartoPedido} from './../../../models/repartos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {ContadoresProvider} from './../../../providers/contadores/contadores';
@@ -44,8 +44,6 @@ export class RepartoAmPage {
       private pedidosP: PedidosProvider, private clientesP: ClientesProvider,
       private ctacteP: CtasCtesProvider, private dolarP: DolarProvider) {
     this.oldReparto = this.navParams.get('Reparto');
-    this.getDolar();
-    this.getPedidos();
     if (this.oldReparto) {
       this.title = `Reparto`;
       this.reparto = JSON.parse(JSON.stringify(this.oldReparto));
@@ -56,6 +54,8 @@ export class RepartoAmPage {
       this.isEdit = false;
       this.getNumero();
     }
+    this.getDolar();
+    this.getPedidos();
   }
 
   isExistPedido(pedido: Pedido): boolean {
@@ -253,8 +253,19 @@ export class RepartoAmPage {
     if (this.clientes) {
       let cliente =
           this.clientes.find((c) => {return c.cliente.id == idCliente});
+      if (cliente) {
+        return cliente.cliente;
+      } else {
+        this.clientesP.getOne(idCliente).subscribe((data) => {
+          this.ctacteP.getSaldoCliente(data.id).subscribe((saldo) => {
+            cliente = {cliente: data, saldo: saldo};
+            this.clientes.push(cliente);
+          });
+        });
+      }
       return (cliente) ? cliente.cliente : null;
     } else {
+      this.clientes = [];
       return null;
     }
   }
@@ -263,7 +274,12 @@ export class RepartoAmPage {
     if (this.clientes) {
       let cliente =
           this.clientes.find((c) => {return c.cliente.id == idCliente});
-      return (cliente) ? cliente.saldo : 0.00;
+      if (cliente) {
+        return cliente.saldo;
+      } else {
+        this.getCliente(idCliente);
+        return 0.00;
+      }
     } else {
       return 0.00;
     }
@@ -343,27 +359,11 @@ export class RepartoAmPage {
     }
   }
 
+
   private async getPedidos() {
     this.pedidosP.getAll(EMBALADO).subscribe((data) => {
       this.pedidosEmbalados =
           data.sort((a, b) => { return a.idCliente - b.idCliente; });
-      this.clientes = [];
-      data.forEach((p) => {
-        if (!(this.clientes[p.idCliente])) {
-          this.clientesP.getOne(p.idCliente)
-              .subscribe((cliente) => {
-                this.ctacteP.getSaldoCliente(cliente.id)
-                    .subscribe((saldo) => {
-                      let idx: number = this.clientes.findIndex(
-                          (c) => { return c.cliente.id == cliente.id; });
-                      if (idx == -1) {
-                        this.clientes.push({saldo: saldo, cliente: cliente});
-                      }
-                    });
-              });
-        }
-      });
-      this.calTotalesPedidos();
     });
   }
 

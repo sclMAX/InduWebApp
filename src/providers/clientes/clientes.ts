@@ -3,6 +3,7 @@ import {SucursalProvider} from './../sucursal/sucursal';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
 import {Cliente} from '../../models/clientes.clases';
 import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 
@@ -22,10 +23,10 @@ export class ClientesProvider {
               updData[`${SUC_CLIENTES_ROOT}${cliente.id}`] = cliente;
               // Set Contador
               this.contadoresP.genClientesUpdateData(updData, cliente.id);
-              //Log
+              // Log
               let log = this.sucP.genLog(cliente);
               updData[`${SUC_LOG_ROOT}Clientes/Creados/${log.id}/`] = log;
-              //Actualizar
+              // Actualizar
               this.db.database.ref()
                   .update(updData)
                   .then((okAdd) => {
@@ -124,9 +125,12 @@ export class ClientesProvider {
   }
 
   getOne(id: number): Observable<Cliente> {
-    return this.db.object(`${SUC_CLIENTES_ROOT}${id}`);
+    return new Observable((obs) => {
+      this.db.object(`${SUC_CLIENTES_ROOT}${id}`)
+          .subscribe((snap) => { obs.next(snap || null); },
+                     (error) => { obs.error(error); });
+    });
   }
-
 
   private isUnique(cliente: Cliente): Observable<boolean> {
     return new Observable((obs) => {

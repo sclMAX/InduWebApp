@@ -1,3 +1,6 @@
+import {
+  PrintRepartoPage
+} from './../../documentos/print/print-reparto/print-reparto';
 import {Reparto} from './../../../models/repartos.clases';
 import {RepartoAmPage} from './../reparto-am/reparto-am';
 import {Component} from '@angular/core';
@@ -12,6 +15,10 @@ export class RepartosHomePage {
 
   onSelectPreparado(item: Reparto) {
     this.navCtrl.push(RepartoAmPage, {Reparto: item});
+  }
+
+  onSelectEnProceso(item: Reparto) {
+    this.navCtrl.push(PrintRepartoPage, {Reparto: item});
   }
   nuevoReparto() { this.navCtrl.push(RepartoAmPage); }
 }

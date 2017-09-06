@@ -23,6 +23,14 @@
     "nombre" : "Negro SM",
     "precioUs" : 8
   },
+  "Bronce" : {
+    "descripcion" : "Pintado Bronce",
+    "id" : "Bronce",
+    "idColorPlanta" : "Bronce",
+    "isPintura" : true,
+    "nombre" : "Bronce",
+    "precioUs" : 8
+  },
   "Natural" : {
     "descripcion" : "Perfil Natural",
     "id" : "Natural",

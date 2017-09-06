@@ -1,4 +1,7 @@
 import {
+  RepartosEnProcesoCardComponent
+} from './../components/repartos/repartos-en-proceso-card/repartos-en-proceso-card';
+import {
   PrintRepartoPage
 } from './../pages/documentos/print/print-reparto/print-reparto';
 import {
@@ -274,7 +277,8 @@ export const environment = {
     RepartosPreparadosCardComponent,
     ClientesConSaldoCardComponent,
     RepartoEnProcesoPage,
-    PrintRepartoPage
+    PrintRepartoPage,
+    RepartosEnProcesoCardComponent
   ],
   imports: [
     BrowserModule,
