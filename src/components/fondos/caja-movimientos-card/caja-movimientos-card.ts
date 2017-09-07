@@ -1,22 +1,20 @@
-import { CajaEgresoPage } from './../../../pages/fondos/caja-egreso/caja-egreso';
-import { PagosProvider } from './../../../providers/pagos/pagos';
-import { ClientesProvider } from './../../../providers/clientes/clientes';
+import {CajaEgresoPage} from './../../../pages/fondos/caja-egreso/caja-egreso';
+import {PagosProvider} from './../../../providers/pagos/pagos';
+import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {
   ClientesAddPagoPage
 } from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
-import { PAGO } from './../../../models/pedidos.clases';
-import { Component, Input } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import {PAGO} from './../../../models/pedidos.clases';
+import {Component, Input} from '@angular/core';
+import {NavController, LoadingController} from 'ionic-angular';
 
 import {
   CajaItem,
-  Saldos,
-  EGRESO
+  EGRESO,
+  CajaMovimiento
 } from './../../../models/fondos.clases';
-import {
-  PrintMovimientoCajaPage
-} from './../../../pages/documentos/print/print-movimiento-caja/print-movimiento-caja';
-import { FondosProvider } from './../../../providers/fondos/fondos';
+import {FondosProvider} from './../../../providers/fondos/fondos';
+import {printCajaMovimientos}from './../../../print/print-fondos';
 
 @Component({
   selector: 'caja-movimientos-card',
@@ -30,29 +28,50 @@ export class CajaMovimientosCardComponent {
   @Input() itemColor: string = 'light';
   @Input() itemImparColor: string;
   @Input() showList: boolean = false;
+  fecha1: string;
+  fecha2: string;
+  isFilter: boolean = false;
 
-  movimientos: CajaItem[] = [];
-  saldos: Saldos[] = [];
+  movimientos: CajaMovimiento[] = [];
+  totalEgresos: {efectivo: number, dolares: number, cheques: number};
+  totalIngresos: {efectivo: number, dolares: number, cheques: number};
   constructor(public navCtrl: NavController,
-    private loadCtrl: LoadingController,
-    private fondosP: FondosProvider,
-    private clienteP: ClientesProvider,
-    private pagosP: PagosProvider) { }
-
-  calTotal(): number {
-    let total: number = 0.00;
-    return total;
-  }
+              private loadCtrl: LoadingController,
+              private fondosP: FondosProvider,
+              private clienteP: ClientesProvider,
+              private pagosP: PagosProvider) {}
 
   getColor(item, par): string {
     let color: string = 'light';
     color = (!par && this.itemImparColor) ? (this.itemImparColor) :
-      (this.itemColor);
+                                            (this.itemColor);
     return color;
   }
 
+  getSaldoEfectivo(): number {
+    let s: number = 0.00;
+    if (this.movimientos && this.movimientos.length > 0) {
+      s = Number(this.movimientos[this.movimientos.length - 1].saldoEfectivo);
+    }
+    return s;
+  }
+  getSaldoCheques(): number {
+    let s: number = 0.00;
+    if (this.movimientos && this.movimientos.length > 0) {
+      s = Number(this.movimientos[this.movimientos.length - 1].saldoCheques);
+    }
+    return s;
+  }
+  getSaldoDolares(): number {
+    let s: number = 0.00;
+    if (this.movimientos && this.movimientos.length > 0) {
+      s = Number(this.movimientos[this.movimientos.length - 1].saldoDolares);
+    }
+    return s;
+  }
   printList() {
-    this.navCtrl.push(PrintMovimientoCajaPage, { Movimientos: this.movimientos })
+    //this.navCtrl.push(PrintMovimientoCajaPage, {Movimientos: this.movimientos})
+    printCajaMovimientos(this.movimientos,this.totalIngresos,this.totalEgresos);
   }
 
   ngOnInit() { this.getData(); }
@@ -60,55 +79,71 @@ export class CajaMovimientosCardComponent {
 
   goDocumento(doc: CajaItem) {
     let load =
-      this.loadCtrl.create({ content: `Buscando ${doc.tipoDocumento}...` });
+        this.loadCtrl.create({content: `Buscando ${doc.tipoDocumento}...`});
     switch (doc.tipoDocumento) {
       case PAGO:
         load.present().then(() => {
           this.pagosP.getOne(doc.numeroDoc)
-            .subscribe((pago) => {
-              this.clienteP.getOne(pago.idCliente)
-                .subscribe((cliente) => {
-                  load.dismiss();
-                  this.navCtrl.push(ClientesAddPagoPage,
-                    { Cliente: cliente, Pago: pago });
-                }, (error) => { load.dismiss(); });
-            }, (error) => { load.dismiss(); });
+              .subscribe((pago) => {
+                this.clienteP.getOne(pago.idCliente)
+                    .subscribe((cliente) => {
+                      load.dismiss();
+                      this.navCtrl.push(ClientesAddPagoPage,
+                                        {Cliente: cliente, Pago: pago});
+                    }, (error) => { load.dismiss(); });
+              }, (error) => { load.dismiss(); });
         });
         break;
       case EGRESO:
         load.present().then(() => {
           this.fondosP.getCajaEgreso(doc.numeroDoc)
-            .subscribe((data) => {
-              load.dismiss();
-              if (data && data.id) {
-                this.navCtrl.push(CajaEgresoPage, { Egreso: data });
-              }
-            }, (error) => { load.dismiss(); });
+              .subscribe((data) => {
+                load.dismiss();
+                if (data && data.id) {
+                  this.navCtrl.push(CajaEgresoPage, {Egreso: data});
+                }
+              }, (error) => { load.dismiss(); });
         });
         break;
     }
   }
 
-  actualizar(){
-    this.calSaldos(this.movimientos);
+  calTotales() {
+    let e = {efectivo: 0.00, dolares: 0.00, cheques: 0.00};
+    let i = {efectivo: 0.00, dolares: 0.00, cheques: 0.00};
+    if (this.movimientos) {
+      this.movimientos.forEach((m) => {
+        if (!m.isIngreso) {
+          e.cheques += Number(m.cheques);
+          e.dolares += Number(m.dolares);
+          e.efectivo += Number(m.efectivo);
+        } else {
+          i.cheques += Number(m.cheques);
+          i.dolares += Number(m.dolares);
+          i.efectivo += Number(m.efectivo);
+        }
+      });
+    }
+    this.totalEgresos = e;
+    this.totalIngresos = i;
   }
 
-  private calSaldos(data: CajaItem[]) {
-    let sE: number = 0.00;
-    let sD: number = 0.00;
-    let sC: number = 0.00;
-    this.saldos = [];
-    data.forEach((i) => {
-      sE += Number(i.efectivo || 0) * ((i.isIngreso) ? 1 : -1);
-      sD += Number(i.dolares || 0) * ((i.isIngreso) ? 1 : -1);
-      sC += Number(i.cheques || 0) * ((i.isIngreso) ? 1 : -1);
-      this.saldos.push({ saldoEfectivo: sE, saldoDolares: sD, saldoCheques: sC });
-    });
+  filtrar() {
+    if (this.fecha1 && this.fecha2 && !this.isFilter) {
+      this.isFilter = true;
+      this.getData(this.fecha1, this.fecha2);
+    } else {
+      this.isFilter = false;
+      this.fecha1 = '';
+      this.fecha2 = '';
+      this.getData();
+    }
   }
-  private async getData() {
-    this.fondosP.getMovimientosCaja().subscribe((data) => {
-      this.calSaldos(data);
-      this.movimientos = data;            
+
+  private async getData(f1?, f2?) {
+    this.fondosP.getMovimientosCaja(f1, f2).subscribe((data) => {
+      this.movimientos = data;
+      this.calTotales();
     });
   }
 }

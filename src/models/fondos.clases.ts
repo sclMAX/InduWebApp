@@ -2,7 +2,7 @@ import {FECHA, ClaseControlada} from './comunes.clases';
 import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
 
-export const EGRESO:string = 'Egreso';
+export const EGRESO: string = 'Egreso';
 
 export class Dolar extends ClaseControlada {
   id: string = "Dolar";
@@ -10,16 +10,22 @@ export class Dolar extends ClaseControlada {
   valor: number;
 }
 
-export class CajaItem extends ClaseControlada{
-  id:string;
-  tipoDocumento:string;
-  numeroDoc:number;
-  fecha:string = moment().format(FECHA)
-  efectivo:number = 0.00;
-  dolares:number = 0.00;
-  cheques:number = 0.00;
-  comentarios:string;
-  isIngreso:boolean = false;
+export class CajaItem extends ClaseControlada {
+  id: string;
+  tipoDocumento: string;
+  numeroDoc: number;
+  fecha: string = moment().format(FECHA);
+  efectivo: number = 0.00;
+  dolares: number = 0.00;
+  cheques: number = 0.00;
+  comentarios: string;
+  isIngreso: boolean = false;
+}
+
+export class CajaMovimiento extends CajaItem {
+  saldoEfectivo: number = 0.00;
+  saldoCheques: number = 0.00;
+  saldoDolares: number = 0.00;
 }
 
 export interface Saldos {
@@ -57,7 +63,7 @@ export class ChequeEntregadoA {
 export class ChequeFirmante {
   CUIT: number;
   nombre: string;
-  constructor(cuit?:number, nombre?:string){
+  constructor(cuit?: number, nombre?: string) {
     this.CUIT = cuit;
     this.nombre = nombre;
   }
@@ -76,17 +82,17 @@ export class BancoSucursal {
   telefono: string;
 }
 
-export class CajaEgreso extends ClaseControlada{
-  id:number;
-  fecha:string = moment().format(FECHA);
-  tipo:string;
-  efectivo:number = 0.00;
-  dolares:number = 0.00;
+export class CajaEgreso extends ClaseControlada {
+  id: number;
+  fecha: string = moment().format(FECHA);
+  tipo: string;
+  efectivo: number = 0.00;
+  dolares: number = 0.00;
   Cheques: Cheque[] = [];
-  comentarios:string;
+  comentarios: string;
 }
 
-//FUNCIONES
+// FUNCIONES
 export function validaCuit(cuit: string) {
   const sec = '5432765432';
   let aMult = sec.split('').map(Number);

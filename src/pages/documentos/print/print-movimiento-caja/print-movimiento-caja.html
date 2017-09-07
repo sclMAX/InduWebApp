@@ -1,44 +1,40 @@
-<ion-grid full padding margin-auto>
-  <ion-col>
-    <!-- Header -->
-    <ion-row ion-item text-center no-lines>
-      <h1>Movimientos de Caja</h1>
-      <h5 item-end>Fecha: {{fecha|date:'dd/MM/yyyy'}}</h5>
-    </ion-row>
-    <!-- Body -->
-    <ion-row ion-item no-lines>
-      <table border=1 width="100%">
-        <tr>
-          <th><strong>Fecha Movi.</strong></th>
-          <th><strong>Tipo</strong></th>
-          <th><strong>Comprobante</strong></th>
-          <th><strong>Efectivo ($)</strong></th>
-          <th><strong>Saldo Efectivo ($)</strong></th>
-          <th><strong>Dolares (U$)</strong></th>
-          <th> <strong>Saldo Dolares (U$)</strong></th>
-          <th><strong>Cheques ($)</strong></th>
-          <th> <strong>Saldo Cheques ($)</strong></th>
-        </tr>
-        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of movimientos;let p=even;let idx=index;">
-          <td>{{item?.fecha |date:'dd/MM/yyyy'}}</td>
-          <td text-center>
-            <ion-icon *ngIf="item.isIngreso" color="primary" name="add-circle"></ion-icon>
-            <ion-icon *ngIf="!item.isIngreso" color="danger" name="remove-circle"></ion-icon>
-          </td>
-          <td>{{item?.id}}</td>
-          <td text-right>$ {{(item?.efectivo * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
-          <td text-right>$ {{saldos[idx]?.saldoEfectivo |number:'1.2-2'}}</td>
-          <td text-right>U$ {{(item?.dolares * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
-          <td text-right>U$ {{saldos[idx]?.saldoDolares |number:'1.2-2'}}</td>
-          <td text-right>$ {{(item?.cheques * ((item?.isIngreso)?1:-1))|number:'1.2-2'}}</td>
-          <td text-right>$ {{saldos[idx]?.saldoCheques |number:'1.2-2'}}</td>
-        </tr>
-      </table>
-    </ion-row>
-  </ion-col>
-</ion-grid>
+<!-- Header -->
+<ion-row ion-item text-center no-lines>
+  <h3 item-start>Movimientos de Caja</h3>
+  <h5 item-end>Fecha: {{fecha|date:'dd/MM/yyyy'}}</h5>
+</ion-row>
+<!-- Body -->
+
+<table border=1 width="100%">
+  <tr>
+    <th><strong>Fecha Movi.</strong></th>
+    <th><strong>Tipo</strong></th>
+    <th><strong>Comprobante</strong></th>
+    <th><strong>Efectivo ($)</strong></th>
+    <th><strong>Saldo Efectivo ($)</strong></th>
+    <th><strong>Dolares (U$)</strong></th>
+    <th> <strong>Saldo Dolares (U$)</strong></th>
+    <th><strong>Cheques ($)</strong></th>
+    <th> <strong>Saldo Cheques ($)</strong></th>
+  </tr>
+  <tr [bgColor]="(p)?'silver':'white'" *ngFor="let item of movimientos;let p=even;let idx=index;">
+    <td>{{item?.fecha |date:'dd/MM/yyyy'}}</td>
+    <td text-center>
+      <ion-icon *ngIf="item.isIngreso" color="primary" name="add-circle"></ion-icon>
+      <ion-icon *ngIf="!item.isIngreso" color="danger" name="remove-circle"></ion-icon>
+    </td>
+    <td>{{item?.id}}</td>
+    <td text-right>$ {{(item?.efectivo * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
+    <td text-right>$ {{item?.saldoEfectivo |number:'1.2-2'}}</td>
+    <td text-right>U$ {{(item?.dolares * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
+    <td text-right>U$ {{item?.saldoDolares |number:'1.2-2'}}</td>
+    <td text-right>$ {{(item?.cheques * ((item?.isIngreso)?1:-1))|number:'1.2-2'}}</td>
+    <td text-right>$ {{item?.saldoCheques |number:'1.2-2'}}</td>
+  </tr>
+</table>
 <!-- Botones -->
 <ion-fab top right>
-  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
-  <button ion-fab mini color="light" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <button ion-fab color="dark" *ngIf="!isPrint" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <br>
+  <button ion-fab color="dark" *ngIf="!isPrint" (click)="goPrint()"><ion-icon name="print"></ion-icon></button>
 </ion-fab>

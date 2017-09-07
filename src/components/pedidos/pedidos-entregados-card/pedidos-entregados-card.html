@@ -2,19 +2,40 @@
   <ion-card color="toolBar">
     <button ion-item color="pedidoEntregadoHeader" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_new-document"></ion-icon>
-      Pedidos Entregados ({{pedidos?.length}})
+      Pedidos Entregados ({{filterPedidos?.length}})   
+      <span item-end *ngIf="filterPedidos && filterPedidos.length > 0" ><small>Prom./Ped: {{(calTotalKilos() / filterPedidos?.length)|number:'1.2-2'}}kg. </small> </span>   
+      <span item-end>{{calTotalKilos() |number:'1.2-2'}}kg.</span>
     </button>
-    <ion-list *ngIf="showList">
+    <ion-list *ngIf="showList && ((filterPedidos.length > 0) || isFilter)">
       <ion-item color="subToolBar" no-lines>
-        <span item-start>{{calTotalKilos() |number:'1.2-2'}}kg.</span>
-        <span item-end>U$ {{calTotalUs() |number:'1.2-2'}}</span>
+        <!-- Filtrar -->
+        <span item-start>Filtrar de </span>
+        <ion-col item-start col-auto>
+          <ion-badge color="formInput"  no-margin>
+            <ion-input no-margin type="date" name='fecha1' [(ngModel)]="fecha1"></ion-input>
+          </ion-badge>
+        </ion-col>
+        <span item-start> al </span>
+        <ion-col item-start col-auto>
+          <ion-badge color="formInput"  no-margin>
+            <ion-input no-margin type="date" name='fecha2' [(ngModel)]="fecha2"></ion-input>
+          </ion-badge>
+        </ion-col>
+        <button item-start ion-fab mini color="dark" (click)="filtrar()" tooltip="Aplicar/Quitar filtro por fechas">
+            <ion-icon *ngIf="!isFilter"  name="funnel"></ion-icon>
+            <ion-icon *ngIf="isFilter"  name="close"></ion-icon>
+          </button>
+        <!-- Totales -->
+        <span item-end> U$ {{calTotalUs() |number:'1.2-2'}} / $ {{calTotal$() |number:'1.2-2'}}</span>
       </ion-item>
-      <button ion-item *ngFor="let pedido of pedidos" (click)="goPedido(pedido)">
-        <ion-col item-start>{{pedido.numero | number:'3.0-0'}}</ion-col>
-        <ion-col item-start>{{pedido.fechaEntrega |date:'dd/MM/yyyy'}}</ion-col>
-        <ion-col item-start *ngIf="!cliente">{{getCliente(pedido.idCliente)?.nombre}}</ion-col>        
-        <ion-col item-start>{{pedido?.totalUnidades|number:'1.2-2'}}kg</ion-col>
-        <ion-col item-start>U$ {{calTotalPedidoUs(pedido) |number:'1.2-2'}}</ion-col>
+      <button ion-item *ngFor="let pedido of filterPedidos" (click)="goPedido(pedido)">
+        <ion-col col-auto item-start>{{pedido.numero | number:'3.0-0'}}</ion-col>
+        <ion-col col-auto item-start>{{pedido.fechaEntrega |date:'dd/MM/yyyy'}}</ion-col>
+        <ion-col item-start *ngIf="!cliente">{{pedido?.idCliente |number:'3.0-0'}}-{{getCliente(pedido?.idCliente)?.nombre}}</ion-col>        
+        <ion-col  item-start text-right>{{pedido?.totalUnidades|number:'1.2-2'}}kg</ion-col>
+        <ion-col  item-start text-right>U$ {{pedido?.totalFinalUs |number:'1.2-2'}}</ion-col>
+        <ion-col col-auto item-start text-right>$ {{pedido?.Dolar?.valor |number:'1.3-3'}}</ion-col>
+        <ion-col  item-start text-right>$ {{(pedido?.totalFinalUs * pedido?.Dolar?.valor) |number:'1.2-2'}}</ion-col>
       </button>
     </ion-list>
   </ion-card>

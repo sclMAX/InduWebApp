@@ -4,13 +4,36 @@
       <ion-icon item-start name="logo-usd"></ion-icon>
         <ion-icon item-start name="cash"></ion-icon>
         {{title}}
+        <span item-end>Saldos: (E)$ {{getSaldoEfectivo() |number:'1.2-2'}} (C)$ {{getSaldoCheques() |number:'1.2-2'}} (D)U$ {{getSaldoDolares() |number:'1.2-2'}}</span>
       </button>
+
   <!-- Detalle -->
-  <ion-list *ngIf="showList && movimientos.length > 0">
+  <ion-list *ngIf="showList && (movimientos.length > 0 || isFilter)">
     <!-- ToolBar -->
     <ion-item no-lines [color]="toolBarColor">
-      <button item-end ion-fab mini color="subToolBar" (click)="actualizar()"><ion-icon name="refresh"></ion-icon></button>
-      <button item-end ion-fab mini color="dark" (click)="printList()"><ion-icon name="print"></ion-icon></button>
+      <span item-start>Filtrar de </span>
+      <ion-col item-start col-auto>
+        <ion-badge color="formInput"  no-margin>
+          <ion-input  no-margin type="date" name='fecha1' [(ngModel)]="fecha1"></ion-input>
+        </ion-badge>
+      </ion-col>
+      <span item-start> al </span>
+      <ion-col item-start col-auto>
+        <ion-badge color="formInput" no-margin>
+          <ion-input  no-margin type="date" name='fecha2' [(ngModel)]="fecha2"></ion-input>
+        </ion-badge>
+      </ion-col>
+      <button item-start ion-fab mini color="dark" (click)="filtrar()" tooltip="Aplicar/Quitar filtro por fechas">
+        <ion-icon *ngIf="!isFilter"  name="funnel"></ion-icon>
+        <ion-icon *ngIf="isFilter"  name="close"></ion-icon>
+      </button>
+      <span item-start > <ion-icon color="primary" name="add-circle"></ion-icon>
+        U$ {{totalIngresos?.dolares |number:'1.2-2'}} E$ {{totalIngresos?.efectivo|number:'1.2-2'}} C$ {{totalIngresos?.cheques|number:'1.2-2'}}
+      </span>
+      <span item-start > <ion-icon color="danger" name="remove-circle"></ion-icon>
+        U$ {{totalEgresos?.dolares |number:'1.2-2'}} E$ {{totalEgresos?.efectivo|number:'1.2-2'}} C$ {{totalEgresos?.cheques|number:'1.2-2'}}
+      </span>
+      <button item-end ion-fab mini color="dark" (click)="printList()" tooltip="Imprimir listado"><ion-icon name="print"></ion-icon></button>
     </ion-item>
     <ion-item>
       <table border=1 width="100%">
@@ -33,11 +56,11 @@
           </td>
           <td><button ion-button clear (click)="goDocumento(item)">{{item?.id}}</button></td>
           <td text-right>$ {{(item?.efectivo * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
-          <td text-right>$ {{saldos[idx]?.saldoEfectivo |number:'1.2-2'}}</td>
+          <td text-right>$ {{item?.saldoEfectivo |number:'1.2-2'}}</td>
           <td text-right>U$ {{(item?.dolares * ((item?.isIngreso)?1:-1)) |number:'1.2-2'}}</td>
-          <td text-right>U$ {{saldos[idx]?.saldoDolares |number:'1.2-2'}}</td>
+          <td text-right>U$ {{item?.saldoDolares |number:'1.2-2'}}</td>
           <td text-right>$ {{(item?.cheques * ((item?.isIngreso)?1:-1))|number:'1.2-2'}}</td>
-          <td text-right>$ {{saldos[idx]?.saldoCheques |number:'1.2-2'}}</td>
+          <td text-right>$ {{item?.saldoCheques |number:'1.2-2'}}</td>
         </tr>
       </table>
     </ion-item>
