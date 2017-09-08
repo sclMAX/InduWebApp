@@ -24,7 +24,7 @@ export class PedidosEntregadosCardComponent {
   filterPedidos: Pedido[];
   clientes: Cliente[] = [];
   fecha1: string;
-  fecha2: string;
+  fecha2: string = moment().format(FECHA);
   isFilter: boolean = false;
 
   constructor(private pedidosP: PedidosProvider,
@@ -54,7 +54,7 @@ export class PedidosEntregadosCardComponent {
     if (this.isFilter) {
       this.isFilter = false;
       this.fecha1 = '';
-      this.fecha2 = '';
+      this.fecha2 = moment().format(FECHA);
       this.filterPedidos = JSON.parse(JSON.stringify(this.pedidos));
     } else {
       if (this.fecha1 && this.fecha2) {
