@@ -154,9 +154,6 @@ import {
 import {
   PrintCtacteCardPage
 } from './../pages/documentos/print/print-ctacte-card/print-ctacte-card';
-import {
-  PrintMovimientoCajaPage
-} from './../pages/documentos/print/print-movimiento-caja/print-movimiento-caja';
 import {PrintPagoPage} from './../pages/documentos/print/print-pago/print-pago';
 import {
   PrintPedidoEntregaPage
@@ -266,7 +263,6 @@ export const environment = {
     ChequesEnCarteraCardComponent,
     PrintChequesEnCarteraPage,
     CajaMovimientosCardComponent,
-    PrintMovimientoCajaPage,
     CajaEgresoPage,
     ToolTipDirective,
     ChequesEnCarteraFindAndSelectPage,
@@ -317,7 +313,6 @@ export const environment = {
     PrintCtacteCardPage,
     PrintPagoPage,
     PrintChequesEnCarteraPage,
-    PrintMovimientoCajaPage,
     CajaEgresoPage,
     ChequesEnCarteraFindAndSelectPage,
     PrintCajaEgresoPage,

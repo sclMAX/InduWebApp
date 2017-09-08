@@ -70,6 +70,8 @@
   <br>
   <button ion-fab color="danger" tooltip="Eliminar" [disabled]="!isEdit || chkExistEmbalados()" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
   <br>
+  <button *ngIf="isPresupuesto()" ion-fab color="dark" tooltip="Imprimir y guardar presupuesto" [disabled]="!isValid()" (click)="print()"><ion-icon name="print"></ion-icon></button>
+  <br>
   <button ion-fab color="secondary" tooltip="Guardar Presupuesto" [disabled]="!isValid()" (click)="onGuardar()"><ion-icon name="checkmark"></ion-icon></button>
   <br>
   <button ion-fab color="primary" tooltip="Confirmar Presupuesto y pasarlo a Pedido..." [disabled]="!isValid()" (click)="confirmar()"><ion-icon name="done-all"></ion-icon></button>

@@ -1,32 +1,15 @@
-import { SUCURSAL } from './../providers/sucursal/sucursal';
+import {SUCURSAL} from './../providers/sucursal/sucursal';
 import {CajaMovimiento} from './../models/fondos.clases';
-import * as pdf from 'pdfmake/build/pdfmake';
-import pdfFonts from "pdfmake/build/vfs_fonts";
 import * as moment from 'moment';
 import {FECHA} from '../models/comunes.clases';
+import {formatTable, showPdf, setInfo} from './config-comun';
 
 export function printCajaMovimientos(
     movimientos: CajaMovimiento[],
     ingresos: {efectivo: number, dolares: number, cheques: number},
     egresos: {efectivo: number, dolares: number, cheques: number}) {
   if (movimientos && movimientos.length > 0) {
-    // Table lines config
-    pdf.tableLayouts = {
-      exampleLayout: {
-        hLineWidth: function(i, node) {
-          if (i === 0 || i === node.table.body.length) {
-            return 0;
-          }
-          return (i === node.table.headerRows) ? 2 : 1;
-        },
-        vLineWidth: function(i) { return 0; },
-        hLineColor: function(i) { return i === 1 ? 'black' : '#aaa'; },
-        paddingLeft: function(i) { return i === 0 ? 0 : 8; },
-        paddingRight: function(i, node) {
-          return (i === node.table.widths.length - 1) ? 0 : 8;
-        }
-      }
-    };
+    formatTable();
     let data: any[] = [];
     // Titulos
     data.push([
@@ -58,27 +41,23 @@ export function printCajaMovimientos(
     // Ultimo movimientos para mostrar saldos
     let ultimoMov = movimientos[movimientos.length - 1];
     // Doc Definition
-    let docDefinition = {
-      pageSize: 'A4',
-      pageOrientation: 'landscape',  // by default we use portrait
+    let doc = {
       header: {
         columns: [
-          {text: `Suc. ${SUCURSAL} - Movimientos de Caja`, margin: [50,20], alignment: 'left',fontSize: 12, bold: true},
+          {
+            text: `Suc. ${SUCURSAL} - Movimientos de Caja`,
+            margin: [50, 20],
+            alignment: 'left',
+            fontSize: 12,
+            bold: true
+          },
           {
             text: `${moment().format('DD/MM/YYYY hh:mm a')}`,
-            margin: [50,20],
+            margin: [50, 20],
             alignment: 'center'
           }
         ]
       },
-      footer: (currentPage, pageCount) => {
-        return {
-          columns:[
-            {text: `${currentPage} de ${pageCount} \t \n`, alignment: 'center'}
-          ]
-        }
-      },
-     // pageMargins:50,  // [left, top, right, bottom] or [horizontal, vertical] or Nro
       content: [
         {
           layout: 'lightHorizontalLines',  // optional
@@ -140,7 +119,8 @@ export function printCajaMovimientos(
         }
       ]
     };
-    pdf.vfs = pdfFonts.pdfMake.vfs;
-    pdf.createPdf(docDefinition).open();
+    setInfo(doc, `Suc. ${SUCURSAL} - Movimientos de Caja`,
+            'detalle de movimientos de caja');
+    showPdf(doc, true);
   }
 }

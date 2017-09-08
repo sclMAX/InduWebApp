@@ -23,6 +23,7 @@ import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {SucursalProvider} from './../../../../providers/sucursal/sucursal';
 import {CV, UsuarioProvider} from './../../../../providers/usuario/usuario';
+import {printPresupuesto} from '../../../../print/print-pedidos';
 
 @Component({
   selector: 'page-pedidos-new',
@@ -171,6 +172,7 @@ export class PedidosNewPage {
               this.toPedido();
             } else {
               this.pedido.tipo = PEDIDO;
+              this.pedido.isImpreso = false;
               this.onGuardar();
             }
           }
@@ -179,10 +181,23 @@ export class PedidosNewPage {
     });
     alert.present();
   }
+
+  isPresupuesto(): boolean { return this.pedido.tipo == PRESUPUESTO; }
+
+  print() {
+    if (this.isPresupuesto()) {
+      this.onGuardar();
+      this.pedido.isImpreso = true;
+      printPresupuesto(this.cliente, this.pedido,
+                       `Presupuesto Nro: 00${this.pedido.id}`, this.pedidosP, this.dolarValor);
+    }
+  }
+
   private toPedido() {
     let load = this.loadCtrl.create({content: 'Confirmando Presupuesto...'});
     let toast = this.toastCtrl.create({position: 'middle'});
     load.present().then(() => {
+      this.pedido.isImpreso = false;
       this.pedidosP.confirmarPresupuesto(this.pedido)
           .subscribe(
               (ok) => {
@@ -200,7 +215,9 @@ export class PedidosNewPage {
               });
     });
   }
+
   goBack() { this.navCtrl.pop(); }
+
   setCV() {
     let alert = this.alertCtrl.create({
       title: 'CV',
