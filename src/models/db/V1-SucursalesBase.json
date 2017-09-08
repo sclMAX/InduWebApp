@@ -11,21 +11,45 @@
       }
     },
     "Colores": {
-      "Blanco Brillante": {
-        "Descripcion": "Pintado Blanco Brillante",
-        "Nombre": "Blanco Brillante",
-        "PrecioUs": 8.26,
-        "id": "Blanco Brillante",
-        "idColorPlanta": "Blanco Brillante",
-        "isPintura": true
+      "Blanco Brillante" : {
+        "descripcion" : "Pintado Blanco Brillante",
+        "id" : "Blanco Brillante",
+        "idColorPlanta" : "Blanco Brillante",
+        "isPintura" : true,
+        "nombre" : "Blanco Brillante",
+        "precioUs" : 7
       },
-      "Natural": {
-        "Descripcion": "Perfil Natural",
-        "Nombre": "Natural",
-        "PrecioUs": 7.26,
-        "id": "Natural",
-        "idColorPlanta": "Natural",
-        "isPintura": false
+      "Blanco Aluar" : {
+        "descripcion" : "Pintado Blanco Aluar Semi Mate",
+        "id" : "Blanco Aluar",
+        "idColorPlanta" : "Blanco Aluar",
+        "isPintura" : true,
+        "nombre" : "Blanco Aluar",
+        "precioUs" : 7
+      },
+      "Negro SM" : {
+        "descripcion" : "Pintado Negro Satinado",
+        "id" : "Negro SM",
+        "idColorPlanta" : "Negro SM",
+        "isPintura" : true,
+        "nombre" : "Negro SM",
+        "precioUs" : 8
+      },
+      "Bronce" : {
+        "descripcion" : "Pintado Bronce",
+        "id" : "Bronce",
+        "idColorPlanta" : "Bronce",
+        "isPintura" : true,
+        "nombre" : "Bronce",
+        "precioUs" : 8
+      },
+      "Natural" : {
+        "descripcion" : "Perfil Natural",
+        "id" : "Natural",
+        "idColorPlanta" : "Natural",
+        "isPintura" : false,
+        "nombre" : "Natural",
+        "precioUs" : 6
       }
     },
     "Contadores": {
