@@ -1,6 +1,4 @@
-import {DatePipe, DecimalPipe} from '@angular/common';
 import * as moment from 'moment';
-
 import {Cliente} from './../models/clientes.clases';
 import {
   Pedido,
@@ -9,16 +7,8 @@ import {
   calSubTotalCDs
 } from './../models/pedidos.clases';
 import {PedidosProvider} from './../providers/pedidos/pedidos';
-import {formatTable, setInfo, showPdf} from './config-comun';
+import { formatTable, setInfo, showPdf, numFormat, dateFormat } from './config-comun';
 
-export function numFormat(val: number, format: string): string {
-  let decimalPipe = new DecimalPipe('es');
-  return decimalPipe.transform(val, format);
-}
-export function dateFormat(val, format: string): string {
-  let datePipe = new DatePipe('es');
-  return datePipe.transform(val, format);
-}
 
 export function printPresupuesto(cliente: Cliente, pedido: Pedido,
                                  title: string, pedidosP: PedidosProvider,

@@ -1,7 +1,7 @@
 {
   "name": "InduWebApp",
   "app_id": "",
-  "version":"1.1.0",
+  "version":"1.1.2",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

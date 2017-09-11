@@ -16,7 +16,8 @@ import {
   LoadingController,
   ToastController
 } from 'ionic-angular';
-import {printEntrega, numFormat} from '../../../print/print-pedidos';
+import {printEntrega} from '../../../print/print-pedidos';
+import { numFormat } from '../../../print/config-comun';
 
 @Component({
   selector: 'page-reparto-en-proceso',

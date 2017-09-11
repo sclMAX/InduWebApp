@@ -1,9 +1,15 @@
 import * as pdf from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { DecimalPipe, DatePipe } from '@angular/common';
 
-export function toInch(val: number): number {
-  return val * 0.393700787;
-  }
+export function numFormat(val: number, format: string): string {
+  let decimalPipe = new DecimalPipe('es');
+  return decimalPipe.transform(val, format);
+}
+export function dateFormat(val, format: string): string {
+  let datePipe = new DatePipe('es');
+  return datePipe.transform(val, format);
+}
 
 
 export function formatTable() {

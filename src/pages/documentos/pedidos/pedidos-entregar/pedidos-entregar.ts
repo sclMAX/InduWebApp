@@ -22,7 +22,8 @@ import {Usuario} from './../../../../models/user.class';
 import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {CV, UsuarioProvider} from './../../../../providers/usuario/usuario';
-import {printEntrega, numFormat} from '../../../../print/print-pedidos';
+import {printEntrega} from '../../../../print/print-pedidos';
+import { numFormat } from '../../../../print/config-comun';
 
 @Component({
   selector: 'page-pedidos-entregar',

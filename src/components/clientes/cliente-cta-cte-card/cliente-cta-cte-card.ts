@@ -11,7 +11,8 @@ import {
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
-import {printEntrega, numFormat} from '../../../print/print-pedidos';
+import {printEntrega} from '../../../print/print-pedidos';
+import { numFormat } from '../../../print/config-comun';
 
 @Component({
   selector: 'cliente-cta-cte-card',

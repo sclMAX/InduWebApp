@@ -3,13 +3,14 @@ import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import * as moment from 'moment';
 
-import {printEntrega, numFormat} from '../../../print/print-pedidos';
+import {printEntrega} from '../../../print/print-pedidos';
 
 import {Cliente} from './../../../models/clientes.clases';
 import {FECHA} from './../../../models/comunes.clases';
 import {ENTREGADO, Pedido} from './../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import { numFormat } from '../../../print/config-comun';
 
 @Component({
   selector: 'pedidos-entregados-card',
