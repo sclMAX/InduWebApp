@@ -1,3 +1,4 @@
+import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import * as moment from 'moment';
@@ -7,7 +8,6 @@ import {printEntrega, numFormat} from '../../../print/print-pedidos';
 import {Cliente} from './../../../models/clientes.clases';
 import {FECHA} from './../../../models/comunes.clases';
 import {ENTREGADO, Pedido} from './../../../models/pedidos.clases';
-import {PrintPedidoEntregaPage} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 
@@ -29,7 +29,8 @@ export class PedidosEntregadosCardComponent {
 
   constructor(private pedidosP: PedidosProvider,
               private clientesP: ClientesProvider,
-              public navCtrl: NavController) {}
+              public navCtrl: NavController,
+              private ctacteP: CtasCtesProvider) {}
 
   ngOnInit() { this.getData(); }
   ionViewWillEnter() { this.getData(); }
@@ -70,8 +71,13 @@ export class PedidosEntregadosCardComponent {
   }
 
   goPedido(pedido: Pedido) {
-   // this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
-   printEntrega(this.getCliente(pedido.idCliente),pedido,`Pedido Nro.${numFormat(pedido.id,'3.0-0')}`,this.pedidosP);
+    // this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
+    this.ctacteP.getSaldoCliente(pedido.idCliente)
+        .subscribe((saldo) => {
+          printEntrega(this.getCliente(pedido.idCliente), pedido,
+                       `Pedido Nro.${numFormat(pedido.id,'3.0-0')}`,
+                       this.pedidosP, saldo);
+        });
   }
 
   calTotalUs(): number {

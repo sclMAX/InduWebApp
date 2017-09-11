@@ -1,11 +1,9 @@
+import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {RepartosProvider} from './../../../providers/repartos/repartos';
 import {
   PrintRepartoPage
 } from './../../documentos/print/print-reparto/print-reparto';
 import {DolarProvider} from './../../../providers/dolar/dolar';
-import {
-  PrintPedidoEntregaPage
-} from './../../documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {Pedido} from './../../../models/pedidos.clases';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
@@ -18,6 +16,7 @@ import {
   LoadingController,
   ToastController
 } from 'ionic-angular';
+import {printEntrega, numFormat} from '../../../print/print-pedidos';
 
 @Component({
   selector: 'page-reparto-en-proceso',
@@ -36,6 +35,7 @@ export class RepartoEnProcesoPage {
   showPedidosCliente: boolean[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+              private pedidosP: PedidosProvider,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
               private repartosP: RepartosProvider,
@@ -106,7 +106,12 @@ export class RepartoEnProcesoPage {
 
   printPedido(pedido: Pedido) {
     pedido.Dolar = this.reparto.Dolar;
-    this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
+    this.ctacteP.getSaldoCliente(pedido.idCliente)
+        .subscribe((saldo) => {
+          printEntrega(this.getCliente(pedido.idCliente), pedido,
+                       `Pedido Nro.${numFormat(pedido.id,'3.0-0')}`,
+                       this.pedidosP, saldo);
+        });
     pedido.isImpreso = true;
   }
 

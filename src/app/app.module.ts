@@ -156,9 +156,6 @@ import {
 } from './../pages/documentos/print/print-ctacte-card/print-ctacte-card';
 import {PrintPagoPage} from './../pages/documentos/print/print-pago/print-pago';
 import {
-  PrintPedidoEntregaPage
-} from './../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
-import {
   PrintPedidoParaEmbalarPage
 } from './../pages/documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
 import {
@@ -243,7 +240,6 @@ export const environment = {
     StockIngresoAddItemComponent,
     PedidosEntregarPage,
     PedidoHeaderComponent,
-    PrintPedidoEntregaPage,
     ClienteCtaCteCardComponent,
     BancosSearchBarComponent,
     BancosListComponent,
@@ -305,7 +301,6 @@ export const environment = {
     LineasFindAndSelectComponent,
     StockIngresoPage,
     PedidosEntregarPage,
-    PrintPedidoEntregaPage,
     BancosamPage,
     BancosSucursalAmPage,
     ChequesAmPage,

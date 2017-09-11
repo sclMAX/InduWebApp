@@ -1,17 +1,28 @@
+import {CtasCtesProvider} from './../../../../providers/ctas-ctes/ctas-ctes';
 import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {
+  AlertController,
+  LoadingController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 import * as moment from 'moment';
 
 import {FECHA} from '../../../../models/comunes.clases';
 
 import {Cliente} from './../../../../models/clientes.clases';
 import {Dolar} from './../../../../models/fondos.clases';
-import {calcularTotalFinal, calSubTotalCDs, Pedido} from './../../../../models/pedidos.clases';
+import {
+  calcularTotalFinal,
+  calSubTotalCDs,
+  Pedido
+} from './../../../../models/pedidos.clases';
 import {Usuario} from './../../../../models/user.class';
 import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {CV, UsuarioProvider} from './../../../../providers/usuario/usuario';
-import {PrintPedidoEntregaPage} from './../../print/print-pedido-entrega/print-pedido-entrega';
+import {printEntrega, numFormat} from '../../../../print/print-pedidos';
 
 @Component({
   selector: 'page-pedidos-entregar',
@@ -23,26 +34,24 @@ export class PedidosEntregarPage {
   usuario: Usuario;
   CVs: CV[];
   dolar: Dolar;
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      private alertCtrl: AlertController, private toastCtrl: ToastController,
-      private loadCtrl: LoadingController, private pedidosP: PedidosProvider,
-      private usuarioP: UsuarioProvider, private dolarP: DolarProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
+              private loadCtrl: LoadingController,
+              private pedidosP: PedidosProvider,
+              private usuarioP: UsuarioProvider, private dolarP: DolarProvider,
+              private ctacteP: CtasCtesProvider) {
     this.pedido = this.navParams.get('Pedido');
     this.cliente = this.navParams.get('Cliente');
     if (!this.pedido || !this.cliente) {
       this.navCtrl.pop();
     } else {
       this.pedido.fechaEntrega = moment().format(FECHA);
-      this.usuarioP.getCurrentUser().subscribe((user) => {
-        this.usuario = user;
-      });
-      this.usuarioP.getCV().subscribe((cvs) => {
-        this.CVs = cvs;
-      });
-      this.dolarP.getDolar().subscribe((dolar) => {
-        this.pedido.Dolar = dolar;
-      });
+      this.usuarioP.getCurrentUser().subscribe(
+          (user) => { this.usuario = user; });
+      this.usuarioP.getCV().subscribe((cvs) => { this.CVs = cvs; });
+      this.dolarP.getDolar().subscribe(
+          (dolar) => { this.pedido.Dolar = dolar; });
     }
   }
 
@@ -77,12 +86,11 @@ export class PedidosEntregarPage {
       message:
           'Se eliminara definitivamente el pedido, se actualizara el stock y la Cta.Cte.',
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
-          handler: () => {
-            this.borrarProcess();
-          }
+          handler: () => { this.borrarProcess(); }
         }
       ]
     });
@@ -117,24 +125,25 @@ export class PedidosEntregarPage {
     return res;
   }
 
-  goBack() {
-    this.navCtrl.pop();
-  }
+  goBack() { this.navCtrl.pop(); }
 
   setDescuentoGeneral() {
     let alert = this.alertCtrl.create({
       title: 'Descuento General (%)',
       subTitle: `maximo autorizado ${this.usuario.maxDescuentoGeneral}%`,
-      inputs: [{
-        type: 'number',
-        name: 'descuento',
-        placeholder: 'Ingrese el descuento...',
-        min: 0,
-        max: this.usuario.maxDescuentoGeneral,
-        value: `${this.pedido.descuentoGeneral}`
-      }],
+      inputs: [
+        {
+          type: 'number',
+          name: 'descuento',
+          placeholder: 'Ingrese el descuento...',
+          min: 0,
+          max: this.usuario.maxDescuentoGeneral,
+          value: `${this.pedido.descuentoGeneral}`
+        }
+      ],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -155,7 +164,8 @@ export class PedidosEntregarPage {
     let alert = this.alertCtrl.create({
       title: 'CV',
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -178,17 +188,17 @@ export class PedidosEntregarPage {
     });
     alert.present();
   }
-  calTotalNeto(): number {
-    return calSubTotalCDs(this.pedido);
-  }
-  calTotalFinal(): number {
-    return calcularTotalFinal(this.pedido);
-  }
+  calTotalNeto(): number { return calSubTotalCDs(this.pedido); }
+  calTotalFinal(): number { return calcularTotalFinal(this.pedido); }
 
   ionViewDidLoad() {}
 
   print() {
-    //   this.navCtrl.push(PrintPedidoEntregaPage,{Pedido: this.pedido, Cliente:
-    //   this.cliente});
+    this.ctacteP.getSaldoCliente(this.pedido.idCliente)
+        .subscribe((saldo) => {
+          printEntrega(this.cliente, this.pedido,
+                       `Pedido Nro.${numFormat(this.pedido.id,'3.0-0')}`,
+                       this.pedidosP, saldo);
+        });
   }
 }

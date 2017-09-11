@@ -32,30 +32,15 @@ export class CtasCtesProvider {
       .idCliente}/${cta.tipoDocumento}${cta.numero}/`] = cta;
   }
 
-  getAll(): Observable<CtaCte[]> {
-    return new Observable((obs) => {
-      this.db.list(SUC_DOCUMENTOS_CTASCTES_ROOT)
-          .subscribe((snap: CtaCte[]) => { obs.next(snap || []); },
-                     (error) => { obs.error(error); });
-    });
-  }
-
   getSaldoCliente(idCliente: number): Observable<number> {
     return new Observable((obs) => {
-      this.getCtaCteCliente(idCliente).subscribe(
-          (cta) => {
-            let saldo: number = 0.00;
-            cta.forEach((i) => {
-              saldo += i.debe || 0 - i.haber || 0;
-              i.saldo = saldo;
-            });
-            obs.next(saldo);
-            obs.complete();
-          },
-          (error) => {
-            obs.error(error);
-            obs.complete();
-          });
+      this.getCtaCteCliente(idCliente).subscribe((cta) => {
+        let saldo: number = 0.00;
+        if (cta && cta.length > 0) {
+          saldo = cta[cta.length - 1].saldo;
+        }
+        obs.next(saldo);
+      }, (error) => { obs.error(error); });
     });
   }
 
@@ -67,7 +52,6 @@ export class CtasCtesProvider {
             cta = cta.sort((a, b) => {
               return moment(a.fecha, FECHA)
                   .diff(moment(b.fecha, FECHA), 'days');
-
             });
             let saldo: number = 0.00;
             cta.forEach((i) => {
@@ -83,21 +67,24 @@ export class CtasCtesProvider {
     return new Observable((obs => {
       this.clientesP.getAll().subscribe((clientes) => {
         let cs: ClienteConSaldo[] = [];
-        let loop = (idx: number) => {
-          this.getSaldoCliente(clientes[idx].id)
-              .subscribe((s) => {
-                if (s > valor) {
-                  cs.push({Cliente: clientes[idx], saldo: s});
-                }
-                idx++;
-                if (idx < clientes.length) {
-                  loop(idx);
-                } else {
-                  obs.next(cs);
-                }
-              }, (error) => { obs.error(error); });
-        };
-        loop(0);
+        clientes.forEach(async c => {
+          this.getSaldoCliente(c.id).subscribe((s) => {
+            if (s > valor) {
+              let exist = cs.find((i) => { return i.Cliente.id == c.id; });
+              if (exist) {
+                exist.saldo = s;
+              } else {
+                cs.push({Cliente: c, saldo: s});
+              }
+            } else {
+              let idx = cs.findIndex((i) => { return i.Cliente.id == c.id; });
+              if (idx > -1) {
+                cs.splice(idx, 1);
+              }
+            }
+          });
+        });
+        obs.next(cs);
       }, (error) => { obs.error(error); });
     }));
   }

@@ -8,12 +8,10 @@ import {
 import {
   PrintCtacteCardPage
 } from './../../../pages/documentos/print/print-ctacte-card/print-ctacte-card';
-import {
-  PrintPedidoEntregaPage
-} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
+import {printEntrega, numFormat} from '../../../print/print-pedidos';
 
 @Component({
   selector: 'cliente-cta-cte-card',
@@ -65,7 +63,13 @@ export class ClienteCtaCteCardComponent {
               .subscribe(
                   (data) => {
                     load.dismiss();
-                    this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: data});
+                    this.ctaCteP.getSaldoCliente(data.idCliente)
+                        .subscribe((saldo) => {
+                          printEntrega(
+                              this.cliente, data,
+                              `Pedido Nro.${numFormat(data.id,'3.0-0')}`,
+                              this.pedidosP, saldo);
+                        });
                   },
                   (error) => {
                     load.dismiss();
