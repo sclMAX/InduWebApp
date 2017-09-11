@@ -1,15 +1,15 @@
-import {FECHA} from './../../../models/comunes.clases';
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
+import * as moment from 'moment';
+
+import {printEntrega, numFormat} from '../../../print/print-pedidos';
 
 import {Cliente} from './../../../models/clientes.clases';
-import {Pedido, ENTREGADO} from './../../../models/pedidos.clases';
-import {
-  PrintPedidoEntregaPage
-} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
+import {FECHA} from './../../../models/comunes.clases';
+import {ENTREGADO, Pedido} from './../../../models/pedidos.clases';
+import {PrintPedidoEntregaPage} from './../../../pages/documentos/print/print-pedido-entrega/print-pedido-entrega';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
-import * as moment from 'moment';
 
 @Component({
   selector: 'pedidos-entregados-card',
@@ -70,7 +70,8 @@ export class PedidosEntregadosCardComponent {
   }
 
   goPedido(pedido: Pedido) {
-    this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
+   // this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
+   printEntrega(this.getCliente(pedido.idCliente),pedido,`Pedido Nro.${numFormat(pedido.id,'3.0-0')}`,this.pedidosP);
   }
 
   calTotalUs(): number {

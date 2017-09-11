@@ -27,7 +27,7 @@
 </ion-header>
 
 <ion-content padding color="scroll-content">
-  <ion-grid>
+  <ion-grid full color="scroll-content">
     <ion-row *ngIf="isLogin && usuario && usuario.isEmbalaje">
       <ion-col>
         <pedidos-pendientes-card [showList]=true></pedidos-pendientes-card>
