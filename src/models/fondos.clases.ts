@@ -3,6 +3,7 @@ import {Direccion} from './clientes.clases';
 import * as moment from 'moment';
 
 export const EGRESO: string = 'Egreso';
+export const INGRESO:string = 'Ingreso';
 
 export class Dolar extends ClaseControlada {
   id: string = "Dolar";
@@ -53,6 +54,7 @@ export class Cheque extends ClaseControlada {
 export class ChequeEntregadoPor {
   sucursal: string;
   idCliente: number;
+  comentarios:string;
 }
 
 export class ChequeEntregadoA {

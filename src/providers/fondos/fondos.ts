@@ -15,7 +15,8 @@ import {
   CajaEgreso,
   ChequeEntregadoA,
   EGRESO,
-  CajaMovimiento
+  CajaMovimiento,
+  INGRESO
 } from './../../models/fondos.clases';
 import {
   SUC_FONDOS_CHEQUES_CARTERA,
@@ -78,9 +79,67 @@ export class FondosProvider {
     });
   }
 
+  addCajaIngreso(ingreso: CajaEgreso): Observable<string> {
+    return new Observable((obs) => {
+      let updData = {};
+      let totalCheques: number = 0.00;
+      let nro: number = ingreso.id;
+      // Set Creador
+      ingreso.Creador = this.sucP.genUserDoc();
+      // Si hay Cheques, Actualizar calcular total
+      if (ingreso.Cheques) {
+        ingreso.Cheques.forEach(
+            (c) => { totalCheques += Number(c.monto || 0); });
+        //Add Cheques a Cartera
+        this.genChequesCarteraAdd(updData,ingreso.Cheques)
+      }
+      // Generar Item Caja
+      let caja: CajaItem = new CajaItem();
+      caja.tipoDocumento = INGRESO;
+      caja.numeroDoc = nro;
+      caja.efectivo = Number(ingreso.efectivo);
+      caja.dolares = Number(ingreso.dolares);
+      caja.cheques = Number(totalCheques);
+      caja.isIngreso = true;
+      // Generar Caja UpdateData
+      this.genCajaAddIngresoUpdateData(updData, caja);
+      // Generar Ingreso UpdateData
+      updData[`${SUC_DOCUMENTOS_ROOT}${INGRESO}/${nro}/`] = ingreso;
+      // Update Contador
+      this.contadoresP.genCajaEgresoUpdateData(updData, nro);
+      // Ejecutar peticion
+      this.db.database.ref()
+          .update(updData)
+          .then(() => {
+            obs.next('Caja Actualziada Correctamente!');
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(`Actualizar la Caja...! Error:${error}`);
+            obs.complete();
+          });
+
+    });
+  }
+
   getCajaEgreso(id: number): Observable<CajaEgreso> {
     return new Observable((obs) => {
       this.db.database.ref(`${SUC_DOCUMENTOS_ROOT}${EGRESO}/${id}/`)
+          .once('value',
+                (snap) => {
+                  obs.next(snap.val() || null);
+                  obs.complete();
+                },
+                (error) => {
+                  obs.error(error);
+                  obs.complete();
+                });
+    });
+  }
+
+  getCajaIngreso(id: number): Observable<CajaEgreso> {
+    return new Observable((obs) => {
+      this.db.database.ref(`${SUC_DOCUMENTOS_ROOT}${INGRESO}/${id}/`)
           .once('value',
                 (snap) => {
                   obs.next(snap.val() || null);
@@ -102,28 +161,18 @@ export class FondosProvider {
 
   genIngresoPagoUpdateData(updData, pago: ClientePago) {
     let totalCheques: number = 0.00;
-    // Ingresar Cheques a Cartera
+    let cheques: Cheque[] = [];
     pago.Cheques.forEach((cheque) => {
-      // Set Id
-      cheque.Cheque.id = `${cheque.Cheque.idBanco
-        }-${cheque.Cheque.idSucursal}-${cheque.Cheque.numero}`;
-      // Set Creador
-      cheque.Cheque.Creador = this.sucP.genUserDoc();
       // Set EntregadoPor
       cheque.Cheque.EntregadoPor = new ChequeEntregadoPor();
       cheque.Cheque.EntregadoPor.idCliente = pago.idCliente;
       cheque.Cheque.EntregadoPor.sucursal = this.sucP.getUsuario().sucursal;
-      // Crear Firmantes UpdateData
-      cheque.Cheque.Firmantes.forEach((f) => {
-        this.genFirmanteUpdateData(updData,
-                                   new ChequeFirmante(f.CUIT, f.nombre));
-      });
-      // Crear Cheque UpdateData
-      updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.Cheque.id}/`] =
-          cheque.Cheque;
+      cheques.push(cheque.Cheque);
       // Calcular monto acumulado de cheques
       totalCheques += Number(cheque.Cheque.monto);
     });
+    // Ingresar Cheques a Cartera
+    this.genChequesCarteraAdd(updData, cheques);
     // Generar Item Caja
     let caja: CajaItem = new CajaItem();
     caja.tipoDocumento = pago.tipo;
@@ -133,6 +182,23 @@ export class FondosProvider {
     caja.cheques = Number(totalCheques);
     caja.isIngreso = true;
     this.genCajaAddIngresoUpdateData(updData, caja);
+  }
+
+  genChequesCarteraAdd(updData, cheques: Cheque[]) {
+    cheques.forEach((cheque) => {
+      // Set Id
+      cheque.id = `${cheque.idBanco
+        }-${cheque.idSucursal}-${cheque.numero}`;
+      // Set Creador
+      cheque.Creador = this.sucP.genUserDoc();
+      // Crear Firmantes UpdateData
+      cheque.Firmantes.forEach((f) => {
+        this.genFirmanteUpdateData(updData,
+                                   new ChequeFirmante(f.CUIT, f.nombre));
+      });
+      // Crear Cheque UpdateData
+      updData[`${SUC_FONDOS_CHEQUES_CARTERA}${cheque.id}/`] = cheque;
+    });
   }
 
   genCajaAddIngresoUpdateData(updData, item: CajaItem) {
@@ -217,10 +283,13 @@ export class FondosProvider {
               sC += Number(i.cheques || 0) * ((i.isIngreso) ? 1 : -1);
               i.saldoCheques = sC;
             });
-            //Filtrar
-            if(fecha1 && fecha2){
-              m = m.filter((i)=>{
-                return (moment(i.fecha, FECHA).diff(moment(fecha1,FECHA),'days')>=0)&&(moment(i.fecha, FECHA).diff(moment(fecha2,FECHA),'days')<=0);
+            // Filtrar
+            if (fecha1 && fecha2) {
+              m = m.filter((i) => {
+                return (moment(i.fecha, FECHA)
+                            .diff(moment(fecha1, FECHA), 'days') >= 0) &&
+                       (moment(i.fecha, FECHA)
+                            .diff(moment(fecha2, FECHA), 'days') <= 0);
               });
             }
             obs.next(m);

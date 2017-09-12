@@ -1,5 +1,9 @@
-import { ClientesDetallePage } from './../../../pages/clientes/clientes-detalle/clientes-detalle';
-import { NavController } from 'ionic-angular';
+import {Observable} from 'rxjs/Observable';
+import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
+import {
+  ClientesDetallePage
+} from './../../../pages/clientes/clientes-detalle/clientes-detalle';
+import {NavController} from 'ionic-angular';
 import {Cliente} from './../../../models/clientes.clases';
 import {Component, Input} from '@angular/core';
 
@@ -11,9 +15,10 @@ export class ClienteListItemContentComponent {
   @Input('cliente') cliente: Cliente;
   @Input('color') color: string;
   @Input('showActions') isShowActions: boolean = true;
-  constructor(public navCtrl:NavController) {}
+  constructor(public navCtrl: NavController,
+              private ctacteP: CtasCtesProvider) {}
 
-  goCliente(){
+  goCliente() {
     this.navCtrl.push(ClientesDetallePage, {Cliente: this.cliente});
   }
 }

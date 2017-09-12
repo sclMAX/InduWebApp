@@ -26,15 +26,15 @@
             <ion-badge color="formLabel">Fecha</ion-badge>
           </ion-row>
           <ion-row>
-            <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="date" name="fecha" [(ngModel)]="egreso.fecha" [readonly]="isReadOnly" required></ion-input>
+            <ion-badge ion-item no-lines color="formInput" >
+              <ion-input no-margin type="date" name="fecha" [(ngModel)]="egreso.fecha" [readonly]="isReadOnly" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>
         <!-- Tipo -->
         <ion-col>
           <ion-row>
-            <ion-badge color="formLabel">Egreso Para</ion-badge>
+            <ion-badge color="formLabel">{{(isEgreso)?'Egreso para':'Ingreso de'}}</ion-badge>
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
@@ -45,7 +45,7 @@
         <!-- Total $ -->
         <ion-col>
           <ion-row>
-            <ion-badge color="formLabel">Total Egreso ($)</ion-badge>
+            <ion-badge color="formLabel">Total {{(isEgreso)?'Egreso':'Ingreso'}}($)</ion-badge>
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
@@ -56,7 +56,7 @@
         <!-- Total U$ -->
         <ion-col col-auto>
           <ion-row>
-            <ion-badge color="formLabel">Total Egreso (U$)</ion-badge>
+            <ion-badge color="formLabel">Total {{(isEgreso)?'Egreso':'Ingreso'}}(U$)</ion-badge>
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">

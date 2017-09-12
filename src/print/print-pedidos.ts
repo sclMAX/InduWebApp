@@ -363,7 +363,7 @@ export function printEntrega(cliente: Cliente, pedido: Pedido, title: string,
         ]
       ]
     },
-    layout: 'noBorders',
+    layout: 'noBorders'
   });
 
   showPdf(doc);

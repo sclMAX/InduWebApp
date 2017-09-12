@@ -61,7 +61,7 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input type="date" disabled=true [(ngModel)]="newCheque.fechaIngreso" name="FechaIngreso" required></ion-input>
+              <ion-input type="date" no-margin disabled=true [(ngModel)]="newCheque.fechaIngreso" name="FechaIngreso" required></ion-input>
             </ion-badge>
           </ion-row>
         </ion-col>
@@ -72,8 +72,8 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fe type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.fechaEmision" name="FechaEmision"
-                [readonly]="isEdit" required></ion-input>
+              <ion-input #fe no-margin type="date" [disabled]="nroCheque.disabled || !nroCheque.value" [(ngModel)]="newCheque.fechaEmision"
+                name="FechaEmision" [readonly]="isEdit" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaEmision() && fe.value" color="danger"><small>{{errorMsgFechaEmision}}</small></ion-badge>
           </ion-row>
@@ -85,8 +85,8 @@
           </ion-row>
           <ion-row>
             <ion-badge ion-item no-lines color="formInput">
-              <ion-input #fc type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.fechaCobro" [readonly]="isEdit"
-                required></ion-input>
+              <ion-input #fc no-margin type="date" [disabled]="!chkFechaEmision()" name="FechaCobro" [(ngModel)]="newCheque.fechaCobro"
+                [readonly]="isEdit" required></ion-input>
             </ion-badge>
             <ion-badge *ngIf="!chkFechaCobro() && fc.value" color="danger"><small>{{errorMsgFechaCobro}}</small></ion-badge>
           </ion-row>
@@ -124,19 +124,20 @@
           <ion-row>
             <ion-badge color="formLabel">Firmates</ion-badge>
           </ion-row>
-          <ion-row ion-item no-lines no-padding color="scroll-content">
-            <ion-col>
-              <ion-row ion-item no-lines no-padding color="scroll-content" *ngFor="let firmante of newCheque?.Firmantes; let idx=index">
+          <ion-row ion-item no-lines no-padding no-margin color="scroll-content">
+            <ion-col no-margin>
+              <ion-row ion-item no-lines no-margin color="scroll-content" *ngFor="let firmante of newCheque?.Firmantes; let idx=index">
                 <button item-start ion-fab mini color="danger" *ngIf="idx > 0" [disabled]="isEdit" (click)="removeFirmante(idx)"><ion-icon name="remove"></ion-icon></button>
-                <ion-row>
+                <ion-row no-margin>
                   <!-- CUIT -->
                   <ion-col>
                     <ion-row>
                       <ion-badge color="formLabel">CUIT</ion-badge>
                     </ion-row>
                     <ion-row>
-                      <ion-badge ion-item no-lines color="formInput">
-                        <ion-input #cuit (ionChange)="firmante.nombre = ''" type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" [readonly]="isEdit" required></ion-input>
+                      <ion-badge ion-item no-lines no-margin color="formInput">
+                        <ion-input #cuit (ionChange)="firmante.nombre = ''" type="number" name="CUIT{{idx}}" [(ngModel)]="firmante.CUIT" [readonly]="isEdit"
+                          required></ion-input>
                       </ion-badge>
                       <ion-badge *ngIf="!chkCuit(firmante) && cuit.value" color="danger"><small>CUIT incorrecto!</small></ion-badge>
                     </ion-row>
@@ -147,7 +148,7 @@
                       <ion-badge color="formLabel">Titular</ion-badge>
                     </ion-row>
                     <ion-row>
-                      <ion-badge ion-item no-lines color="formInput">
+                      <ion-badge ion-item no-lines no-margin color="formInput">
                         <ion-input type="text" name="Nombre{{idx}}" [(ngModel)]="firmante.nombre" [readonly]="isEdit" required></ion-input>
                       </ion-badge>
                     </ion-row>
@@ -187,23 +188,30 @@
             <ion-input [(ngModel)]="cliente.nombre" name="cliente" readonly></ion-input>
           </form-badge-input-item>
         </ion-col>
+        <!--Comentarios -->
+        <ion-col>
+          <form-badge-input-item label="Comentarios">
+            <ion-textarea [(ngModel)]="newCheque.EntregadoPor.comentarios" name="entregado.comentarios" readonly></ion-textarea>
+          </form-badge-input-item>
+        </ion-col>
       </ion-row>
-       <!--Entregado A -->
-       <ion-item-divider text-center *ngIf="isEdit && newCheque.EntregadoA && newCheque.EntregadoA.nombre != '' " color="listDivider1" no-lines>Entregado</ion-item-divider>
-       <ion-row *ngIf="isEdit && newCheque.EntregadoA && newCheque.EntregadoA.nombre != '' ">
-         <!-- Fecha -->
-         <ion-col col-auto>
-           <form-badge-item label="Fecha">
-             <h2>{{newCheque?.EntregadoA?.fecha |date:'dd/MM/yyyy'}}</h2>
-           </form-badge-item>
-         </ion-col>
-         <!--Cliente -->
-         <ion-col>
-           <form-badge-input-item label="Entregado A">
-             <ion-input [(ngModel)]="newCheque.EntregadoA.nombre" name="entregadoA" readonly></ion-input>
-           </form-badge-input-item>
-         </ion-col>
-       </ion-row>
+      <!--Entregado A -->
+      <ion-item-divider text-center *ngIf="isEdit && newCheque.EntregadoA && newCheque.EntregadoA.nombre != '' " color="listDivider1"
+        no-lines>Entregado</ion-item-divider>
+      <ion-row *ngIf="isEdit && newCheque.EntregadoA && newCheque.EntregadoA.nombre != '' ">
+        <!-- Fecha -->
+        <ion-col col-auto>
+          <form-badge-item label="Fecha">
+            <h2>{{newCheque?.EntregadoA?.fecha |date:'dd/MM/yyyy'}}</h2>
+          </form-badge-item>
+        </ion-col>
+        <!--Cliente -->
+        <ion-col>
+          <form-badge-input-item label="Entregado A">
+            <ion-input [(ngModel)]="newCheque.EntregadoA.nombre" name="entregadoA" readonly></ion-input>
+          </form-badge-input-item>
+        </ion-col>
+      </ion-row>
     </form>
   </ion-grid>
 </ion-content>

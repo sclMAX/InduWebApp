@@ -11,7 +11,7 @@ export class FondosHomePage {
   dolar: number;
   constructor(public navCtrl: NavController, public navParams: NavParams, ) {}
 
-  goEgreso() { this.navCtrl.push(CajaEgresoPage); }
+  goEgreso(isEgreso:boolean) { this.navCtrl.push(CajaEgresoPage, {isEgreso: isEgreso}); }
 
   onSelectCheque(cheque) { this.navCtrl.push(ChequesAmPage, {Cheque: cheque}); }
 }
