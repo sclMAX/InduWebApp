@@ -1,4 +1,3 @@
-import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {
   ClientesDetallePage
 } from './../../../pages/clientes/clientes-detalle/clientes-detalle';
@@ -14,8 +13,7 @@ export class ClienteListItemContentComponent {
   @Input('cliente') cliente: Cliente;
   @Input('color') color: string;
   @Input('showActions') isShowActions: boolean = true;
-  constructor(public navCtrl: NavController,
-              private ctacteP: CtasCtesProvider) {}
+  constructor(public navCtrl: NavController) {}
 
   goCliente() {
     this.navCtrl.push(ClientesDetallePage, {Cliente: this.cliente});

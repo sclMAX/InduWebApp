@@ -1,8 +1,20 @@
 <ion-header no-border>
-  <ion-navbar color="toolBar">
+  <ion-navbar color="toolBar" text-center>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding color="scroll-content">
+  <ion-grid>
+    <ion-col>
+      <ion-row *ngFor="let item of reparto.Items; let idx = index;" >
+        <button ion-item no-lines no-margin color="listDivider1" (click)="showItemDetalle[idx] = !showItemDetalle[idx]"> 
+          <span item-start>{{item?.idCliente |number:'3.0-0'}} - {{getCliente(item.idCliente)?.nombre}}</span>
+        </button>
+        <ion-row ion-item [hidden]="!showItemDetalle[idx]">
+          <span *ngFor="let pedido of item.Pedidos" >{{pedido |json}}</span>
 
+        </ion-row>
+      </ion-row>
+    </ion-col>
+  </ion-grid>
 </ion-content>

@@ -27,3 +27,11 @@ export class Color extends ClaseControlada {
   precioUs: number;
   isPintura: boolean;
 }
+
+export class Accesorio{
+  id:string;
+  idClase:string;
+  nombre:string;
+  descripcion:string;
+  precioUs:number = 0.00;
+}

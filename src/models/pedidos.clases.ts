@@ -1,3 +1,4 @@
+import {Accesorio} from './productos.clases';
 import {CV} from './../providers/usuario/usuario';
 import {Dolar} from './fondos.clases';
 import {Direccion} from './clientes.clases';
@@ -15,6 +16,7 @@ export const PAGO: string = 'Pago';
 export class Pedido extends Documento {
   DireccionEntrega: Direccion;
   Items: PedidoItem[] = [];
+  Accesorios: AccesorioItem[] = [];
   Dolar: Dolar;
   totalUnidades: number = 0.00;
   descuentoKilos: number = 0.00;
@@ -34,15 +36,17 @@ export class PedidoItem extends DocStockItem {
   descuento: number;
   isEmbalado: boolean = false;
 }
-
+export class AccesorioItem {
+  cantidad: number = 0.00;
+  Accesorio: Accesorio;
+  subtotal: number = 0.00;
+  isEmbalado: boolean = false;
+}
 
 // Calcula el Subtotal con todos los descuentos
 export function calSubTotalCDs(pedido: Pedido): number {
   if (pedido) {
     let subtotal: number = pedido.totalUs;
-    if (pedido.descuentoKilos > 0) {
-      subtotal = subtotal / (1 + (pedido.descuentoKilos / 100));
-    }
     if (pedido.descuentoGeneral > 0) {
       subtotal = subtotal / (1 + (pedido.descuentoGeneral / 100));
     }
