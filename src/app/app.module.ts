@@ -1,4 +1,7 @@
 import {
+  RepartoCerrarPage
+} from './../pages/repartos/reparto-cerrar/reparto-cerrar';
+import {
   RepartosEnProcesoCardComponent
 } from './../components/repartos/repartos-en-proceso-card/repartos-en-proceso-card';
 import {
@@ -270,7 +273,8 @@ export const environment = {
     ClientesConSaldoCardComponent,
     RepartoEnProcesoPage,
     PrintRepartoPage,
-    RepartosEnProcesoCardComponent
+    RepartosEnProcesoCardComponent,
+    RepartoCerrarPage
   ],
   imports: [
     BrowserModule,
@@ -313,7 +317,8 @@ export const environment = {
     PrintCajaEgresoPage,
     RepartoAmPage,
     RepartoEnProcesoPage,
-    PrintRepartoPage
+    PrintRepartoPage,
+    RepartoCerrarPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

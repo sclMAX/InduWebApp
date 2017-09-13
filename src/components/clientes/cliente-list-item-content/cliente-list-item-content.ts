@@ -1,4 +1,3 @@
-import {Observable} from 'rxjs/Observable';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {
   ClientesDetallePage

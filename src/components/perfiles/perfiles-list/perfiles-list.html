@@ -18,7 +18,7 @@
       </div>    
         <table item-end>
           <tr *ngFor="let color of getStocksPerfil(perfil)">
-            <td text-right><small>{{color?.id}}: </small></td>
+            <td text-right [bgColor]="(color.stock <= 0)?'#D76452':((color.stock < color.mpp)?'#BB976B':((color.stock == color.mpp)?'#84A55E':''))"><small>{{color?.id}}: </small></td>
             <td><div style="width: 10px;"></div></td>
             <td text-right><small>{{color?.stock |number:'1.0-0'}}</small></td>
           </tr>
