@@ -9,10 +9,10 @@
       <ion-row *ngFor="let item of reparto.Items; let idx = index;" >
         <button ion-item no-lines no-margin color="listDivider1" (click)="showItemDetalle[idx] = !showItemDetalle[idx]"> 
           <span item-start>{{item?.idCliente |number:'3.0-0'}} - {{getCliente(item.idCliente)?.nombre}}</span>
+          <span item-end>U$ {{getSaldo(item?.idCliente) |async |number:'1.2-2'}}</span>
         </button>
         <ion-row ion-item [hidden]="!showItemDetalle[idx]">
           <span *ngFor="let pedido of item.Pedidos" >{{pedido |json}}</span>
-
         </ion-row>
       </ion-row>
     </ion-col>

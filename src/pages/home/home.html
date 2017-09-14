@@ -2,6 +2,7 @@
   <ion-navbar color="toolBar">
     <ion-title start left>Suc. {{title}}<span *ngIf="usuario.isEmbalaje"> - Embalaje</span></ion-title>
     <ion-buttons start rigth>
+      <button *ngIf="usuario.isAdmin" ion-button icon-only icon-left (click)="" 
       <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goClientes()" tooltip="CLIENTES: Listado y operaciones sobre clientes...">
         <ion-icon name="icon-ind_users-list"></ion-icon>
       </button>

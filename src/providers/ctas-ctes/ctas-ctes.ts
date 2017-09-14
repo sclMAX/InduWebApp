@@ -33,34 +33,29 @@ export class CtasCtesProvider {
   }
 
   getSaldoCliente(idCliente: number): Observable<number> {
-    return new Observable((obs) => {
-      this.getCtaCteCliente(idCliente).subscribe((cta) => {
-        let saldo: number = 0.00;
-        if (cta && cta.length > 0) {
-          saldo = cta[cta.length - 1].saldo;
-        }
-        obs.next(saldo);
-      }, (error) => { obs.error(error); });
+    return this.getCtaCteCliente(idCliente).map((cta) => {
+      let saldo: number = 0.00;
+      if (cta && cta.length > 0) {
+        saldo = cta[cta.length - 1].saldo;
+      }
+      return saldo;
     });
   }
 
   getCtaCteCliente(idCliente: number): Observable<CtaCte[]> {
-    return new Observable((obs) => {
-      this.db.list(`${SUC_DOCUMENTOS_CTASCTES_ROOT}${idCliente}/`)
-          .subscribe((snap) => {
-            let cta: CtaCte[] = snap || [];
-            cta = cta.sort((a, b) => {
-              return moment(a.fecha, FECHA)
-                  .diff(moment(b.fecha, FECHA), 'days');
-            });
-            let saldo: number = 0.00;
-            cta.forEach((i) => {
-              saldo += Number(i.debe) - Number(i.haber);
-              i.saldo = saldo;
-            });
-            obs.next(cta);
-          }, (error) => { obs.error(error); });
-    });
+    return this.db.list(`${SUC_DOCUMENTOS_CTASCTES_ROOT}${idCliente}/`)
+        .map((snap) => {
+          let cta: CtaCte[] = snap || [];
+          cta = cta.sort((a, b) => {
+            return moment(a.fecha, FECHA).diff(moment(b.fecha, FECHA), 'days');
+          });
+          let saldo: number = 0.00;
+          cta.forEach((i) => {
+            saldo += Number(i.debe) - Number(i.haber);
+            i.saldo = saldo;
+          });
+          return cta;
+        });
   }
 
   getAllConSaldoMayorQue(valor: number): Observable<ClienteConSaldo[]> {

@@ -8,7 +8,7 @@ import {RepartosHomePage} from './../repartos/repartos-home/repartos-home';
 import {ProductosHomePage} from './../productos/productos-home/productos-home';
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {SUCURSAL} from './../../providers/sucursal/sucursal';
+import {SUCURSAL, SucursalProvider} from './../../providers/sucursal/sucursal';
 import {UsuarioProvider} from './../../providers/usuario/usuario';
 import {ClientesHomePage} from './../clientes/clientes-home/clientes-home';
 import {LoginPage} from './../login/login';
@@ -20,8 +20,9 @@ export class HomePage {
   usuario: Usuario = new Usuario();
   isLogin: boolean = true;
   isChequesPorVencer: boolean;
+  sucursales
 
-  constructor(public navCtrl: NavController,
+  constructor(public navCtrl: NavController, private sucP: SucursalProvider,
               private usuarioP: UsuarioProvider) {}
 
   public logOut() {
@@ -29,6 +30,8 @@ export class HomePage {
     this.navCtrl.setRoot(LoginPage);
     this.usuarioP.logOut();
   }
+
+  selSucursal(sucursal: string) { this.sucP.setSucursal(sucursal).subscribe(); }
 
   goClientes() { this.navCtrl.push(ClientesHomePage); }
 
@@ -50,7 +53,11 @@ export class HomePage {
   ngOnInit() { this.getUser(); }
 
   private async getUser() {
-    this.usuarioP.getCurrentUser().subscribe(
-        (user) => { this.usuario = user; });
+    this.usuarioP.getCurrentUser().subscribe((user) => {
+      this.usuario = user;
+      if (this.usuario.isAdmin) {
+      
+      }
+    });
   }
 }

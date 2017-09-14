@@ -1,55 +1,81 @@
 {
-  "GLQRZBqa84U7sJSBuTPZchdNLjw2": {
-    "nombre": "Embalador Corrientes",
-    "email": "suc_corrientes_embalaje@indumatics.com.ar",
-    "sucursal": "Corrientes",
-    "localidad": "Corrientes",
-    "provincia": "Corrientes",
-    "id": "GLQRZBqa84U7sJSBuTPZchdNLjw2",
-    "isEmbalaje": true
-  },
-  "b6H6A6PNuuXm4NLgrpsE6MxzYLs1": {
-    "maxDescuentoGeneral": 4,
-    "maxDescuentoItem": 4,
-    "nombre": "Encargado Corrientes",
-    "email": "suc_corrientes@indumatics.com.ar",
-    "sucursal": "Corrientes",
-    "localidad": "Corrientes",
-    "provincia": "Corrientes",
-    "id": "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
-    "isEmbalaje": false
-  },
-  "j0tgXJFtijYw2s9diBxlUl308Qu1": {
-    "maxDescuentoGeneral": 4,
-    "maxDescuentoItem": 4,
-    "nombre": "Erika",
-    "email": "perfiles@indumatics.com.ar",
-    "sucursal": "Parana",
-    "localidad": "Paraná",
-    "provincia": "Entre Ríos",
-    "id": "j0tgXJFtijYw2s9diBxlUl308Qu1",
-    "isEmbalaje": false
+  "0qNfacxzjgat6qVrWCo8nqOTjIp1": {
+    "email": "suc_villamaria@indumatics.com.ar",
+    "id": "0qNfacxzjgat6qVrWCo8nqOTjIp1",
+    "isEmbalaje": false,
+    "localidad": "Villa Maria",
+    "maxDescuentoGeneral": 0,
+    "maxDescuentoItem": 0,
+    "nombre": "Encargado Villa Maria",
+    "provincia": "Córdoba",
+    "sucursal": "Villa Maria"
   },
   "BQUkQVsMfVN47uTNSMozOSMbMlF3": {
-    "maxDescuentoGeneral": 4,
-    "maxDescuentoItem": 4,
-    "nombre": "Julieta",
     "email": "administracion@indumatics.com.ar",
-    "sucursal": "Parana",
-    "localidad": "Paraná",
-    "provincia": "Entre Ríos",
     "id": "BQUkQVsMfVN47uTNSMozOSMbMlF3",
-    "isEmbalaje": false
+    "isDolarEdit": true,
+    "isEmbalaje": false,
+    "localidad": "Paraná",
+    "maxDescuentoGeneral": 0,
+    "maxDescuentoItem": 0,
+    "nombre": "Julieta",
+    "provincia": "Entre Ríos",
+    "sucursal": "Parana"
+  },
+  "GLQRZBqa84U7sJSBuTPZchdNLjw2": {
+    "email": "suc_corrientes_embalaje@indumatics.com.ar",
+    "id": "GLQRZBqa84U7sJSBuTPZchdNLjw2",
+    "isEmbalaje": true,
+    "localidad": "Corrientes",
+    "nombre": "Embalador Corrientes",
+    "provincia": "Corrientes",
+    "sucursal": "Corrientes"
   },
   "TEvhDIbtvKfTaV9RYcjE3IHk8tq1": {
-    "maxDescuentoGeneral": 4,
-    "maxDescuentoItem": 4,
-    "nombre": "Encargado Rio Cuarto",
     "email": "suc_riocuarto@indumatics.com.ar",
-    "sucursal": "Rio Cuarto",
-    "localidad": "Rio Cuarto",
-    "provincia": "Córdoba",
     "id": "TEvhDIbtvKfTaV9RYcjE3IHk8tq1",
-    "isEmbalaje": false
+    "isEmbalaje": false,
+    "localidad": "Rio Cuarto",
+    "maxDescuentoGeneral": 4,
+    "maxDescuentoItem": 0,
+    "nombre": "Gabriel Pirotto",
+    "provincia": "Córdoba",
+    "sucursal": "Rio Cuarto"
+  },
+  "b6H6A6PNuuXm4NLgrpsE6MxzYLs1": {
+    "email": "suc_corrientes@indumatics.com.ar",
+    "id": "b6H6A6PNuuXm4NLgrpsE6MxzYLs1",
+    "isDolarEdit": false,
+    "isEmbalaje": false,
+    "localidad": "Corrientes",
+    "maxDescuentoGeneral": 0,
+    "maxDescuentoItem": 0,
+    "nombre": "Encargado Corrientes",
+    "provincia": "Corrientes",
+    "sucursal": "Corrientes"
+  },
+  "j0tgXJFtijYw2s9diBxlUl308Qu1": {
+    "email": "perfiles@indumatics.com.ar",
+    "id": "j0tgXJFtijYw2s9diBxlUl308Qu1",
+    "isEmbalaje": false,
+    "localidad": "Paraná",
+    "maxDescuentoGeneral": 0,
+    "maxDescuentoItem": 0,
+    "nombre": "Erika",
+    "provincia": "Entre Ríos",
+    "sucursal": "Parana"
+  },
+  "keOWexstN5OiTIso3UTJZupfnNf1": {
+    "email": "mbasso@indumatics.com.ar",
+    "id": "keOWexstN5OiTIso3UTJZupfnNf1",
+    "isDolarEdit": true,
+    "isEmbalaje": false,
+    "localidad": "Paraná",
+    "maxDescuentoGeneral": 100,
+    "maxDescuentoItem": 100,
+    "nombre": "MAX",
+    "provincia": "Entre Ríos",
+    "sucursal": "Parana",
+    "isAdmin": true
   }
 }

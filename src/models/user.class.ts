@@ -9,13 +9,14 @@ export class Usuario {
   id: string;
   sucursal: string;
   nombre: string;
-  email:string;
-  localidad:string;
-  provincia:string;
-  isEmbalaje: boolean = true;
+  email: string;
+  localidad: string;
+  provincia: string;
+  isEmbalaje: boolean = false;
   maxDescuentoItem: number = 0.00;
   maxDescuentoGeneral: number = 0.00;
-  isDolarEdit:boolean = false;
+  isDolarEdit: boolean = false;
+  isAdmin: boolean = false;
 }
 
 export class UserDoc {

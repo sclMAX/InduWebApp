@@ -1,8 +1,9 @@
+import {ROOT} from './../../models/db-base-paths';
+import {AngularFireDatabase} from 'angularfire2/database';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import {Observable} from 'rxjs/Observable';
 
-import {ROOT} from '../../models/db-base-paths';
 import {UsuarioProvider} from '../usuario/usuario';
 
 import {FECHA_FULL, Log} from './../../models/comunes.clases';
@@ -31,12 +32,25 @@ export let SUC_FONDOS_CHEQUES_CARTERA: string = '';
 @Injectable()
 export class SucursalProvider {
   private usuario: Usuario;
-  constructor(private usuarioP: UsuarioProvider) {}
+  constructor(private db: AngularFireDatabase,
+              private usuarioP: UsuarioProvider) {}
 
-  public setSucursal(): Observable<string> {
+  getAll(): Observable<Array<string>> {
+    return this.db.list(`${ROOT}/Sucuarsales/`)
+        .map((snap: Array<any>) => {
+          let sucursales: Array < string >= [];
+          snap.forEach((i) => { sucursales.push(i.id); });
+          return sucursales;
+        });
+  }
+
+  setSucursal(sucursal?: string): Observable<string> {
     return new Observable((obs) => {
       this.usuarioP.getCurrentUser().subscribe(
           (usuario) => {
+            if (sucursal && usuario.isAdmin) {
+              usuario.sucursal = sucursal;
+            }
             this.usuario = usuario;
             this.setPaths(usuario.sucursal);
             obs.next(SUCURSAL);
@@ -57,9 +71,7 @@ export class SucursalProvider {
     return ud;
   }
 
-  getUsuario(): Usuario {
-    return this.usuario;
-  }
+  getUsuario(): Usuario { return this.usuario; }
 
   genLog(data: any): Log {
     let log: Log = new Log();
