@@ -37,7 +37,7 @@ export class MyApp {
       });
     });
 
-    /* --prod
+    /* --prod*/
     platform.pause.subscribe(()=>{
       up.logOut();
     });

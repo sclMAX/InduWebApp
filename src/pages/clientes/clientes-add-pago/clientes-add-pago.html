@@ -17,7 +17,7 @@
             <h2>{{newPago?.id |number:'3.0-0'}}</h2>
           </form-badge-item>
           <!-- Fecha Pago -->
-          <form-badge-input-item label="Fecha" padding-left>
+          <form-badge-input-item label="Fecha" padding-left no-margin>
             <ion-input type="date" name="fecha" [readonly]="isViewOnly" [(ngModel)]="newPago.fecha"></ion-input>
           </form-badge-input-item>
           <!-- Saldo Cta Cte -->

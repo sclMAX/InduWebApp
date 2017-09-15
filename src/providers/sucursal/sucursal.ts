@@ -36,8 +36,9 @@ export class SucursalProvider {
               private usuarioP: UsuarioProvider) {}
 
   getAll(): Observable<Array<string>> {
-    return this.db.list(`${ROOT}/Sucuarsales/`)
+    return this.db.list(`${ROOT}/Sucursales/`)
         .map((snap: Array<any>) => {
+          console.log(snap);
           let sucursales: Array < string >= [];
           snap.forEach((i) => { sucursales.push(i.id); });
           return sucursales;

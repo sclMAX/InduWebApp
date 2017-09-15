@@ -1,5 +1,5 @@
-export const VERSION:string = '1.1.2';
-export const ROOT: string = /*'V1/';//*/ 'V-TEST/'; //En produccion V1
+export const VERSION:string = '1.1.4';
+export const ROOT: string = 'V1/';//*/ 'V-TEST/'; //En produccion V1
 export const COMUN_ROOT: string = `${ROOT}Comun/`;
 export const COMUN_CONTADORES_ROOT: string = `${COMUN_ROOT}Contadores/`;
 export const COMUN_CV: string = `${COMUN_ROOT}CV/`;
@@ -17,5 +17,3 @@ export const LOG_ROOT: string = `${ROOT}Log/`;
 export const LOG_BANCOS_ROOT: string = `${LOG_ROOT}Bancos/`;
 export const LOG_BANCOS_CREADOS: string = `${LOG_BANCOS_ROOT}Creados/`;
 export const LOG_BANCOS_MODIFICADOS: string = `${LOG_BANCOS_ROOT}Modificados/`;
-
- 

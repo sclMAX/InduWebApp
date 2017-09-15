@@ -1,18 +1,20 @@
-import {ChequesAmPage} from './../cheques/cheques-am/cheques-am';
+import { DolarProvider } from './../../../providers/dolar/dolar';
+import { ChequesAmPage } from './../cheques/cheques-am/cheques-am';
 import {
   PrintCajaEgresoPage
 } from './../../documentos/print/print-caja-egreso/print-caja-egreso';
-import {FondosProvider} from './../../../providers/fondos/fondos';
+import { FondosProvider } from './../../../providers/fondos/fondos';
 import {
   ChequesEnCarteraFindAndSelectPage
 } from './../cheques-en-cartera-find-and-select/cheques-en-cartera-find-and-select';
-import {ContadoresProvider} from './../../../providers/contadores/contadores';
+import { ContadoresProvider } from './../../../providers/contadores/contadores';
 import {
   CajaEgreso,
   Cheque,
-  ChequeEntregadoPor
+  ChequeEntregadoPor,
+  Dolar
 } from './../../../models/fondos.clases';
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   NavController,
   NavParams,
@@ -32,23 +34,24 @@ export class CajaEgresoPage {
   saldoEfectivo: number = 0.00;
   saldoDolares: number = 0.00;
   isEgreso: boolean = true;
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private loadCtrl: LoadingController,
-              private toastCtrl: ToastController,
-              private modalCtrl: ModalController,
-              private contadoresP: ContadoresProvider,
-              private fondosP: FondosProvider) {
+  dolar: Dolar;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private dolarP: DolarProvider,
+    private loadCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
+    private contadoresP: ContadoresProvider,
+    private fondosP: FondosProvider) {
     this.egreso = this.navParams.get('Egreso');
     this.isEgreso = this.navParams.get('isEgreso');
-
+    this.getDolar();
     if (this.egreso) {
       this.isReadOnly = true;
       this.title =
-          `${(this.isEgreso)?'Egreso':'Ingreso'} Nro: ${this.egreso.id}`;
+        `${(this.isEgreso) ? 'Egreso' : 'Ingreso'} Nro: ${this.egreso.id}`;
     } else {
       this.egreso = new CajaEgreso();
       this.getData();
-      this.title = `Nuevo ${(this.isEgreso)?'Egreso':'Ingreso'} de Caja`;
+      this.title = `Nuevo ${(this.isEgreso) ? 'Egreso' : 'Ingreso'} de Caja`;
       this.isReadOnly = false;
     }
   }
@@ -78,7 +81,7 @@ export class CajaEgresoPage {
       return (this.egreso.efectivo >= 0);
     }
     return ((this.egreso.efectivo >= 0) &&
-            (this.egreso.efectivo <= this.saldoEfectivo));
+      (this.egreso.efectivo <= this.saldoEfectivo));
   }
 
   chkDolares(): boolean {
@@ -89,20 +92,20 @@ export class CajaEgresoPage {
       return (this.egreso.dolares >= 0);
     }
     return ((this.egreso.dolares >= 0) &&
-            (this.egreso.dolares <= this.saldoDolares));
+      (this.egreso.dolares <= this.saldoDolares));
   }
 
   addCheque() {
     if (this.isEgreso) {
       let modal = this.modalCtrl.create(ChequesEnCarteraFindAndSelectPage,
-                                        {Cheques: this.egreso.Cheques});
+        { Cheques: this.egreso.Cheques });
       modal.onDidDismiss((data) => {
         if (data && data.id) {
           if (!this.egreso.Cheques) {
             this.egreso.Cheques = [];
           }
           let idx = this.egreso.Cheques.findIndex(
-              (c) => { return c.id === data.id; });
+            (c) => { return c.id === data.id; });
           if (idx > -1) {
             this.egreso.Cheques[idx] = data;
           } else {
@@ -113,7 +116,7 @@ export class CajaEgresoPage {
       modal.present();
     } else {
       let newCheque = this.modalCtrl.create(ChequesAmPage, {},
-                                            {enableBackdropDismiss: false});
+        { enableBackdropDismiss: false });
       newCheque.onDidDismiss((data: Cheque) => {
         if (data) {
           if (this.egreso) {
@@ -135,8 +138,8 @@ export class CajaEgresoPage {
   goBack() { this.navCtrl.pop(); }
 
   aceptar() {
-    let load = this.loadCtrl.create({content: 'Actualizando Caja...'});
-    let toast = this.toastCtrl.create({position: 'middle'});
+    let load = this.loadCtrl.create({ content: 'Actualizando Caja...' });
+    let toast = this.toastCtrl.create({ position: 'middle' });
     let okMsg = (ok) => {
       load.dismiss();
       toast.setMessage(ok);
@@ -154,21 +157,21 @@ export class CajaEgresoPage {
     load.present().then(() => {
       if (this.isEgreso) {
         this.fondosP.addCajaEgreso(this.egreso)
-            .subscribe((ok) => {
-              this.navCtrl.pop();
-              okMsg(ok);
-            }, (error) => { errorMsg(error); });
+          .subscribe((ok) => {
+            this.navCtrl.pop();
+            okMsg(ok);
+          }, (error) => { errorMsg(error); });
       } else {
-        this.fondosP.addCajaIngreso(this.egreso)
-            .subscribe((ok) => {
-              this.navCtrl.pop();
-              okMsg(ok);
-            }, (error) => { errorMsg(error); })
+        this.fondosP.addCajaIngreso(this.egreso, this.dolar.valor)
+          .subscribe((ok) => {
+            this.navCtrl.pop();
+            okMsg(ok);
+          }, (error) => { errorMsg(error); })
       }
     });
   }
 
-  print() { this.navCtrl.push(PrintCajaEgresoPage, {Egreso: this.egreso}); }
+  print() { this.navCtrl.push(PrintCajaEgresoPage, { Egreso: this.egreso }); }
 
   isValid(form): boolean {
     let res: boolean = false;
@@ -181,12 +184,17 @@ export class CajaEgresoPage {
 
   private async getData() {
     this.contadoresP.getCajaEgresoCurrentNro().subscribe(
-        (data) => { this.egreso.id = data; });
+      (data) => { this.egreso.id = data; });
     if (!this.isReadOnly && this.isEgreso) {
       this.fondosP.getSaldosEfectivo().subscribe((data) => {
         this.saldoDolares = data.saldoDolares;
         this.saldoEfectivo = data.saldoEfectivo;
       });
     }
+  }
+  private async getDolar() {
+    this.dolarP.getDolar().subscribe((dolar) => {
+      this.dolar = dolar;
+    });
   }
 }

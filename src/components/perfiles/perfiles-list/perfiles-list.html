@@ -1,5 +1,6 @@
 <div>
   <ion-list [color]="color">
+    <ion-item color="toolBar" no-lines><span item-end>{{getTotalKilos() |number:'1.2-2'}}kg</span></ion-item>
     <button ion-item (click)="onClickItem(perfil)" *ngFor="let perfil of perfiles; let p = even" [color]="(p && colorPar)?colorPar:color"
       no-lines>
       <!-- ShowImagen -->
