@@ -12,12 +12,12 @@
       <ion-row>
         <ion-col>
           <ion-searchbar name="buscar" animated="true" autocomplete="on" autocorrect="on" spellcheck="true" (ionInput)="onFindClientes($event)"
-            [showCancelButton]="true" (ionCancel)="onFindCancel($event)" placeholder="Buscar Nombre, Email o Direccion...">
+            [showCancelButton]="true" (ionCancel)="onFindCancel()" placeholder="Buscar Nombre, Email o Direccion...">
           </ion-searchbar>
         </ion-col>
         <ion-col col-sm-4>
           <ion-searchbar name="buscarTel" animated="true" type="tel" (ionInput)="onFindClientesTelefono($event)" [showCancelButton]="true"
-            (ionCancel)="onFindCancel($event)" placeholder="Buscar Telefono...">
+            (ionCancel)="onFindCancel()" placeholder="Buscar Telefono...">
           </ion-searchbar>
         </ion-col>
       </ion-row>

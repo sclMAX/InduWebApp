@@ -10,7 +10,7 @@ import {FECHA} from './../../../models/comunes.clases';
 import {ENTREGADO, Pedido} from './../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
-import { numFormat } from '../../../print/config-comun';
+import {numFormat} from '../../../print/config-comun';
 
 @Component({
   selector: 'pedidos-entregados-card',
@@ -57,15 +57,16 @@ export class PedidosEntregadosCardComponent {
       this.isFilter = false;
       this.fecha1 = '';
       this.fecha2 = moment().format(FECHA);
-      this.filterPedidos = JSON.parse(JSON.stringify(this.pedidos));
+      this.filterPedidos =
+          JSON.parse(JSON.stringify(this.ordenar(this.pedidos)));
     } else {
       if (this.fecha1 && this.fecha2) {
-        this.filterPedidos = this.pedidos.filter((p) => {
+        this.filterPedidos = this.ordenar(this.pedidos.filter((p) => {
           return (moment(p.fechaEntrega, FECHA)
                       .diff(moment(this.fecha1), 'days') >= 0) &&
                  (moment(p.fechaEntrega, FECHA)
                       .diff(moment(this.fecha2), 'days') <= 0);
-        });
+        }));
         this.isFilter = true;
       }
     }
@@ -106,9 +107,15 @@ export class PedidosEntregadosCardComponent {
     return t;
   }
 
+  private ordenar(data: Pedido[]): Pedido[] {
+    return data.sort((a, b) => {
+      return moment(a.fechaEntrega, FECHA).diff(moment(b.fechaEntrega, FECHA));
+    });
+  }
+
   private async getData() {
     let cargar = (data) => {
-      this.pedidos = data;
+      this.pedidos = this.ordenar(data);
       this.filterPedidos = JSON.parse(JSON.stringify(this.pedidos));
     };
     if (this.cliente) {

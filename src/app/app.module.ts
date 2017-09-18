@@ -22,7 +22,6 @@ import {
 } from './../pages/fondos/cheques-en-cartera-find-and-select/cheques-en-cartera-find-and-select';
 import {CajaEgresoPage} from './../pages/fondos/caja-egreso/caja-egreso';
 import {ErrorHandler, NgModule} from '@angular/core';
-import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
 
@@ -281,8 +280,7 @@ export const environment = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    HttpModule
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

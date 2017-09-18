@@ -56,6 +56,5 @@
     }
   ],
   "background_color": "#004f9d",
-  "theme_color": "#004f9d",
-  "orientation": "portrait"
+  "theme_color": "#004f9d"
 }
