@@ -267,7 +267,7 @@ export class FondosProvider {
         .subscribe((snap) => {
           let m: CajaMovimiento[] = snap || [];
           // Ordenar
-          m = m.sort((a, b) => { return a.numeroDoc - b.numeroDoc; });
+      //    m = m.sort((a, b) => { return a.numeroDoc - b.numeroDoc; });
           m = m.sort((a, b) => {
             return moment(a.fecha, FECHA)
               .diff(moment(b.fecha, FECHA), 'days');

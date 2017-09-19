@@ -8,6 +8,7 @@ import {FECHA} from './comunes.clases';
 
 export const PRESUPUESTO: string = 'Presupuesto';
 export const PEDIDO: string = 'Pedido';
+export const PEDIDO_CANCELADO:string = 'PedidoCancelado';
 export const EMBALADO: string = 'Embalado';
 export const ENREPARTO: string = 'EnReparto';
 export const ENTREGADO: string = 'Entregado';

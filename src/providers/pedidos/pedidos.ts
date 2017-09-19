@@ -12,7 +12,8 @@ import {
   PRESUPUESTO,
   EMBALADO,
   ENREPARTO,
-  ENTREGADO
+  ENTREGADO,
+  PEDIDO_CANCELADO
 } from './../../models/pedidos.clases';
 import {Usuario} from './../../models/user.class';
 import {Adicional, AdicionalesProvider} from './../adicionales/adicionales';
@@ -140,9 +141,11 @@ export class PedidosProvider {
             obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
             obs.complete();
           });
+      // Mover a Cancelados
+      pedido.tipo = PEDIDO_CANCELADO;
+      this.genUpdateData(updData, pedido, PEDIDO_CANCELADO, pedido);
       // Actualizar Cta.Cte.
       if (pedido.isInCtaCte) {
-        pedido.tipo = 'PedidoCancelado';
         this.ctacteP.genDocUpdateData(updData, pedido, false);
       }
       // log
@@ -260,38 +263,14 @@ export class PedidosProvider {
     });
   }
 
-  getAll(tipo: string, realtime: boolean = true): Observable<Pedido[]> {
-    return new Observable((obs) => {
-      let fin = () => { (realtime) ? null : obs.complete(); };
-      this.db.list(`${SUC_DOCUMENTOS_ROOT}${tipo}/`)
-          .subscribe(
-              (snap: Pedido[]) => {
-                obs.next(snap || []);
-                fin();
-              },
-              (error) => {
-                obs.error(error);
-                fin();
-              });
-    });
+  getAll(tipo: string): Observable<Pedido[]> {
+    return this.db.list(`${SUC_DOCUMENTOS_ROOT}${tipo}/`);
   }
 
-  getAllCliente(idCliente: number, tipo: string,
-                realtime: boolean = true): Observable<Pedido[]> {
-    return new Observable((obs) => {
-      let fin = () => { (realtime) ? null : obs.complete(); };
-      this.db.list(`${SUC_DOCUMENTOS_ROOT}${tipo}/`,
-                   {query: {orderByChild: 'idCliente', equalTo: idCliente}})
-          .subscribe(
-              (snap: Pedido[]) => {
-                obs.next(snap || []);
-                fin();
-              },
-              (error) => {
-                obs.error(error);
-                fin();
-              });
-    });
+  getAllCliente(idCliente: number, tipo: string): Observable<Pedido[]> {
+    return this.db.list(
+        `${SUC_DOCUMENTOS_ROOT}${tipo}/`,
+        {query: {orderByChild: 'idCliente', equalTo: idCliente}});
   }
 
   isDocsCliente(idCliente): Observable<boolean> {
@@ -350,7 +329,7 @@ export class PedidosProvider {
     });
   }
 
-  getOne(tipo: string , Nro: number): Observable<Pedido> {
+  getOne(tipo: string, Nro: number): Observable<Pedido> {
     return new Observable((obs) => {
       this.db.object(`${SUC_DOCUMENTOS_ROOT}${tipo}/${Nro}`)
           .subscribe((data: Pedido) => { obs.next(data); }, (error) => {

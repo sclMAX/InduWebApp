@@ -1,5 +1,3 @@
-import {SucursalProvider} from './../../../providers/sucursal/sucursal';
-import {Usuario} from './../../../models/user.class';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {Component, Input} from '@angular/core';
 import {
@@ -14,16 +12,20 @@ import {printEntrega} from '../../../print/print-pedidos';
 
 import {Cliente} from './../../../models/clientes.clases';
 import {FECHA} from './../../../models/comunes.clases';
-import {ENTREGADO, Pedido} from './../../../models/pedidos.clases';
+import {
+  ENTREGADO,
+  Pedido,
+  PEDIDO_CANCELADO
+} from './../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {numFormat} from '../../../print/config-comun';
 
 @Component({
-  selector: 'pedidos-entregados-card',
-  templateUrl: 'pedidos-entregados-card.html'
+  selector: 'pedidos-cancelados-card',
+  templateUrl: 'pedidos-cancelados-card.html'
 })
-export class PedidosEntregadosCardComponent {
+export class PedidosCanceladosCardComponent {
   @Input() cliente: Cliente;
   @Input() showList: boolean = false;
   @Input() autoOcultar: boolean = false;
@@ -31,27 +33,19 @@ export class PedidosEntregadosCardComponent {
   pedidos: Pedido[];
   filterPedidos: Pedido[];
   clientes: Cliente[] = [];
-  fecha1: string = moment().subtract(1, 'weeks').format(FECHA);
+  fecha1: string = '';
   fecha2: string = moment().format(FECHA);
   isFilter: boolean = false;
-  usuario: Usuario;
 
   constructor(private pedidosP: PedidosProvider,
               private clientesP: ClientesProvider,
               public navCtrl: NavController, private alertCtrl: AlertController,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController,
-              private ctacteP: CtasCtesProvider,
-              private sucP: SucursalProvider) {}
+              private ctacteP: CtasCtesProvider) {}
 
-  ngOnInit() {
-    this.getData();
-    this.getUsuario();
-  }
-  ionViewWillEnter() {
-    this.getData();
-    this.getUsuario();
-  }
+  ngOnInit() { this.getData(); }
+  ionViewWillEnter() { this.getData(); }
 
   getCliente(id): Cliente {
     if (this.cliente) {
@@ -90,51 +84,11 @@ export class PedidosEntregadosCardComponent {
     }
   }
 
-  remove(pedido: Pedido) {
-    let alert = this.alertCtrl.create({
-      title: 'Eliminar...',
-      subTitle: `Eliminar pedido Nro ${numFormat(pedido.id,'3.0-0')}?`,
-      message: 'Se eliminara el pedido, actualizara el stock y la Cta. Cte.',
-      buttons: [
-        {text: 'Cancelar', role: 'cancel'},
-        {
-          text: 'Aceptar',
-          role: 'ok',
-          handler: () => { this.removeProceso(pedido); }
-        }
-      ]
-    });
-    alert.present();
-  }
-
-  private removeProceso(pedido: Pedido) {
-    let load = this.loadCtrl.create({content: 'Eliminando pedido...'});
-    let toast = this.toastCtrl.create({position: 'middle'});
-    load.present().then(() => {
-      this.pedidosP.removeEmbalado(pedido).subscribe(
-          (ok) => {
-            load.dismiss();
-            toast.setMessage(ok);
-            toast.setDuration(1000);
-            toast.present();
-            this.getData();
-            this.filtrar();
-          },
-          (error) => {
-            load.dismiss();
-            toast.setMessage(error);
-            toast.setShowCloseButton(true);
-            toast.present();
-          });
-    });
-  }
-
   goPedido(pedido: Pedido) {
-    // this.navCtrl.push(PrintPedidoEntregaPage, {Pedido: pedido});
     this.ctacteP.getSaldoCliente(pedido.idCliente)
         .subscribe((saldo) => {
           printEntrega(this.getCliente(pedido.idCliente), pedido,
-                       `Pedido Nro.${numFormat(pedido.id,'3.0-0')}`,
+                       `Pedido CANCELADO Nro.${numFormat(pedido.id,'3.0-0')}`,
                        this.pedidosP, saldo);
         });
   }
@@ -177,14 +131,11 @@ export class PedidosEntregadosCardComponent {
       this.filtrar();
     };
     if (this.cliente) {
-      this.pedidosP.getAllCliente(this.cliente.id, ENTREGADO)
+      this.pedidosP.getAllCliente(this.cliente.id, PEDIDO_CANCELADO)
           .subscribe((data) => { cargar(data); });
     } else {
-      this.pedidosP.getAll(ENTREGADO).subscribe((data) => { cargar(data); });
+      this.pedidosP.getAll(PEDIDO_CANCELADO)
+          .subscribe((data) => { cargar(data); });
     }
-  }
-
-  private async getUsuario() {
-    this.usuario = this.sucP.getUsuario();
   }
 }

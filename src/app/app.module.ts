@@ -1,3 +1,4 @@
+import { PedidosCanceladosCardComponent } from './../components/pedidos/pedidos-cancelados-card/pedidos-cancelados-card';
 import {
   RepartoCerrarPage
 } from './../pages/repartos/reparto-cerrar/reparto-cerrar';
@@ -235,7 +236,7 @@ export const environment = {
     PedidosPorEntregarCardComponent,
     PrintPedidoParaEmbalarPage,
     PedidosEntregadosCardComponent,
-    PedidosEntregadosCardComponent,
+    PedidosCanceladosCardComponent,
     ClientesAddDescuentoPage,
     LineasFindAndSelectComponent,
     StockIngresoPage,

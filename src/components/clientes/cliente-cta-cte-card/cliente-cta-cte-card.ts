@@ -1,7 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {LoadingController, NavController, ToastController} from 'ionic-angular';
 import {Cliente, CtaCte} from './../../../models/clientes.clases';
-import {ENTREGADO, PAGO, PEDIDO} from './../../../models/pedidos.clases';
+import {
+  ENTREGADO,
+  PAGO,
+  PEDIDO,
+  PEDIDO_CANCELADO
+} from './../../../models/pedidos.clases';
 import {
   ClientesAddPagoPage
 } from './../../../pages/clientes/clientes-add-pago/clientes-add-pago';
@@ -12,7 +17,7 @@ import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {printEntrega} from '../../../print/print-pedidos';
-import { numFormat } from '../../../print/config-comun';
+import {numFormat} from '../../../print/config-comun';
 
 @Component({
   selector: 'cliente-cta-cte-card',
@@ -61,6 +66,32 @@ export class ClienteCtaCteCardComponent {
         load.setContent(`Buscando Pedido Nro:${item.numero}...`);
         load.present().then(() => {
           this.pedidosP.getOne(ENTREGADO, item.numero)
+              .subscribe(
+                  (data) => {
+                    load.dismiss();
+                    if (data && data.idCliente) {
+                      this.ctaCteP.getSaldoCliente(data.idCliente)
+                          .subscribe((saldo) => {
+                            printEntrega(
+                                this.cliente, data,
+                                `Pedido Nro.${numFormat(data.id,'3.0-0')}`,
+                                this.pedidosP, saldo);
+                          });
+                    } else {
+                      toast.setMessage('Pedido no Disponible o Cancelado!');
+                      toast.present();
+                    }
+                  },
+                  (error) => {
+                    load.dismiss();
+                    toast.present();
+                  });
+        });
+        break;
+      case PEDIDO_CANCELADO:
+        load.setContent(`Buscando Pedido CANCELADO Nro:${item.numero}...`);
+        load.present().then(() => {
+          this.pedidosP.getOne(PEDIDO_CANCELADO, item.numero)
               .subscribe(
                   (data) => {
                     load.dismiss();

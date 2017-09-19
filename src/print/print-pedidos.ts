@@ -1,3 +1,4 @@
+import {Observable} from 'rxjs/Observable';
 import * as moment from 'moment';
 import {Cliente} from './../models/clientes.clases';
 import {
@@ -7,7 +8,13 @@ import {
   calSubTotalCDs
 } from './../models/pedidos.clases';
 import {PedidosProvider} from './../providers/pedidos/pedidos';
-import { formatTable, setInfo, showPdf, numFormat, dateFormat } from './config-comun';
+import {
+  formatTable,
+  setInfo,
+  showPdf,
+  numFormat,
+  dateFormat
+} from './config-comun';
 
 
 export function printPresupuesto(cliente: Cliente, pedido: Pedido,
@@ -126,6 +133,110 @@ export function printPresupuesto(cliente: Cliente, pedido: Pedido,
     fontSize: 8,
     italics: true
   });
+  showPdf(doc);
+}
+
+function toDataURL(url): Observable<string> {
+  return new Observable((obs) => {
+    fetch(url)
+        .then((response) => { return response.blob(); })
+        .then((blob) => {
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function() {
+            let base64data = reader.result;
+            obs.next(<string>base64data);
+            obs.complete();
+          };
+        });
+  });
+}
+
+export async function printEmbalar(cliente: Cliente, pedido: Pedido) {
+  let doc: any = {};
+  // Table lines config
+  formatTable();
+  setInfo(doc, `Pedido Nro:${numFormat(pedido.id, '3.0-0')}`);
+  doc.header = {
+    columns: [
+      [
+        {
+          text: `PEDIDO Nro: ${numFormat(pedido.id, '3.0-0')}`,
+          alignment: 'left',
+          fontSize: 12,
+          bold: true,
+        }
+      ],
+      [
+        {
+          text:
+              `Fecha:${dateFormat(pedido.fecha, 'dd/MM/yyyy')}\nFecha Entrega:${dateFormat(
+                pedido.fechaEntrega, 'dd/MM/yyyy')}`,
+          alignment: 'right'
+        }
+      ]
+    ],
+    margin: [50, 10]
+  };
+  doc.content = [];
+  // Lineas en blanco
+  doc.content.push('\n');
+  doc.content.push({
+    columns: [
+      {
+        text: [
+          {text: 'Cliente: ', bold: true},
+          {text: `${cliente.nombre}`},
+          {text: '\rDireccion: ', bold: true},
+          {
+            text: `${cliente.Direccion.calle}, ${cliente.Direccion
+                      .localidad}, ${cliente.Direccion.provincia}`
+          }
+        ],
+        width: '*'
+      }
+    ]
+  });
+  if (pedido.comentario) {
+    doc.content.push({
+      text: `Comenterios: ${pedido.comentario || ''
+                                                 }`,
+      bold: false
+    });
+  }
+  // Pedido Items Preparar Table Data
+  let tData: any =
+      [['Codigo', 'Perfil', 'Largo', 'Color', 'Cantidad', 'Embalado']];
+  pedido.Items.forEach(async(i) => {
+    let img: string =
+        await toDataURL(`assets/perfiles/80x80/${i.Perfil.codigo}.png`)
+            .toPromise();
+    let dd = [
+      {text: `${i.Perfil.codigo}`, alignment: 'right'},
+      {
+        image:img, fit:[40,40]
+      },
+      {text: `${i.Perfil.largo}`, alignment: 'right'},
+      {text: `${i.Color.nombre}`, alignment: 'center'},
+      {text: `${i.cantidad}`, alignment: 'center'},
+      {text: `${(i.isEmbalado)?'X':''}`, bold: true, alignment: 'center'}
+    ];
+    tData.push(dd);
+  });
+  // Lineas en blanco
+  doc.content.push('\n');
+  // Agregar Table
+  doc.content.push({
+    table: {
+      widths: ['auto', 'auto', 'auto', 'auto', 'auto', '*'],
+      headerRows: 1,
+      body: tData
+    }
+  });
+  // Lineas en blanco
+  doc.content.push('\n');
+  doc.content.push({text: 'Paquetes:', bold: true});
+  await toDataURL(`assets/perfiles/80x80/901.png`).toPromise();        
   showPdf(doc);
 }
 

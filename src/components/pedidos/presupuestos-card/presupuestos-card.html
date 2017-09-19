@@ -2,6 +2,7 @@
   <button ion-item [color]="headerColor" (click)="showList = !showList">
     <ion-icon item-start name="icon-ind_new-document"></ion-icon>
      {{tipo}}s ({{Docs?.length}})
+     <span item-end >{{getTotalKilos() |number:'1.2-2'}}kg</span>
   </button>
   <ion-list *ngIf="showList">
     <button ion-item *ngFor="let pedido of Docs;let p=even" [color]="(itemImparColor)?((p)? itemColor: itemImparColor):itemColor"

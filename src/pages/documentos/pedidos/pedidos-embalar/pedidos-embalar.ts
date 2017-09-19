@@ -18,6 +18,7 @@ import {
   PrintPedidoParaEmbalarPage
 } from './../../../documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
 import {PedidosNewPage} from './../pedidos-new/pedidos-new';
+import {printEmbalar} from '../../../../print/print-pedidos';
 
 @Component({
   selector: 'page-pedidos-embalar',
@@ -122,8 +123,9 @@ export class PedidosEmbalarPage {
   goBack() { this.navCtrl.pop(); }
 
   goPrintEmbalar() {
-    this.navCtrl.push(PrintPedidoParaEmbalarPage,
-                      {Pedido: this.pedido, Cliente: this.cliente});
+    //  this.navCtrl.push(PrintPedidoParaEmbalarPage,{Pedido: this.pedido,
+    //  Cliente: this.cliente});
+    printEmbalar(this.cliente, this.pedido);
   }
 
   guardar() {

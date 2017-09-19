@@ -77,5 +77,44 @@
     "provincia": "Entre Ríos",
     "sucursal": "Parana",
     "isAdmin": true
+  },
+  "ToFFZ51v4qUlguHGnVyk3XQulVm2": {
+    "email": "admin_riocuarto@indumatics.com.ar",
+    "id": "ToFFZ51v4qUlguHGnVyk3XQulVm2",
+    "isDolarEdit": true,
+    "isEmbalaje": false,
+    "localidad": "Rio Cuarto",
+    "maxDescuentoGeneral": 100,
+    "maxDescuentoItem": 100,
+    "nombre": "MAX",
+    "provincia": "Cordoba",
+    "sucursal": "Rio Cuarto",
+    "isAdmin": true
+  },
+  "4G1PAGP6sIVohSyjM7TbfJN0cFy1": {
+    "email": "admin_corrientes@indumatics.com.ar",
+    "id": "4G1PAGP6sIVohSyjM7TbfJN0cFy1",
+    "isDolarEdit": true,
+    "isEmbalaje": false,
+    "localidad": "Corrientes",
+    "maxDescuentoGeneral": 100,
+    "maxDescuentoItem": 100,
+    "nombre": "MAX",
+    "provincia": "Corrientes",
+    "sucursal": "Corrientes",
+    "isAdmin": true
+  },
+  "DGjKgi5ApfSXyGhHegaxs4NS8sg2": {
+    "email": "admin_villamaria@indumatics.com.ar",
+    "id": "DGjKgi5ApfSXyGhHegaxs4NS8sg2",
+    "isDolarEdit": true,
+    "isEmbalaje": false,
+    "localidad": "Villa Maria",
+    "maxDescuentoGeneral": 100,
+    "maxDescuentoItem": 100,
+    "nombre": "MAX",
+    "provincia": "Cordoba",
+    "sucursal": "Villa Maria",
+    "isAdmin": true
   }
 }

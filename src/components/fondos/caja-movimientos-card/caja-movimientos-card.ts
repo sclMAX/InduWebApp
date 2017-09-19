@@ -31,7 +31,7 @@ export class CajaMovimientosCardComponent {
   @Input() itemColor: string = 'light';
   @Input() itemImparColor: string;
   @Input() showList: boolean = false;
-  fecha1: string;
+  fecha1: string = moment().subtract(1, 'weeks').format(FECHA);
   fecha2: string = moment().format(FECHA);
   isFilter: boolean = false;
 
@@ -79,8 +79,8 @@ export class CajaMovimientosCardComponent {
                          this.totalEgresos);
   }
 
-  ngOnInit() { this.getData(); }
-  ionViewWillEnter() { this.getData(); }
+  ngOnInit() { this.filtrar(); }
+  ionViewWillEnter() { this.filtrar(); }
 
   goDocumento(doc: CajaItem) {
     let load =

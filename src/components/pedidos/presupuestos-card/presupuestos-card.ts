@@ -23,6 +23,14 @@ export class PresupuestosCardComponent {
 
   onClick(item: Pedido) { this.onClickItem.emit(item); }
 
+  getTotalKilos(): number {
+    let t: number = 0.00;
+    if (this.Docs) {
+      this.Docs.forEach((d) => { t += Number(d.totalUnidades); });
+    }
+    return t;
+  }
+
   getCliente(id): Cliente {
     if (this.cliente) {
       return this.cliente;
