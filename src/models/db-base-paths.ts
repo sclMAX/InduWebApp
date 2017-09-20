@@ -1,5 +1,6 @@
-export const VERSION:string = '1.1.5';
-export const ROOT: string = /*'V1/';//*/ 'V-TEST/'; //En produccion V1
+import { environment } from './../app/environment';
+export const VERSION:string = environment.version;
+export const ROOT: string = (environment.production)?'V1/':'V-TEST/'; 
 export const COMUN_ROOT: string = `${ROOT}Comun/`;
 export const COMUN_CONTADORES_ROOT: string = `${COMUN_ROOT}Contadores/`;
 export const COMUN_CV: string = `${COMUN_ROOT}CV/`;

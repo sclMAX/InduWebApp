@@ -1,3 +1,4 @@
+import { environment } from './environment';
 import { PedidosCanceladosCardComponent } from './../components/pedidos/pedidos-cancelados-card/pedidos-cancelados-card';
 import {
   RepartoCerrarPage
@@ -194,18 +195,6 @@ import {
 import {
   ClientesConSaldoCardComponent
 } from '../components/clientes/clientes-con-saldo-card/clientes-con-saldo-card';
-
-export const environment = {
-  production: false,
-  firebase: {
-    apiKey: 'AIzaSyD7zoKlOj8l12BHBMqgUI4IT2TfcPoG4Z4',
-    authDomain: 'indumaticsapp.firebaseapp.com',
-    databaseURL: 'https://indumaticsapp.firebaseio.com',
-    projectId: 'indumaticsapp',
-    storageBucket: 'indumaticsapp.appspot.com',
-    messagingSenderId: '293106198530'
-  }
-};
 
 @NgModule({
   declarations: [
