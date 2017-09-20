@@ -1,5 +1,6 @@
+import {Observable} from 'rxjs/Observable';
 import {Component} from '@angular/core';
-import {LoadingController, NavController, NavParams} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {Cliente} from './../../../models/clientes.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {ClientesAddPage} from './../clientes-add/clientes-add';
@@ -9,13 +10,12 @@ import {ClientesAddPage} from './../clientes-add/clientes-add';
   templateUrl: 'clientes-home.html',
 })
 export class ClientesHomePage {
-  clientes: Cliente[];
-  filterClientes: Cliente[];
+  totalClientes: number = -1;
+  filterClientes: Observable<Cliente[]>;
   showComandos: boolean = true;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-              private clientesP: ClientesProvider,
-              private loadCtrl: LoadingController){
+  constructor(public navCtrl: NavController,
+              private clientesP: ClientesProvider){
 
   };
 
@@ -23,61 +23,70 @@ export class ClientesHomePage {
 
   public onFindClientes(ev) {
     this.onFindCancel();
-    if (this.clientes) {
-      let val: string = ev.target.value;
-      if (val && val.trim() != '') {
-        val = val.toLowerCase();
-        this.filterClientes = this.clientes.filter((cliente) => {
-          return (cliente.id &&
-                  cliente.id.toString().toLowerCase().indexOf(val) > -1) ||
-                 (cliente.nombre &&
-                  cliente.nombre.toLowerCase().indexOf(val) > -1) ||
-                 (cliente.email &&
-                  cliente.email.toLowerCase().indexOf(val) > -1) ||
-                 ((cliente.Direccion != null) &&
-                  ((cliente.Direccion.calle &&
-                    cliente.Direccion.calle.toLowerCase().indexOf(val) > -1) ||
-                   (cliente.Direccion.localidad &&
-                    cliente.Direccion.localidad.toLowerCase().indexOf(val) >
-                        -1)));
-        });
-      }
+    let val: string = ev.target.value;
+    if (val && val.trim() != '') {
+      val = val.toLowerCase();
+      this.filterClientes =
+          this.clientesP.getAll()
+              .map((clientes) => {
+                return clientes.filter((cliente) => {
+                  return (cliente.id &&
+                          cliente.id.toString().toLowerCase().indexOf(val) >
+                              -1) ||
+                         (cliente.nombre &&
+                          cliente.nombre.toLowerCase().indexOf(val) > -1) ||
+                         (cliente.email &&
+                          cliente.email.toLowerCase().indexOf(val) > -1) ||
+                         ((cliente.Direccion != null) &&
+                          ((cliente.Direccion.calle &&
+                            cliente.Direccion.calle.toLowerCase().indexOf(val) >
+                                -1) ||
+                           (cliente.Direccion.localidad &&
+                            cliente.Direccion.localidad.toLowerCase().indexOf(
+                                val) > -1)));
+                });
+              })
+              .map(clientes => {
+                this.totalClientes = clientes.length;
+                return clientes;
+              });
     }
   };
 
   public onFindClientesTelefono(ev) {
     this.onFindCancel();
-    if (this.clientes) {
-      let val: string = ev.target.value;
-      if (val && val.trim() != '') {
-        val = val.toLowerCase();
-        this.filterClientes = this.clientes.filter((cliente) => {
-          return (cliente.Telefonos.filter((tel) => {
-                   return tel.numero.toLowerCase().indexOf(val) > -1;
-                 })).length > 0;
-        });
-      }
+    let val: string = ev.target.value;
+    if (val && val.trim() != '') {
+      val = val.toLowerCase();
+      this.filterClientes =
+          this.clientesP.getAll()
+              .map((clientes) => {
+                return clientes.filter((cliente) => {
+                  return (cliente.Telefonos.filter((tel) => {
+                           return tel.numero.toLowerCase().indexOf(val) > -1;
+                         })).length > 0;
+                });
+              })
+              .map(clientes => {
+                this.totalClientes = clientes.length;
+                return clientes;
+              });
     }
   };
 
-  public onFindCancel() { this.filterClientes = this.clientes; };
+  public onFindCancel() {
+    this.filterClientes = this.clientesP.getAll().map((clientes) => {
+      this.totalClientes = clientes.length;
+      return clientes;
+    });
+  };
 
   ionViewDidLoad() { this.getClientes(); };
 
-  private getClientes() {
-    let load =
-        this.loadCtrl.create({content: 'Buscando clientes de la sucursal...'});
-    load.present().then(() => {
-      this.clientesP.getAll().subscribe(
-          (data: Cliente[]) => {
-            this.clientes = data;
-            this.onFindCancel();
-            load.dismiss();
-          },
-          (error) => {
-            console.log('Error:', error);
-            load.dismiss();
-          });
+  private async getClientes() {
+    this.filterClientes = this.clientesP.getAll().map((clientes) => {
+      this.totalClientes = clientes.length;
+      return clientes;
     });
-  };
+  }
 }

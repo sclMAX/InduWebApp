@@ -219,7 +219,7 @@ export async function printEmbalar(cliente: Cliente, pedido: Pedido) {
       {text: `${i.Perfil.largo}`, alignment: 'right'},
       {text: `${i.Color.nombre}`, alignment: 'center'},
       {text: `${i.cantidad}`, alignment: 'center'},
-      {text: `${(i.isEmbalado)?'X':''}`, bold: true, alignment: 'center'}
+      {text: `${(i.isEmbalado)?'X':''}`,fontSize:12, bold: true, alignment: 'center'}
     ];
     tData.push(dd);
   });

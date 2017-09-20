@@ -160,9 +160,6 @@ import {
 } from './../pages/documentos/print/print-ctacte-card/print-ctacte-card';
 import {PrintPagoPage} from './../pages/documentos/print/print-pago/print-pago';
 import {
-  PrintPedidoParaEmbalarPage
-} from './../pages/documentos/print/print-pedido-para-embalar/print-pedido-para-embalar';
-import {
   StockIngresoPage
 } from './../pages/documentos/stock/stock-ingreso/stock-ingreso';
 import {
@@ -223,7 +220,6 @@ import {
     PedidosEmbalarPage,
     PerfilesPerfilImgComponent,
     PedidosPorEntregarCardComponent,
-    PrintPedidoParaEmbalarPage,
     PedidosEntregadosCardComponent,
     PedidosCanceladosCardComponent,
     ClientesAddDescuentoPage,
@@ -288,7 +284,6 @@ import {
     ColoresFindAndSelectComponent,
     ClientesDetallePage,
     PedidosEmbalarPage,
-    PrintPedidoParaEmbalarPage,
     ClientesAddDescuentoPage,
     LineasFindAndSelectComponent,
     StockIngresoPage,

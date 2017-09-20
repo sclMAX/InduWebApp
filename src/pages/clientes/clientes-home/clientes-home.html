@@ -1,6 +1,6 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-title>Clientes ({{filterClientes?.length}})</ion-title>
+    <ion-title>Clientes ({{totalClientes}}) </ion-title>
     <ion-buttons end>
       <button ion-button icon-only icon-left (click)="goClienteAdd()" tooltip="Nuevo Cliente..."><ion-icon name="icon-ind_user-add" ></ion-icon></button>
     </ion-buttons>
@@ -10,7 +10,10 @@
   <ion-item color="toolBar" no-lines>
     <ion-grid>
       <ion-row>
-        <ion-col>
+        <ion-col col-auto>
+            <ion-spinner *ngIf="!(totalClientes > -1)" name="circles" color="light"></ion-spinner>
+        </ion-col>
+        <ion-col>            
           <ion-searchbar name="buscar" animated="true" autocomplete="on" autocorrect="on" spellcheck="true" (ionInput)="onFindClientes($event)"
             [showCancelButton]="true" (ionCancel)="onFindCancel()" placeholder="Buscar Nombre, Email o Direccion...">
           </ion-searchbar>
@@ -23,14 +26,13 @@
       </ion-row>
     </ion-grid>
     <button ion-fab mini color="dark" item-end (click)="showComandos = !showComandos" tooltip="Mostrar/Ocultar comandos en la lista"> <ion-icon *ngIf="showComandos" name="list"></ion-icon> <ion-icon *ngIf="!showComandos" name="construct"></ion-icon></button>
-
   </ion-item>
   <ion-list color="scroll-content" no-lines>
-    <cliente-list-item-content *ngFor="let cliente of filterClientes; let p=even" [cliente]="cliente" [showActions]="showComandos"
+    <cliente-list-item-content *ngFor="let cliente of filterClientes |async; let p=even" [cliente]="cliente" [showActions]="showComandos"
       color="{{(p)?'listPar':'listImpar'}}"></cliente-list-item-content>
   </ion-list>
-  <ion-fab bottom right *ngIf="filterClientes && filterClientes.length > 8">
-    <button ion-fab color="dark"  (click)="sc.scrollToTop()"><ion-icon name="arrow-up"></ion-icon> </button>
+  <ion-fab bottom right *ngIf="filterClientes">
+    <button ion-fab color="dark" (click)="sc.scrollToTop()"><ion-icon name="arrow-up"></ion-icon> </button>
   </ion-fab>
 </ion-content>
 <footer-comun></footer-comun>
