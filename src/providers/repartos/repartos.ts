@@ -2,7 +2,13 @@ import {FECHA} from './../../models/comunes.clases';
 import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {ContadoresProvider} from './../contadores/contadores';
-import {EMBALADO, ENREPARTO} from './../../models/pedidos.clases';
+import {
+  EMBALADO,
+  ENREPARTO,
+  Pedido,
+  PEDIDO,
+  ENTREGADO
+} from './../../models/pedidos.clases';
 import {PedidosProvider} from './../pedidos/pedidos';
 import {SucursalProvider, SUC_DOCUMENTOS_ROOT} from './../sucursal/sucursal';
 import {Observable} from 'rxjs/Observable';
@@ -179,6 +185,56 @@ export class RepartosProvider {
           })
           .catch((error) => {
             obs.error(error);
+            obs.complete();
+          });
+    });
+  }
+
+  cerrarReparto(reparto: Reparto, noEntregados: Pedido[]): Observable<string> {
+    return new Observable((obs) => {
+      let updData = {};
+      // Actualizar pedidos no entregados
+      noEntregados.forEach((p) => {
+        let old = JSON.parse(JSON.stringify(p));
+        // Actualizar Cta. Cte.
+        if (p.isInCtaCte) {
+          this.ctacteP.genRemoveDocUpdateData(updData, old);
+        }
+        // Quitar de Pedidos ENREPARTO
+        this.pedidosP.genUpdateData(updData, old, ENREPARTO, {});
+        // Agregar a EMBALADO
+        p.tipo = EMBALADO;
+        this.pedidosP.genUpdateData(updData, p, EMBALADO);
+      });
+      // Actualizar pedidos entregados
+      reparto.Items.forEach((i) => {
+        i.Pedidos.forEach((p) => {
+          let old = JSON.parse(JSON.stringify(p));
+          // Quitar de ENREPARTO
+          this.pedidosP.genUpdateData(updData, old, ENREPARTO, {});
+          // Agregar a ENTREGADOS
+          p.tipo = PEDIDO;
+          this.pedidosP.genUpdateData(updData, p, ENTREGADO);
+          if (p.isInCtaCte) {
+            // Quitar PeddioEnReparto de Cta. Cte.
+            this.ctacteP.genRemoveDocUpdateData(updData, old);
+            // Agregar PedidoEntregado a Cta.Cte.
+            this.ctacteP.genDocUpdateData(updData, p, true);
+          }
+        });
+      });
+      // Actualizar Reparto
+      this.genUpdateData(updData, reparto.id, REPARTO_PROCESO, {});
+      this.genUpdateData(updData, reparto.id, REPARTO_CERRADO, reparto);
+      // Ejecutar Peticion
+      this.db.database.ref()
+          .update(updData)
+          .then(() => {
+            obs.next('Reparto cerrado correctamente!');
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(`No se puedo cerrar el reparto! Error:${error}`);
             obs.complete();
           });
     });

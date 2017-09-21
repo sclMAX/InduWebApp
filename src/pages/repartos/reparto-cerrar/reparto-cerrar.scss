@@ -8,4 +8,12 @@ page-reparto-cerrar {
         opacity: $opacidad;
         overflow-y:auto;   
     } 
+
+    table{
+        width: 100%;
+    }
+    .td-auto{
+        width:1px;
+        white-space:nowrap;
+    }
 }

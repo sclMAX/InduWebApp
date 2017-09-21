@@ -32,6 +32,11 @@ export class CtasCtesProvider {
       .idCliente}/${cta.tipoDocumento}${cta.numero}/`] = cta;
   }
 
+  genRemoveDocUpdateData(updData, doc: Documento){
+    updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${doc
+      .idCliente}/${(doc.tipo == EMBALADO) ? PEDIDO : doc.tipo}${doc.numero}/`] = {};
+  }
+
   getSaldoCliente(idCliente: number): Observable<number> {
     return this.getCtaCteCliente(idCliente).map((cta) => {
       let saldo: number = 0.00;

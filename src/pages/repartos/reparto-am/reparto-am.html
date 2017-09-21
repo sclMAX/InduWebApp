@@ -33,7 +33,7 @@
                 <ion-badge color="formLabel">Fecha</ion-badge>
               </ion-row>
               <ion-row>
-                <ion-badge ion-item no-lines color="formInput" >
+                <ion-badge ion-item no-lines color="formInput">
                   <ion-input type="date" name="fecha" [(ngModel)]="reparto.fecha" required [readonly]="isReadOnly" no-margin></ion-input>
                 </ion-badge>
               </ion-row>
@@ -90,8 +90,8 @@
             <th>Agregar</th>
           </tr>
           <tr *ngFor="let pedido of filtrarPedidos(pedidosEmbalados);let p=even;">
-            <td text-center>{{getCliente(pedido?.idCliente)?.nombre}}</td>
-            <td text-center>{{getCliente(pedido?.idCliente)?.Direccion?.localidad}}</td>
+            <td text-center>{{(getCliente(pedido?.idCliente)|async)?.nombre}}</td>
+            <td text-center>{{(getCliente(pedido?.idCliente)|async)?.Direccion?.localidad}}</td>
             <td text-right>{{pedido?.numero |number:'3.0-0'}}</td>
             <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
             <td text-center><button ion-button small tooltip="Agregar pedido al reparto actual" (click)="addPedido(pedido)"><ion-icon name="add"></ion-icon></button></td>
@@ -111,7 +111,8 @@
             <ion-icon *ngIf="!showPedidos[itemIdx]" name="arrow-down"></ion-icon>
           </button>
           <h3 item-start>
-            {{item?.idCliente |number:'3.0-0'}} - {{getCliente(item?.idCliente)?.nombre}} ({{item?.Pedidos?.length}} pedido<span *ngIf="item?.Pedidos?.length > 1">s</span>)</h3>
+            {{item?.idCliente |number:'3.0-0'}} - {{(getCliente(item?.idCliente)|async)?.nombre}} ({{item?.Pedidos?.length}} pedido
+            <span *ngIf="item?.Pedidos?.length > 1">s</span>)</h3>
           <h2 item-end><small> TK = {{item?.totalKilos|number:'1.2-2'}}kg. </small></h2>
           <h2 item-end><small> TP = U$ {{item?.totalPedidos|number:'1.2-2'}} </small></h2>
           <h2 item-end><span> SA = U$ {{item?.saldoActual |number:'1.2-2'}}</span></h2>
@@ -119,54 +120,50 @@
         </ion-item>
         <!-- Pedidos -->
         <ion-row ion-item no-lines [hidden]="!showPedidos[itemIdx]">
-          <ion-col>
-            <table border="1" width="100%">
-              <tr>
-                <th>Nro. Pedido</th>
-                <th>Fecha</th>
-                <th>Kilos</th>
-                <th>Paquetes</th>
-                <th>Total Final (U$)</th>
-                <th *ngIf="item.Pedidos.length > 1">Quitar</th>
-              </tr>
-              <tr *ngFor="let pedido of item.Pedidos;let pedidoIdx = index ;let p=even;">
-                <td text-right>
-                  <ion-icon *ngIf="!isExistPedido(pedido)" color="danger" name="warning" tooltip="Pedido modificado por otro Usuario!"></ion-icon>
-                  {{pedido?.id|number:'3.0-0'}}
-                </td>
-                <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
-                <td text-right>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</td>
-                <td text-right>{{pedido?.cantidadPaquetes}}</td>
-                <td text-right>U$ {{pedido?.totalFinalUs |number:'1.2-2'}}</td>
-                <td text-center *ngIf="item.Pedidos.length > 1"><button ion-button small color="danger" (click)="removePedido(item, pedidoIdx)"><ion-icon name="remove"></ion-icon></button></td>
-              </tr>
-            </table>
-          </ion-col>
+          <table border="1" width="100%">
+            <tr>
+              <th>Nro. Pedido</th>
+              <th>Fecha</th>
+              <th>Kilos</th>
+              <th>Paquetes</th>
+              <th>Total Final (U$)</th>
+              <th *ngIf="item.Pedidos.length > 1">Quitar</th>
+            </tr>
+            <tr *ngFor="let pedido of item.Pedidos;let pedidoIdx = index ;let p=even;">
+              <td text-right>
+                <ion-icon *ngIf="!isExistPedido(pedido)" color="danger" name="warning" tooltip="Pedido modificado por otro Usuario!"></ion-icon>
+                {{pedido?.id|number:'3.0-0'}}
+              </td>
+              <td text-center>{{pedido?.fecha |date:'dd/MM/yyyy'}}</td>
+              <td text-right>{{pedido?.totalUnidades |number:'1.2-2'}}kg.</td>
+              <td text-right>{{pedido?.cantidadPaquetes}}</td>
+              <td text-right>U$ {{pedido?.totalFinalUs |number:'1.2-2'}}</td>
+              <td text-center *ngIf="item.Pedidos.length > 1"><button ion-button small color="danger" (click)="removePedido(item, pedidoIdx)"><ion-icon name="remove"></ion-icon></button></td>
+            </tr>
+          </table>
         </ion-row>
       </ion-row>
       <!-- Totales -->
       <button ion-item no-lines color="listDivider2" (click)="showTotales = !showTotales">Totales</button>
       <ion-row [hidden]="!showTotales || !(reparto?.Items?.length >0)" ion-item no-lines>
-        <ion-col>
-          <table border="1" width="100%">
-            <tr>
-              <th>Total Clientes</th>
-              <th>Total Kilos</th>
-              <th>Total (U$)</th>
-              <th>Total por Cobrar(U$)</th>
-              <th>Dolar($)</th>
-              <th>Total por Cobrar($)</th>
-            </tr>
-            <tr>
-              <td text-center>{{reparto?.Items?.length}}</td>
-              <td text-right>{{reparto?.totalKilos |number:'1.2-2'}}kg.</td>
-              <td text-right>U$ {{reparto?.totalDolares |number:'1.2-2'}}</td>
-              <td text-right>U$ {{reparto?.saldoTotal |number:'1.2-2'}}</td>
-              <td text-right>$ {{valorDolar |number:'1.3-3'}}</td>
-              <td text-right>$ {{(reparto?.saldoTotal * valorDolar) |number:'1.2-2'}}</td>
-            </tr>
-          </table>
-        </ion-col>
+        <table border="1" width="100%">
+          <tr>
+            <th>Total Clientes</th>
+            <th>Total Kilos</th>
+            <th>Total (U$)</th>
+            <th>Total por Cobrar(U$)</th>
+            <th>Dolar($)</th>
+            <th>Total por Cobrar($)</th>
+          </tr>
+          <tr>
+            <td text-center>{{reparto?.Items?.length}}</td>
+            <td text-right>{{reparto?.totalKilos |number:'1.2-2'}}kg.</td>
+            <td text-right>U$ {{reparto?.totalDolares |number:'1.2-2'}}</td>
+            <td text-right>U$ {{reparto?.saldoTotal |number:'1.2-2'}}</td>
+            <td text-right>$ {{valorDolar |number:'1.3-3'}}</td>
+            <td text-right>$ {{(reparto?.saldoTotal * valorDolar) |number:'1.2-2'}}</td>
+          </tr>
+        </table>
       </ion-row>
     </form>
   </ion-grid>
@@ -174,6 +171,7 @@
 <help-panel></help-panel>
 <ion-fab top left>
   <button ion-fab color="light" tooltip="Cancelar cambios y Cerrar" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+  <button ion-fab (click)="calTotalesPedidos()"><ion-icon name="home"></ion-icon></button>
 </ion-fab>
 <ion-fab top right>
   <ion-row>

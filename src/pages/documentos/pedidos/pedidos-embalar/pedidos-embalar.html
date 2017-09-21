@@ -3,25 +3,25 @@
     <ion-row>
       <ion-col>
         <ion-card color="scroll-content">
-          <ion-item color="dark">
+          <ion-item color="dark" no-lines>
             <span item-start *ngIf="pedido.numero">{{pedido?.numero |number:'3.0-0'}}</span>
             <span item-start *ngIf="!pedido.numero">[PEDIDO ELIMINADO]</span>
             <span item-start>{{cliente?.nombre}}</span>
             <span item-end>del {{pedido?.fecha |date:'dd/MM/yyyy'}} para {{pedido?.fechaEntrega |date:'dd/MM/yyyy'}}</span>
           </ion-item>
           <ion-list>
-            <ion-item-divider color="toolBar">PENDIENTE ({{getItemsPendientes().length}})
+            <ion-item-divider color="toolBar" no-lines>PENDIENTE ({{getItemsPendientes().length}})
               <button *ngIf="!usuario.isEmbalaje" tooltip="Imprimir orden de embalado" ion-fab mini item-end color="dark" (click)="goPrintEmbalar()"><ion-icon name="print"></ion-icon></button>
             </ion-item-divider>
-            <ion-item *ngFor="let item of getItemsPendientes()" color="scroll-content">
+            <ion-item *ngFor="let item of getItemsPendientes()" color="scroll-content" no-lines>
               <perfiles-perfil-img item-start [perfil]="item.Perfil"></perfiles-perfil-img>
               <button *ngIf="!usuario.isEmbalaje" tooltip="Quitar Item del pedido" item-start ion-fab mini color="danger" (click)="removeItem(item, fab)"><ion-icon name="close"></ion-icon></button>
               <button *ngIf="!usuario.isEmbalaje" tooltip="Modificar cantidad" item-end ion-fab mini color="primary" (click)="modificarItem(item, fab)"><ion-icon name="icon-ind_edit"></ion-icon></button>
               <h3>{{item?.Perfil?.codigo}} - {{item?.Color?.nombre}} - {{item?.Perfil?.largo}}</h3>
               <button item-end ion-fab mini color="secondary" tooltip="Embalar item total o parcial" (click)="setEmbalado(item, true ,fab)">{{item?.cantidad}}</button>
             </ion-item>
-            <ion-item-divider color="toolBar">EMBALADO ({{getItemsEmbalados().length}})</ion-item-divider>
-            <ion-item *ngFor="let item of getItemsEmbalados()" color="scroll-content">
+            <ion-item-divider color="toolBar" no-lines>EMBALADO ({{getItemsEmbalados().length}})</ion-item-divider>
+            <ion-item *ngFor="let item of getItemsEmbalados()" color="scroll-content" no-lines>
               <perfiles-perfil-img item-start [perfil]="item.Perfil"></perfiles-perfil-img>
               <h3>{{item?.Perfil?.codigo}} - {{item?.Color?.nombre}} - {{item?.Perfil?.largo}}</h3>
               <button item-end ion-fab mini color="danger" (click)="setEmbalado(item, false, fab)">{{item?.cantidad}}</button>

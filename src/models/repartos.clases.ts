@@ -22,4 +22,5 @@ export class RepartoPedido {
   totalKilos: number;
   totalPedidos: number = 0.00;
   saldoActual: number = 0.00;
+  isAddPago: boolean = false;
 }

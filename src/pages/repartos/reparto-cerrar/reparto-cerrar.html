@@ -1,20 +1,53 @@
 <ion-header no-border>
-  <ion-navbar color="toolBar" text-center>
+  <ion-navbar color="toolBar" text-center hideBackButton>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content padding color="scroll-content">
   <ion-grid>
     <ion-col>
-      <ion-row *ngFor="let item of reparto.Items; let idx = index;" >
+      <ion-row *ngFor="let item of reparto.Items; let idx = index;">
         <button ion-item no-lines no-margin color="listDivider1" (click)="showItemDetalle[idx] = !showItemDetalle[idx]"> 
-          <span item-start>{{item?.idCliente |number:'3.0-0'}} - {{getCliente(item.idCliente)?.nombre}}</span>
+          <ion-icon item-start *ngIf="!item.isAddPago"  name="warning" color="warning"></ion-icon>
+          <span item-start>{{item?.idCliente |number:'3.0-0'}} - {{(getCliente(item.idCliente)|async)?.nombre }}</span>
           <span item-end>U$ {{getSaldo(item?.idCliente) |async |number:'1.2-2'}}</span>
         </button>
-        <ion-row ion-item [hidden]="!showItemDetalle[idx]">
-          <span *ngFor="let pedido of item.Pedidos" >{{pedido |json}}</span>
+        <ion-row ion-item no-lines [hidden]="!showItemDetalle[idx]">
+
+          <ion-row>
+            <ion-col col-auto>
+              <button ion-fab (click)="goPago(item)" [disabled]="item?.isAddPago" tooltip="Cargar pago..."><ion-icon name="logo-usd"></ion-icon></button>
+            </ion-col>
+            <ion-col>
+              <table border=1>
+                <tr>
+                  <th>Pedido</th>
+                  <th>No Ent.</th>
+                  <th>Fecha Entrega</th>
+                  <th>Kilos</th>
+                  <th>Total(U$)</th>
+                </tr>
+                <tr *ngFor="let pedido of item.Pedidos;let idx=index;">
+                  <td text-right>{{pedido?.id |number:'3.0-0'}}</td>
+                  <td class="td-auto" text-center><button ion-button small color="danger" (click)="removePedido(item, idx)" [disabled]="item?.isAddPago"
+                      tooltip="Pedido No entregado, quita el pedido del reparto"><ion-icon name="close"></ion-icon></button></td>
+                  <td text-center>{{pedido?.fechaEntrega |date:'dd/MM/yyyy'}}</td>
+                  <td text-right>{{pedido?.totalUnidades |number:'1.2-2'}}kg</td>
+                  <td text-right>U$ {{pedido?.totalFinalUs |number:'1.2-2'}}</td>
+                </tr>
+              </table>
+            </ion-col>
+          </ion-row>
+
         </ion-row>
       </ion-row>
     </ion-col>
   </ion-grid>
 </ion-content>
+<ion-fab top left>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab top right>
+  <button ion-fab color="primary" [disabled]="!isValid()" (click)="cerraReparto()"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>
+<help-panel></help-panel>
