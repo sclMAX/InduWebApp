@@ -292,8 +292,9 @@ export class RepartoAmPage {
         i.totalKilos = 0.00;
         i.totalPedidos = 0.00;
         i.saldoActual = await new Promise<number>(
-            resolve => {
-                this.getSaldo(i.idCliente).subscribe((s) => { resolve(s); })});
+            (resolve, reject) => {
+                this.getSaldo(i.idCliente)
+                    .subscribe((s) => { resolve(s); }, (error) => reject(0))});
         for (let p of i.Pedidos) {
           i.totalKilos += Number(p.totalUnidades || 0);
           i.totalPedidos += Number(p.totalFinalUs || 0);

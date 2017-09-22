@@ -1,0 +1,14 @@
+<ion-card>
+  <button ion-item no-lines (click)="showList = !showList" color="subToolBar">
+    <ion-icon item-start name="md-arrow-forward"></ion-icon><ion-icon item-start name="cube"></ion-icon> 
+    Ingresos de Productos ({{(ingresos |async)?.length}})
+    <span item-end>{{getTotalKilos((ingresos |async)) |number:'1.2-2'}}kg</span>
+  </button>
+  <ion-list [hidden]="!showList">
+    <button ion-item *ngFor="let item of ingresos |async" (click)="goIngreso(item)">
+      <span item-start>{{item?.id |number:'3.0-0'}}</span>
+      <span item-start>{{item?.fecha |date:'dd/MM/yyyy'}}</span>
+      <span item-end>{{getItemKilos(item?.Items) |number:'1.2-2'}}kg</span>
+    </button>
+  </ion-list>
+</ion-card>

@@ -21,20 +21,31 @@ import {
 export class StockIngresoPage {
   isShowAddItem: boolean = true;
   isShowDatos: boolean = true;
-  docIngreso: DocStockIngreso = new DocStockIngreso();
+  isEdit: boolean = false;
+  docIngreso: DocStockIngreso;
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private stokP: StockProvider,
               private contadoresP: ContadoresProvider,
               private loadCtrl: LoadingController,
-              private toastCtrl: ToastController) {}
+              private toastCtrl: ToastController) {
+    this.docIngreso = this.navParams.get('Ingreso');
+    if (this.docIngreso) {
+      this.isEdit = true;
+    } else {
+      this.docIngreso = new DocStockIngreso();
+      this.getNro();
+    }
+  }
 
   ionViewDidLoad() {}
 
-  ngOnInit() { this.getNro(); }
+  ngOnInit() {}
 
   private async getNro() {
     this.contadoresP.getStockIngresoCurrentNro().subscribe((nro) => {
-      this.docIngreso.numero = nro;
+      if (!this.isEdit) {
+        this.docIngreso.numero = nro;
+      }
     }, (error) => { console.log(error); });
   }
 
@@ -67,6 +78,22 @@ export class StockIngresoPage {
     return tB;
   }
 
+  getTotalKilos(): number {
+    let t: number = 0.00;
+    if (this.docIngreso ) {
+      for (let item of this.docIngreso.Items) {
+        let kb: number = 0;
+        if (item.Color.isPintura) {
+          kb = (item.Perfil.pesoPintado * (item.Perfil.largo / 1000));
+        } else {
+          kb = (item.Perfil.pesoNatural * (item.Perfil.largo / 1000));
+        }
+        t += Number(item.cantidad * kb);
+      }
+    }
+    return t;
+  }
+
   goBack() { this.navCtrl.pop(); }
 
   guardar() {
@@ -74,6 +101,7 @@ export class StockIngresoPage {
       let load = this.loadCtrl.create({content: 'Actualizando Stock...'});
       let toast = this.toastCtrl.create({position: 'middle'});
       load.present().then(() => {
+        this.isEdit = true;
         this.stokP.setIngreso(this.docIngreso)
             .subscribe(
                 (ok) => {
@@ -84,6 +112,7 @@ export class StockIngresoPage {
                   toast.present();
                 },
                 (error) => {
+                  this.isEdit = false;
                   load.dismiss();
                   toast.setMessage(error);
                   toast.setShowCloseButton(true);

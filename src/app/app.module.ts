@@ -192,6 +192,7 @@ import {
 import {
   ClientesConSaldoCardComponent
 } from '../components/clientes/clientes-con-saldo-card/clientes-con-saldo-card';
+import { StockIngresosCardComponent } from '../components/stock/stock-ingresos-card/stock-ingresos-card';
 
 @NgModule({
   declarations: [
@@ -259,7 +260,8 @@ import {
     RepartoEnProcesoPage,
     PrintRepartoPage,
     RepartosEnProcesoCardComponent,
-    RepartoCerrarPage
+    RepartoCerrarPage,
+    StockIngresosCardComponent
   ],
   imports: [
     BrowserModule,

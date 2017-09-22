@@ -9,11 +9,11 @@
             </form-badge-item>
             <!-- Fecha -->
             <form-badge-input-item item-start label="Fecha" padding-left>
-                <ion-input type="date" name="fecha" [(ngModel)]="docIngreso.fecha"></ion-input>
+                <ion-input type="date" name="fecha" [(ngModel)]="docIngreso.fecha" [readonly]="isEdit"></ion-input>
             </form-badge-input-item>
             <!-- Nro Remito Ingreso -->
             <form-badge-input-item item-start label="Nro. Remito" padding-left>
-                <ion-input type="text" [(ngModel)]="docIngreso.remito" name="Remito"></ion-input>
+                <ion-input type="text" [(ngModel)]="docIngreso.remito" name="Remito"  [readonly]="isEdit"></ion-input>
             </form-badge-input-item>
         </ion-row>
         <!-- Comentario -->
@@ -22,12 +22,12 @@
                 <ion-badge color="dark">Comentarios</ion-badge>
             </ion-row>
             <ion-badge ion-item>
-                <ion-textarea [(ngModel)]="docIngreso.comentario" name="Comentarios"></ion-textarea>
+                <ion-textarea [(ngModel)]="docIngreso.comentario" name="Comentarios"  [readonly]="isEdit"></ion-textarea>
             </ion-badge>
         </ion-row>
     </ion-grid>
-    <button ion-item color="subToolBar" (click)="isShowAddItem = !isShowAddItem" no-lines>Agregar item</button>
-    <stock-ingreso-add-item *ngIf="isShowAddItem" (onNewItem)="addItem($event)"></stock-ingreso-add-item>
+    <button ion-item color="subToolBar" (click)="isShowAddItem = !isShowAddItem" no-lines *ngIf="!isEdit" >Agregar item</button>
+    <stock-ingreso-add-item *ngIf="isShowAddItem && !isEdit" (onNewItem)="addItem($event)"></stock-ingreso-add-item>
     <ion-grid>
         <ion-row *ngIf="docIngreso?.Items?.length > 0" ion-item color="dark" no-lines>
             <ion-col col-sm-2>Cant</ion-col>
@@ -38,20 +38,21 @@
             <ion-col col-sm-2>{{item?.cantidad}}</ion-col>
             <ion-col col-sm-3>{{item?.Perfil?.codigo}}</ion-col>
             <ion-col>{{item?.Color?.nombre}}</ion-col>
-            <button ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
+            <button *ngIf="!isEdit"  ion-button clear item-end color="danger" (click)="removeItem(idx)"><ion-icon name="remove-circle"></ion-icon></button>
         </ion-row>
     </ion-grid>
 
 </ion-content>
 <ion-footer color="footer">
     <ion-item color="footer" no-lines>
-        Total Barras: {{getTotalBarras()}}
+       <span item-start> Total Barras: {{getTotalBarras()}}</span>
+       <span item-start> Total Kilos: {{getTotalKilos() |number:'1.2-2'}}kg</span>
     </ion-item>
 </ion-footer>
 <ion-fab top left>
     <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
 <ion-fab top right>
-    <button ion-fab color="primary" [disabled]="docIngreso?.Items?.length < 1" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
+    <button ion-fab color="primary" [disabled]="(docIngreso?.Items?.length < 1)||isEdit" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
 </ion-fab>
 <help-panel></help-panel>

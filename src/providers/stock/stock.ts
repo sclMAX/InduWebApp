@@ -1,3 +1,4 @@
+import {FECHA} from './../../models/comunes.clases';
 import {PEDIDO} from './../../models/pedidos.clases';
 import {ContadoresProvider} from './../contadores/contadores';
 import {Injectable} from '@angular/core';
@@ -18,6 +19,7 @@ import {
   SUC_STOCK_ROOT,
   SucursalProvider
 } from './../sucursal/sucursal';
+import * as moment from 'moment';
 
 @Injectable()
 export class StockProvider {
@@ -56,28 +58,28 @@ export class StockProvider {
                   let es = stks.find((s) => { return s.id == newStk.id; });
                   let index = -1;
                   if (es) {  // si existe en la lista
-                    //busco si existe el item
+                    // busco si existe el item
                     let index = es.Stocks.findIndex(
                         (i) => { return i.id == Items[idx].Color.id; });
-                    if(index > -1){ //si existe el item se actualiza
+                    if (index > -1) {  // si existe el item se actualiza
                       if (isIngreso) {
                         es.Stocks[index].stock += Items[idx].cantidad * 1;
                       } else {
                         es.Stocks[index].stock -= Items[idx].cantidad * 1;
-                      }                      
-                    }else{//si no existe
-                      //Buscar si exite en la DB
-                      index = newStk.Stocks.findIndex((i)=>{
-                        return i.id == Items[idx].Color.id;
-                      });
-                      if(index >-1){ // si ya existe en DB se actualiza
-                        newStk.Stocks[index].Modificador = this.sucP.genUserDoc();
+                      }
+                    } else {  // si no existe
+                      // Buscar si exite en la DB
+                      index = newStk.Stocks.findIndex(
+                          (i) => { return i.id == Items[idx].Color.id; });
+                      if (index > -1) {  // si ya existe en DB se actualiza
+                        newStk.Stocks[index].Modificador =
+                            this.sucP.genUserDoc();
                         if (isIngreso) {
                           newStk.Stocks[index].stock += Items[idx].cantidad * 1;
                         } else {
                           newStk.Stocks[index].stock -= Items[idx].cantidad * 1;
                         }
-                      }else{
+                      } else {
                         newItem = new StockItem(Items[idx].Color.id, 0, 0);
                         newItem.Creador = this.sucP.genUserDoc();
                         if (isIngreso) {
@@ -90,7 +92,7 @@ export class StockProvider {
                       // se agrega item a la lista
                       es.Stocks.push(newItem);
                     }
-                    //Se iguala con la lista 
+                    // Se iguala con la lista
                     newStk = es;
                   } else {  // Si no esta en la lista
                     // Buscar Item
@@ -118,7 +120,7 @@ export class StockProvider {
                   }
                   // Generar UpdateData
                   this.genUpdateData(updData, Items[idx].Perfil.id, newStk);
-                  //Set Flag 
+                  // Set Flag
                   Items[idx].isStockActualizado = true;
                   // Incremetar Contador
                   idx++;
@@ -275,5 +277,12 @@ export class StockProvider {
                 obs.complete();
               });
     });
+  }
+
+  getIngresos(): Observable<DocStockIngreso[]> {
+    return this.db.list(SUC_DOCUMENTOS_STOCKINGRESOS_ROOT)
+        .map((snap: DocStockIngreso[]) => {return snap.sort((a, b) => {
+               return moment(a.fecha, FECHA).diff(moment(b.fecha, FECHA));
+             })});
   }
 }
