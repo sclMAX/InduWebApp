@@ -3,7 +3,6 @@ import {PAGO} from './../../../models/pedidos.clases';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {ContadoresProvider} from './../../../providers/contadores/contadores';
 import {DolarProvider} from './../../../providers/dolar/dolar';
-import {Dolar} from './../../../models/fondos.clases';
 import {ChequesAmPage} from './../../fondos/cheques/cheques-am/cheques-am';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
 import {

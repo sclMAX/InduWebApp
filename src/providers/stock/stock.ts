@@ -35,6 +35,7 @@ export class StockProvider {
   genMultiUpdadeData(updData, Items: DocStockItem[],
                      isIngreso: boolean): Observable<any> {
     return new Observable((obs) => {
+      let oldItems = JSON.parse(JSON.stringify(Items));
       let stks: Stock[] = [];
       let loop = (idx: number) => {
         let chkFin = (idx) => {
@@ -48,7 +49,7 @@ export class StockProvider {
             obs.complete();
           }
         };
-        if (!Items[idx].isStockActualizado) {
+        if (!(Items[idx].isStockActualizado)) {
           // Buscar stock actual
           this.getOne(Items[idx].Perfil.id)
               .subscribe(
@@ -56,13 +57,13 @@ export class StockProvider {
                     let newStk: Stock;
                     let newItem: StockItem;
                     // Proceso de actualizacion
-                    let actualizarStk = (vStk) => {
+                    let actualizarStk = (vStk):number => {
                       if (isIngreso) {
                         vStk += Number(Items[idx].cantidad);
                       } else {
                         vStk -= Number(Items[idx].cantidad);
                       }
-                      return;
+                      return vStk;
                     };
                     // Check Stock
                     if (stk && stk.Stocks) {
@@ -83,7 +84,7 @@ export class StockProvider {
                       let index = es.Stocks.findIndex(
                           (i) => { return i.id == Items[idx].Color.id; });
                       if (index > -1) {  // si existe el item se actualiza
-                        actualizarStk(es.Stocks[index].stock);
+                        es.Stocks[index].stock = actualizarStk(es.Stocks[index].stock);
                       } else {  // si no existe
                         // Buscar si exite en la DB
                         index = newStk.Stocks.findIndex(
@@ -91,11 +92,11 @@ export class StockProvider {
                         if (index > -1) {  // si ya existe en DB se actualiza
                           newStk.Stocks[index].Modificador =
                               this.sucP.genUserDoc();
-                          actualizarStk(newStk.Stocks[index].stock);
+                              newStk.Stocks[index].stock = actualizarStk(newStk.Stocks[index].stock);
                         } else {
                           newItem = new StockItem(Items[idx].Color.id, 0, 0);
                           newItem.Creador = this.sucP.genUserDoc();
-                          actualizarStk(newItem.stock);
+                          newItem.stock =  actualizarStk(newItem.stock);
                           newStk.Stocks.push(newItem);
                         }
                         // se agrega item a la lista
@@ -110,11 +111,11 @@ export class StockProvider {
                       if (index > -1) {  // Si existe se actualiza
                         newStk.Stocks[index].Modificador =
                             this.sucP.genUserDoc();
-                        actualizarStk(newStk.Stocks[index].stock);
+                            newStk.Stocks[index].stock = actualizarStk(newStk.Stocks[index].stock);
                       } else {  // si no existe se crea actualiza y agrega
                         newItem = new StockItem(Items[idx].Color.id, 0, 0);
                         newItem.Creador = this.sucP.genUserDoc();
-                        actualizarStk(newItem.stock);
+                        newItem.stock = actualizarStk(newItem.stock);
                         newStk.Stocks.push(newItem);
                       }
                       // Agrego stok a lista de actualizacion
@@ -128,6 +129,7 @@ export class StockProvider {
                     chkFin(idx);
                   },
                   (error) => {
+                    Items = oldItems;
                     obs.error(`No se pudo actualizar el Stock! Error:${error}`);
                     obs.complete();
                   });
@@ -246,8 +248,6 @@ export class StockProvider {
       doc.id = doc.numero;
       // Set Creador
       doc.Creador = this.sucP.genUserDoc();
-      // Set Items actualizados true
-      doc.Items.forEach((i) => { i.isStockActualizado = true; });
       // Add stock ingreso
       updData[`${SUC_DOCUMENTOS_STOCKINGRESOS_ROOT}${nro}`] = doc;
       // Actualizar contador

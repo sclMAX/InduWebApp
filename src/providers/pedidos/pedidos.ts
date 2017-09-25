@@ -136,6 +136,9 @@ export class PedidosProvider {
       // Set a Null
       this.genUpdateData(updData, pedido, pedido.tipo, {});
       // Actualizar stock
+      pedido.Items.forEach((i)=>{
+        i.isStockActualizado = false;
+      });
       this.stockP.genMultiUpdadeData(updData, pedido.Items, true)
           .subscribe(
               (data) => {
@@ -209,8 +212,6 @@ export class PedidosProvider {
       pedido.Modificador = this.sucP.genUserDoc();
       // Eliminar el Pedido
       this.genUpdateData(updData, pedido, PEDIDO, {});
-      // Set Item stkActualizado a true
-      pedido.Items.forEach((i) => { i.isStockActualizado = true; });
       // Add Pedido a Embalados
       this.genUpdateData(updData, pedido, EMBALADO);
       // Generar Actualizacion Multiple de Stock
