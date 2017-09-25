@@ -137,30 +137,36 @@ export class PedidosProvider {
       this.genUpdateData(updData, pedido, pedido.tipo, {});
       // Actualizar stock
       this.stockP.genMultiUpdadeData(updData, pedido.Items, true)
-          .subscribe((data) => { updData = data; }, (error) => {
-            obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
-            obs.complete();
-          });
-      // Mover a Cancelados
-      pedido.tipo = PEDIDO_CANCELADO;
-      this.genUpdateData(updData, pedido, PEDIDO_CANCELADO, pedido);
-      // Actualizar Cta.Cte.
-      if (pedido.isInCtaCte) {
-        this.ctacteP.genDocUpdateData(updData, pedido, false);
-      }
-      // log
-      this.logP.genPedidoUpdateData(updData, pedido, 'Cancelado');
-      // Ejecutar peticion
-      this.db.database.ref()
-          .update(updData)
-          .then(() => {
-            obs.next('Pedido Eliminado!');
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
-            obs.complete();
-          });
+          .subscribe(
+              (data) => {
+                updData = data;
+                // Mover a Cancelados
+                pedido.tipo = PEDIDO_CANCELADO;
+                this.genUpdateData(updData, pedido, PEDIDO_CANCELADO, pedido);
+                // Actualizar Cta.Cte.
+                if (pedido.isInCtaCte) {
+                  this.ctacteP.genDocUpdateData(updData, pedido, false);
+                }
+                // log
+                this.logP.genPedidoUpdateData(updData, pedido, 'Cancelado');
+                // Ejecutar peticion
+                this.db.database.ref()
+                    .update(updData)
+                    .then(() => {
+                      obs.next('Pedido Eliminado!');
+                      obs.complete();
+                    })
+                    .catch((error) => {
+                      obs.error(
+                          `No se pudo Eliminar el Pedido! Error:${error}`);
+                      obs.complete();
+                    });
+
+              },
+              (error) => {
+                obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
+                obs.complete();
+              });
     });
   }
 

@@ -1,6 +1,6 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-title>Repartos</ion-title>
+    <ion-title>{{title}}</ion-title>
     <ion-buttons end>
       <button ion-button (click)="nuevoReparto()">Nuevo</button>
     </ion-buttons>
@@ -8,14 +8,24 @@
 </ion-header>
 <ion-content padding>
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        <repartos-preparados-card (onClickItem)="onSelectPreparado($event)" itemColor="listPar" itemImparColor="listImpar"></repartos-preparados-card>
-      </ion-col>
-      <ion-col>
-        <repartos-en-proceso-card (onClickItem)="onSelectEnProceso($event)"></repartos-en-proceso-card>
-      </ion-col>
-    </ion-row>
+    <ion-col>
+      <ion-row>
+        <ion-col>
+          <repartos-card headerColor="listDivider1" [tipo]="preparados" (onClickItem)="onSelectPreparado($event)" itemColor="listPar"
+            itemImparColor="listImpar"></repartos-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <repartos-card headerColor="toolBar" [tipo]="enProceso" (onClickItem)="onSelectEnProceso($event)"></repartos-card>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <repartos-card headerColor="listDivider2" [tipo]="cerrados" (onClickItem)="onSelectCerrado($event)"></repartos-card>
+        </ion-col>
+      </ion-row>
+    </ion-col>
   </ion-grid>
 </ion-content>
 <help-panel></help-panel>

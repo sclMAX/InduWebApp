@@ -1,3 +1,4 @@
+import {REPARTO_PREPARADO} from './../../providers/repartos/repartos';
 import {RepartoAmPage} from './../repartos/reparto-am/reparto-am';
 import {ChequesAmPage} from './../fondos/cheques/cheques-am/cheques-am';
 import {PRESUPUESTO} from './../../models/pedidos.clases';
@@ -20,6 +21,7 @@ export class HomePage {
   usuario: Usuario = new Usuario();
   isLogin: boolean = true;
   isChequesPorVencer: boolean;
+  repartosPreparados: string = REPARTO_PREPARADO;
 
   constructor(public navCtrl: NavController,
               private usuarioP: UsuarioProvider) {}

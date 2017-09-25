@@ -26,7 +26,7 @@
           </form-badge-item>
           <!-- Ref Dolar -->
           <form-badge-input-item label="Ref. Dolar" padding-left>
-            <ion-input type="number" name="dolarValor" [readonly]="isViewOnly" [value]="dolar?.valor"></ion-input>
+            <ion-input type="number" name="dolarValor" [readonly]="isViewOnly" [(ngModel)]="newPago.RefDolar.valor"></ion-input>
           </form-badge-input-item>
           <!-- Total Pago -->
           <form-badge-item label="Total Pago (U$)" padding-left>
@@ -44,7 +44,7 @@
             </ion-row>
             <ion-row>
               <ion-badge ion-item no-lines color="formInput">
-                <ion-textarea name="comentarios" [(ngModel)]="newPago.comentarios"></ion-textarea>
+                <ion-textarea name="comentarios" [(ngModel)]="newPago.comentarios" [readonly]="isViewOnly"></ion-textarea>
               </ion-badge>
             </ion-row>
           </ion-col>

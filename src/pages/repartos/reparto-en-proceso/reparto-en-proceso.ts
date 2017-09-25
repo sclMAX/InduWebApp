@@ -1,8 +1,5 @@
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {RepartosProvider} from './../../../providers/repartos/repartos';
-import {
-  PrintRepartoPage
-} from './../../documentos/print/print-reparto/print-reparto';
 import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Pedido} from './../../../models/pedidos.clases';
 import {CtasCtesProvider} from './../../../providers/ctas-ctes/ctas-ctes';
@@ -17,7 +14,8 @@ import {
   ToastController
 } from 'ionic-angular';
 import {printEntrega} from '../../../print/print-pedidos';
-import { numFormat } from '../../../print/config-comun';
+import {numFormat} from '../../../print/config-comun';
+import {printReparto} from "../../../print/print-repartos";
 
 @Component({
   selector: 'page-reparto-en-proceso',
@@ -125,7 +123,7 @@ export class RepartoEnProcesoPage {
               (okReparto) => {
                 this.navCtrl.pop();
                 load.dismiss();
-                this.navCtrl.push(PrintRepartoPage, {Reparto: okReparto});
+                printReparto(okReparto, this.clientesP, this.ctacteP);
               },
               (error) => {
                 load.dismiss();

@@ -9,6 +9,7 @@ export class PerfilesListComponent {
   @Input('color') color: string;
   @Input('colorPar') colorPar: string;
   @Input('showImg') showImg: boolean = true;
+  @Input() showToolBar:boolean = true;
   @Output() onSelectItem: EventEmitter<Perfil> = new EventEmitter<Perfil>();
   stock: Stock[] = [];
   @Output() onCalcTotalKilos: EventEmitter<number> = new EventEmitter<number>();

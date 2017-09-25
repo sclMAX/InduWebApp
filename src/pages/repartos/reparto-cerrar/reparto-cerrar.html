@@ -6,6 +6,13 @@
 <ion-content padding color="scroll-content">
   <ion-grid>
     <ion-col>
+      <ion-row>
+        <ion-item no-lines color="toolBar" text-center>
+          <span item-start>Etiqueta: {{reparto?.nombre}}</span>
+          <p><small>{{reparto?.comentarios}} </small></p>
+          <span item-end>Chofer: {{reparto?.chofer}}</span>
+        </ion-item>
+      </ion-row>
       <ion-row *ngFor="let item of reparto.Items; let idx = index;">
         <button ion-item no-lines no-margin color="listDivider1" (click)="showItemDetalle[idx] = !showItemDetalle[idx]"> 
           <ion-icon item-start *ngIf="!item.isAddPago"  name="warning" color="warning"></ion-icon>

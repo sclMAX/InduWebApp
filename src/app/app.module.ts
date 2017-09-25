@@ -1,14 +1,11 @@
-import { environment } from './environment';
-import { PedidosCanceladosCardComponent } from './../components/pedidos/pedidos-cancelados-card/pedidos-cancelados-card';
+import { RepartosCardComponent } from './../components/repartos/repartos-card/repartos-card';
+import {environment} from './environment';
+import {
+  PedidosCanceladosCardComponent
+} from './../components/pedidos/pedidos-cancelados-card/pedidos-cancelados-card';
 import {
   RepartoCerrarPage
 } from './../pages/repartos/reparto-cerrar/reparto-cerrar';
-import {
-  RepartosEnProcesoCardComponent
-} from './../components/repartos/repartos-en-proceso-card/repartos-en-proceso-card';
-import {
-  PrintRepartoPage
-} from './../pages/documentos/print/print-reparto/print-reparto';
 import {
   RepartoEnProcesoPage
 } from './../pages/repartos/reparto-en-proceso/reparto-en-proceso';
@@ -187,12 +184,11 @@ import {RepartosProvider} from '../providers/repartos/repartos';
 import {HelpProvider} from '../providers/help/help';
 import {HelpPanelComponent} from '../components/comunes/help-panel/help-panel';
 import {
-  RepartosPreparadosCardComponent
-} from '../components/repartos/repartos-preparados-card/repartos-preparados-card';
-import {
   ClientesConSaldoCardComponent
 } from '../components/clientes/clientes-con-saldo-card/clientes-con-saldo-card';
-import { StockIngresosCardComponent } from '../components/stock/stock-ingresos-card/stock-ingresos-card';
+import {
+  StockIngresosCardComponent
+} from '../components/stock/stock-ingresos-card/stock-ingresos-card';
 
 @NgModule({
   declarations: [
@@ -255,13 +251,11 @@ import { StockIngresosCardComponent } from '../components/stock/stock-ingresos-c
     ChequesEntregadosCardComponent,
     RepartoAmPage,
     HelpPanelComponent,
-    RepartosPreparadosCardComponent,
     ClientesConSaldoCardComponent,
     RepartoEnProcesoPage,
-    PrintRepartoPage,
-    RepartosEnProcesoCardComponent,
     RepartoCerrarPage,
-    StockIngresosCardComponent
+    StockIngresosCardComponent,
+    RepartosCardComponent
   ],
   imports: [
     BrowserModule,
@@ -302,7 +296,6 @@ import { StockIngresosCardComponent } from '../components/stock/stock-ingresos-c
     PrintCajaEgresoPage,
     RepartoAmPage,
     RepartoEnProcesoPage,
-    PrintRepartoPage,
     RepartoCerrarPage
   ],
   providers: [

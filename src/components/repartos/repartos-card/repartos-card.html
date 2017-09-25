@@ -1,13 +1,15 @@
-<ion-card [color]="color" *ngIf="repartos && repartos.length > 0" >
+<ion-card [color]="color" *ngIf="repartos && (repartos |async)?.length > 0">
   <button ion-item [color]="headerColor" (click)="showList = !showList">
       <ion-icon item-start name="icon-ind_camion"></ion-icon>
-        En Reparto ({{repartos?.length}})
+        {{title}} ({{(repartos |async)?.length}})
+      <span item-end>{{calTotalKilos((repartos |async)) |number:'1.2-2'}}kg / U$ {{calTotalUs((repartos |async)) |number:'1.2-2'}}</span>
     </button>
   <ion-list *ngIf="showList">
-    <button ion-item *ngFor="let reparto of repartos;let p=even" [color]="(itemImparColor)?((p)? itemColor: itemImparColor):itemColor"
+    <button ion-item *ngFor="let reparto of repartos |async;let p=even" [color]="(itemImparColor)?((p)? itemColor: itemImparColor):itemColor"
       (click)="onClick(reparto)">
         <span item-start>{{reparto?.id |number:'3.0-0'}}</span>
         <span>{{reparto?.fecha |date:'dd/MM/yyyy'}} - {{reparto?.nombre}}  </span>
+        <span item-end>{{reparto?.totalKilos |number:'1.2-2'}}kg </span>
         <span item-end> ST: U$ {{reparto?.saldoTotal |number:'1.2-2'}} / $ {{(reparto?.saldoTotal * reparto?.Dolar?.valor) |number:'1.2-2'}}</span>   
       </button>
   </ion-list>

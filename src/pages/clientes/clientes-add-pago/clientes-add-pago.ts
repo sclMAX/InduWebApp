@@ -28,11 +28,10 @@ export class ClientesAddPagoPage {
   title: string;
   newPago: ClientePago;
   cliente: Cliente;
-  dolar: Dolar;
   isViewOnly: boolean = false;
   saldoCliente: number = 0.00;
   showEfectivo: boolean = true;
-  showDatos:boolean = true;
+  showDatos: boolean = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private loadCtrl: LoadingController,
@@ -71,7 +70,7 @@ export class ClientesAddPagoPage {
             this.newPago.Cheques = [];
           }
           let cheque = new ClientePagoCheque();
-          cheque.Dolar = JSON.parse(JSON.stringify(this.dolar));
+          cheque.Dolar = JSON.parse(JSON.stringify(this.newPago.RefDolar));
           cheque.Cheque = data;
           this.newPago.Cheques.push(cheque);
         }
@@ -94,7 +93,8 @@ export class ClientesAddPagoPage {
     }
     if (this.newPago && this.newPago.RefDolar) {
       let res: number = 0.00;
-      res = (this.newPago.efectivo * 1 || 0) / (this.dolar.valor * 1 || 1);
+      res = (this.newPago.efectivo * 1 || 0) /
+            (this.newPago.RefDolar.valor * 1 || 1);
       res += (this.newPago.dolares * 1 || 0);
       if (this.newPago.Cheques) {
         this.newPago.Cheques.forEach((c) => {
@@ -147,14 +147,12 @@ export class ClientesAddPagoPage {
     if (!this.isViewOnly && this.newPago) {
       this.contadoresP.getPagosCurrentNro().subscribe(
           (nro) => { this.newPago.id = nro; });
+      let dp = this.dolarP.getDolar().subscribe((dolar) => {
+        this.newPago.RefDolar = JSON.parse(JSON.stringify(dolar));
+        dp.unsubscribe();
+      });
     }
     this.ctacteP.getSaldoCliente(this.cliente.id)
         .subscribe((saldo) => { this.saldoCliente = saldo; });
-    this.dolarP.getDolar().subscribe((dolar) => {
-      if (!this.dolar) {
-        this.dolar = (dolar) ? dolar : new Dolar();
-        this.newPago.RefDolar = this.dolar;
-      }
-    });
   }
 }

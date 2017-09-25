@@ -1,6 +1,6 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-title>Clientes ({{totalClientes}}) </ion-title>
+    <ion-title>{{title}} ({{(filterClientes |async)?.length}}) </ion-title>
     <ion-buttons end>
       <button ion-button icon-only icon-left (click)="goClienteAdd()" tooltip="Nuevo Cliente..."><ion-icon name="icon-ind_user-add" ></ion-icon></button>
     </ion-buttons>
@@ -11,9 +11,9 @@
     <ion-grid>
       <ion-row>
         <ion-col col-auto>
-            <ion-spinner *ngIf="!(totalClientes > -1)" name="circles" color="light"></ion-spinner>
+          <ion-spinner *ngIf="!(totalClientes > -1)" name="circles" color="light"></ion-spinner>
         </ion-col>
-        <ion-col>            
+        <ion-col>
           <ion-searchbar name="buscar" animated="true" autocomplete="on" autocorrect="on" spellcheck="true" (ionInput)="onFindClientes($event)"
             [showCancelButton]="true" (ionCancel)="onFindCancel()" placeholder="Buscar Nombre, Email o Direccion...">
           </ion-searchbar>

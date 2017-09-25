@@ -37,106 +37,104 @@ export class StockProvider {
     return new Observable((obs) => {
       let stks: Stock[] = [];
       let loop = (idx: number) => {
-        // Buscar stock actual
-        this.getOne(Items[idx].Perfil.id)
-            .subscribe(
-                (stk) => {
-                  let newStk: Stock;
-                  let newItem: StockItem;
-                  // Check Stock
-                  if (stk && stk.Stocks) {
-                    newStk = stk;
-                  } else {
-                    newStk = new Stock();
-                    newStk.id = Items[idx].Perfil.id;
-                    newStk.Creador = this.sucP.genUserDoc();
-                    newItem = new StockItem(Items[idx].Color.id, 0, 0);
-                    newItem.Creador = newStk.Creador;
-                    newStk.Stocks = [newItem];
-                  }
-                  // Buscar si existe en la lista de actualizacion
-                  let es = stks.find((s) => { return s.id == newStk.id; });
-                  let index = -1;
-                  if (es) {  // si existe en la lista
-                    // busco si existe el item
-                    let index = es.Stocks.findIndex(
-                        (i) => { return i.id == Items[idx].Color.id; });
-                    if (index > -1) {  // si existe el item se actualiza
+        let chkFin = (idx) => {
+          idx++;
+          if (idx < Items.length) {  // Si quedan items
+            // Siguiente item
+            loop(idx);
+          } else {  // si no
+            // Retornar UpdateData
+            obs.next(updData);
+            obs.complete();
+          }
+        };
+        if (!Items[idx].isStockActualizado) {
+          // Buscar stock actual
+          this.getOne(Items[idx].Perfil.id)
+              .subscribe(
+                  (stk) => {
+                    let newStk: Stock;
+                    let newItem: StockItem;
+                    // Proceso de actualizacion
+                    let actualizarStk = (vStk) => {
                       if (isIngreso) {
-                        es.Stocks[index].stock += Items[idx].cantidad * 1;
+                        vStk += Number(Items[idx].cantidad);
                       } else {
-                        es.Stocks[index].stock -= Items[idx].cantidad * 1;
+                        vStk -= Number(Items[idx].cantidad);
                       }
-                    } else {  // si no existe
-                      // Buscar si exite en la DB
+                      return;
+                    };
+                    // Check Stock
+                    if (stk && stk.Stocks) {
+                      newStk = stk;
+                    } else {
+                      newStk = new Stock();
+                      newStk.id = Items[idx].Perfil.id;
+                      newStk.Creador = this.sucP.genUserDoc();
+                      newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                      newItem.Creador = newStk.Creador;
+                      newStk.Stocks = [newItem];
+                    }
+                    // Buscar si existe en la lista de actualizacion
+                    let es = stks.find((s) => { return s.id == newStk.id; });
+                    let index = -1;
+                    if (es) {  // si existe en la lista
+                      // busco si existe el item
+                      let index = es.Stocks.findIndex(
+                          (i) => { return i.id == Items[idx].Color.id; });
+                      if (index > -1) {  // si existe el item se actualiza
+                        actualizarStk(es.Stocks[index].stock);
+                      } else {  // si no existe
+                        // Buscar si exite en la DB
+                        index = newStk.Stocks.findIndex(
+                            (i) => { return i.id == Items[idx].Color.id; });
+                        if (index > -1) {  // si ya existe en DB se actualiza
+                          newStk.Stocks[index].Modificador =
+                              this.sucP.genUserDoc();
+                          actualizarStk(newStk.Stocks[index].stock);
+                        } else {
+                          newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                          newItem.Creador = this.sucP.genUserDoc();
+                          actualizarStk(newItem.stock);
+                          newStk.Stocks.push(newItem);
+                        }
+                        // se agrega item a la lista
+                        es.Stocks.push(newItem);
+                      }
+                      // Se iguala con la lista
+                      newStk = es;
+                    } else {  // Si no esta en la lista
+                      // Buscar Item
                       index = newStk.Stocks.findIndex(
                           (i) => { return i.id == Items[idx].Color.id; });
-                      if (index > -1) {  // si ya existe en DB se actualiza
+                      if (index > -1) {  // Si existe se actualiza
                         newStk.Stocks[index].Modificador =
                             this.sucP.genUserDoc();
-                        if (isIngreso) {
-                          newStk.Stocks[index].stock += Items[idx].cantidad * 1;
-                        } else {
-                          newStk.Stocks[index].stock -= Items[idx].cantidad * 1;
-                        }
-                      } else {
+                        actualizarStk(newStk.Stocks[index].stock);
+                      } else {  // si no existe se crea actualiza y agrega
                         newItem = new StockItem(Items[idx].Color.id, 0, 0);
                         newItem.Creador = this.sucP.genUserDoc();
-                        if (isIngreso) {
-                          newItem.stock += Items[idx].cantidad * 1;
-                        } else {
-                          newItem.stock -= Items[idx].cantidad * 1;
-                        }
+                        actualizarStk(newItem.stock);
                         newStk.Stocks.push(newItem);
                       }
-                      // se agrega item a la lista
-                      es.Stocks.push(newItem);
+                      // Agrego stok a lista de actualizacion
+                      stks.push(newStk);
                     }
-                    // Se iguala con la lista
-                    newStk = es;
-                  } else {  // Si no esta en la lista
-                    // Buscar Item
-                    index = newStk.Stocks.findIndex(
-                        (i) => { return i.id == Items[idx].Color.id; });
-                    if (index > -1) {  // Si existe se actualiza
-                      newStk.Stocks[index].Modificador = this.sucP.genUserDoc();
-                      if (isIngreso) {
-                        newStk.Stocks[index].stock += Items[idx].cantidad * 1;
-                      } else {
-                        newStk.Stocks[index].stock -= Items[idx].cantidad * 1;
-                      }
-                    } else {  // si no existe se crea actualiza y agrega
-                      newItem = new StockItem(Items[idx].Color.id, 0, 0);
-                      newItem.Creador = this.sucP.genUserDoc();
-                      if (isIngreso) {
-                        newItem.stock += Items[idx].cantidad * 1;
-                      } else {
-                        newItem.stock -= Items[idx].cantidad * 1;
-                      }
-                      newStk.Stocks.push(newItem);
-                    }
-                    // Agrego stok a lista de actualizacion
-                    stks.push(newStk);
-                  }
-                  // Generar UpdateData
-                  this.genUpdateData(updData, Items[idx].Perfil.id, newStk);
-                  // Set Flag
-                  Items[idx].isStockActualizado = true;
-                  // Incremetar Contador
-                  idx++;
-                  if (idx < Items.length) {  // Si quedan items
-                    // Siguiente item
-                    loop(idx);
-                  } else {  // si no
-                    // Retornar UpdateData
-                    obs.next(updData);
+                    // Generar UpdateData
+                    this.genUpdateData(updData, Items[idx].Perfil.id, newStk);
+                    // Set Flag
+                    Items[idx].isStockActualizado = true;
+                    // Incremetar Contador
+                    chkFin(idx);
+                  },
+                  (error) => {
+                    obs.error(`No se pudo actualizar el Stock! Error:${error}`);
                     obs.complete();
-                  }
-                },
-                (error) => {
-                  obs.error(`No se pudo actualizar el Stock! Error:${error}`);
-                  obs.complete();
-                });
+                  });
+        } else {
+          chkFin(idx);
+        }
+        // fin
       };
       // Loop para recorrer todos los Items
       loop(0);

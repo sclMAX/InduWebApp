@@ -44,7 +44,7 @@ export class CtaCte extends ClaseControlada {
 
 export class ClientePago extends Documento {
   id: number;
-  RefDolar: Dolar;
+  RefDolar: Dolar = new Dolar();
   Cheques: ClientePagoCheque[] = [];
   dolares: number = 0.00;
   efectivo: number = 0.00;

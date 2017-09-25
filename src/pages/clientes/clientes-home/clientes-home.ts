@@ -1,3 +1,4 @@
+import { SUCURSAL } from './../../../providers/sucursal/sucursal';
 import {Observable} from 'rxjs/Observable';
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
@@ -10,13 +11,14 @@ import {ClientesAddPage} from './../clientes-add/clientes-add';
   templateUrl: 'clientes-home.html',
 })
 export class ClientesHomePage {
+  title:string;
   totalClientes: number = -1;
   filterClientes: Observable<Cliente[]>;
   showComandos: boolean = true;
 
   constructor(public navCtrl: NavController,
               private clientesP: ClientesProvider){
-
+                this.title = `Suc. ${SUCURSAL} - Clientes`;
   };
 
   public goClienteAdd() { this.navCtrl.push(ClientesAddPage); };

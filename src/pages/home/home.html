@@ -15,7 +15,7 @@
         tooltip="FONDOS: Cheques, Bancos, Caja y movimientos...">
         <ion-icon name="logo-usd"></ion-icon>
       </button>
-      <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank" tooltip="EMAIL: Gestion de correos electronicos web...">
+      <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank" rel="noopener" tooltip="EMAIL: Gestion de correos electronicos web...">
         <ion-icon name="mail"></ion-icon>
       </a>
       <div ion-button icon-only style="width: 30px;pointer-events: none;"></div>
@@ -39,7 +39,7 @@
       <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card>
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
-      <repartos-preparados-card (onClickItem)="onSelectReparto($event)"></repartos-preparados-card>
+      <repartos-card  headerColor="listDivider1" [tipo]="repartosPreparados" (onClickItem)="onSelectReparto($event)"></repartos-card>
     </ion-row>
     <ion-row>
       <clientes-con-saldo-card></clientes-con-saldo-card>
