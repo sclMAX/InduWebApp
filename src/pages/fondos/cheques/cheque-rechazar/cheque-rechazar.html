@@ -1,0 +1,71 @@
+<ion-header no-border>
+  <ion-navbar hideBackButton color="dark" text-center>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding>
+  <form #formCheque="ngForm" novalidate>
+    <ion-grid>
+      <ion-col>
+        <!-- Monto y Cliente -->
+        <ion-row>
+          <!-- Monto -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Monto($)</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <span>$ {{cheque?.monto |number:'1.2-2'}}</span>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Cliente -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Cliente</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <span>{{(cliente |async)?.nombre}}</span>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <!-- Motivo Rechazo y Gastos-->
+        <ion-row>
+          <!-- Motivo Rechazo -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Motivo del Rechazo</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput">
+                <ion-input type="text" no-margin [(ngModel)]="cheque.motivoRechazo" name="motivoRechazo" required></ion-input>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Gastos -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Gastos($)</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput">
+                <ion-input type="number" no-margin [(ngModel)]="gastos" name="gastos" required></ion-input>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-grid>
+  </form>
+</ion-content>
+<footer-comun></footer-comun>
+<ion-fab bottom left>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
+</ion-fab>
+<ion-fab bottom right>
+  <button ion-fab color="danger" (click)="aceptar()" tooltip="Confirmar cheque como rechazado"><ion-icon name="checkmark"></ion-icon></button>
+</ion-fab>

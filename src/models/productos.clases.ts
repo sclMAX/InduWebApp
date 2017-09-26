@@ -10,6 +10,7 @@ export class Perfil extends ClaseControlada {
   pesoBase: number;
   pesoNatural: number;
   pesoPintado: number;
+  notInStock:boolean = false;
 }
 
 export class Linea extends ClaseControlada {

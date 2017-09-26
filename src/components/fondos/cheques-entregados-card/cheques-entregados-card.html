@@ -1,12 +1,12 @@
-<ion-card [color]="color" *ngIf="cheques.length > 0">
+<ion-card [color]="color" [hidden]="!(isFilter) && !((filterCheques |async)?.length > 0)">
   <!-- Header -->
   <button ion-item [color]="headerColor" (click)="showList = !showList">
         <ion-icon item-start name="cash"></ion-icon>
-        {{title}} (<ion-spinner color="dark" name="dots" *ngIf="!cheques.length" ></ion-spinner><span *ngIf="cheques.length" >{{filterCheques?.length |number:'1.0-0'}}</span>)
-        <span item-end>$ {{calTotal() |number:'1.2-2'}} </span>
+        {{title}} (<span>{{(filterCheques |async)?.length |number:'1.0-0'}}</span>)
+        <span item-end>$ {{calTotal((filterCheques |async)) |number:'1.2-2'}} </span>
       </button>
   <!-- Detalle -->
-  <ion-list *ngIf="showList">
+  <ion-list [hidden]="!showList">
     <!-- ToolBar -->
     <ion-item no-lines [color]="toolBarColor">
       <ion-searchbar item-start (ionCancel)="onCancelFilter()" (ionInput)="onFilter($event)" placeholder="Buscar cheque..."></ion-searchbar>
@@ -25,17 +25,20 @@
           <th>Fecha Ent.</th>
           <th>Entregado A</th>
           <th>Dias</th>
+          <th>Rechazado</th>
         </tr>
-        <tr *ngFor="let cheque of filterCheques;let p=even;let idx=index;">
+        <tr [bgColor]="(cheque.isRechazado)?'warning':''" *ngFor="let cheque of filterCheques |async;let p=even;let idx=index;">
           <td text-center><button #btnVer ion-button small color="dark" (click)="goCheque(cheque)"><ion-icon name="search"></ion-icon></button></td>
           <td text-right>{{cheque?.id}}</td>
           <td text-right>{{cheque?.fechaCobro |date:'dd/MM/yyyy'}}</td>
           <td text-right>$ {{cheque?.monto |number:'1.2-2'}}</td>
-          <td text-center><span *ngFor="let f of cheque.Firmantes" >{{f?.CUIT}}<br></span> </td>
-          <td text-center>{{getCliente(cheque)?.nombre}}</td>
+          <td text-center><span *ngFor="let f of cheque.Firmantes">{{f?.CUIT}}<br></span> </td>
+          <td text-center>{{(getCliente(cheque)|async)?.nombre}}</td>
           <td text-right>{{cheque?.EntregadoA?.fecha |date:'dd/MM/yyyy'}}</td>
           <td text-center>{{cheque?.EntregadoA?.nombre}}</td>
           <td text-center>{{calDias(cheque)}}</td>
+          <td text-center *ngIf="!cheque.isRechazado"><button ion-button small color="danger" (click)="goRechazar(cheque)" tooltip="Marcar cheque como rechazado..."><ion-icon name="checkmark"></ion-icon></button></td>
+          <td text-center *ngIf="cheque.isRechazado">{{cheque?.motivoRechazo}}</td>
         </tr>
       </table>
     </ion-item>

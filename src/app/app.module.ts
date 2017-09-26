@@ -1,4 +1,7 @@
-import { RepartosCardComponent } from './../components/repartos/repartos-card/repartos-card';
+import {ChequeRechazarPage} from './../pages/fondos/cheques/cheque-rechazar/cheque-rechazar';
+import {
+  RepartosCardComponent
+} from './../components/repartos/repartos-card/repartos-card';
 import {environment} from './environment';
 import {
   PedidosCanceladosCardComponent
@@ -255,7 +258,8 @@ import {
     RepartoEnProcesoPage,
     RepartoCerrarPage,
     StockIngresosCardComponent,
-    RepartosCardComponent
+    RepartosCardComponent,
+    ChequeRechazarPage
   ],
   imports: [
     BrowserModule,
@@ -296,7 +300,8 @@ import {
     PrintCajaEgresoPage,
     RepartoAmPage,
     RepartoEnProcesoPage,
-    RepartoCerrarPage
+    RepartoCerrarPage,
+    ChequeRechazarPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

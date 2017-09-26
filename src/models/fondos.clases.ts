@@ -50,6 +50,9 @@ export class Cheque extends ClaseControlada {
   EntregadoA: ChequeEntregadoA;
   comentarios: string;
   refDolar:number = 0.00;
+  isRechazado:boolean = false;
+  motivoRechazo:string;
+
 }
 
 export class ChequeEntregadoPor {

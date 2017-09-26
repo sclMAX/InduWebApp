@@ -38,6 +38,7 @@ export class StockProvider {
       let oldItems = JSON.parse(JSON.stringify(Items));
       let stks: Stock[] = [];
       let loop = (idx: number) => {
+        let item = Items[idx];
         let chkFin = (idx) => {
           idx++;
           if (idx < Items.length) {  // Si quedan items
@@ -49,9 +50,9 @@ export class StockProvider {
             obs.complete();
           }
         };
-        if (!(Items[idx].isStockActualizado)) {
+        if (!(item.isStockActualizado) && !(item.Perfil.notInStock)) {
           // Buscar stock actual
-          this.getOne(Items[idx].Perfil.id)
+          this.getOne(item.Perfil.id)
               .subscribe(
                   (stk) => {
                     let newStk: Stock;
@@ -59,9 +60,9 @@ export class StockProvider {
                     // Proceso de actualizacion
                     let actualizarStk = (vStk):number => {
                       if (isIngreso) {
-                        vStk += Number(Items[idx].cantidad);
+                        vStk += Number(item.cantidad);
                       } else {
-                        vStk -= Number(Items[idx].cantidad);
+                        vStk -= Number(item.cantidad);
                       }
                       return vStk;
                     };
@@ -70,9 +71,9 @@ export class StockProvider {
                       newStk = stk;
                     } else {
                       newStk = new Stock();
-                      newStk.id = Items[idx].Perfil.id;
+                      newStk.id = item.Perfil.id;
                       newStk.Creador = this.sucP.genUserDoc();
-                      newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                      newItem = new StockItem(item.Color.id, 0, 0);
                       newItem.Creador = newStk.Creador;
                       newStk.Stocks = [newItem];
                     }
@@ -82,19 +83,19 @@ export class StockProvider {
                     if (es) {  // si existe en la lista
                       // busco si existe el item
                       let index = es.Stocks.findIndex(
-                          (i) => { return i.id == Items[idx].Color.id; });
+                          (i) => { return i.id == item.Color.id; });
                       if (index > -1) {  // si existe el item se actualiza
                         es.Stocks[index].stock = actualizarStk(es.Stocks[index].stock);
                       } else {  // si no existe
                         // Buscar si exite en la DB
                         index = newStk.Stocks.findIndex(
-                            (i) => { return i.id == Items[idx].Color.id; });
+                            (i) => { return i.id == item.Color.id; });
                         if (index > -1) {  // si ya existe en DB se actualiza
                           newStk.Stocks[index].Modificador =
                               this.sucP.genUserDoc();
                               newStk.Stocks[index].stock = actualizarStk(newStk.Stocks[index].stock);
                         } else {
-                          newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                          newItem = new StockItem(item.Color.id, 0, 0);
                           newItem.Creador = this.sucP.genUserDoc();
                           newItem.stock =  actualizarStk(newItem.stock);
                           newStk.Stocks.push(newItem);
@@ -107,13 +108,13 @@ export class StockProvider {
                     } else {  // Si no esta en la lista
                       // Buscar Item
                       index = newStk.Stocks.findIndex(
-                          (i) => { return i.id == Items[idx].Color.id; });
+                          (i) => { return i.id == item.Color.id; });
                       if (index > -1) {  // Si existe se actualiza
                         newStk.Stocks[index].Modificador =
                             this.sucP.genUserDoc();
                             newStk.Stocks[index].stock = actualizarStk(newStk.Stocks[index].stock);
                       } else {  // si no existe se crea actualiza y agrega
-                        newItem = new StockItem(Items[idx].Color.id, 0, 0);
+                        newItem = new StockItem(item.Color.id, 0, 0);
                         newItem.Creador = this.sucP.genUserDoc();
                         newItem.stock = actualizarStk(newItem.stock);
                         newStk.Stocks.push(newItem);
@@ -122,9 +123,9 @@ export class StockProvider {
                       stks.push(newStk);
                     }
                     // Generar UpdateData
-                    this.genUpdateData(updData, Items[idx].Perfil.id, newStk);
+                    this.genUpdateData(updData, item.Perfil.id, newStk);
                     // Set Flag
-                    Items[idx].isStockActualizado = true;
+                    item.isStockActualizado = true;
                     // Incremetar Contador
                     chkFin(idx);
                   },
