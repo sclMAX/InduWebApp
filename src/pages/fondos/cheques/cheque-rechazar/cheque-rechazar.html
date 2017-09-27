@@ -53,7 +53,46 @@
             </ion-row>
             <ion-row>
               <ion-badge ion-item no-lines color="formInput">
+                <span item-start>$ </span>
                 <ion-input type="number" no-margin [(ngModel)]="gastos" name="gastos" required></ion-input>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <!-- Comentarios -->
+        <ion-row>
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Comentarios</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput">
+                <ion-textarea no-margin rows=4 [(ngModel)]="comentarios" name="comentarios"></ion-textarea>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <!--Detalle Montos -->
+        <ion-row>
+          <!-- Ref Dolar -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Ref Dolar Cheque($)</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <span>$ {{cheque?.refDolar |number:'1.2-2'}}</span>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Total U$ -->
+          <ion-col>
+            <ion-row>
+              <ion-badge color="formLabel">Total Nota Debito(U$)</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <span>U$ {{calTotalNotaDebitoUs() |number:'1.2-2'}}</span>
               </ion-badge>
             </ion-row>
           </ion-col>
@@ -67,5 +106,5 @@
   <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button>
 </ion-fab>
 <ion-fab bottom right>
-  <button ion-fab color="danger" (click)="aceptar()" tooltip="Confirmar cheque como rechazado"><ion-icon name="checkmark"></ion-icon></button>
+  <button ion-fab color="danger" [disabled]="!isValid(formCheque)" (click)="aceptar()" tooltip="Confirmar cheque como rechazado"><ion-icon name="checkmark"></ion-icon></button>
 </ion-fab>

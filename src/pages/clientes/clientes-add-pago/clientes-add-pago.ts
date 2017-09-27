@@ -48,6 +48,8 @@ export class ClientesAddPagoPage {
         this.isViewOnly = true;
       } else {
         this.newPago = new ClientePago();
+        this.newPago.efectivo = 0;
+        this.newPago.dolares = 0;
         this.newPago.tipo = PAGO;
         this.newPago.idCliente = this.cliente.id;
         this.title = `Nuevo Pago Cliente ${this.cliente.nombre}...`;
@@ -146,9 +148,8 @@ export class ClientesAddPagoPage {
     if (!this.isViewOnly && this.newPago) {
       this.contadoresP.getPagosCurrentNro().subscribe(
           (nro) => { this.newPago.id = nro; });
-      let dp = this.dolarP.getDolar().subscribe((dolar) => {
+      this.dolarP.getDolar().subscribe((dolar) => {
         this.newPago.RefDolar = JSON.parse(JSON.stringify(dolar));
-        dp.unsubscribe();
       });
     }
     this.ctacteP.getSaldoCliente(this.cliente.id)

@@ -1,3 +1,5 @@
+import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
+import {NotaDebito} from './../../models/documentos.class';
 import {ContadoresProvider} from './../contadores/contadores';
 import {FECHA} from './../../models/comunes.clases';
 import {COMUN_FIRMANTES_ROOT} from './../../models/db-base-paths';
@@ -32,7 +34,8 @@ export const CHEQUE_ENTREGADO: string = 'Entregados';
 @Injectable()
 export class FondosProvider {
   constructor(private db: AngularFireDatabase, private sucP: SucursalProvider,
-              private contadoresP: ContadoresProvider) {}
+              private contadoresP: ContadoresProvider,
+              private ctacteP: CtasCtesProvider) {}
 
   addCajaEgreso(egreso: CajaEgreso): Observable<string> {
     return new Observable((obs) => {
@@ -320,15 +323,58 @@ export class FondosProvider {
     });
   }
 
-  setChequeRechazado(cheque: Cheque, gastos: number): Observable<string> {
+  setChequeRechazado(cheque: Cheque, gastos: number,
+                     comentarios: string): Observable<string> {
     return new Observable((obs) => {
       let updData = {};
-      // Actualizar y guardar cheque
-      cheque.isRechazado = true;
-      this.genMoveChequesUpdateData(updData, CHEQUE_ENTREGADO, CHEQUE_ENTREGADO,
-                                    cheque);
-                                    obs.next('FALTA TERMINAR');
-                                    obs.complete();
+      // Generear Nota de Debito
+      this.contadoresP.getNotaDebitoCurrentNro(false).subscribe(
+          (num) => {
+            // Actualizar y guardar cheque
+            cheque.isRechazado = true;
+            this.genMoveChequesUpdateData(updData, CHEQUE_ENTREGADO,
+                                          CHEQUE_ENTREGADO, cheque);
+            let nd: NotaDebito = new NotaDebito();
+            nd.id = num;
+            nd.numero = nd.id;
+            nd.motivo = `Cheque Recazado Nro: ${cheque.id}`;
+            nd.idCliente = cheque.EntregadoPor.idCliente;
+            nd.Creador = this.sucP.genUserDoc();
+            nd.fecha = moment().format(FECHA);
+            nd.comentario = (comentarios || '');
+            let refDolar: number =
+                (cheque.refDolar > 0) ? cheque.refDolar : 17.50;
+            nd.Items.push({
+              detalle:
+                  `Cheque Rechazado (${cheque.motivoRechazo}) Nro:${cheque.id}`,
+              monto: Number(cheque.monto / refDolar)
+            });
+            nd.Items.push({
+              detalle: `Gastos Cheque Rechazado`,
+              monto: Number(gastos / refDolar)
+            });
+            nd.totalFinalUs =
+                Number(cheque.monto / refDolar) + Number(gastos / refDolar);
+            this.ctacteP.genNotaDebitoUpdateData(updData, nd.id, nd);
+            // Agregar Nota de Debito a Cta. Cte.
+            this.ctacteP.genDocUpdateData(updData, nd, true);
+            // Ejecutar Peticion
+            this.db.database.ref()
+                .update(updData)
+                .then((ok) => {
+                  obs.next(
+                      'Cheque Actualizado y Nota de Debito Creada Correctamente!');
+                  obs.complete();
+                })
+                .catch((error) => {
+                  obs.error(`No se pudo Actualizar! Error:${error}`);
+                  obs.complete();
+                });
+          },
+          (error) => {
+            obs.error(`No se pudo Actualizar! Error:${error}`);
+            obs.complete();
+          });
     });
   }
 }

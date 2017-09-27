@@ -66,9 +66,9 @@ export class ChequesAmPage {
 
   chkBanco(): boolean {
     if (!this.isEdit && this.bancos) {
-      this.selBanco = this.bancos.find(
-          (b) => { return (b.id * 1 == this.newCheque.idBanco * 1); });
-      return this.selBanco != null;
+      this.selBanco =
+          this.bancos.find((b) => { return (b.id == this.newCheque.idBanco); });
+      return (this.selBanco) ? true : false;
     }
     return false;
   }
@@ -85,7 +85,7 @@ export class ChequesAmPage {
   chkSucursal(): boolean {
     if (!this.isEdit && this.selBanco && this.selBanco.Sucursales) {
       this.selSucursal = this.selBanco.Sucursales.find(
-          (s) => { return (s.id * 1 == this.newCheque.idSucursal * 1); });
+          (s) => { return (s) && (s.id == this.newCheque.idSucursal); });
       return this.selSucursal != null;
     }
     return false;

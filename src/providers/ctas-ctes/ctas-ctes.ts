@@ -2,11 +2,12 @@ import {ClientesProvider} from './../clientes/clientes';
 import {FECHA} from './../../models/comunes.clases';
 import * as moment from 'moment';
 import {EMBALADO, PEDIDO} from './../../models/pedidos.clases';
-import {Documento} from './../../models/documentos.class';
+import {Documento, NotaDebito} from './../../models/documentos.class';
 import {CtaCte, Cliente} from './../../models/clientes.clases';
 import {
   SUC_DOCUMENTOS_CTASCTES_ROOT,
-  SucursalProvider
+  SucursalProvider,
+  SUC_DOCUMENTOS_ROOT
 } from './../sucursal/sucursal';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
@@ -32,11 +33,18 @@ export class CtasCtesProvider {
       .idCliente}/${cta.tipoDocumento}${cta.numero}/`] = cta;
   }
 
-  genRemoveDocUpdateData(updData, doc: Documento){
+  genRemoveDocUpdateData(updData, doc: Documento) {
     updData[`${SUC_DOCUMENTOS_CTASCTES_ROOT}${doc
-      .idCliente}/${(doc.tipo == EMBALADO) ? PEDIDO : doc.tipo}${doc.numero}/`] = {};
+      .idCliente}/${(doc.tipo == EMBALADO) ? PEDIDO : doc.tipo}${doc.numero}/`] =
+        {};
   }
 
+  genNotaDebitoUpdateData(updData, id, valor) {
+    updData[`${SUC_DOCUMENTOS_ROOT}NotaDebito/${id}/`] = valor;
+  }
+  addNotaDebito(nd: NotaDebito): Observable<string> {
+    return new Observable((obs) => { nd.Creador = this.sucP.genUserDoc(); });
+  }
   getSaldoCliente(idCliente: number): Observable<number> {
     return this.getCtaCteCliente(idCliente).map((cta) => {
       let saldo: number = 0.00;

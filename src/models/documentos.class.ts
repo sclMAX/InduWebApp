@@ -15,6 +15,19 @@ export class Documento extends ClaseControlada {
   isImpreso: boolean = false;
 }
 
+export class NotaDebito extends Documento {
+  motivo: string;
+  Items: NotaDebitoItem[] = [];
+  constructor() {
+    super();
+    this.tipo = 'NotaDebito';
+  }
+}
+export interface NotaDebitoItem {
+  detalle: string;
+  monto: number;
+}
+
 export class DocStockIngreso extends Documento {
   remito: string;
   Items: DocStockItem[] = [];

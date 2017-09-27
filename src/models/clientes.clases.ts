@@ -46,8 +46,8 @@ export class ClientePago extends Documento {
   id: number;
   RefDolar: Dolar = new Dolar();
   Cheques: ClientePagoCheque[] = [];
-  dolares: number = 0.00;
-  efectivo: number = 0.00;
+  dolares: number ;
+  efectivo: number;
   comentarios:string;
 }
 

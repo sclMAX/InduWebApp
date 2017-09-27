@@ -13,30 +13,75 @@
       <ion-col>
         <ion-row>
           <!-- Nro de Pago -->
-          <form-badge-item label="Nro. Pago" padding-left>
-            <h2>{{newPago?.id |number:'3.0-0'}}</h2>
-          </form-badge-item>
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Nro. Pago</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                {{newPago.id |number:'3.0-0'}}
+              </ion-badge>
+            </ion-row>
+          </ion-col>
           <!-- Fecha Pago -->
-          <form-badge-input-item label="Fecha" padding-left no-margin>
-            <ion-input type="date" name="fecha" [readonly]="isViewOnly" [(ngModel)]="newPago.fecha"></ion-input>
-          </form-badge-input-item>
-          <!-- Saldo Cta Cte -->
-          <form-badge-item label="Saldo Cta. Cte." padding-left>
-            <h2>U$ {{saldoCliente |number:'1.2-2'}}</h2>
-          </form-badge-item>
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Fecha</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <ion-input no-margin type="date" name="fecha" [(ngModel)]="newPago.fecha" [readonly]="isViewOnly" required></ion-input>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
           <!-- Ref Dolar -->
-          <form-badge-input-item label="Ref. Dolar" padding-left>
-            <ion-input type="number" name="dolarValor" [readonly]="isViewOnly" [(ngModel)]="newPago.RefDolar.valor"></ion-input>
-          </form-badge-input-item>
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Ref. Dolar</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines [color]="((newPago?.RefDolar?.valor >=0)&&(inrefDolar.value))?'formInput':'danger'" no-margin>
+                <span item-start>$</span>
+                <ion-input #inrefDolar no-margin type="number" name="refDolar" [(ngModel)]="newPago.RefDolar.valor" [readonly]="isViewOnly"
+                  required></ion-input>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+          <!-- Saldo Cta Cte -->
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Saldo Cta. Cte.</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                U$ {{saldoCliente |number:'1.2-2'}}
+              </ion-badge>
+            </ion-row>
+          </ion-col>
           <!-- Total Pago -->
-          <form-badge-item label="Total Pago (U$)" padding-left>
-            <h2>U$ {{calTotalPago() |number:'1.2-2'}}</h2>
-          </form-badge-item>
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Total Pago(U$)</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <strong>U$ {{calTotalPago() |number:'1.2-2'}}</strong>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
           <!-- Saldo Actual -->
-          <form-badge-item label="Saldo Actual" padding-left>
-            <h2>U$ {{calSandoActual() |number:'1.2-2'}}</h2>
-          </form-badge-item>
+          <ion-col col-auto>
+            <ion-row>
+              <ion-badge color="formLabel">Saldo Actual(U$)</ion-badge>
+            </ion-row>
+            <ion-row>
+              <ion-badge ion-item no-lines color="formInput" no-margin>
+                <strong>U$ {{calSandoActual() |number:'1.2-2'}}</strong>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
         </ion-row>
+        <!-- Comentarios -->
         <ion-row>
           <ion-col>
             <ion-row>
@@ -57,13 +102,29 @@
     </button>
     <ion-row [hidden]="!showEfectivo">
       <!-- PESOS -->
-      <form-badge-input-item label="Monto Efectivo ($)">
-        <ion-input type="number" [readonly]="isViewOnly" name="Efectivo" [(ngModel)]="newPago.efectivo"></ion-input>
-      </form-badge-input-item>
+      <ion-col col-auto>
+        <ion-row>
+          <ion-badge color="formLabel">Monto Efectivo ($)</ion-badge>
+        </ion-row>
+        <ion-row>
+          <ion-badge ion-item no-lines [color]="((newPago?.efectivo >=0))?'formInput':'danger'" no-margin>
+            <span item-start>$</span>
+            <ion-input #inEfectivo no-margin type="number" name="efectivo" [(ngModel)]="newPago.efectivo" [readonly]="isViewOnly" required></ion-input>
+          </ion-badge>
+        </ion-row>
+      </ion-col>
       <!-- DOLARES -->
-      <form-badge-input-item label="Monto Dolares (U$)" padding-left>
-        <ion-input type="number" [readonly]="isViewOnly" name="dolares" [(ngModel)]="newPago.dolares"></ion-input>
-      </form-badge-input-item>
+      <ion-col col-auto>
+        <ion-row>
+          <ion-badge color="formLabel">Monto Dolares (U$)</ion-badge>
+        </ion-row>
+        <ion-row>
+          <ion-badge ion-item no-lines [color]="((newPago?.dolares >=0))?'formInput':'danger'" no-margin>
+            <span item-start>U$</span>
+            <ion-input #inDolares no-margin type="number" name="dolares" [(ngModel)]="newPago.dolares" [readonly]="isViewOnly" required></ion-input>
+          </ion-badge>
+        </ion-row>
+      </ion-col>
     </ion-row>
     <!-- Cheques Header-->
     <ion-row ion-item no-lines color="listDivider1" text-center>
