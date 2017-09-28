@@ -42,6 +42,11 @@ export class CtasCtesProvider {
   genNotaDebitoUpdateData(updData, id, valor) {
     updData[`${SUC_DOCUMENTOS_ROOT}NotaDebito/${id}/`] = valor;
   }
+
+  getNotaDebito(id:number):Observable<NotaDebito>{
+    return this.db.object(`${SUC_DOCUMENTOS_ROOT}NotaDebito/${id}/`).map((snap:NotaDebito)=>snap);
+  }
+
   addNotaDebito(nd: NotaDebito): Observable<string> {
     return new Observable((obs) => { nd.Creador = this.sucP.genUserDoc(); });
   }

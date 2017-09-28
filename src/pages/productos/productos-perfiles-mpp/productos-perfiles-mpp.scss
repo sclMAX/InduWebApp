@@ -1,0 +1,11 @@
+page-productos-perfiles-mpp {
+    .toolbar{
+        background-color: color($colors,toolBar); 
+        opacity: $opacidad;
+    }   
+    .scroll-content{
+        background-color: color($colors,scroll-content);
+        opacity: $opacidad;
+        overflow-y:auto;   
+    }   
+}

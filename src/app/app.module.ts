@@ -1,4 +1,9 @@
-import {ChequeRechazarPage} from './../pages/fondos/cheques/cheque-rechazar/cheque-rechazar';
+import {
+  ProductosPerfilesMppPage
+} from './../pages/productos/productos-perfiles-mpp/productos-perfiles-mpp';
+import {
+  ChequeRechazarPage
+} from './../pages/fondos/cheques/cheque-rechazar/cheque-rechazar';
 import {
   RepartosCardComponent
 } from './../components/repartos/repartos-card/repartos-card';
@@ -259,7 +264,8 @@ import {
     RepartoCerrarPage,
     StockIngresosCardComponent,
     RepartosCardComponent,
-    ChequeRechazarPage
+    ChequeRechazarPage,
+    ProductosPerfilesMppPage
   ],
   imports: [
     BrowserModule,
@@ -301,7 +307,8 @@ import {
     RepartoAmPage,
     RepartoEnProcesoPage,
     RepartoCerrarPage,
-    ChequeRechazarPage
+    ChequeRechazarPage,
+    ProductosPerfilesMppPage
   ],
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},

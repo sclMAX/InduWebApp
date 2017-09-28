@@ -2,6 +2,8 @@ import {FECHA, ClaseControlada} from './comunes.clases';
 import {Perfil, Color} from './productos.clases';
 import * as moment from 'moment';
 
+export const NOTA_DEBITO:string ='NotaDebito';
+
 export class Documento extends ClaseControlada {
   id: number;
   idCliente: number;
@@ -20,7 +22,7 @@ export class NotaDebito extends Documento {
   Items: NotaDebitoItem[] = [];
   constructor() {
     super();
-    this.tipo = 'NotaDebito';
+    this.tipo = NOTA_DEBITO;
   }
 }
 export interface NotaDebitoItem {

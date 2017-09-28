@@ -1,3 +1,5 @@
+import {ClientesProvider} from './../../../providers/clientes/clientes';
+import {NOTA_DEBITO} from './../../../models/documentos.class';
 import {Component, Input} from '@angular/core';
 import {LoadingController, NavController, ToastController} from 'ionic-angular';
 import {Cliente, CtaCte} from './../../../models/clientes.clases';
@@ -18,6 +20,7 @@ import {PagosProvider} from './../../../providers/pagos/pagos';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {printEntrega} from '../../../print/print-pedidos';
 import {numFormat} from '../../../print/config-comun';
+import {printNotaDebito} from "../../../print/print-ctacte";
 
 @Component({
   selector: 'cliente-cta-cte-card',
@@ -33,6 +36,7 @@ export class ClienteCtaCteCardComponent {
 
   constructor(public navCtrl: NavController, private ctaCteP: CtasCtesProvider,
               private pedidosP: PedidosProvider, private pagosP: PagosProvider,
+              private clientesP: ClientesProvider,
               private loadCtrl: LoadingController,
               private toastCtrl: ToastController) {}
 
@@ -43,7 +47,7 @@ export class ClienteCtaCteCardComponent {
   onClickItem(item: CtaCte) {
     let load = this.loadCtrl.create({content: 'Buscando datos...'});
     let toast = this.toastCtrl.create(
-        {position: 'middle', duration: 1000, message: 'Sin Conexion!'});
+        {position: 'middle', duration: 1000, message: 'Datos no encontrasdos o Sin Conexion!'});
     switch (item.tipoDocumento) {
       case PAGO:
         load.setContent(`Buscando Pago Nro:${item.numero}...`);
@@ -102,6 +106,26 @@ export class ClienteCtaCteCardComponent {
                               `Pedido Nro.${numFormat(data.id,'3.0-0')}`,
                               this.pedidosP, saldo);
                         });
+                  },
+                  (error) => {
+                    load.dismiss();
+                    toast.present();
+                  });
+        });
+        break;
+      case NOTA_DEBITO:
+        load.setContent(`Buscando Nota de Debito Nro:${item.numero}...`);
+        load.present().then(() => {
+          this.ctaCteP.getNotaDebito(item.numero)
+              .subscribe(
+                  (data) => {
+                    load.dismiss();
+                    if (data && data.idCliente) {
+                      printNotaDebito(data,
+                                      this.clientesP.getOnePromise(data.idCliente));
+                    } else {
+                      toast.present();
+                    }
                   },
                   (error) => {
                     load.dismiss();
