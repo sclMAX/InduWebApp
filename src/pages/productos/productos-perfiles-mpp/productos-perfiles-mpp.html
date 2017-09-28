@@ -1,18 +1,56 @@
-<!--
-  Generated template for the ProductosPerfilesMppPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>ProductosPerfilesMpp</ion-title>
+<ion-header no-border>
+  <ion-navbar hideBackButton color="toolBar" text-center>
+    <ion-title>Perfil {{perfil?.codigo}}</ion-title>
   </ion-navbar>
-
 </ion-header>
-
-
 <ion-content padding>
+ <ion-list>
+   <ion-item-divider color="listDivider1" text-center no-lines>Detalle de Stock</ion-item-divider>
+   <ion-item *ngFor="let color of stock?.Stocks" color="scroll-content">
+    <ion-grid>
+     <ion-row>
+       <!-- COLOR -->
+       <ion-col>
+         <ion-row><ion-badge color="formLabel">Color</ion-badge></ion-row>
+         <ion-row>
+           <ion-badge ion-item color="formInput" no-margin>
+             {{color?.id}}
+           </ion-badge>
+         </ion-row>
+       </ion-col>
+       <!-- Stock -->
+       <ion-col>
+          <ion-row><ion-badge color="formLabel">Stock Actual</ion-badge></ion-row>
+          <ion-row>
+            <ion-badge ion-item color="formInput" no-margin>
+              {{color?.stock}}
+            </ion-badge>
+          </ion-row>
+        </ion-col>
+        <!-- MPP -->
+        <ion-col>
+            <ion-row><ion-badge color="formLabel">Minimo Punto Pedido</ion-badge></ion-row>
+            <ion-row>
+              <ion-badge ion-item color="formInput" no-margin>
+                <ion-input type="number" name="mpp" [(ngModel)]="color.mpp" required (ionChange)="isChange = true"></ion-input>
+              </ion-badge>
+            </ion-row>
+          </ion-col>
+     </ion-row>
+    </ion-grid>    
+   </ion-item>
+ </ion-list>
 
 </ion-content>
+<ion-footer color="subToolBar" text-center>
+  <ion-item-divider color="subToolBar" text-center no-lines>
+    Stock Total: <strong>{{getTotal(stock)}}</strong>
+  </ion-item-divider>
+</ion-footer>
+<ion-fab bottom left>
+  <button ion-fab color="light" (click)="goBack()"><ion-icon name="close"></ion-icon></button> 
+</ion-fab>
+<ion-fab bottom right>
+  <button ion-fab [disabled]="!isChange" (click)="aceptar()"><ion-icon name="done-all"></ion-icon></button>
+</ion-fab>
