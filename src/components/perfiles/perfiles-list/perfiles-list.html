@@ -1,7 +1,7 @@
 <div>
   <ion-list [color]="color">
     <ion-item *ngIf="showToolBar" color="toolBar" no-lines><span item-end>{{getTotalKilos() |number:'1.2-2'}}kg</span></ion-item>
-    <ion-item-sliding *ngFor="let perfil of perfiles; let p = even">
+    <ion-item-sliding *ngFor="let perfil of perfiles; let p = even"  no-lines>
       <button ion-item (click)="onClickItem(perfil)" [color]="(p && colorPar)?colorPar:color" no-lines>
       <!-- ShowImagen -->
       <perfiles-perfil-img *ngIf="showImg" item-start [perfil]="perfil"></perfiles-perfil-img>
@@ -30,7 +30,7 @@
           </tr>
         </table>
     </button>
-      <ion-item-options *ngIf="showToolBar">
+      <ion-item-options *ngIf="showToolBar"  no-lines>
         <button ion-button (click)="edit(perfil)"><ion-icon name="md-options"></ion-icon></button>
       </ion-item-options>
     </ion-item-sliding>
