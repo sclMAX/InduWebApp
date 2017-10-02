@@ -31,6 +31,22 @@
     "nombre" : "Bronce",
     "precioUs" : 8
   },
+  "Marron 25" : {
+    "descripcion" : "Pintado Marron 25",
+    "id" : "Marron 25",
+    "idColorPlanta" : "Marron 25",
+    "isPintura" : true,
+    "nombre" : "Marron 25",
+    "precioUs" : 8
+  },
+  "Gris Azulado" : {
+    "descripcion" : "Pintado Gris Azulado",
+    "id" : "Gris Azulado",
+    "idColorPlanta" : "Gris Azulado",
+    "isPintura" : true,
+    "nombre" : "Gris Azulado",
+    "precioUs" : 8
+  },
   "Natural" : {
     "descripcion" : "Perfil Natural",
     "id" : "Natural",
