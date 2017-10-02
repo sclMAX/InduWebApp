@@ -49,6 +49,14 @@ export class ProductosProvider {
     });
   }
 
+  getPerfil(id: string): Promise<Perfil> {
+    return new Promise<Perfil>((res, rej) => {
+      this.getPerfiles()
+          .map(perfiles => perfiles.find(p => p.id == id))
+          .subscribe(p => res(p), err => rej(err));
+    });
+  }
+
   getLineas(): Observable<Linea[]> {
     return new Observable((obs) => {
       if (this.Lineas) {
@@ -70,5 +78,4 @@ export class ProductosProvider {
       }
     });
   }
- }
-
+}

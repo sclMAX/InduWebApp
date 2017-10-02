@@ -49,4 +49,12 @@ export class ColoresProvider {
       }
     });
   }
+
+  getColor(id: string): Promise<Color> {
+    return new Promise<Color>((res, rej) => {
+      this.getAll()
+          .map(colores => colores.find(c => c.id == id))
+          .subscribe(color => res(color), err => rej(err));
+    });
+  }
 }

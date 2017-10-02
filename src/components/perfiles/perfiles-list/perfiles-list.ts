@@ -1,12 +1,14 @@
-import { Observable } from 'rxjs/Observable';
-import { ProductosPerfilesMppPage } from './../../../pages/productos/productos-perfiles-mpp/productos-perfiles-mpp';
-import { ModalController } from 'ionic-angular';
-import { StockItem } from './../../../models/stock.clases';
-import { StockProvider } from './../../../providers/stock/stock';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Perfil } from '../../../models/productos.clases';
+import {Observable} from 'rxjs/Observable';
+import {
+  ProductosPerfilesMppPage
+} from './../../../pages/productos/productos-perfiles-mpp/productos-perfiles-mpp';
+import {ModalController} from 'ionic-angular';
+import {StockItem} from './../../../models/stock.clases';
+import {StockProvider} from './../../../providers/stock/stock';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Perfil} from '../../../models/productos.clases';
 
-@Component({ selector: 'perfiles-list', templateUrl: 'perfiles-list.html' })
+@Component({selector: 'perfiles-list', templateUrl: 'perfiles-list.html'})
 export class PerfilesListComponent {
   @Input('perfiles') perfiles: Perfil[];
   @Input('color') color: string;
@@ -14,9 +16,10 @@ export class PerfilesListComponent {
   @Input('showImg') showImg: boolean = true;
   @Input() showToolBar: boolean = true;
   @Output() onSelectItem: EventEmitter<Perfil> = new EventEmitter<Perfil>();
-  stocks: Array<{ id: string, totalBarras: number, stocks: Observable<StockItem[]> }> = [];
+  stocks: Array<
+      {id: string, totalBarras: number, stocks: Observable<StockItem[]>}> = [];
   @Output() onCalcTotalKilos: EventEmitter<number> = new EventEmitter<number>();
-  constructor(private stockP: StockProvider, private modalCtrl: ModalController) { }
+  constructor(private stockP: StockProvider, private modalCtrl: ModalController) {}
 
   onClickItem(perfil) { this.onSelectItem.emit(perfil); }
 
@@ -61,10 +64,7 @@ export class PerfilesListComponent {
   }
 
   edit(item: Perfil) {
-    let modal = this.modalCtrl.create(ProductosPerfilesMppPage, { Perfil: item });
+    let modal = this.modalCtrl.create(ProductosPerfilesMppPage, {Perfil: item});
     modal.present();
   }
-
-  ngOnInit() { }
-  ionViewWillEnter() { }
 }
