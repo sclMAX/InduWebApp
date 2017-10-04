@@ -1,11 +1,11 @@
-import {ClientesProvider} from './../clientes/clientes';
-import {LogProvider} from './../log/log';
-import {Injectable} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import { ClientesProvider } from './../clientes/clientes';
+import { LogProvider } from './../log/log';
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from 'angularfire2/database';
 import * as moment from 'moment';
-import {Observable} from 'rxjs/Observable';
-import {Cliente} from './../../models/clientes.clases';
-import {FECHA} from './../../models/comunes.clases';
+import { Observable } from 'rxjs/Observable';
+import { Cliente } from './../../models/clientes.clases';
+import { FECHA } from './../../models/comunes.clases';
 import {
   Pedido,
   PedidoItem,
@@ -16,17 +16,17 @@ import {
   ENTREGADO,
   PEDIDO_CANCELADO
 } from './../../models/pedidos.clases';
-import {Usuario} from './../../models/user.class';
-import {Adicional, AdicionalesProvider} from './../adicionales/adicionales';
-import {ContadoresProvider} from './../contadores/contadores';
-import {CtasCtesProvider} from './../ctas-ctes/ctas-ctes';
+import { Usuario } from './../../models/user.class';
+import { Adicional, AdicionalesProvider } from './../adicionales/adicionales';
+import { ContadoresProvider } from './../contadores/contadores';
+import { CtasCtesProvider } from './../ctas-ctes/ctas-ctes';
 import {
   DescuentoKilos,
   DescuentosGlobales,
   DescuentosProvider
 } from './../descuentos/descuentos';
-import {DolarProvider} from './../dolar/dolar';
-import {StockProvider} from './../stock/stock';
+import { DolarProvider } from './../dolar/dolar';
+import { StockProvider } from './../stock/stock';
 import {
   SUC_DOCUMENTOS_PEDIDOS,
   SUC_DOCUMENTOS_ROOT,
@@ -42,23 +42,23 @@ export class PedidosProvider {
   private descuentos: DescuentosGlobales;
   private usuario: Usuario;
   constructor(private db: AngularFireDatabase,
-              private contadoresP: ContadoresProvider,
-              private ctacteP: CtasCtesProvider, private dolarP: DolarProvider,
-              private clientesP: ClientesProvider,
-              private adicionalesP: AdicionalesProvider,
-              private descuentosP: DescuentosProvider,
-              private sucP: SucursalProvider, private stockP: StockProvider,
-              private logP: LogProvider) {
+    private contadoresP: ContadoresProvider,
+    private ctacteP: CtasCtesProvider, private dolarP: DolarProvider,
+    private clientesP: ClientesProvider,
+    private adicionalesP: AdicionalesProvider,
+    private descuentosP: DescuentosProvider,
+    private sucP: SucursalProvider, private stockP: StockProvider,
+    private logP: LogProvider) {
     this.adicionalesP.getAdicionales().subscribe(
-        (data) => { this.adicionales = data; });
+      (data) => { this.adicionales = data; });
     this.descuentosP.getDescuentos().subscribe(
-        (ok) => { this.descuentos = ok; });
+      (ok) => { this.descuentos = ok; });
     this.usuario = this.sucP.getUsuario();
   }
 
   genUpdateData(updData, pedido: Pedido, tipo, valor?) {
     updData[`${SUC_DOCUMENTOS_ROOT}${tipo}/${pedido.id}/`] =
-        (valor) ? valor : pedido;
+      (valor) ? valor : pedido;
   }
 
   add(pedido: Pedido): Observable<string> {
@@ -75,15 +75,15 @@ export class PedidosProvider {
       let log = this.sucP.genLog(pedido);
       updData[`${SUC_LOG_ROOT}${pedido.tipo}/Creados/${log.id}/`] = log;
       this.db.database.ref()
-          .update(updData)
-          .then((ok) => {
-            obs.next(`Se guardo correctamete el ${pedido.tipo} N: 00${Nro}`);
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error('Error de Conexion... No se pudo Guardar!');
-            obs.complete();
-          });
+        .update(updData)
+        .then((ok) => {
+          obs.next(`Se guardo correctamete el ${pedido.tipo} N: 00${Nro}`);
+          obs.complete();
+        })
+        .catch((error) => {
+          obs.error('Error de Conexion... No se pudo Guardar!');
+          obs.complete();
+        });
     });
   }
 
@@ -98,15 +98,15 @@ export class PedidosProvider {
       updData[`${SUC_LOG_ROOT}Pedidos/Modificados/${log.id}/`] = log;
       // Actualizar
       this.db.database.ref()
-          .update(updData)
-          .then((ok) => {
-            obs.next(`${pedido.tipo} Actualizado correctamente!`);
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(`Error al intentes actualizar!... ERROR: ${error}`);
-            obs.complete();
-          });
+        .update(updData)
+        .then((ok) => {
+          obs.next(`${pedido.tipo} Actualizado correctamente!`);
+          obs.complete();
+        })
+        .catch((error) => {
+          obs.error(`Error al intentes actualizar!... ERROR: ${error}`);
+          obs.complete();
+        });
     });
   }
 
@@ -120,15 +120,15 @@ export class PedidosProvider {
       updData[`${SUC_LOG_ROOT}Pedidos/Eliminados/${log.id}/`] = log;
       // Actualizar
       this.db.database.ref()
-          .update(updData)
-          .then((ok) => {
-            obs.next(`${pedido.tipo} Eliminado!`);
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(`No se pudo Eliminar el ${pedido.tipo}`);
-            obs.complete();
-          });
+        .update(updData)
+        .then((ok) => {
+          obs.next(`${pedido.tipo} Eliminado!`);
+          obs.complete();
+        })
+        .catch((error) => {
+          obs.error(`No se pudo Eliminar el ${pedido.tipo}`);
+          obs.complete();
+        });
     });
   }
 
@@ -140,36 +140,36 @@ export class PedidosProvider {
       // Actualizar stock
       pedido.Items.forEach((i) => { i.isStockActualizado = false; });
       this.stockP.genMultiUpdadeData(updData, pedido.Items, true)
-          .subscribe(
-              (data) => {
-                updData = data;
-                // Mover a Cancelados
-                pedido.tipo = PEDIDO_CANCELADO;
-                this.genUpdateData(updData, pedido, PEDIDO_CANCELADO, pedido);
-                // Actualizar Cta.Cte.
-                if (pedido.isInCtaCte) {
-                  this.ctacteP.genDocUpdateData(updData, pedido, false);
-                }
-                // log
-                this.logP.genPedidoUpdateData(updData, pedido, 'Cancelado');
-                // Ejecutar peticion
-                this.db.database.ref()
-                    .update(updData)
-                    .then(() => {
-                      obs.next('Pedido Eliminado!');
-                      obs.complete();
-                    })
-                    .catch((error) => {
-                      obs.error(
-                          `No se pudo Eliminar el Pedido! Error:${error}`);
-                      obs.complete();
-                    });
+        .subscribe(
+        (data) => {
+          updData = data;
+          // Mover a Cancelados
+          pedido.tipo = PEDIDO_CANCELADO;
+          this.genUpdateData(updData, pedido, PEDIDO_CANCELADO, pedido);
+          // Actualizar Cta.Cte.
+          if (pedido.isInCtaCte) {
+            this.ctacteP.genDocUpdateData(updData, pedido, false);
+          }
+          // log
+          this.logP.genPedidoUpdateData(updData, pedido, 'Cancelado');
+          // Ejecutar peticion
+          this.db.database.ref()
+            .update(updData)
+            .then(() => {
+              obs.next('Pedido Eliminado!');
+              obs.complete();
+            })
+            .catch((error) => {
+              obs.error(
+                `No se pudo Eliminar el Pedido! Error:${error}`);
+              obs.complete();
+            });
 
-              },
-              (error) => {
-                obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
-                obs.complete();
-              });
+        },
+        (error) => {
+          obs.error(`No se pudo Eliminar el Pedido! Error:${error}`);
+          obs.complete();
+        });
     });
   }
 
@@ -190,16 +190,16 @@ export class PedidosProvider {
       updData[`${SUC_LOG_ROOT}${PEDIDO}/Creado/${log.id}/`] = log;
       // Ejecutar peticion
       this.db.database.ref()
-          .update(updData)
-          .then(() => {
-            obs.next(
-                `Presupuesto ${pedido.id} Confirmado a Pedido ${pedido.id}!`);
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(`No se pudo confirmar el Presupuesto!...Error:${error}`);
-            obs.complete();
-          });
+        .update(updData)
+        .then(() => {
+          obs.next(
+            `Presupuesto ${pedido.id} Confirmado a Pedido ${pedido.id}!`);
+          obs.complete();
+        })
+        .catch((error) => {
+          obs.error(`No se pudo confirmar el Presupuesto!...Error:${error}`);
+          obs.complete();
+        });
     });
   }
 
@@ -209,45 +209,45 @@ export class PedidosProvider {
       // Set Tipo
       pedido.tipo = EMBALADO;
       this.clientesP.getOnePromise(pedido.idCliente)
-          .then((cliente) => {
-            // Recalcular totales
-            pedido.Items.forEach((i) => {
-              i.unidades = this.calUnidades(i);
-              this.calSubTotalU$(i, cliente);
+        .then((cliente) => {
+          // Recalcular totales
+          pedido.Items.forEach((i) => {
+            i.unidades = this.calUnidades(i);
+            this.calSubTotalU$(i, cliente);
+          });
+          pedido.totalUnidades = this.calTotalUnidades(pedido);
+          pedido.totalUs = this.calTotalU$(pedido, cliente);
+          // Set Modificador
+          pedido.Modificador = this.sucP.genUserDoc();
+          // Eliminar el Pedido
+          this.genUpdateData(updData, pedido, PEDIDO, {});
+          // Add Pedido a Embalados
+          this.genUpdateData(updData, pedido, EMBALADO);
+          // Generar Actualizacion Multiple de Stock
+          this.stockP.genMultiUpdadeData(updData, pedido.Items, false)
+            .subscribe(
+            (data) => {
+              updData = data;
+              // Ejecutar peticion
+              this.db.database.ref()
+                .update(updData)
+                .then(() => {
+                  obs.next('Stock Actualizado Correctamente!');
+                  obs.complete();
+                })
+                .catch((error) => {
+                  obs.error(
+                    `No se pudo actualizar el Stock! Error:${error}`);
+                  obs.complete();
+                });
+            },
+            (error) => {
+              obs.error(error);
+              obs.complete();
             });
-            pedido.totalUnidades = this.calTotalUnidades(pedido);
-            pedido.totalUs = this.calTotalU$(pedido, cliente);
-            // Set Modificador
-            pedido.Modificador = this.sucP.genUserDoc();
-            // Eliminar el Pedido
-            this.genUpdateData(updData, pedido, PEDIDO, {});
-            // Add Pedido a Embalados
-            this.genUpdateData(updData, pedido, EMBALADO);
-            // Generar Actualizacion Multiple de Stock
-            this.stockP.genMultiUpdadeData(updData, pedido.Items, false)
-                .subscribe(
-                    (data) => {
-                      updData = data;
-                      // Ejecutar peticion
-                      this.db.database.ref()
-                          .update(updData)
-                          .then(() => {
-                            obs.next('Stock Actualizado Correctamente!');
-                            obs.complete();
-                          })
-                          .catch((error) => {
-                            obs.error(
-                                `No se pudo actualizar el Stock! Error:${error}`);
-                            obs.complete();
-                          });
-                    },
-                    (error) => {
-                      obs.error(error);
-                      obs.complete();
-                    });
-            // Fin Multiple
-          })
-          .catch(error => obs.error(error));
+          // Fin Multiple
+        })
+        .catch(error => obs.error(error));
     });
   }
 
@@ -269,15 +269,15 @@ export class PedidosProvider {
       this.genUpdateData(updData, pedido, ENTREGADO);
       // Ejecutar peticion
       this.db.database.ref()
-          .update(updData)
-          .then(() => {
-            obs.next('Entrega Confirmada!');
-            obs.complete();
-          })
-          .catch((error) => {
-            obs.error(`No se pudo Confirmar la Entrega! Error:${error}`);
-            obs.complete();
-          });
+        .update(updData)
+        .then(() => {
+          obs.next('Entrega Confirmada!');
+          obs.complete();
+        })
+        .catch((error) => {
+          obs.error(`No se pudo Confirmar la Entrega! Error:${error}`);
+          obs.complete();
+        });
     });
   }
 
@@ -287,13 +287,13 @@ export class PedidosProvider {
 
   getAllCliente(idCliente: number, tipo: string): Observable<Pedido[]> {
     return this.db.list(
-        `${SUC_DOCUMENTOS_ROOT}${tipo}/`,
-        {query: {orderByChild: 'idCliente', equalTo: idCliente}});
+      `${SUC_DOCUMENTOS_ROOT}${tipo}/`,
+      { query: { orderByChild: 'idCliente', equalTo: idCliente } });
   }
 
   isDocsCliente(idCliente): Observable<boolean> {
     return new Observable((obs) => {
-      let q = {orderByChild: 'idCliente', equalTo: idCliente};
+      let q = { orderByChild: 'idCliente', equalTo: idCliente };
       let ok = () => {
         obs.next(true);
         obs.complete();
@@ -302,78 +302,80 @@ export class PedidosProvider {
         obs.error(error);
         obs.complete();
       };
-      this.db.list(`${SUC_DOCUMENTOS_ROOT}${PRESUPUESTO}/`, {query: q})
-          .subscribe((snap) => {
-            if (snap && snap.length > 0) {
-              ok();
-            } else {
-              this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`, {query: q})
-                  .subscribe((snap) => {
-                    if (snap && snap.length > 0) {
-                      ok();
-                    } else {
-                      this.db.list(`${SUC_DOCUMENTOS_ROOT}${EMBALADO}/`,
-                                   {query: q})
+      this.db.list(`${SUC_DOCUMENTOS_ROOT}${PRESUPUESTO}/`, { query: q })
+        .subscribe((snap) => {
+          if (snap && snap.length > 0) {
+            ok();
+          } else {
+            this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`, { query: q })
+              .subscribe((snap) => {
+                if (snap && snap.length > 0) {
+                  ok();
+                } else {
+                  this.db.list(`${SUC_DOCUMENTOS_ROOT}${EMBALADO}/`,
+                    { query: q })
+                    .subscribe((snap) => {
+                      if (snap && snap.length > 0) {
+                        ok();
+                      } else {
+                        this.db.list(`${SUC_DOCUMENTOS_ROOT
+                          }${ENREPARTO}/`,
+                          { query: q })
                           .subscribe((snap) => {
                             if (snap && snap.length > 0) {
                               ok();
                             } else {
                               this.db.list(`${SUC_DOCUMENTOS_ROOT
-                                                  }${ENREPARTO}/`,
-                                           {query: q})
-                                  .subscribe((snap) => {
-                                    if (snap && snap.length > 0) {
-                                      ok();
-                                    } else {
-                                      this.db.list(`${SUC_DOCUMENTOS_ROOT
-                                                              }${ENTREGADO}/`,
-                                                   {query: q})
-                                          .subscribe((snap) => {
-                                            if (snap && snap.length > 0) {
-                                              ok();
-                                            } else {
-                                              obs.next(false);
-                                              obs.complete();
-                                            }
-                                          }, (error) => { er(error); });
-                                    }
-                                  }, (error) => { er(error); });
+                                }${ENTREGADO}/`,
+                                { query: q })
+                                .subscribe((snap) => {
+                                  if (snap && snap.length > 0) {
+                                    ok();
+                                  } else {
+                                    obs.next(false);
+                                    obs.complete();
+                                  }
+                                }, (error) => { er(error); });
                             }
                           }, (error) => { er(error); });
-                    }
-                  }, (error) => { er(error); });
-            }
-          }, (error) => { er(error); });
+                      }
+                    }, (error) => { er(error); });
+                }
+              }, (error) => { er(error); });
+          }
+        }, (error) => { er(error); });
     });
   }
 
   getOne(tipo: string, Nro: number): Observable<Pedido> {
     return new Observable((obs) => {
       this.db.object(`${SUC_DOCUMENTOS_ROOT}${tipo}/${Nro}`)
-          .subscribe((data: Pedido) => { obs.next(data); }, (error) => {
-            obs.error(error);
-            console.error(error);
-          });
+        .subscribe((data: Pedido) => { obs.next(data); }, (error) => {
+          obs.error(error);
+          console.error(error);
+        });
     });
   }
 
   getItemsPedido(Nro: number): Observable<PedidoItem[]> {
     return new Observable((obs) => {
       this.db.list(`${SUC_DOCUMENTOS_PEDIDOS}${Nro}/Items`)
-          .subscribe((data: PedidoItem[]) => { obs.next(data); }, (error) => {
-            obs.error(error);
-            console.error(error);
-          });
+        .subscribe((data: PedidoItem[]) => { obs.next(data); }, (error) => {
+          obs.error(error);
+          console.error(error);
+        });
     });
   }
 
   calUnidades(i: PedidoItem): number {
     if (i) {
-      let u: number = 0.00;
-      let pxm: number =
+      if (!(i.Perfil.pesoBase > 0) && !(i.unidades > 0)) {
+        let u: number = 0.00;
+        let pxm: number =
           (i.Color.isPintura) ? i.Perfil.pesoPintado : i.Perfil.pesoNatural;
-      u = i.cantidad * (pxm * (i.Perfil.largo / 1000));
-      i.unidades = Number(u);
+        u = i.cantidad * (pxm * (i.Perfil.largo / 1000));
+        i.unidades = Number(u);
+      }
       return i.unidades;
     }
     return 0;
@@ -382,7 +384,7 @@ export class PedidosProvider {
   calTotalUnidades(pedido: Pedido): number {
     if (pedido && pedido.Items) {
       pedido.totalUnidades =
-          pedido.Items.reduce((sum, dato) => sum + Number(dato.unidades), 0);
+        pedido.Items.reduce((sum, dato) => sum + Number(dato.unidades), 0);
       return pedido.totalUnidades;
     }
     return 0;
@@ -395,22 +397,22 @@ export class PedidosProvider {
     } else {
       pUs = i.Color.precioUs * 1;
       let adLinea =
-          this.adicionales.find((ad) => { return ad.id == i.Perfil.Linea.id; });
+        this.adicionales.find((ad) => { return ad.id == i.Perfil.Linea.id; });
       let adPerfil =
-          this.adicionales.find((ad) => { return ad.id == i.Perfil.id; });
+        this.adicionales.find((ad) => { return ad.id == i.Perfil.id; });
       pUs = pUs + ((adLinea) ? adLinea.adicional * 1 : 0) +
-            ((adPerfil) ? adPerfil.adicional * 1 : 0);
+        ((adPerfil) ? adPerfil.adicional * 1 : 0);
       if (cliente && cliente.Descuentos && cliente.Descuentos.length > 0) {
         let deLinea = cliente.Descuentos.find(
-            (de) => { return de.id == i.Perfil.Linea.id; });
+          (de) => { return de.id == i.Perfil.Linea.id; });
         let dePerfil =
-            cliente.Descuentos.find((de) => { return de.id == i.Perfil.id; });
+          cliente.Descuentos.find((de) => { return de.id == i.Perfil.id; });
         let deColor =
-            cliente.Descuentos.find((de) => { return de.id == i.Color.id; });
+          cliente.Descuentos.find((de) => { return de.id == i.Color.id; });
         let des: number = 0.00;
         des += (deLinea && deLinea.descuento) ? (deLinea.descuento / 100) : 0;
         des +=
-            (dePerfil && dePerfil.descuento) ? (dePerfil.descuento / 100) : 0;
+          (dePerfil && dePerfil.descuento) ? (dePerfil.descuento / 100) : 0;
         des += (deColor && deColor.descuento) ? (deColor.descuento / 100) : 0;
         if (this.usuario && (des > (this.usuario.maxDescuentoItem / 100))) {
           des = this.usuario.maxDescuentoItem / 100;
@@ -419,7 +421,7 @@ export class PedidosProvider {
         pUs = pUs / (1 + des);
       }
     }
-    i.precioUs = pUs * 1;
+    i.precioUs = Number(pUs);
     return pUs;
   }
 
@@ -439,7 +441,7 @@ export class PedidosProvider {
     let tUs: number = 0.00;
     if (pedido && pedido.Items) {
       pedido.Items.forEach(
-          (i) => { tUs += this.calSubTotalU$(i, cliente) * 1; });
+        (i) => { tUs += this.calSubTotalU$(i, cliente) * 1; });
     }
     return tUs * 1;
   }
@@ -449,22 +451,22 @@ export class PedidosProvider {
       let tUs: number = this.calTotalU$(pedido, cliente);
       pedido.descuentoKilos = this.calDescuentoKilos(pedido);
       tUs = tUs / ((pedido.descuentoKilos > 0) ?
-                       (1 + (pedido.descuentoKilos / 100)) :
-                       1);
+        (1 + (pedido.descuentoKilos / 100)) :
+        1);
       if (pedido) {
         if (pedido.Dolar && pedido.Dolar.valor && pedido.Dolar.valor > 0) {
           obs.next(tUs * pedido.Dolar.valor * 1);
           obs.complete();
         } else {
           this.dolarP.getDolarValor().subscribe(
-              (vU$) => {
-                obs.next(tUs * vU$);
-                obs.complete();
-              },
-              (error) => {
-                obs.error(error);
-                obs.complete();
-              });
+            (vU$) => {
+              obs.next(tUs * vU$);
+              obs.complete();
+            },
+            (error) => {
+              obs.error(error);
+              obs.complete();
+            });
         }
       } else {
         obs.error();

@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import * as moment from 'moment';
 
-import {FECHA} from '../../../../models/comunes.clases';
+import { FECHA } from '../../../../models/comunes.clases';
 
-import {Cliente} from './../../../../models/clientes.clases';
-import {Cheque} from './../../../../models/fondos.clases';
-import {ClientesProvider} from './../../../../providers/clientes/clientes';
-import {FondosProvider} from './../../../../providers/fondos/fondos';
+import { Cliente } from './../../../../models/clientes.clases';
+import { Cheque } from './../../../../models/fondos.clases';
+import { ClientesProvider } from './../../../../providers/clientes/clientes';
 
 @Component({
   selector: 'page-print-cheques-en-cartera',
@@ -17,25 +17,29 @@ export class PrintChequesEnCarteraPage {
   title: string = 'Listado de Cheques en Cartera';
   isPrint: boolean = false;
   fecha: string = moment().format(FECHA);
-  cheques: Cheque[] = [];
-  private clientes: Cliente[] = [];
+  cheques: Observable<Cheque[]>;
+  private clientes: Array<{ id: number, Data: Observable<Cliente> }> = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private fondosP: FondosProvider,
-              private clientesP: ClientesProvider) {
+    private clientesP: ClientesProvider) {
     this.cheques = this.navParams.get('Cheques');
     this.title = (this.navParams.get('Title')) ? this.navParams.get('Title') :
-                                                 this.title;
-    if (!this.cheques || !(this.cheques.length > 0)) {
-      this.getData();
-    } else {
-      this.getClientes(this.cheques);
+      this.title;
+    if (!this.cheques) {
+      this.navCtrl.pop();
     }
   }
 
-  getCliente(cheque: Cheque): Cliente {
+  getCliente(cheque: Cheque): Observable<Cliente> {
     if (cheque) {
-      return this.clientes.find(
-          (c) => { return c.id == cheque.EntregadoPor.idCliente; });
+      let clientes = this.clientes.find(c => c.id == cheque.EntregadoPor.idCliente);
+      if (clientes) {
+        return clientes.Data;
+      } else {
+        this.clientes.push({
+          id: cheque.EntregadoPor.idCliente,
+          Data: this.clientesP.getOne(cheque.EntregadoPor.idCliente)
+        });
+      }
     }
   }
 
@@ -46,12 +50,11 @@ export class PrintChequesEnCarteraPage {
     return 0;
   }
 
-  calTotal(): number {
-    let total: number = 0.00;
-    if (this.cheques) {
-      this.cheques.forEach((c) => { total += Number(c.monto); });
+  calTotal(cheques: Cheque[]): number {
+    if (cheques) {
+      return cheques.reduce((sum, data) => sum + Number(data.monto), 0);
     }
-    return total;
+    return 0.00;
   }
 
   goPrint() {
@@ -63,19 +66,4 @@ export class PrintChequesEnCarteraPage {
   }
 
   goBack() { this.navCtrl.pop(); }
-
-  private async getClientes(data) {
-    this.clientes = [];
-    data.forEach((d) => {
-      this.clientesP.getOne(d.EntregadoPor.idCliente)
-          .subscribe((cliente) => { this.clientes.push(cliente); });
-    });
-  }
-
-  private async getData() {
-    this.fondosP.getChequesEnCartera().subscribe((data) => {
-      this.cheques = data;
-      this.getClientes(data);
-    });
-  }
 }
