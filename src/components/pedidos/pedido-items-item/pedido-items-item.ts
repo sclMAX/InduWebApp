@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Cliente} from './../../../models/clientes.clases';
-import {Pedido} from './../../../models/pedidos.clases';
+import { Pedido, PedidoItem } from './../../../models/pedidos.clases';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 
@@ -19,9 +19,9 @@ export class PedidoItemsItemComponent {
         .subscribe((cliente) => { this.cliente = cliente; });
   }
 
-  calUnidades(item): number { return this.pedidosP.calUnidades(item); }
+  calUnidades(item:PedidoItem): number { return this.pedidosP.calUnidades(item); }
 
-  calPrecioU$(item) { return this.pedidosP.calPrecioU$(item, this.cliente); }
+  calPrecioU$(item:PedidoItem) { return this.pedidosP.calPrecioU$(item, this.cliente); }
 
   calSubTotalU$(item) {
     return this.pedidosP.calSubTotalU$(item, this.cliente);
