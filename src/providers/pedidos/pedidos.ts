@@ -1,3 +1,4 @@
+import {ClientesProvider} from './../clientes/clientes';
 import {LogProvider} from './../log/log';
 import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
@@ -43,6 +44,7 @@ export class PedidosProvider {
   constructor(private db: AngularFireDatabase,
               private contadoresP: ContadoresProvider,
               private ctacteP: CtasCtesProvider, private dolarP: DolarProvider,
+              private clientesP: ClientesProvider,
               private adicionalesP: AdicionalesProvider,
               private descuentosP: DescuentosProvider,
               private sucP: SucursalProvider, private stockP: StockProvider,
@@ -136,9 +138,7 @@ export class PedidosProvider {
       // Set a Null
       this.genUpdateData(updData, pedido, pedido.tipo, {});
       // Actualizar stock
-      pedido.Items.forEach((i)=>{
-        i.isStockActualizado = false;
-      });
+      pedido.Items.forEach((i) => { i.isStockActualizado = false; });
       this.stockP.genMultiUpdadeData(updData, pedido.Items, true)
           .subscribe(
               (data) => {
@@ -208,35 +208,46 @@ export class PedidosProvider {
       let updData = {};
       // Set Tipo
       pedido.tipo = EMBALADO;
-      // Set Modificador
-      pedido.Modificador = this.sucP.genUserDoc();
-      // Eliminar el Pedido
-      this.genUpdateData(updData, pedido, PEDIDO, {});
-      // Add Pedido a Embalados
-      this.genUpdateData(updData, pedido, EMBALADO);
-      // Generar Actualizacion Multiple de Stock
-      this.stockP.genMultiUpdadeData(updData, pedido.Items, false)
-          .subscribe(
-              (data) => {
-                updData = data;
-                // Ejecutar peticion
-                this.db.database.ref()
-                    .update(updData)
-                    .then(() => {
-                      obs.next('Stock Actualizado Correctamente!');
-                      obs.complete();
-                    })
-                    .catch((error) => {
-                      obs.error(
-                          `No se pudo actualizar el Stock! Error:${error}`);
+      this.clientesP.getOnePromise(pedido.idCliente)
+          .then((cliente) => {
+            // Recalcular totales
+            pedido.Items.forEach((i) => {
+              i.unidades = this.calUnidades(i);
+              this.calSubTotalU$(i, cliente);
+            });
+            pedido.totalUnidades = this.calTotalUnidades(pedido);
+            pedido.totalUs = this.calTotalU$(pedido, cliente);
+            // Set Modificador
+            pedido.Modificador = this.sucP.genUserDoc();
+            // Eliminar el Pedido
+            this.genUpdateData(updData, pedido, PEDIDO, {});
+            // Add Pedido a Embalados
+            this.genUpdateData(updData, pedido, EMBALADO);
+            // Generar Actualizacion Multiple de Stock
+            this.stockP.genMultiUpdadeData(updData, pedido.Items, false)
+                .subscribe(
+                    (data) => {
+                      updData = data;
+                      // Ejecutar peticion
+                      this.db.database.ref()
+                          .update(updData)
+                          .then(() => {
+                            obs.next('Stock Actualizado Correctamente!');
+                            obs.complete();
+                          })
+                          .catch((error) => {
+                            obs.error(
+                                `No se pudo actualizar el Stock! Error:${error}`);
+                            obs.complete();
+                          });
+                    },
+                    (error) => {
+                      obs.error(error);
                       obs.complete();
                     });
-              },
-              (error) => {
-                obs.error(error);
-                obs.complete();
-              });
-
+            // Fin Multiple
+          })
+          .catch(error => obs.error(error));
     });
   }
 
@@ -358,19 +369,23 @@ export class PedidosProvider {
 
   calUnidades(i: PedidoItem): number {
     if (i) {
-      if (i.unidades > 0) {
-        return i.unidades;
-      } else {
-        let u: number = 0.00;
-        let pxm: number =
-            (i.Color.isPintura) ? i.Perfil.pesoPintado : i.Perfil.pesoNatural;
-        u = i.cantidad * (pxm * (i.Perfil.largo / 1000));
-        i.unidades = u * 1;
-        return u;
-      }
-    } else {
-      return 0;
+      let u: number = 0.00;
+      let pxm: number =
+          (i.Color.isPintura) ? i.Perfil.pesoPintado : i.Perfil.pesoNatural;
+      u = i.cantidad * (pxm * (i.Perfil.largo / 1000));
+      i.unidades = Number(u);
+      return i.unidades;
     }
+    return 0;
+  }
+
+  calTotalUnidades(pedido: Pedido): number {
+    if (pedido && pedido.Items) {
+      pedido.totalUnidades =
+          pedido.Items.reduce((sum, dato) => sum + Number(dato.unidades), 0);
+      return pedido.totalUnidades;
+    }
+    return 0;
   }
 
   calPrecioU$(i: PedidoItem, cliente?: Cliente): number {
@@ -458,20 +473,13 @@ export class PedidosProvider {
     });
   }
 
-  calTotalUnidades(items: PedidoItem[]): number {
-    let tU: number = 0.00;
-    if (items) {
-      items.forEach((i) => { tU += this.calUnidades(i); });
-    }
-    return tU;
-  }
+
 
   calTotalBarras(items: PedidoItem[]): number {
-    let tB: number = 0.00;
     if (items) {
-      items.forEach((i) => { tB += (i.cantidad * 1); });
+      return items.reduce((sum, dato) => sum + Number(dato.cantidad), 0);
     }
-    return tB;
+    return 0;
   }
 
   calDescuentoKilos(pedido: Pedido): number {

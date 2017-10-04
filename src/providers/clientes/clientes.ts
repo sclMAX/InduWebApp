@@ -114,14 +114,12 @@ export class ClientesProvider {
   }
   getOnePromise(id: number): Promise<Cliente> {
     return new Promise<Cliente>((res, rej) => {
-      let obs = this.db.object(`${SUC_CLIENTES_ROOT}${id}`)
+      this.db.object(`${SUC_CLIENTES_ROOT}${id}`)
                     .subscribe(
                         (snap) => {
-                          obs.unsubscribe();
                           res(snap || null);
                         },
                         (error) => {
-                          obs.unsubscribe();
                           rej(error);
                         });
     });

@@ -189,7 +189,8 @@ export class PedidosNewPage {
       this.onGuardar();
       this.pedido.isImpreso = true;
       printPresupuesto(this.cliente, this.pedido,
-                       `Presupuesto Nro: 00${this.pedido.id}`, this.pedidosP, this.dolarValor);
+                       `Presupuesto Nro: 00${this.pedido.id}`, this.pedidosP,
+                       this.dolarValor);
     }
   }
 
@@ -312,9 +313,7 @@ export class PedidosNewPage {
   calTotal$() { return this.pedidosP.calTotal$(this.pedido, this.cliente); }
 
   calTotalUnidades(): number {
-    this.pedido.totalUnidades =
-        this.pedidosP.calTotalUnidades(this.pedido.Items);
-    return this.pedido.totalUnidades;
+    return this.pedidosP.calTotalUnidades(this.pedido);
   }
 
   calTotalBarras(): number {

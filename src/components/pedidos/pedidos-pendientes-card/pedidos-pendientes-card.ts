@@ -38,6 +38,14 @@ export class PedidosPendientesCardComponent {
     }
   }
 
+  getTotalKilos(): number {
+    let total: number = 0.00;
+    if (this.pedidos) {
+      total = this.pedidos.reduce((a, b) => a + b.totalUnidades, 0);
+    }
+    return total;
+  }
+
   goPedido(pedido: Pedido) {
     this.navCtrl.push(PedidosEmbalarPage, {idPedido: pedido.id});
   }
