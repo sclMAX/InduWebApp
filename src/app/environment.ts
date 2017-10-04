@@ -8,5 +8,5 @@ export const environment = {
     storageBucket: 'indumaticsapp.appspot.com',
     messagingSenderId: '293106198530'
   },
-  version: '1.2.0'
+  version: '1.2.1'
 };
