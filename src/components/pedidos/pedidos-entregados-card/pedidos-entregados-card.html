@@ -25,6 +25,8 @@
             <ion-icon *ngIf="!isFilter"  name="funnel"></ion-icon>
             <ion-icon *ngIf="isFilter"  name="close"></ion-icon>
           </button>
+        <!-- Clientes -->
+        <span item-end >Clientes: {{statsTotalClientes}} </span>
         <!-- Totales -->
         <span item-end> U$ {{calTotalUs() |number:'1.2-2'}} / $ {{calTotal$() |number:'1.2-2'}}</span>
       </ion-item>

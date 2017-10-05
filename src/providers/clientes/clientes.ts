@@ -4,7 +4,7 @@ import {SucursalProvider} from './../sucursal/sucursal';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
-import {Cliente} from '../../models/clientes.clases';
+import {Cliente, ClienteSeguimiento} from '../../models/clientes.clases';
 import {SUC_CLIENTES_ROOT, SUC_LOG_ROOT} from '../sucursal/sucursal';
 
 @Injectable()
@@ -108,6 +108,7 @@ export class ClientesProvider {
 
   getAll(): Observable<Cliente[]> { return this.db.list(SUC_CLIENTES_ROOT); }
 
+  //#region getOne getOnePromise
   getOne(id: number): Observable<Cliente> {
     return this.db.object(`${SUC_CLIENTES_ROOT}${id}`)
         .map((snap) => { return (snap || null); });
@@ -115,14 +116,16 @@ export class ClientesProvider {
   getOnePromise(id: number): Promise<Cliente> {
     return new Promise<Cliente>((res, rej) => {
       this.db.object(`${SUC_CLIENTES_ROOT}${id}`)
-                    .subscribe(
-                        (snap) => {
-                          res(snap || null);
-                        },
-                        (error) => {
-                          rej(error);
-                        });
+          .subscribe((snap) => { res(snap || null); },
+                     (error) => { rej(error); });
     });
+  }
+  //#endregion
+
+  addSeguimiento(cliente: Cliente, data: ClienteSeguimiento): Promise<string> {
+    return new Promise<string>((res, rej) => {
+
+                               });
   }
 
   private isUnique(cliente: Cliente): Observable<boolean> {

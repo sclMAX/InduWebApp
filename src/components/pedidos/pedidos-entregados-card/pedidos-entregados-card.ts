@@ -35,6 +35,7 @@ export class PedidosEntregadosCardComponent {
   fecha2: string = moment().format(FECHA);
   isFilter: boolean = false;
   usuario: Usuario;
+  statsTotalClientes: number = 0;
 
   constructor(private pedidosP: PedidosProvider,
               private clientesP: ClientesProvider,
@@ -51,6 +52,19 @@ export class PedidosEntregadosCardComponent {
   ionViewWillEnter() {
     this.getData();
     this.getUsuario();
+  }
+
+  calStatsTotalClientes(): number {
+    if (this.filterPedidos) {
+      let unicos: Array<{id: number}> = [];
+      this.filterPedidos.forEach((p) => {
+        if (!(unicos.find(u => u.id == p.idCliente))) {
+          unicos.push({id: p.idCliente});
+        }
+      });
+      return unicos.length;
+    }
+    return 0;
   }
 
   getCliente(id): Cliente {
@@ -88,6 +102,7 @@ export class PedidosEntregadosCardComponent {
         this.isFilter = true;
       }
     }
+    this.statsTotalClientes = this.calStatsTotalClientes();
   }
 
   remove(pedido: Pedido) {
@@ -106,6 +121,8 @@ export class PedidosEntregadosCardComponent {
     });
     alert.present();
   }
+
+
 
   private removeProceso(pedido: Pedido) {
     let load = this.loadCtrl.create({content: 'Eliminando pedido...'});
@@ -184,7 +201,5 @@ export class PedidosEntregadosCardComponent {
     }
   }
 
-  private async getUsuario() {
-    this.usuario = this.sucP.getUsuario();
-  }
+  private async getUsuario() { this.usuario = this.sucP.getUsuario(); }
 }

@@ -1,5 +1,5 @@
-import { Documento } from './documentos.class';
-import { LOCALIDAD, PROVINCIA } from './../providers/sucursal/sucursal';
+import {Documento} from './documentos.class';
+import {LOCALIDAD, PROVINCIA} from './../providers/sucursal/sucursal';
 import {Dolar, Cheque} from './fondos.clases';
 import {FECHA, ClaseControlada} from './comunes.clases';
 import * as moment from 'moment';
@@ -33,7 +33,7 @@ export class Direccion {
 
 export class CtaCte extends ClaseControlada {
   id: string;
-  idCliente:number;
+  idCliente: number;
   tipoDocumento: string;
   numero: number;
   fecha: string = moment().format(FECHA);
@@ -46,12 +46,16 @@ export class ClientePago extends Documento {
   id: number;
   RefDolar: Dolar = new Dolar();
   Cheques: ClientePagoCheque[] = [];
-  dolares: number ;
+  dolares: number;
   efectivo: number;
-  comentarios:string;
+  comentarios: string;
 }
 
 export class ClientePagoCheque {
   Dolar: Dolar;
   Cheque: Cheque;
+}
+
+export interface ClienteSeguimiento {
+  idCliente: number, fecha: string, tipoContacto: string, comenterios: string
 }

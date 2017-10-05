@@ -1,0 +1,14 @@
+<ion-card *ngIf="isData" >
+  <ion-card-header>Ventas por Mes</ion-card-header>
+  <ion-card-content>
+    <canvas baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [chartType]="barChartType"
+            [colors]="colores"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></canvas>
+          </ion-card-content>
+ </ion-card>

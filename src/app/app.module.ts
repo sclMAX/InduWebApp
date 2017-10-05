@@ -134,6 +134,7 @@ import {ProductosProvider} from '../providers/productos/productos';
 import {StockProvider} from '../providers/stock/stock';
 import {SucursalProvider} from '../providers/sucursal/sucursal';
 import {UsuarioProvider} from '../providers/usuario/usuario';
+import {ChartsModule} from 'ng2-charts';
 
 import {
   ClientesAddDescuentoPage
@@ -197,6 +198,7 @@ import {
 import {
   StockIngresosCardComponent
 } from '../components/stock/stock-ingresos-card/stock-ingresos-card';
+import { GraficoVenatasMesComponent } from '../components/graficos/grafico-venatas-mes/grafico-venatas-mes';
 
 @NgModule({
   declarations: [
@@ -265,14 +267,17 @@ import {
     StockIngresosCardComponent,
     RepartosCardComponent,
     ChequeRechazarPage,
-    ProductosPerfilesMppPage
+    ProductosPerfilesMppPage,
+    GraficoVenatasMesComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ChartsModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
