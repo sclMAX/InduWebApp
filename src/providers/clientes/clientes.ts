@@ -128,6 +128,11 @@ export class ClientesProvider {
                                });
   }
 
+  getClientesConComentario(): Observable<Cliente[]> {
+    return this.db.list(SUC_CLIENTES_ROOT)
+        .map(snap => snap.filter(i => i.comentarios));
+  }
+
   private isUnique(cliente: Cliente): Observable<boolean> {
     return new Observable((obs) => {
       this.getAll().subscribe(

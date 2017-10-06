@@ -1,0 +1,12 @@
+<ion-card [color]="colorHeader" >
+  <button ion-item no-lines [color]="colorHeader" (click)="onClickHeader()">
+    <ion-icon item-start name="icon-ind_user"></ion-icon>
+    <span >Comentarios Clientes ({{(clientes |async)?.length}})</span>
+  </button>
+  <ion-list *ngIf="showList">
+    <button ion-item no-lines *ngFor="let cliente of clientes |async" (click)="onClickItem(cliente)" text-wrap>
+      <span item-start>{{cliente?.id |number:'3.0-0'}}-{{cliente?.nombre}}</span><br>
+      <p>{{cliente?.comentarios}}</p>
+    </button>
+  </ion-list>
+</ion-card>

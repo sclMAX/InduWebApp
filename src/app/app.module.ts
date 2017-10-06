@@ -1,4 +1,7 @@
 import {
+  ClientesComentariosCardComponent
+} from './../components/clientes/clientes-comentarios-card/clientes-comentarios-card';
+import {
   ProductosPerfilesMppPage
 } from './../pages/productos/productos-perfiles-mpp/productos-perfiles-mpp';
 import {
@@ -198,7 +201,9 @@ import {
 import {
   StockIngresosCardComponent
 } from '../components/stock/stock-ingresos-card/stock-ingresos-card';
-import { GraficoVenatasMesComponent } from '../components/graficos/grafico-venatas-mes/grafico-venatas-mes';
+import {
+  GraficoVenatasMesComponent
+} from '../components/graficos/grafico-venatas-mes/grafico-venatas-mes';
 
 @NgModule({
   declarations: [
@@ -268,7 +273,8 @@ import { GraficoVenatasMesComponent } from '../components/graficos/grafico-venat
     RepartosCardComponent,
     ChequeRechazarPage,
     ProductosPerfilesMppPage,
-    GraficoVenatasMesComponent
+    GraficoVenatasMesComponent,
+    ClientesComentariosCardComponent
   ],
   imports: [
     BrowserModule,

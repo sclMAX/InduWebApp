@@ -1,6 +1,8 @@
 <ion-header no-border>
   <ion-navbar color="toolBar">
-    <ion-title start left>Suc. {{title}}<span *ngIf="usuario.isEmbalaje"> - Embalaje</span></ion-title>
+    <ion-title start left>Suc. {{title}}
+      <span *ngIf="usuario.isEmbalaje"> - Embalaje</span>
+    </ion-title>
     <ion-buttons start rigth>
       <button *ngIf="!usuario.isEmbalaje" ion-button icon-only icon-left (click)="goClientes()" tooltip="CLIENTES: Listado y operaciones sobre clientes...">
         <ion-icon name="icon-ind_users-list"></ion-icon>
@@ -15,7 +17,8 @@
         tooltip="FONDOS: Cheques, Bancos, Caja y movimientos...">
         <ion-icon name="logo-usd"></ion-icon>
       </button>
-      <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank" rel="noopener" tooltip="EMAIL: Gestion de correos electronicos web...">
+      <a *ngIf="!usuario.isEmbalaje" ion-button icon-only href="http://www.indumatics.com.ar/webmail/" target="_blank" rel="noopener"
+        tooltip="EMAIL: Gestion de correos electronicos web...">
         <ion-icon name="mail"></ion-icon>
       </a>
       <div ion-button icon-only style="width: 30px;pointer-events: none;"></div>
@@ -39,10 +42,20 @@
       <presupuestos-card (onClickItem)="onClickPresupuestosItem($event)"></presupuestos-card>
       <pedidos-pendientes-card></pedidos-pendientes-card>
       <pedidos-por-entregar-card></pedidos-por-entregar-card>
-      <repartos-card  headerColor="listDivider1" [tipo]="repartosPreparados" (onClickItem)="onSelectReparto($event)"></repartos-card>
+      <repartos-card headerColor="listDivider1" [tipo]="repartosPreparados" (onClickItem)="onSelectReparto($event)"></repartos-card>
     </ion-row>
     <ion-row>
       <clientes-con-saldo-card></clientes-con-saldo-card>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <clientes-comentarios-card></clientes-comentarios-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-auto>
+        <grafico-venatas-mes></grafico-venatas-mes>
+      </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
