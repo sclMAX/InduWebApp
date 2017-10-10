@@ -9,17 +9,19 @@ import {
   LoadingController,
   ToastController
 } from 'ionic-angular';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'page-bancosam',
   templateUrl: 'bancosam.html',
 })
 export class BancosamPage {
-  title:string;
+  title: string;
   newBanco: Banco;
   oldBanco: Banco;
   isEdit: boolean = false;
   bancos: Banco[];
+  private subscriptor: Subscription;
   isIdValid: boolean = true;
   isNombreValid: boolean = true;
   constructor(public viewCtrl: ViewController, public navParams: NavParams,
@@ -37,6 +39,12 @@ export class BancosamPage {
       this.isEdit = false;
       this.title = 'Agregar Nuevo Banco...';
       this.newBanco = new Banco();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptor) {
+      this.subscriptor.unsubscribe();
     }
   }
 
@@ -105,7 +113,7 @@ export class BancosamPage {
     if (this.newBanco && this.bancos && !this.isEdit) {
       let existente = this.bancos.find((b) => {
         if (this.isEdit) {
-          return ((b.id * 1 != this.newBanco.id * 1 ) &&
+          return ((b.id * 1 != this.newBanco.id * 1) &&
                   (b.nombre && this.newBanco.nombre &&
                    (b.nombre.trim().toLowerCase() ==
                     this.newBanco.nombre.trim().toLowerCase())));
@@ -126,6 +134,7 @@ export class BancosamPage {
 
 
   private async getData() {
-    this.bancosP.getAll().subscribe((bancos) => { this.bancos = bancos; });
+    this.subscriptor =
+        this.bancosP.getAll().subscribe((bancos) => { this.bancos = bancos; });
   }
 }

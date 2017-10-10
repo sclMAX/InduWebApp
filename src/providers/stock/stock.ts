@@ -1,3 +1,6 @@
+import {StockFaltantes} from './stock';
+import {Perfil} from './../../models/productos.clases';
+import {PRODUCTOS_PERFILES} from './../../models/db-base-paths';
 import {ColoresProvider} from './../colores/colores';
 import {ProductosProvider} from './../productos/productos';
 import {FECHA} from './../../models/comunes.clases';
@@ -152,12 +155,12 @@ export class StockProvider {
     });
   }
 
-  getAll(realtime: boolean = false): Observable<Stock[]> {
+  getAll(): Observable<Stock[]> {
     return this.db.list(SUC_STOCK_ROOT)
         .map((stks: Stock[]) => { return (stks || []); });
   }
 
-  getOne(idProducto: string, realtime: boolean = false): Observable<Stock> {
+  getOne(idProducto: string): Observable<Stock> {
     return this.db.object(`${SUC_STOCK_ROOT}${idProducto}/`)
         .map((data: Stock) => { return data; });
   }
@@ -208,62 +211,40 @@ export class StockProvider {
   }
 
   getStock(idProducto, idItem): Observable<number> {
-    return new Observable((obs) => {
-      this.getOne(idProducto)
-          .subscribe(
-              (snap) => {
-                if (snap.Stocks) {
-                  let idx: number = -1;
-                  idx = snap.Stocks.findIndex(
-                      (i) => { return (i.id == idItem); });
-                  obs.next((idx > -1) ? snap.Stocks[idx].stock : 0);
-                  obs.complete();
-                } else {
-                  obs.next(0);
-                  obs.complete();
-                }
-              },
-              (error) => {
-                obs.error(error);
-                obs.complete();
-              });
-    });
+    return this.getOne(idProducto)
+        .map((snap: Stock) => {
+          if (snap && snap.Stocks) {
+            let idx: number = -1;
+            idx = snap.Stocks.findIndex((i) => { return (i.id == idItem); });
+            return ((idx > -1) ? snap.Stocks[idx].stock : 0);
+          } else {
+            return 0;
+          }
+        });
   }
 
   getEstado(idProducto, idItem): Observable<StockEstado> {
     return new Observable((obs) => {
-      let res: StockEstado = new StockEstado();
       this.getStock(idProducto, idItem)
-          .subscribe(
-              (stock) => {
-                res.stock = stock;
-                this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`)
-                    .subscribe(
-                        (snap: Pedido[]) => {
-                          snap.forEach((p) => {
-                            p.Items.forEach((i) => {
-                              if (i.Perfil.id == idProducto &&
-                                  i.Color.id == idItem) {
-                                res.Pedidos.push(new StockEstadoPedidosDetalle(
-                                    i.cantidad, p.id, p.idCliente));
-                                res.cantidadEnPedidos += i.cantidad * 1;
-                              }
-                            });
-                          });
-                          res.disponible =
-                              res.stock * 1 - res.cantidadEnPedidos * 1;
-                          obs.next(res);
-                          obs.complete();
-                        },
-                        (error) => {
-                          obs.error(error);
-                          obs.complete();
-                        });
-              },
-              (error) => {
-                obs.error(error);
-                obs.complete();
-              });
+          .subscribe((stock) => {
+            let res: StockEstado = new StockEstado();
+            res.stock = stock;
+            this.db.list(`${SUC_DOCUMENTOS_ROOT}${PEDIDO}/`)
+                .subscribe((snap: Pedido[]) => {
+                  for (let p of snap) {
+                    for (let i of p.Items) {
+                      if (i.Perfil.id == idProducto && i.Color.id == idItem) {
+                        res.Pedidos.push(new StockEstadoPedidosDetalle(
+                            i.cantidad, p.id, p.idCliente));
+                        res.cantidadEnPedidos += Number(i.cantidad);
+                      }
+                    }
+                  }
+                  res.disponible =
+                      Number(res.stock) - Number(res.cantidadEnPedidos);
+                  obs.next(res);
+                }, (error) => { obs.error(error); });
+          }, (error) => { obs.error(error); });
 
     });
   }
@@ -326,4 +307,62 @@ export class StockProvider {
                return moment(a.fecha, FECHA).diff(moment(b.fecha, FECHA));
              })});
   }
+
+  getMpp(idPerfil, idColor): Promise<number> {
+    return new Promise<number>((res, rej) => {
+      this.getOneStokcs(idPerfil).subscribe((snap: StockItem[]) => {
+        if (snap) {
+          for (let i of snap) {
+            if (i.id == idColor) {
+              res(i.mpp || 0)
+            };
+          }
+        }
+        res(0);
+      }, error => res(0));
+    });
+  }
+
+  getFaltantes(): Observable<StockFaltantes[]> {
+    return new Observable((obs) => {
+      this.coloresP.getAll().subscribe((colores) => {
+        this.db.list(`${PRODUCTOS_PERFILES}`)
+            .subscribe(async(snap: Perfil[]) => {
+              let resultado: StockFaltantes[] = [];
+              for (let perfil of snap) {
+                for (let color of colores) {
+                  let mpp = await this.getMpp(perfil.id, color.id);
+                  this.getEstado(perfil.id, color.id)
+                      .subscribe(estado => {
+                        let st = {
+                          idPerfil: perfil.id,
+                          idColor: color.id,
+                          mpp: mpp,
+                          stock: estado.stock,
+                          disponible: estado.disponible,
+                          faltante: Math.abs((estado.disponible > mpp) ?
+                                                 0 :
+                                                 estado.disponible - mpp)
+                        };
+
+                        if (st.faltante > 0) {
+                          resultado.push(st);
+                        }
+                      });
+                }
+                obs.next(resultado);
+              }
+            }, error => obs.error(error));
+      }, error => obs.error(error));
+    });
+  }
+}
+
+export interface StockFaltantes {
+  idPerfil: string;
+  idColor: string;
+  stock: number;
+  mpp: number;
+  disponible: number;
+  faltante: number;
 }

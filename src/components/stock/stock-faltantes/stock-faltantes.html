@@ -1,0 +1,31 @@
+<ion-card *ngIf="selColor || (!selColor && (faltantes |async)?.length > 0)">
+  <button ion-item no-lines (click)="showList = !showList" color="danger">
+    <ion-icon item-start name="cube"></ion-icon>
+    <ion-icon item-start name="md-trending-down"></ion-icon>
+    Faltantes Stock
+    <span item-end>{{(faltantes |async)?.length}}</span>
+  </button>
+  <ion-list [hidden]="!showList">
+    <ion-item color="subToolBar">
+      <ion-label>Color:</ion-label>
+      <ion-select [(ngModel)]="selColor" (ionChange)="filtrar()">
+        <ion-option value="" selected=true>Todos</ion-option>
+        <ion-option [value]="color" *ngFor="let color of colores |async">{{color?.id}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngFor="let perfil of faltantes |async">
+      <span item-start>{{perfil?.idPerfil}}</span>
+      <span item-start>{{perfil?.idColor}}</span>
+      <span item-end>
+        <small>
+          Stock: {{perfil?.stock}}
+          <br> Mpp: {{perfil?.mpp}}
+          <br> Disponible: {{perfil?.disponible}}
+        </small>
+      </span>
+      <span item-end>
+        <strong>{{perfil?.faltante}}</strong>
+      </span>
+    </ion-item>
+  </ion-list>
+</ion-card>

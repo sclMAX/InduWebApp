@@ -1,23 +1,27 @@
+import { SUCURSAL } from './../../../providers/sucursal/sucursal';
 import {FECHA} from './../../../models/comunes.clases';
 import {ENTREGADO} from './../../../models/pedidos.clases';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import * as moment from 'moment';
 
 
 @Component(
     {selector: 'grafico-venatas-mes', templateUrl: 'grafico-venatas-mes.html'})
 export class GraficoVenatasMesComponent {
-  public barChartOptions:
-      any = {scaleShowVerticalLines: false, responsive: true};
+  title: string;
+  @Input() sucursal:string = SUCURSAL; 
+  barChartOptions: any = {scaleShowVerticalLines: false, responsive: true};
   barChartLabels: string[] = [];
   barChartType: string = 'bar';
   barChartLegend: boolean = true;
   fechaKilos: Array<{fecha: string, kilos: number}> = [];
   barChartData: any[] = [{data: []}];
   isData: boolean = false;
-  colores: Array < any >= [{backgroundColor: 'blue'},{backgroundColor: 'red'},{backgroundColor: 'green'}];
-  constructor(private pedidosP: PedidosProvider) { this.getData(); }
+  colores: Array < any >= [{backgroundColor: 'blue'}, {backgroundColor: 'red'},
+                           {backgroundColor: 'green'}];
+  constructor(private pedidosP: PedidosProvider) { this.getData();
+  this.title = `Suc. ${this.sucursal} - Ventas por Mes`; }
 
 
 

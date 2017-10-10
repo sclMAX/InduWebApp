@@ -1,6 +1,6 @@
 <ion-card *ngIf="isData" color="listDivider1">
  
-  <ion-item color="dark">Ventas por Mes</ion-item>
+  <ion-item color="dark">{{title}}</ion-item>
   <ion-card-content>
     <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend"
       [chartType]="barChartType" [colors]="colores" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>

@@ -204,6 +204,7 @@ import {
 import {
   GraficoVenatasMesComponent
 } from '../components/graficos/grafico-venatas-mes/grafico-venatas-mes';
+import { StockFaltantesComponent } from '../components/stock/stock-faltantes/stock-faltantes';
 
 @NgModule({
   declarations: [
@@ -274,7 +275,8 @@ import {
     ChequeRechazarPage,
     ProductosPerfilesMppPage,
     GraficoVenatasMesComponent,
-    ClientesComentariosCardComponent
+    ClientesComentariosCardComponent,
+    StockFaltantesComponent
   ],
   imports: [
     BrowserModule,

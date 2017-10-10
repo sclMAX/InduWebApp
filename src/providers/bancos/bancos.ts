@@ -86,28 +86,11 @@ export class BancosProvider {
   }
 
   getOne(idBanco: number): Observable<Banco> {
-    return new Observable((obs) => {
-      let obj = this.db.object(`${BANCOS_ROOT}${idBanco}/`)
-                    .subscribe(
-                        (banco) => {
-                          obs.next(banco || {});
-                          obj.unsubscribe();
-                          obs.complete();
-                        },
-                        (error) => {
-                          obs.error(error);
-                          obj.unsubscribe();
-                          obs.complete();
-                        });
-    });
+    return this.db.object(`${BANCOS_ROOT}${idBanco}/`).map((banco:Banco) =>banco);
   }
 
   getAll(): Observable<Banco[]> {
-    return new Observable((obs) => {
-      this.db.list(BANCOS_ROOT)
-          .subscribe((bancos: Banco[]) => { obs.next(bancos || []); },
-                     (error) => { obs.error(error); });
-    });
+    return this.db.list(BANCOS_ROOT);
   }
 
   private isUnique(banco: Banco, isNew: boolean = false): Observable<boolean> {

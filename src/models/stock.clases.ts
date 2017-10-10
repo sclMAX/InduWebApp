@@ -1,11 +1,11 @@
 import {ClaseControlada} from './comunes.clases';
 export class Stock extends ClaseControlada {
-  id: string;//Perfil
+  id: string;  // Perfil
   Stocks: StockItem[] = [];
 }
 
 export class StockItem extends ClaseControlada {
-  id: string; // Color
+  id: string;  // Color
   stock: number;
   mpp: number;
   constructor(id?: string, stock?: number, mpp?: number) {

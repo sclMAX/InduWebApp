@@ -5,7 +5,7 @@
   </button>
   <ion-list *ngIf="showList">
     <button ion-item no-lines *ngFor="let cliente of clientes |async" (click)="onClickItem(cliente)" text-wrap>
-      <span item-start>{{cliente?.id |number:'3.0-0'}}-{{cliente?.nombre}}</span><br>
+      <span>{{cliente?.id |number:'3.0-0'}}-{{cliente?.nombre}}-{{cliente?.Direccion?.localidad}}</span><br>
       <p>{{cliente?.comentarios}}</p>
     </button>
   </ion-list>
