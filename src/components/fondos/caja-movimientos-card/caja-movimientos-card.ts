@@ -1,3 +1,4 @@
+import {Observable} from 'rxjs/Observable';
 import {CajaEgresoPage} from './../../../pages/fondos/caja-egreso/caja-egreso';
 import {PagosProvider} from './../../../providers/pagos/pagos';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
@@ -36,6 +37,7 @@ export class CajaMovimientosCardComponent {
   isFilter: boolean = false;
 
   movimientos: CajaMovimiento[] = [];
+  descripciones: Array<{id: string, descripcion: Observable<string>}> = [];
   totalEgresos: {efectivo: number, dolares: number, cheques: number};
   totalIngresos: {efectivo: number, dolares: number, cheques: number};
   constructor(public navCtrl: NavController,
@@ -73,8 +75,6 @@ export class CajaMovimientosCardComponent {
     return s;
   }
   printList() {
-    // this.navCtrl.push(PrintMovimientoCajaPage, {Movimientos:
-    // this.movimientos})
     printCajaMovimientos(this.movimientos, this.totalIngresos,
                          this.totalEgresos);
   }
@@ -144,6 +144,28 @@ export class CajaMovimientosCardComponent {
     }
     this.totalEgresos = e;
     this.totalIngresos = i;
+  }
+
+  getDescripcion(item: CajaMovimiento): Observable<string> {
+    if (item) {
+      let d = this.descripciones.find(i => i.id == item.id);
+      if (d) {
+        return d.descripcion;
+      } else {
+        if (item.isIngreso) {
+          this.descripciones.push({
+            id: item.id,
+            descripcion: new Observable(obs => obs.next('PAGO CLIENTE'))
+          });
+        } else {
+          this.descripciones.push({
+            id: item.id,
+            descripcion: this.fondosP.getCajaEgreso(item.numeroDoc)
+                             .map(data => data.tipo)
+          });
+        }
+      }
+    }
   }
 
   filtrar() {
