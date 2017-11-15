@@ -1,3 +1,4 @@
+import {Observable} from 'rxjs/Observable';
 import {
   PedidosEmbalarPage
 } from './../../../pages/documentos/pedidos/pedidos-embalar/pedidos-embalar';
@@ -17,8 +18,8 @@ export class PedidosPendientesCardComponent {
   @Input() cliente: Cliente;
   @Input() showList: boolean = false;
 
-  pedidos: Pedido[];
-  clientes: Cliente[];
+  pedidos: Observable<Pedido[]>;
+  clientes: Cliente[] = [];
 
   constructor(public navCtrl: NavController, private pedidosP: PedidosProvider,
               private clientesP: ClientesProvider) {}
@@ -30,18 +31,23 @@ export class PedidosPendientesCardComponent {
     if (this.cliente) {
       return this.cliente;
     } else {
-      if (this.clientes) {
-        return this.clientes.find((cliente) => { return (cliente.id == id); });
-      } else {
-        return null;
+      let cliente = this.clientes.find(c => c.id == id);
+      if (cliente) {
+        return cliente;
       }
+      let fc = this.clientesP.getOne(id).subscribe(c => {
+        if (c) {
+          this.clientes.push(c);
+          if (fc) fc.unsubscribe();
+        }
+      })
     }
   }
 
-  getTotalKilos(): number {
+  getTotalKilos(pedidos): number {
     let total: number = 0.00;
-    if (this.pedidos) {
-      total = this.pedidos.reduce((a, b) => a + b.totalUnidades, 0);
+    if (pedidos) {
+      total = pedidos.reduce((a, b) => a + b.totalUnidades, 0);
     }
     return total;
   }
@@ -52,17 +58,9 @@ export class PedidosPendientesCardComponent {
 
   private async getData() {
     if (this.cliente) {
-      this.pedidosP.getAllCliente(this.cliente.id, PEDIDO)
-          .subscribe((data) => { this.pedidos = data; });
+      this.pedidos = this.pedidosP.getAllCliente(this.cliente.id, PEDIDO);
     } else {
-      this.pedidosP.getAll(PEDIDO).subscribe((pedidos) => {
-        this.pedidos = pedidos;
-        this.clientes = [];
-        pedidos.forEach((p) => {
-          this.clientesP.getOne(p.idCliente)
-              .subscribe((c) => { this.clientes.push(c); });
-        });
-      });
+      this.pedidos = this.pedidosP.getAll(PEDIDO);
     }
   }
 }

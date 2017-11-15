@@ -1,13 +1,45 @@
+import {FondosProvider} from './../providers/fondos/fondos';
+import {PagosProvider} from './../providers/pagos/pagos';
+import {PAGO} from './../models/pedidos.clases';
 import {SUCURSAL} from './../providers/sucursal/sucursal';
 import {CajaMovimiento} from './../models/fondos.clases';
 import * as moment from 'moment';
 import {FECHA} from '../models/comunes.clases';
-import {formatTable, showPdf, setInfo} from './config-comun';
+import {formatTable, showPdf, setInfo, numFormat} from './config-comun';
+import { Loading } from "ionic-angular";
 
-export function printCajaMovimientos(
+function getDescripcion(item: CajaMovimiento, pagosP: PagosProvider,
+                        fondosP: FondosProvider): Promise<string> {
+  if (item) {
+    if (item.isIngreso) {
+      if (item.tipoDocumento == PAGO) {
+        return new Promise<string>((res, rej) => {
+          pagosP.getOne(item.numeroDoc)
+              .map(data => {
+                return `PAGO CLIENTE: ${numFormat(data.idCliente,'3.0-0')}`;
+              })
+              .subscribe(data => res(data), error => rej(error));
+        });
+      } else {
+        return new Promise((res, rej) => res('INGRESO NC'));
+      }
+    } else {
+      return new Promise<string>((res, rej) => {
+        fondosP.getCajaEgreso(item.numeroDoc)
+            .map(data => data.tipo)
+            .subscribe(data => res(data), error => rej(error));
+      });
+    }
+  }
+}
+
+export async function printCajaMovimientos(
     movimientos: CajaMovimiento[],
-    ingresos: {efectivo: number, dolares: number, cheques: number},
-    egresos: {efectivo: number, dolares: number, cheques: number}) {
+    ingresos: {
+  efectivo: number, dolares: number, cheques: number
+},
+    egresos: {efectivo: number, dolares: number, cheques: number},
+  pagosP: PagosProvider, fondosP:FondosProvider, load:Loading) {
   if (movimientos && movimientos.length > 0) {
     formatTable();
     let data: any[] = [];
@@ -16,6 +48,7 @@ export function printCajaMovimientos(
       {text: 'Fecha', bold: true},
       {text: 'Tipo', bold: true},
       {text: 'Comprobante', bold: true},
+      {text: 'Detalle', bold: true},
       {text: 'Efectivo', bold: true},
       {text: 'Saldo Efectivo', bold: true},
       {text: 'Dolares', bold: true},
@@ -24,11 +57,13 @@ export function printCajaMovimientos(
       {text: 'Saldo Cheques', bold: true}
     ]);
     // Datos
-    movimientos.forEach((m) => {
+    for (let m of movimientos) {
+      let descripcion = await getDescripcion(m, pagosP, fondosP);
       data.push([
         {text: `${moment(m.fecha, FECHA).format('DD/MM/YYYY')}`, bold: true},
         {text: `${(m.isIngreso)?'IN':'EG'}`, bold: false},
         {text: `${m.id}`, bold: false},
+        {text: `${descripcion}`, bold: false},
         {text: `$ ${m.efectivo.toFixed(2)}`, bold: false},
         {text: `$ ${m.saldoEfectivo.toFixed(2)}`, bold: true},
         {text: `U$ ${m.dolares.toFixed(2)}`, bold: false},
@@ -37,7 +72,7 @@ export function printCajaMovimientos(
         {text: `$ ${m.saldoCheques.toFixed(2)}`, bold: true}
 
       ]);
-    });
+    }
     // Ultimo movimientos para mostrar saldos
     let ultimoMov = movimientos[movimientos.length - 1];
     // Doc Definition
@@ -67,6 +102,7 @@ export function printCajaMovimientos(
             // you can declare how many rows should be treated as headers
             headerRows: 1,
             widths: [
+              'auto',
               'auto',
               'auto',
               'auto',
@@ -121,6 +157,7 @@ export function printCajaMovimientos(
     };
     setInfo(doc, `Suc. ${SUCURSAL} - Movimientos de Caja`,
             'detalle de movimientos de caja');
+    load.dismiss();
     showPdf(doc, true);
   }
 }

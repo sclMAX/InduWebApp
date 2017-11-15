@@ -98,27 +98,31 @@ export class PedidoHeaderAddItemComponent {
         showCloseButton: true
       });
       load.present().then(() => {
-        this.stockP.getEstado(this.newItem.Perfil.id, this.newItem.Color.id)
-            .subscribe(
-                (stkEst: StockEstado) => {
-                  let disponible = stkEst.disponible;
-                  if (this.newItem.cantidad > disponible) {
-                    load.dismiss();
-                    let alert = this.alertCtrl.create({
-                      title: 'Stock No Disponible!',
-                      subTitle:
-                          'No hay suficiente stock en el color solicitado.',
-                      buttons: [
-                        {
-                          text: 'Aceptar',
-                          role: 'ok',
-                          handler: () => { this.emitItem(); }
-                        }
+        let estado =
+            this.stockP.getEstado(this.newItem.Perfil.id, this.newItem.Color.id)
+                .subscribe(
+                    (stkEst: StockEstado) => {
+                      let disponible = stkEst.disponible;
+                      if (this.newItem.cantidad > disponible) {
+                        load.dismiss();
+                        let alert = this.alertCtrl.create({
+                          title: 'Stock No Disponible!',
+                          subTitle:
+                              'No hay suficiente stock en el color solicitado.',
+                          buttons: [
+                            {
+                              text: 'Aceptar',
+                              role: 'ok',
+                              handler: () => {
+                                estado.unsubscribe();
+                                this.emitItem();
+                              }
+                            }
 
-                      ]
-                    });
-                    alert.setMessage(
-                        `<strong>Cantidad Pedida:</strong> ${this.newItem.cantidad
+                          ]
+                        });
+                        alert.setMessage(
+                            `<strong>Cantidad Pedida:</strong> ${this.newItem.cantidad
                       }<br>
                                <strong>Stock Disponible:</strong> ${disponible
                       } (${disponible -
@@ -127,16 +131,17 @@ export class PedidoHeaderAddItemComponent {
                                 <strong>Stock Total:</strong> ${stkEst
                           .stock} (${stkEst.stock -
                       this.newItem.cantidad})<br>`);
-                    alert.present();
-                  } else {
-                    load.dismiss();
-                    this.emitItem();
-                  }
-                },
-                (error) => {
-                  load.dismiss();
-                  toast.present();
-                });
+                        alert.present();
+                      } else {
+                        estado.unsubscribe();
+                        load.dismiss();
+                        this.emitItem();
+                      }
+                    },
+                    (error) => {
+                      load.dismiss();
+                      toast.present();
+                    });
       });
     } else {
       let alert = this.alertCtrl.create({

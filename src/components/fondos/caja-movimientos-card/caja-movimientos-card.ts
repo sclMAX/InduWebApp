@@ -19,7 +19,7 @@ import {FondosProvider} from './../../../providers/fondos/fondos';
 import {printCajaMovimientos} from './../../../print/print-fondos';
 import {FECHA} from '../../../models/comunes.clases';
 import * as moment from 'moment';
-import { numFormat } from "../../../print/config-comun";
+import {numFormat} from "../../../print/config-comun";
 
 @Component({
   selector: 'caja-movimientos-card',
@@ -76,8 +76,11 @@ export class CajaMovimientosCardComponent {
     return s;
   }
   printList() {
+    let load = this.loadCtrl.create({content:'Generando informe...'});
+    load.present().then(()=>{
     printCajaMovimientos(this.movimientos, this.totalIngresos,
-                         this.totalEgresos);
+                         this.totalEgresos, this.pagosP, this.fondosP, load);
+    });
   }
 
   ngOnInit() { this.filtrar(); }
@@ -154,17 +157,21 @@ export class CajaMovimientosCardComponent {
         return d.descripcion;
       } else {
         if (item.isIngreso) {
-          if(item.tipoDocumento == PAGO){
+          if (item.tipoDocumento == PAGO) {
             this.descripciones.push({
               id: item.id,
-              descripcion: this.pagosP.getOne(item.numeroDoc).map(data=>{return `PAGO CLIENTE: ${numFormat(data.idCliente,'3.0-0')}`; })
+              descripcion:
+                  this.pagosP.getOne(item.numeroDoc)
+                      .map(data => {
+                        return `PAGO CLIENTE: ${numFormat(data.idCliente,'3.0-0')}`;
+                      })
             });
-          }else{
-          this.descripciones.push({
-            id: item.id,
-            descripcion: new Observable(obs => obs.next('INGRESO NC'))
-          });
-        }
+          } else {
+            this.descripciones.push({
+              id: item.id,
+              descripcion: new Observable(obs => obs.next('INGRESO NC'))
+            });
+          }
         } else {
           this.descripciones.push({
             id: item.id,

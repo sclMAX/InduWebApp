@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "2.0.1",
-    "ionic": "3.13.2",
+    "ionic": "3.18.0",
     "typescript": "2.3.4"
   },
   "description": "Web App INDUMATICS",
