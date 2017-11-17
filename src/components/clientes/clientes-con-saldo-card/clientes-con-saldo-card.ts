@@ -1,3 +1,4 @@
+import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Observable} from 'rxjs/Observable';
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
@@ -20,8 +21,9 @@ export class ClientesConSaldoCardComponent {
   showList: boolean = false;
   clientes: Observable<ClienteConSaldo[]>;
   clientesA: ClienteConSaldo[];
-  constructor(public navCtrl: NavController,
-              private ctaCteP: CtasCtesProvider) {}
+  refDolar: number = 0;
+  constructor(public navCtrl: NavController, private ctaCteP: CtasCtesProvider,
+              private dolarP: DolarProvider) {}
 
   ngOnInit() { this.getData(); }
 
@@ -45,5 +47,6 @@ export class ClientesConSaldoCardComponent {
       return data;
     });
     this.clientes.subscribe(data => { this.clientesA = data; });
+    this.dolarP.getDolarValor().subscribe(data => this.refDolar = data);
   }
 }

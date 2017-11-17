@@ -84,7 +84,7 @@ export function printReparto(reparto: Reparto, clientesP: ClientesProvider,
             },
             {
               text:
-                  `$ ${numFormat((Number(i.totalPedidos) * Number( reparto.Dolar.valor)),'1.2-2')}`,
+                  `$ ${numFormat((Number(i.saldoActual) * Number( reparto.Dolar.valor)),'1.2-2')}`,
               alignment: 'right'
             },
             {text: '$\n\n'},

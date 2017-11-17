@@ -17,7 +17,7 @@ export class PrintChequesEnCarteraPage {
   title: string = 'Listado de Cheques en Cartera';
   isPrint: boolean = false;
   fecha: string = moment().format(FECHA);
-  cheques: Observable<Cheque[]>;
+  cheques: Cheque[];
   private clientes: Array<{ id: number, Data: Observable<Cliente> }> = [];
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private clientesP: ClientesProvider) {

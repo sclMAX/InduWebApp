@@ -16,7 +16,7 @@
           <th>Cliente</th>
           <th>Dias</th>
         </tr>
-        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let cheque of cheques |async; let p=even" text-right>
+        <tr [bgColor]="(p)?'silver':'white'" *ngFor="let cheque of cheques ; let p=even" text-right>
           <td>{{cheque?.fechaIngreso |date:'dd/MM/yyyy'}}</td>
           <td>{{cheque?.id}}</td>
           <td>{{cheque?.fechaCobro |date:'dd/MM/yyyy'}}</td>
@@ -25,7 +25,7 @@
           <td>{{calDias(cheque) |number:'1.0-0'}}</td>
         </tr>
       </table>
-      <h2 text-right>TOTAL ({{(cheques |async)?.length}}): $ {{calTotal((cheques |async)) | number:'1.2-2'}}</h2>
+      <h2 text-right>TOTAL ({{(cheques)?.length}}): $ {{calTotal((cheques)) | number:'1.2-2'}}</h2>
     </ion-row>
   </ion-col>
 </ion-grid>

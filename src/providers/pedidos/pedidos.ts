@@ -348,13 +348,7 @@ export class PedidosProvider {
   }
 
   getOne(tipo: string, Nro: number): Observable<Pedido> {
-    return new Observable((obs) => {
-      this.db.object(`${SUC_DOCUMENTOS_ROOT}${tipo}/${Nro}`)
-          .subscribe((data: Pedido) => { obs.next(data); }, (error) => {
-            obs.error(error);
-            console.error(error);
-          });
-    });
+    return this.db.object(`${SUC_DOCUMENTOS_ROOT}${tipo}/${Nro}`);
   }
 
   getItemsPedido(Nro: number): Observable<PedidoItem[]> {

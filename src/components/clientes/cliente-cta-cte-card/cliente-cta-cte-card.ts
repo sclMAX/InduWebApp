@@ -7,7 +7,8 @@ import {
   ENTREGADO,
   PAGO,
   PEDIDO,
-  PEDIDO_CANCELADO
+  PEDIDO_CANCELADO,
+  ENREPARTO
 } from './../../../models/pedidos.clases';
 import {
   ClientesAddPagoPage
@@ -46,8 +47,11 @@ export class ClienteCtaCteCardComponent {
 
   onClickItem(item: CtaCte) {
     let load = this.loadCtrl.create({content: 'Buscando datos...'});
-    let toast = this.toastCtrl.create(
-        {position: 'middle', duration: 1000, message: 'Datos no encontrasdos o Sin Conexion!'});
+    let toast = this.toastCtrl.create({
+      position: 'middle',
+      duration: 1000,
+      message: 'Datos no encontrasdos o Sin Conexion!'
+    });
     switch (item.tipoDocumento) {
       case PAGO:
         load.setContent(`Buscando Pago Nro:${item.numero}...`);
@@ -121,9 +125,37 @@ export class ClienteCtaCteCardComponent {
                   (data) => {
                     load.dismiss();
                     if (data && data.idCliente) {
-                      printNotaDebito(data,
-                                      this.clientesP.getOnePromise(data.idCliente));
+                      printNotaDebito(
+                          data, this.clientesP.getOnePromise(data.idCliente));
                     } else {
+                      toast.present();
+                    }
+                  },
+                  (error) => {
+                    load.dismiss();
+                    toast.present();
+                  });
+        });
+        break;
+      case ENREPARTO:
+        load.setContent(`Buscando Pedido En Reparto Nro:${item.numero}...`);
+        load.present().then(() => {
+          this.pedidosP.getOne(ENREPARTO, item.numero)
+              .subscribe(
+                  (data) => {
+                    load.dismiss();
+                    if (data && data.idCliente) {
+                      this.ctaCteP.getSaldoCliente(data.idCliente)
+                          .subscribe((saldo) => {
+                            console.log(data);
+                            
+                            printEntrega(
+                                this.cliente, data,
+                                `Pedido Nro.${numFormat(data.id,'3.0-0')}`,
+                                this.pedidosP, saldo);
+                          });
+                    } else {
+                      toast.setMessage('Pedido no Disponible o Cancelado!');
                       toast.present();
                     }
                   },

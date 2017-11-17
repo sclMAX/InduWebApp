@@ -3,13 +3,13 @@
     <ion-icon item-start name="icon-ind_user"></ion-icon>
     <ion-icon item-start name="logo-usd"></ion-icon>
     <span >Saldo Clientes ({{(clientes |async)?.length}})</span>
-    <span item-end>U$ {{getSaldo() |number:'1.2-2'}}</span>
+    <span item-end>U$ {{getSaldo() |number:'1.2-2'}} / $ {{(getSaldo() * refDolar) |number:'1.2-2'}}</span>
 
   </button>
   <ion-list *ngIf="showList">
     <button ion-item no-lines *ngFor="let cs of clientes |async" (click)="onClickItem(cs.Cliente)">
       <span item-start>{{cs?.Cliente?.id |number:'3.0-0'}}-{{cs?.Cliente?.nombre}}</span>
-      <span item-end><strong>U$ {{cs?.saldo |number:'1.2-2'}}</strong></span>
+      <span item-end><strong>U$ {{cs?.saldo |number:'1.2-2'}} / $ {{(cs?.saldo * refDolar) |number:'1.2-2'}}</strong></span>
     </button>
   </ion-list>
 </ion-card>

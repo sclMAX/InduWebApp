@@ -244,6 +244,7 @@ export class RepartosProvider {
     return this.db.list(this.getPath(tipo))
         .map((snap: Reparto[]) => { return (snap || []); });
   }
+  
   genUpdateData(updData, id: number, tipo: string, valor) {
     updData[`${this.getPath(tipo)}${id}/`] = valor;
   }
