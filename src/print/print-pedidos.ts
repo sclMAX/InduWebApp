@@ -98,7 +98,7 @@ export function printPresupuesto(cliente: Cliente, pedido: Pedido,
             text: `${numFormat(pedido.totalUnidades, '1.2-2')}kg`,
             alignment: 'right'
           },
-          { text: 'Total Final(U$): ', bold: true },
+          { text: 'Total(U$): ', bold: true },
           {
             text: `U$ ${numFormat(pedido.totalFinalUs, '1.2-2')}`,
             alignment: 'right'
@@ -114,9 +114,9 @@ export function printPresupuesto(cliente: Cliente, pedido: Pedido,
           { text: `$ ${numFormat(dolar, '1.3-3')}`, alignment: 'right' }
         ],
         [
-          { text: 'CV: ', bold: true },
-          { text: `${pedido.CV.tipo}`, alignment: 'right' },
-          { text: 'Total Final($): ', bold: true },
+          { text: 'Des.(%): ', bold: true },
+          { text: `${pedido.descuentoGeneral}`, alignment: 'right' },
+          { text: 'Total($): ', bold: true },
           {
             text: `$ ${numFormat((pedido.totalFinalUs * dolar), '1.2-2')}`,
             alignment: 'right'
@@ -128,7 +128,7 @@ export function printPresupuesto(cliente: Cliente, pedido: Pedido,
   });
   doc.content.push({
     text:
-    '\nEl presente esta expresado en Dolares (Banco Nacion Cotizacion Billetes Venta).\nLos valores en Pesos son a modo orientativo y seran recalculados al momento de la entrega.\nValidez del presente 7 dias. ',
+    '\nEl presente esta expresado en Dolares (Banco Nacion).\nLos valores en Pesos son a modo orientativo y seran recalculados al momento de la entrega.\nValidez del presente 7 dias. ',
     fontSize: 8,
     italics: true
   });

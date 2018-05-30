@@ -51,6 +51,8 @@
   <br>
   <button ion-fab tooltip="Eliminar pedido..." color="danger" (click)="borrar()"><ion-icon name="trash"></ion-icon></button>
   <br>
+  <button ion-fab tooltip="Guardar Cambios..." color="secondary" (click)="guardar()"><ion-icon name="checkmark"></ion-icon></button>
+  <br>
   <button ion-fab tooltip="Entregar pedido..." color="primary" [disabled]="!isValid()" (click)="entregar()"><ion-icon name="icon-ind_camion"></ion-icon></button>
   <br>
   <button *ngIf="false" ion-fab color="secondary" [disabled]="!isValid()" (click)="entregar()"><ion-icon name="icon-ind_camion"></ion-icon></button>

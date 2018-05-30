@@ -7,6 +7,7 @@ import {StockItem} from './../../../models/stock.clases';
 import {StockProvider} from './../../../providers/stock/stock';
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Perfil} from '../../../models/productos.clases';
+import { printStock } from "../../../print/print-stock";
 
 @Component({selector: 'perfiles-list', templateUrl: 'perfiles-list.html'})
 export class PerfilesListComponent {
@@ -66,5 +67,9 @@ export class PerfilesListComponent {
   edit(item: Perfil) {
     let modal = this.modalCtrl.create(ProductosPerfilesMppPage, {Perfil: item});
     modal.present();
+  }
+
+  printLista(){
+    printStock(this.perfiles, this.stockP);
   }
 }

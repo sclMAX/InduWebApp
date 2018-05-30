@@ -1,3 +1,5 @@
+import {DolarProvider} from './../../../providers/dolar/dolar';
+import {Observable} from 'rxjs/Observable';
 import {PedidosProvider} from './../../../providers/pedidos/pedidos';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {Pedido, PRESUPUESTO} from './../../../models/pedidos.clases';
@@ -15,20 +17,28 @@ export class PresupuestosCardComponent {
   @Input() itemImparColor: string;
   @Input() showList: boolean = false;
   private clientes: Cliente[] = [];
+  dolar: Observable<number>;
   tipo: string = PRESUPUESTO;
 
   @Output() onClickItem: EventEmitter<Pedido> = new EventEmitter<Pedido>();
   constructor(private clientesP: ClientesProvider,
-              private pedidosP: PedidosProvider) {}
+              private pedidosP: PedidosProvider,
+              private dolarP: DolarProvider) {}
 
   onClick(item: Pedido) { this.onClickItem.emit(item); }
 
   getTotalKilos(): number {
-    let t: number = 0.00;
     if (this.Docs) {
-      this.Docs.forEach((d) => { t += Number(d.totalUnidades); });
+      return this.Docs.reduce((a, b) => a + b.totalUnidades, 0);
     }
-    return t;
+    return 0.00;
+  }
+
+  getTotalU$(): number {
+    if (this.Docs) {
+      return this.Docs.reduce((a, b) => a + b.totalFinalUs, 0);
+    }
+    return 0.00;
   }
 
   getCliente(id): Cliente {
@@ -46,6 +56,7 @@ export class PresupuestosCardComponent {
   ionViewWillEnter() { this.getData(); }
 
   private async getData() {
+    this.dolar = this.dolarP.getDolar().map(data => data.valor);
     if (this.cliente) {
       this.pedidosP.getAllCliente(this.cliente.id, this.tipo)
           .subscribe((data) => { this.Docs = data; });

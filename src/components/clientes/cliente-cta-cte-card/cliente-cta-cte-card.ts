@@ -1,3 +1,5 @@
+import {DolarProvider} from './../../../providers/dolar/dolar';
+import {Observable} from 'rxjs/Observable';
 import {ClientesProvider} from './../../../providers/clientes/clientes';
 import {NOTA_DEBITO} from './../../../models/documentos.class';
 import {Component, Input} from '@angular/core';
@@ -34,12 +36,14 @@ export class ClienteCtaCteCardComponent {
   saldo: number = 0.00;
   showList: boolean = false;
   isFiltrando: boolean = false;
+  dolar: Observable<number>;
 
   constructor(public navCtrl: NavController, private ctaCteP: CtasCtesProvider,
               private pedidosP: PedidosProvider, private pagosP: PagosProvider,
               private clientesP: ClientesProvider,
               private loadCtrl: LoadingController,
-              private toastCtrl: ToastController) {}
+              private toastCtrl: ToastController,
+              private dolarP: DolarProvider) {}
 
   ngOnInit() { this.getData(); }
 
@@ -148,7 +152,7 @@ export class ClienteCtaCteCardComponent {
                       this.ctaCteP.getSaldoCliente(data.idCliente)
                           .subscribe((saldo) => {
                             console.log(data);
-                            
+
                             printEntrega(
                                 this.cliente, data,
                                 `Pedido Nro.${numFormat(data.id,'3.0-0')}`,
@@ -193,6 +197,7 @@ export class ClienteCtaCteCardComponent {
   }
 
   private async getData() {
+    this.dolar = this.dolarP.getDolar().map(data => data.valor);
     if (this.cliente) {
       this.ctaCteP.getCtaCteCliente(this.cliente.id)
           .subscribe((ctacte) => {

@@ -1,5 +1,12 @@
 import {Component} from '@angular/core';
-import {AlertController, FabContainer, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {
+  AlertController,
+  FabContainer,
+  LoadingController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 
 import {printEmbalar} from '../../../../print/print-pedidos';
 
@@ -22,32 +29,29 @@ export class PedidosEmbalarPage {
   isModificado: boolean = false;
   usuario: Usuario;
 
-  constructor(
-      public navCtrl: NavController, public navParams: NavParams,
-      private clientesP: ClientesProvider, private usuarioP: UsuarioProvider,
-      private pedidosP: PedidosProvider, private loadCtrl: LoadingController,
-      private toastCtrl: ToastController, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private clientesP: ClientesProvider,
+              private usuarioP: UsuarioProvider,
+              private pedidosP: PedidosProvider,
+              private loadCtrl: LoadingController,
+              private toastCtrl: ToastController,
+              private alertCtrl: AlertController) {
     this.idPedido = this.navParams.get('idPedido');
-    this.usuarioP.getCurrentUser().subscribe((user) => {
-      this.usuario = user;
-    });
+    this.usuarioP.getCurrentUser().subscribe(
+        (user) => { this.usuario = user; });
     if (!this.idPedido) {
       this.navCtrl.pop();
     } else {
-      this.pedidosP.getOne(PEDIDO, this.idPedido).subscribe((ok) => {
-        this.pedido = ok;
-      });
-      this.clientesP.getOne(this.pedido.idCliente).subscribe((cliente) => {
-        this.cliente = cliente;
-      });
+      this.pedidosP.getOne(PEDIDO, this.idPedido)
+          .subscribe((ok) => { this.pedido = ok; });
+      this.clientesP.getOne(this.pedido.idCliente)
+          .subscribe((cliente) => { this.cliente = cliente; });
     }
   }
 
   getItemsPendientes(): PedidoItem[] {
     if (this.pedido && this.pedido.Items) {
-      return this.pedido.Items.filter((item) => {
-        return !item.isEmbalado;
-      });
+      return this.pedido.Items.filter((item) => { return !item.isEmbalado; });
     } else {
       return [];
     }
@@ -55,9 +59,7 @@ export class PedidosEmbalarPage {
 
   getItemsEmbalados(): PedidoItem[] {
     if (this.pedido && this.pedido.Items) {
-      return this.pedido.Items.filter((item) => {
-        return item.isEmbalado;
-      });
+      return this.pedido.Items.filter((item) => { return item.isEmbalado; });
     } else {
       return [];
     }
@@ -69,13 +71,13 @@ export class PedidosEmbalarPage {
       title: 'Eliminar Item...',
       subTitle: 'Esta seguro que desea eliminar el item?',
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
-            let i = this.pedido.Items.findIndex((it) => {
-              return item === it;
-            });
+            let i =
+                this.pedido.Items.findIndex((it) => { return item === it; });
             if (i > -1) {
               this.pedido.Items.splice(i, 1);
               this.isModificado = true;
@@ -91,14 +93,17 @@ export class PedidosEmbalarPage {
     fab.close();
     let alert = this.alertCtrl.create({
       title: 'Cambiar Cantidad...',
-      inputs: [{
-        name: 'cantidad',
-        type: 'number',
-        min: '1',
-        value: `${item.cantidad}`
-      }],
+      inputs: [
+        {
+          name: 'cantidad',
+          type: 'number',
+          min: '1',
+          value: `${item.cantidad}`
+        }
+      ],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -113,9 +118,7 @@ export class PedidosEmbalarPage {
     alert.present();
   }
 
-  goBack() {
-    this.navCtrl.pop();
-  }
+  goBack() { this.navCtrl.pop(); }
 
   goPrintEmbalar() {
     //  this.navCtrl.push(PrintPedidoParaEmbalarPage,{Pedido: this.pedido,
@@ -158,7 +161,8 @@ export class PedidosEmbalarPage {
           `Esta seguro que desea eliminar definitivamente el pedido Nro:${this
               .pedido.numero}?`,
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: () => {
@@ -192,14 +196,17 @@ export class PedidosEmbalarPage {
     let alert = this.alertCtrl.create({
       title: 'Cantidad de Paquetes?',
       subTitle: 'Ingrese la cantidad de paquetes armados para el pedido.',
-      inputs: [{
-        name: 'cp',
-        type: 'number',
-        min: '1',
-        placeholder: 'Cantidad de paquetes...'
-      }],
+      inputs: [
+        {
+          name: 'cp',
+          type: 'number',
+          min: '1',
+          placeholder: 'Cantidad de paquetes...'
+        }
+      ],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -221,15 +228,18 @@ export class PedidosEmbalarPage {
     let alert = this.alertCtrl.create({
       title: `${(isEmbalado) ? 'Cantidad Embalada?' : 'Cantidad Desembalada?'
                                                       }`,
-      inputs: [{
-        type: 'number',
-        value: `${item.cantidad}`,
-        max: `${item.cantidad}`,
-        min: '1',
-        name: 'newCantidad'
-      }],
+      inputs: [
+        {
+          type: 'number',
+          value: `${item.cantidad}`,
+          max: `${item.cantidad}`,
+          min: '1',
+          name: 'newCantidad'
+        }
+      ],
       buttons: [
-        {text: 'Cancelar', role: 'cancel'}, {
+        {text: 'Cancelar', role: 'cancel'},
+        {
           text: 'Aceptar',
           role: 'ok',
           handler: (data) => {
@@ -284,6 +294,28 @@ export class PedidosEmbalarPage {
     load.present().then(() => {
       this.pedido.cantidadPaquetes = paquetes;
       this.pedidosP.setEmbalado(this.pedido)
+          .subscribe(
+              (ok) => {
+                this.navCtrl.pop();
+                load.dismiss();
+                toast.setMessage(ok);
+                toast.setDuration(1000);
+                toast.present();
+              },
+              (error) => {
+                load.dismiss();
+                toast.setMessage(error);
+                toast.setShowCloseButton(true);
+                toast.present();
+              });
+    });
+  }
+
+  pedidoToPresupuesto() {
+    let load = this.loadCtrl.create({content: 'Moviendo Pedido...'});
+    let toast = this.toastCtrl.create({position: 'middle'});
+    load.present().then(() => {
+      this.pedidosP.pedidoToPresupuesto(this.pedido)
           .subscribe(
               (ok) => {
                 this.navCtrl.pop();

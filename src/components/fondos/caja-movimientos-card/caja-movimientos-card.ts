@@ -19,7 +19,6 @@ import {FondosProvider} from './../../../providers/fondos/fondos';
 import {printCajaMovimientos} from './../../../print/print-fondos';
 import {FECHA} from '../../../models/comunes.clases';
 import * as moment from 'moment';
-import {numFormat} from "../../../print/config-comun";
 
 @Component({
   selector: 'caja-movimientos-card',
@@ -33,7 +32,7 @@ export class CajaMovimientosCardComponent {
   @Input() itemColor: string = 'light';
   @Input() itemImparColor: string;
   @Input() showList: boolean = false;
-  fecha1: string = moment().subtract(1, 'weeks').format(FECHA);
+  fecha1: string = moment().subtract(3, 'days').format(FECHA);
   fecha2: string = moment().format(FECHA);
   isFilter: boolean = false;
 
@@ -76,10 +75,11 @@ export class CajaMovimientosCardComponent {
     return s;
   }
   printList() {
-    let load = this.loadCtrl.create({content:'Generando informe...'});
-    load.present().then(()=>{
-    printCajaMovimientos(this.movimientos, this.totalIngresos,
-                         this.totalEgresos, this.pagosP, this.fondosP, load);
+    let load = this.loadCtrl.create({content: 'Generando informe...'});
+    load.present().then(() => {
+      printCajaMovimientos(this.movimientos, this.totalIngresos,
+                           this.totalEgresos, this.pagosP, this.fondosP, load,
+                           this.clienteP);
     });
   }
 
@@ -160,11 +160,14 @@ export class CajaMovimientosCardComponent {
           if (item.tipoDocumento == PAGO) {
             this.descripciones.push({
               id: item.id,
-              descripcion:
-                  this.pagosP.getOne(item.numeroDoc)
-                      .map(data => {
-                        return `PAGO CLIENTE: ${numFormat(data.idCliente,'3.0-0')}`;
-                      })
+              descripcion: new Observable<string>(
+                  (obs) => {
+                      this.pagosP.getOne(item.numeroDoc)
+                          .subscribe(
+                              pago => {this.clienteP.getOne(pago.idCliente)
+                                           .subscribe(cliente => {
+                                             obs.next(`PAGO ${cliente.nombre}`);
+                                           })})})
             });
           } else {
             this.descripciones.push({

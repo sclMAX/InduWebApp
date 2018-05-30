@@ -1,3 +1,4 @@
+import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Observable} from 'rxjs/Observable';
 import {
   RepartosProvider,
@@ -17,10 +18,12 @@ export class RepartosCardComponent {
   @Input() showList: boolean = false;
   @Input() tipo: string = REPARTO_PREPARADO;
   title: string;
+  dolar: Observable<number>;
   repartos: Observable<Reparto[]>;
 
   @Output() onClickItem: EventEmitter<Reparto> = new EventEmitter<Reparto>();
-  constructor(private repartosP: RepartosProvider) {}
+  constructor(private repartosP: RepartosProvider,
+              private dolarP: DolarProvider) {}
 
   onClick(item: Reparto) { this.onClickItem.emit(item); }
 
@@ -57,6 +60,7 @@ export class RepartosCardComponent {
         break;
     }
     this.title = t;
+    this.dolar = this.dolarP.getDolar().map(data => data.valor);
     this.repartos = this.repartosP.getAll(this.tipo);
   }
 }

@@ -18,6 +18,7 @@ import {
 })
 export class ClientesConSaldoCardComponent {
   @Input() colorHeader: string = 'warning';
+  @Input() valor:number = 10;
   showList: boolean = false;
   clientes: Observable<ClienteConSaldo[]>;
   clientesA: ClienteConSaldo[];
@@ -42,7 +43,7 @@ export class ClientesConSaldoCardComponent {
   }
 
   private async getData() {
-    this.clientes = this.ctaCteP.getAllConSaldoMayorQue(1).map((data) => {
+    this.clientes = this.ctaCteP.getAllConSaldoMayorQue(this.valor).map((data) => {
       data = data.sort((a, b) => { return a.saldo - b.saldo; });
       return data;
     });

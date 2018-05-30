@@ -75,7 +75,7 @@ export function printReparto(reparto: Reparto, clientesP: ClientesProvider,
         widths: [200, 'auto', 'auto', 'auto', '*', 100, 100],
         body: [
           [
-            {text: `${numFormat(i.idCliente, '3.0-0')}-${cd.Cliente.nombre}`},
+            {text: `${numFormat(i.idCliente, '3.0-0')}-${cd.Cliente.nombre}\n${cd.Cliente.Telefonos[0].numero}`},
             {text: `${cd.Cliente.Direccion.localidad}`},
             {text: `${numFormat(i.totalKilos, '1.2-2')}kg`, alignment: 'right'},
             {

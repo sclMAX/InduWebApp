@@ -44,6 +44,7 @@
     <button ion-fab color="primary" *ngIf="!((getItemsEmbalados().length == 0)||(getItemsPendientes().length != 0))" (click)="prepararPedido()" tooltip="Confirmar pedido embalado completamente"><ion-icon name="done-all"></ion-icon></button>
     <button ion-fab color="secondary" *ngIf="!(!isModificado || getItemsPendientes().length == 0)" (click)="guardar()" tooltip="Confirmar cambios"><ion-icon name="checkmark"></ion-icon></button>
     <button ion-fab color="light" *ngIf="!usuario.isEmbalaje && getItemsPendientes().length != 0" (click)="editar()" tooltip="Editar pedido..."><ion-icon name="icon-ind_edit"></ion-icon></button>
+    <button ion-fab *ngIf="!usuario.isEmbalaje && getItemsEmbalados().length == 0" color="warning" (click)="pedidoToPresupuesto()" tooltip="Mover a Presupuesto..."><ion-icon name="redo"></ion-icon></button>
     <button ion-fab *ngIf="!usuario.isEmbalaje && getItemsEmbalados().length == 0" color="danger" (click)="borrarPedido()" tooltip="Eliminar..."><ion-icon name="trash"></ion-icon></button>
   </ion-fab-list>
 </ion-fab>

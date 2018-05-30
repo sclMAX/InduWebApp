@@ -251,6 +251,35 @@ export class PedidosProvider {
     });
   }
 
+  pedidoToPresupuesto(pedido:Pedido):Observable<string>{
+    return new Observable((obs) => {
+      let updData = {};
+      // Set Tipo
+      pedido.tipo = PRESUPUESTO;
+      // Set Modificador
+      pedido.Modificador = this.sucP.genUserDoc();
+      // Borrar Presuspueto
+      this.genUpdateData(updData, pedido, PEDIDO, {});
+      // Add Pedido
+      this.genUpdateData(updData, pedido, PRESUPUESTO);
+      // Log
+      let log = this.sucP.genLog(pedido);
+      updData[`${SUC_LOG_ROOT}${PEDIDO}/Eliminado/${log.id}/`] = log;
+      updData[`${SUC_LOG_ROOT}${PRESUPUESTO}/Creado/${log.id}/`] = log;
+      // Ejecutar peticion
+      this.db.database.ref()
+          .update(updData)
+          .then(() => {
+            obs.next(
+                `Pedido ${pedido.id} Movido a Presupuesto ${pedido.id}!`);
+            obs.complete();
+          })
+          .catch((error) => {
+            obs.error(`No se pudo mover el Pedido!...Error:${error}`);
+            obs.complete();
+          });
+    });
+  }
   setEntregado(pedido: Pedido): Observable<string> {
     return new Observable((obs) => {
       let updData = {};

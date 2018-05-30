@@ -168,7 +168,7 @@ export class StockProvider {
   getOneTotalBarras(idProducto: string): Promise<number> {
     return this.getOne(idProducto)
         .map(data => {
-          if (data) {
+          if (data && data.Stocks) {
             return data.Stocks.reduce((sum, current) => sum + current.stock, 0);
           }
         })
@@ -193,7 +193,7 @@ export class StockProvider {
                 }
               }
             }
-            return total;
+            return total | 0;
           })
           .subscribe(total => res(total), err => rej(err));
     });

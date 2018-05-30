@@ -1,3 +1,4 @@
+import {DolarProvider} from './../../../providers/dolar/dolar';
 import {Observable} from 'rxjs/Observable';
 import {
   PedidosEmbalarPage
@@ -19,10 +20,12 @@ export class PedidosPendientesCardComponent {
   @Input() showList: boolean = false;
 
   pedidos: Observable<Pedido[]>;
+  dolar: Observable<number>;
   clientes: Cliente[] = [];
 
   constructor(public navCtrl: NavController, private pedidosP: PedidosProvider,
-              private clientesP: ClientesProvider) {}
+              private clientesP: ClientesProvider,
+              private dolarP: DolarProvider) {}
 
   ngOnInit() { this.getData(); }
   ionViewWillEnter() { this.getData(); }
@@ -52,6 +55,13 @@ export class PedidosPendientesCardComponent {
     return total;
   }
 
+  getTotalU$(pedidos: Array<Pedido>): number {
+    if (pedidos) {
+      return pedidos.reduce((a, b) => a + b.totalFinalUs, 0);
+    }
+    return 0.00;
+  }
+
   goPedido(pedido: Pedido) {
     this.navCtrl.push(PedidosEmbalarPage, {idPedido: pedido.id});
   }
@@ -62,5 +72,6 @@ export class PedidosPendientesCardComponent {
     } else {
       this.pedidos = this.pedidosP.getAll(PEDIDO);
     }
+    this.dolar = this.dolarP.getDolar().map(data => data.valor);
   }
 }

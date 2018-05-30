@@ -1,3 +1,5 @@
+import {DolarProvider} from './../../../providers/dolar/dolar';
+import {Observable} from 'rxjs/Observable';
 import {Component, Input} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {Cliente} from './../../../models/clientes.clases';
@@ -17,10 +19,12 @@ export class PedidosPorEntregarCardComponent {
   @Input() showList: boolean = false;
 
   pedidos: Pedido[];
+  dolar: Observable<number>;
   clientes: Cliente[];
 
   constructor(public navCtrl: NavController, private pedidosP: PedidosProvider,
-              private clientesP: ClientesProvider) {}
+              private clientesP: ClientesProvider,
+              private dolarP: DolarProvider) {}
 
   ngOnInit() { this.getData(); }
   ionViewWillEnter() { this.getData(); }
@@ -71,6 +75,7 @@ export class PedidosPorEntregarCardComponent {
   }
 
   private async getData() {
+    this.dolar = this.dolarP.getDolar().map(data => data.valor);
     if (this.cliente) {
       this.pedidosP.getAllCliente(this.cliente.id, EMBALADO)
           .subscribe((data) => {

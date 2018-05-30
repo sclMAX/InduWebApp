@@ -23,7 +23,7 @@ import {DolarProvider} from './../../../../providers/dolar/dolar';
 import {PedidosProvider} from './../../../../providers/pedidos/pedidos';
 import {CV, UsuarioProvider} from './../../../../providers/usuario/usuario';
 import {printEntrega} from '../../../../print/print-pedidos';
-import { numFormat } from '../../../../print/config-comun';
+import {numFormat} from '../../../../print/config-comun';
 
 @Component({
   selector: 'page-pedidos-entregar',
@@ -96,6 +96,28 @@ export class PedidosEntregarPage {
       ]
     });
     alert.present();
+  }
+
+  guardar() {
+    let load = this.loadCtrl.create({content: 'Guardado...'});
+    let toast = this.toastCtrl.create({position: 'middle'});
+    load.present().then(() => {
+      this.pedidosP.setEmbalado(this.pedido)
+          .subscribe(
+              (ok) => {
+                this.navCtrl.pop();
+                load.dismiss();
+                toast.setMessage(ok);
+                toast.setDuration(1000);
+                toast.present();
+              },
+              (error) => {
+                load.dismiss();
+                toast.setMessage(error);
+                toast.setShowCloseButton(true);
+                toast.present();
+              });
+    });
   }
 
   private borrarProcess() {

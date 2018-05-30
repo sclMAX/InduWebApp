@@ -1,3 +1,4 @@
+import {ClientesProvider} from './../providers/clientes/clientes';
 import {FondosProvider} from './../providers/fondos/fondos';
 import {PagosProvider} from './../providers/pagos/pagos';
 import {PAGO} from './../models/pedidos.clases';
@@ -5,20 +6,22 @@ import {SUCURSAL} from './../providers/sucursal/sucursal';
 import {CajaMovimiento} from './../models/fondos.clases';
 import * as moment from 'moment';
 import {FECHA} from '../models/comunes.clases';
-import {formatTable, showPdf, setInfo, numFormat} from './config-comun';
-import { Loading } from "ionic-angular";
+import {formatTable, showPdf, setInfo} from './config-comun';
+import {Loading} from "ionic-angular";
 
 function getDescripcion(item: CajaMovimiento, pagosP: PagosProvider,
-                        fondosP: FondosProvider): Promise<string> {
+                        fondosP: FondosProvider,
+                        clientesP: ClientesProvider): Promise<string> {
   if (item) {
     if (item.isIngreso) {
       if (item.tipoDocumento == PAGO) {
         return new Promise<string>((res, rej) => {
           pagosP.getOne(item.numeroDoc)
-              .map(data => {
-                return `PAGO CLIENTE: ${numFormat(data.idCliente,'3.0-0')}`;
-              })
-              .subscribe(data => res(data), error => rej(error));
+              .subscribe(data => {clientesP.getOne(data.idCliente)
+                                      .map(cliente => `PAGO ${cliente.nombre}`)
+                                      .subscribe(data => res(data),
+                                                 error => rej(error))},
+                         error => rej(error));
         });
       } else {
         return new Promise((res, rej) => res('INGRESO NC'));
@@ -39,7 +42,7 @@ export async function printCajaMovimientos(
   efectivo: number, dolares: number, cheques: number
 },
     egresos: {efectivo: number, dolares: number, cheques: number},
-  pagosP: PagosProvider, fondosP:FondosProvider, load:Loading) {
+  pagosP: PagosProvider, fondosP:FondosProvider, load:Loading, clientesP: ClientesProvider) {
   if (movimientos && movimientos.length > 0) {
     formatTable();
     let data: any[] = [];
@@ -58,7 +61,7 @@ export async function printCajaMovimientos(
     ]);
     // Datos
     for (let m of movimientos) {
-      let descripcion = await getDescripcion(m, pagosP, fondosP);
+      let descripcion = await getDescripcion(m, pagosP, fondosP, clientesP);
       data.push([
         {text: `${moment(m.fecha, FECHA).format('DD/MM/YYYY')}`, bold: true},
         {text: `${(m.isIngreso)?'IN':'EG'}`, bold: false},

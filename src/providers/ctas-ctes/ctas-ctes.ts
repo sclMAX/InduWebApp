@@ -82,7 +82,7 @@ export class CtasCtesProvider {
         let cs: ClienteConSaldo[] = [];
         clientes.forEach(async c => {
           this.getSaldoCliente(c.id).subscribe((s) => {
-            if (s > valor) {
+            if (((valor > 0)&&(s > valor))||((valor < 0)&&(s < valor))) {
               let exist = cs.find((i) => { return i.Cliente.id == c.id; });
               if (exist) {
                 exist.saldo = s;

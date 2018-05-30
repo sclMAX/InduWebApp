@@ -1,14 +1,16 @@
 <ion-card color="scroll-content">
   <button ion-item color="pedidoEmbalarHeader" (click)="showList = !showList">
-      <ion-icon item-start name="icon-ind_new-document"></ion-icon>
-      Pedidos x Embalar ({{(pedidos | async)?.length}})
-      <span item-end>{{getTotalKilos((pedidos | async)) |number:'1.2-2'}}kg</span>
-    </button>
+    <ion-icon item-start name="icon-ind_new-document"></ion-icon>
+    Pedidos x Embalar ({{(pedidos | async)?.length}})
+    <span item-end>{{getTotalKilos((pedidos | async)) |number:'1.2-2'}}kg</span>
+    <span item-end>U$ {{getTotalU$((pedidos | async)) |number:'1.2-2'}} / $ {{(getTotalU$((pedidos | async)) * (dolar | async)) |number:'1.2-2'}}</span>
+  </button>
   <ion-list *ngIf="showList">
     <button ion-item *ngFor="let pedido of pedidos |async" (click)="goPedido(pedido)">
-        <span *ngIf="!cliente">{{pedido?.numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.nombre}} - {{getCliente(pedido.idCliente)?.Direccion?.localidad}}</span> 
-        <span *ngIf="cliente">{{pedido?.numero | number:'3.0-0'}} - {{pedido?.fechaEntrega | date:'dd/MM/yyyy'}}</span>
-        <span item-end>{{pedido?.totalUnidades |number:'1.2-2'}}kg</span>
+      <span *ngIf="!cliente">{{pedido?.numero | number:'3.0-0'}} - {{getCliente(pedido.idCliente)?.nombre}} - {{getCliente(pedido.idCliente)?.Direccion?.localidad}}</span>
+      <span *ngIf="cliente">{{pedido?.numero | number:'3.0-0'}} - {{pedido?.fechaEntrega | date:'dd/MM/yyyy'}}</span>
+      <span item-end>{{pedido?.totalUnidades |number:'1.2-2'}}kg</span>
+      <span item-end>U$ {{pedido?.totalFinalUs |number:'1.2-2'}} / $ {{(pedido?.totalFinalUs * (dolar |async)) |number:'1.2-2'}} </span>
     </button>
   </ion-list>
 </ion-card>
